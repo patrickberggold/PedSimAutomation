@@ -96,5 +96,3 @@ def generate_file_name(user_input , input_names) :
 pre_factoring_user_input , additional_user_input = convert_input_from_string(IN , BOTTLENECK_INDEX)
 
 OUT = generate_file_name(pre_factoring_user_input , INPUT_NAMES) , pre_factoring_user_input , additional_user_input
-
-print(OUT)
