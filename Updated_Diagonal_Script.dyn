@@ -1,0 +1,453 @@
+{
+  "Uuid": "ccb73877-ef44-4fb8-8bf7-899a9f478484",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Updated_Diagonal_Script",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Integer",
+      "InputValue": 25,
+      "MaximumValue": 60,
+      "MinimumValue": 20,
+      "StepValue": 5,
+      "Id": "ef2168aad5004db0a098adba42ccfeb5",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "57a773fc8da24a78be1f36ab38b5554d",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces integer values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Integer",
+      "InputValue": 20,
+      "MaximumValue": 40,
+      "MinimumValue": 10,
+      "StepValue": 5,
+      "Id": "8d2bf597c805461ca63d2772eac2790a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "0e050ea3a03d49e6b2bca5a90f0f2bf4",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces integer values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Integer",
+      "InputValue": 2,
+      "MaximumValue": 4,
+      "MinimumValue": 2,
+      "StepValue": 1,
+      "Id": "65c332a7b7304370a800b1f45400da03",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "21977fcf52c4488a8c86b162ac5e84a5",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces integer values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Integer",
+      "InputValue": 6,
+      "MaximumValue": 15,
+      "MinimumValue": 2,
+      "StepValue": 1,
+      "Id": "77b65c47486b4b969a0691ef975fd91a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3b342a625dda4df3b3c26de36d99add9",
+          "Name": "",
+          "Description": "Int64",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces integer values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "49e6e351fbc246d6a437951ad5557c86",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "71b3ed6b2bb44c8391192a164c9b036d",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.915,
+      "Id": "5fc45f30ae92438cb211e84f4439c0d7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b4e20251951b48cba71eab0b1773658f",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.8,
+      "Id": "fad7c277ca8547e59ed811f532d1a1e5",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f59c9f9092954ba49afb8343d061fb0a",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "## @brief Preprocesses dynamo script's input parameters\r\n# Takes user input (left side) as input and splits it into pre-refactoring and post-refactoring user parameters\r\n# @In array of user input parameters\r\n# @OUT Tuple of \r\n# A text file's name containing all pre-refactoring user parameters as part of the name\r\n# List of all the pre-refactoring user parameters in their original type\r\n# List of all the post-refactoring user parameters in their original type\r\n\r\n#-----------------------------------------------------------------------------------------------------------------#\r\n# Constants...\r\nPRE_FACTORING_INPUT_LENGTH = 6\r\nBOTTLENECK_INDEX = 5\r\n\r\n## 4th index left empty to be consistent with pre-refactoring file name\r\nINPUT_NAMES = [\r\n    \"siteX\" , \"siteY\" , \"CORRWIDTH\" , \"NUMROOMS\" , \"\" , \"INCBNECK\"\r\n]\r\n\r\n#-----------------------------------------------------------------------------------------------------------------#\r\n# Helper functions...\r\n\r\n## Converts a string to an integer\r\n# @param int_as_string:str string to be converted\r\n# @returns argument converted to an integer\r\n# @raises ValueError\r\ndef convert_to_int(int_as_string) : \r\n    try : \r\n        return int(int_as_string)\r\n    except : \r\n        raise ValueError(f\"{int_as_string} cannot be converted to integer\")\r\n\r\n## Converts str to boolean : \r\n# @param bool_as_string:str string to be converted\r\n# @returns argument converted to a boolean\r\n# @note converted to integer first to counter edge case: \"0\" is casted to True\r\n# @raises ValueError\r\ndef convert_to_bool(bool_as_string) : \r\n    try : \r\n        return bool(convert_to_int(bool_as_string))\r\n    except ValueError as e : \r\n        if \"False\" in str(e) or \"True\" in str(e) : return bool(bool_as_string)\r\n        else : raise ValueError(\"Argument string cannot be converted to boolean\")\r\n    \r\n## Converts str to float : \r\n# @param float_as_string:str string to be converted\r\n# @returns argument converted to a float\r\n# @raises ValueError\r\ndef convert_to_float(float_as_string) : \r\n    try : \r\n        return float(float_as_string)\r\n    except : \r\n        raise ValueError(\"Argument string cannot be converted to float\")\r\n    \r\n## Converts user input from string to original types\r\n# Splits input parameters to pre-refactoring (first 6 inputs) and post-refactoring (additional_input_as_string; remaining inputs) user parameters\r\n# @uses convert_to_int(), convert_to_bool() , convert_to_float()\r\n# @param input_as_string:list<string> list of inputs to be converted\r\n# @param include_bottleneck_index<int> index of INCLUDE_BOTTLENECK, the only user input of type: bool\r\n# @returns list of pre-factoring user input in original types, list of post-refactoring user input in original types\r\n# @note refer to start of dynamo script for original types\r\n# @raises IndexError\r\ndef convert_input_from_string(input_as_string , include_bottleneck_index) : \r\n    pre_refactoring_input_as_string , additional_input_as_string = input_as_string[: PRE_FACTORING_INPUT_LENGTH] , input_as_string[PRE_FACTORING_INPUT_LENGTH :]\r\n\r\n    if include_bottleneck_index > (len(pre_refactoring_input_as_string) - 1) : \r\n        raise IndexError(\"include_bootleneck_index is out of bounds\")\r\n    \r\n    return [\r\n        convert_to_int(user_input) if u != include_bottleneck_index else convert_to_bool(user_input) for u, user_input in enumerate(pre_refactoring_input_as_string) \r\n    ] , [\r\n        convert_to_float(user_input) for user_input in additional_input_as_string\r\n    ]\r\n\r\n## Generates name of the text file from user input parameters\r\n# Adds pairs of names and parameters to a string and then returns string\r\n# @param user_input:list values of input parameters to be included in file name\r\n# @param input_names:list<str> names of input parameters to be included in file name\r\n# @returns filename:str final filename\r\n# @raises ValueError\r\ndef generate_file_name(user_input , input_names) : \r\n    if len(user_input) != len(input_names) : \r\n        raise ValueError(\"Unequal list lengths\")\r\n\r\n    file_name = \"floorplan\"\r\n\r\n    for i in range(len(user_input)) :\r\n        input_as_string = user_input[i]\r\n        name_input_pair_as_string = f\"_{input_names[i]}_{input_as_string}\" if i != 4 else f\"_{input_as_string}\"\r\n        file_name += name_input_pair_as_string\r\n\r\n    file_name += \".txt\"\r\n\r\n    return file_name\r\n#-----------------------------------------------------------------------------------------------------------------#\r\n# Script...\r\npre_factoring_user_input , additional_user_input = convert_input_from_string(IN , BOTTLENECK_INDEX)\r\n\r\nOUT = generate_file_name(pre_factoring_user_input , INPUT_NAMES) , pre_factoring_user_input , additional_user_input",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c614db2c9b21443f815195f46e7e4358",
+      "Inputs": [
+        {
+          "Id": "c4d399a3404c4c42966b9e99d874cb1b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f46f43c36d19488c805c98ee55fceda1",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d3ecbd099ff942bfa29e7afe9bdf4a4d",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "df084057c9e24b7f80480255772d0ccf",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "31837d4788064fae94d12e6a1018745c",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f54d0329fb0545cab4d6c9a559bde2e1",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c08edd06b553430a8678f1378ee2b707",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "5bbfda944f954ca7a19421fa17250212",
+          "Name": "IN[7]",
+          "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "56c29046eb3b4a8c8a7c573c1329a27f",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 15.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "InputValue": 2.0,
+      "Id": "3c0bb1e27b974e12ae5e1808100f770c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8dbb6de9e00b4a459ef8bea0657d1335",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "57a773fc8da24a78be1f36ab38b5554d",
+      "End": "c4d399a3404c4c42966b9e99d874cb1b",
+      "Id": "0a8668f2dc00405f9f67ce7505db38be"
+    },
+    {
+      "Start": "0e050ea3a03d49e6b2bca5a90f0f2bf4",
+      "End": "f46f43c36d19488c805c98ee55fceda1",
+      "Id": "fbf0ad51d8b048079c2b2808c822e383"
+    },
+    {
+      "Start": "21977fcf52c4488a8c86b162ac5e84a5",
+      "End": "d3ecbd099ff942bfa29e7afe9bdf4a4d",
+      "Id": "37e5209f5622483fb2ca034c8c653052"
+    },
+    {
+      "Start": "3b342a625dda4df3b3c26de36d99add9",
+      "End": "df084057c9e24b7f80480255772d0ccf",
+      "Id": "5b689a10d0c44744be8cadf045d175e0"
+    },
+    {
+      "Start": "71b3ed6b2bb44c8391192a164c9b036d",
+      "End": "f54d0329fb0545cab4d6c9a559bde2e1",
+      "Id": "f450a4065e1e42d3832446aeec6f8c7f"
+    },
+    {
+      "Start": "b4e20251951b48cba71eab0b1773658f",
+      "End": "c08edd06b553430a8678f1378ee2b707",
+      "Id": "c7ceab438ced4dca8462002dc3e4c88c"
+    },
+    {
+      "Start": "f59c9f9092954ba49afb8343d061fb0a",
+      "End": "5bbfda944f954ca7a19421fa17250212",
+      "Id": "9639cd0da96540cfa50d38b4be7424f8"
+    },
+    {
+      "Start": "8dbb6de9e00b4a459ef8bea0657d1335",
+      "End": "31837d4788064fae94d12e6a1018745c",
+      "Id": "54387e764f2240b2813132a857e4a279"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.10.1.3976",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "TOTAL_LENGTH_X",
+        "Id": "ef2168aad5004db0a098adba42ccfeb5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 209.3799997440542,
+        "Y": 180.14594677604089
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SITE_LENGTH_Y",
+        "Id": "8d2bf597c805461ca63d2772eac2790a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 209.3799997440542,
+        "Y": 251.14594677604089
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CORRIDOR_WIDTH",
+        "Id": "65c332a7b7304370a800b1f45400da03",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 210.3799997440542,
+        "Y": 323.14594677604089
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NUM_ROOMS_NORTH_SIDE",
+        "Id": "77b65c47486b4b969a0691ef975fd91a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 210.3799997440542,
+        "Y": 398.14594677604089
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "INCLUDE_BOTTLENECK",
+        "Id": "49e6e351fbc246d6a437951ad5557c86",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 309.68702610008791,
+        "Y": 526.50162205742151
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "DOOR_WIDTH",
+        "Id": "5fc45f30ae92438cb211e84f4439c0d7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 364.89135414600469,
+        "Y": 587.94810695980993
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "OBSTACLE_WIDTH",
+        "Id": "fad7c277ca8547e59ed811f532d1a1e5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 337.64383275513603,
+        "Y": 648.35741843633616
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "parameter_prep",
+        "Id": "c614db2c9b21443f815195f46e7e4358",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 614.06545250904389,
+        "Y": 303.34228563238463
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NUM_ROOMS_SOUTH_SIDE",
+        "Id": "3c0bb1e27b974e12ae5e1808100f770c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 210.69464442371117,
+        "Y": 464.07633860039766
+      }
+    ],
+    "Annotations": [],
+    "X": 47.861618034557182,
+    "Y": 212.86629734071278,
+    "Zoom": 0.97676875
+  }
+}
