@@ -6,6 +6,7 @@
 # List of all the pre-refactoring user parameters in their original type
 # List of all the post-refactoring user parameters in their original type
 
+#-----------------------------------------------------------------------------------------------------------------#
 # Constants...
 PRE_FACTORING_INPUT_LENGTH = 6
 BOTTLENECK_INDEX = 5
@@ -15,6 +16,7 @@ INPUT_NAMES = [
     "siteX" , "siteY" , "CORRWIDTH" , "NUMROOMS" , "" , "INCBNECK"
 ]
 
+#-----------------------------------------------------------------------------------------------------------------#
 # Helper functions...
 
 ## Converts a string to an integer
