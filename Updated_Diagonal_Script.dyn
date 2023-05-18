@@ -285,6 +285,250 @@
       ],
       "Replication": "Disabled",
       "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
+      "SelectedIndex": 15,
+      "SelectedString": "Generic - 200mm",
+      "NodeType": "ExtensionNode",
+      "Id": "fedaeeaf3e29475e8d7081c0de5c1165",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "66d37cad1d2443dda396713db9b0b3cb",
+          "Name": "Wall Type",
+          "Description": "The selected Wall Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All wall types available in the document."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
+      "SelectedIndex": 18,
+      "SelectedString": "Generic - 300mm",
+      "NodeType": "ExtensionNode",
+      "Id": "3bacfb05095e4bfe8714510c7b26fed7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ae0cf6cafcc6406cb717ae4ccc415e52",
+          "Name": "Wall Type",
+          "Description": "The selected Wall Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All wall types available in the document."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
+      "SelectedIndex": 5,
+      "SelectedString": "Generic 300mm",
+      "NodeType": "ExtensionNode",
+      "Id": "1183b433f321498988973f9514f8798c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5366f32cc9e84c7585cba56bcba2278a",
+          "Name": "Floor Type",
+          "Description": "The selected Floor Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All floor types available in the document."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "32fecd23e28e4038af64c742d9280202",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6366b875e894424e9089f7965fac2894",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\No file selected",
+      "InputValue": "No file selected.",
+      "NodeType": "ExtensionNode",
+      "Id": "ab519910f7d44ca7acbe1d0a049b734e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b8fa9382ed3c4b3c8d4d56d88c3fc639",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "corr_e2e",
+      "Id": "15ae43c2e5754d459090ff7f660695e9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "68fe2ff24ee646d0b2b23baa41df47d0",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "08d56833effd41699d17b1f9eac93c6d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "45e93c31d4434ec1b103cb5f7b590392",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "42e933ab5a9e45a481e1a7d936f8ec0d",
+      "Inputs": [
+        {
+          "Id": "4e0ae67c95fa4b3c8f4920c68376f10a",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b37a468fee85491480f983d3c516a350",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "338b29ca94854800b8e848413b7c9cc9",
+      "Inputs": [
+        {
+          "Id": "96910a45b2054dafb31774c3598f8952",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1dfc555901e4434fb7eb654f88199b7a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "df7a72e058dd4a9b852b67a68735187c",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9635bec1d99c4363a23a39dfc4d87a7e",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "0a608226471c4e8d81fa70faa887b980",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "676e5f0a8dbd4a82ae47caf49fef18c1",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -324,9 +568,34 @@
       "Id": "9639cd0da96540cfa50d38b4be7424f8"
     },
     {
+      "Start": "56c29046eb3b4a8c8a7c573c1329a27f",
+      "End": "9635bec1d99c4363a23a39dfc4d87a7e",
+      "Id": "6a9f1dbe6d7746759a9a7c9500a2625d"
+    },
+    {
       "Start": "8dbb6de9e00b4a459ef8bea0657d1335",
       "End": "31837d4788064fae94d12e6a1018745c",
       "Id": "54387e764f2240b2813132a857e4a279"
+    },
+    {
+      "Start": "66d37cad1d2443dda396713db9b0b3cb",
+      "End": "df7a72e058dd4a9b852b67a68735187c",
+      "Id": "f67a0efb8b344c3e95c4d057ad258018"
+    },
+    {
+      "Start": "ae0cf6cafcc6406cb717ae4ccc415e52",
+      "End": "96910a45b2054dafb31774c3598f8952",
+      "Id": "6378c4bd46644d1bb274be89d69fb6b9"
+    },
+    {
+      "Start": "5366f32cc9e84c7585cba56bcba2278a",
+      "End": "1dfc555901e4434fb7eb654f88199b7a",
+      "Id": "2a680f3cbcc04085aa1bbbc96dfb57c7"
+    },
+    {
+      "Start": "6366b875e894424e9089f7965fac2894",
+      "End": "0a608226471c4e8d81fa70faa887b980",
+      "Id": "deea7328ffbb4cef95e880a7d5ba7bc4"
     }
   ],
   "Dependencies": [],
@@ -355,99 +624,189 @@
     },
     "NodeViews": [
       {
-        "ShowGeometry": true,
-        "Name": "TOTAL_LENGTH_X",
         "Id": "ef2168aad5004db0a098adba42ccfeb5",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "TOTAL_LENGTH_X",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 209.3799997440542,
         "Y": 180.14594677604089
       },
       {
-        "ShowGeometry": true,
-        "Name": "SITE_LENGTH_Y",
         "Id": "8d2bf597c805461ca63d2772eac2790a",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "SITE_LENGTH_Y",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 209.3799997440542,
         "Y": 251.14594677604089
       },
       {
-        "ShowGeometry": true,
-        "Name": "CORRIDOR_WIDTH",
         "Id": "65c332a7b7304370a800b1f45400da03",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "CORRIDOR_WIDTH",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 210.3799997440542,
         "Y": 323.14594677604089
       },
       {
-        "ShowGeometry": true,
-        "Name": "NUM_ROOMS_NORTH_SIDE",
         "Id": "77b65c47486b4b969a0691ef975fd91a",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "NUM_ROOMS_NORTH_SIDE",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 210.3799997440542,
         "Y": 398.14594677604089
       },
       {
-        "ShowGeometry": true,
-        "Name": "INCLUDE_BOTTLENECK",
         "Id": "49e6e351fbc246d6a437951ad5557c86",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "INCLUDE_BOTTLENECK",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 309.68702610008791,
         "Y": 526.50162205742151
       },
       {
-        "ShowGeometry": true,
-        "Name": "DOOR_WIDTH",
         "Id": "5fc45f30ae92438cb211e84f4439c0d7",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "DOOR_WIDTH",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 364.89135414600469,
         "Y": 587.94810695980993
       },
       {
-        "ShowGeometry": true,
-        "Name": "OBSTACLE_WIDTH",
         "Id": "fad7c277ca8547e59ed811f532d1a1e5",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "OBSTACLE_WIDTH",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 337.64383275513603,
         "Y": 648.35741843633616
       },
       {
-        "ShowGeometry": true,
-        "Name": "parameter_prep",
         "Id": "c614db2c9b21443f815195f46e7e4358",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "parameter_prep",
+        "ShowGeometry": true,
         "Excluded": false,
-        "X": 614.06545250904389,
-        "Y": 303.34228563238463
+        "X": 685.73031688968672,
+        "Y": 298.22336674805291
       },
       {
-        "ShowGeometry": true,
-        "Name": "NUM_ROOMS_SOUTH_SIDE",
         "Id": "3c0bb1e27b974e12ae5e1808100f770c",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
+        "Name": "NUM_ROOMS_SOUTH_SIDE",
+        "ShowGeometry": true,
         "Excluded": false,
         "X": 210.69464442371117,
         "Y": 464.07633860039766
+      },
+      {
+        "Id": "fedaeeaf3e29475e8d7081c0de5c1165",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Interior Wall Type",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 641.25309982928968,
+        "Y": 77.4624003696762
+      },
+      {
+        "Id": "3bacfb05095e4bfe8714510c7b26fed7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Exterior Wall Type",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 643.8974993185974,
+        "Y": -104.03196269652443
+      },
+      {
+        "Id": "1183b433f321498988973f9514f8798c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Floor Types (cannot find 300mm foundation slab)",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 473.06792586235133,
+        "Y": -12.772889274990945
+      },
+      {
+        "Id": "32fecd23e28e4038af64c742d9280202",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create Build (True) or Export Floorplan (False)",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 513.17706188892794,
+        "Y": 733.16902750166082
+      },
+      {
+        "Id": "ab519910f7d44ca7acbe1d0a049b734e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Directory Path",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 705.9569502946033,
+        "Y": 800.245588761731
+      },
+      {
+        "Id": "15ae43c2e5754d459090ff7f660695e9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "String",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 773.71075054279629,
+        "Y": 889.05800260057822
+      },
+      {
+        "Id": "08d56833effd41699d17b1f9eac93c6d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create Folder Structure",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 648.27466089411485,
+        "Y": 952.23384337254151
+      },
+      {
+        "Id": "42e933ab5a9e45a481e1a7d936f8ec0d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create Folder",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1132.44803329661,
+        "Y": 811.28560875281039
+      },
+      {
+        "Id": "338b29ca94854800b8e848413b7c9cc9",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Name": "Create Diagonal Geometry",
+        "ShowGeometry": true,
+        "Excluded": false,
+        "X": 1060.1322844076503,
+        "Y": 382.74416859117628
       }
     ],
     "Annotations": [],
-    "X": 47.861618034557182,
-    "Y": 212.86629734071278,
-    "Zoom": 0.97676875
+    "X": 46.300868626206352,
+    "Y": 185.12720834599625,
+    "Zoom": 0.608772931697611
   }
 }
