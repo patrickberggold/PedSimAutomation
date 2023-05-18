@@ -188,6 +188,7 @@ if create_mode:
                 doc.Delete(levelElement.Id)
     ref_level = levelArray[0]
     ref_level.Name = "Story Level 0"
+    
 
     # Check the if the saved one is the reference level, correct it if not
     if ref_level.Elevation != ref_level_z:
