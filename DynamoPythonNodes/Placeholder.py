@@ -3,7 +3,6 @@
 ###############################################################
 import clr
 
-from System import Array
 from System.Collections.Generic import *
 
 clr.AddReference("RevitNodes")
