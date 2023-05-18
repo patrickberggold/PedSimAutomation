@@ -232,6 +232,32 @@ def create_bounding_box(height) :
 
     return bounding_box
 
+## Create new stories in a Revit document
+# Creates a new story for each elevation except for the reference elevation
+# @param doc: DBDocument Revit document
+# @param number_of_stories
+# @param ref_elevation: float Reference elevation
+# @param story_z: list<float> List of the elevation of all stories
+# @return None
+# @raises ValueError
+def create_new_stories(doc , number_of_stories , ref_elevation , story_z) : 
+    if len(story_z) != number_of_stories : 
+        raise ValueError("Number of stories and elevations are not equal.")
+
+    for i in number_of_stories : 
+        if ref_elevation != story_z[i] : 
+            new_level = Autodesk.Revit.DB.Level.Create(doc, story_z[i])
+            new_level.Name = f"Story Level {i}"
+
+## Creates the roof level in a given Revit document
+# @param doc: DBDocument Revit document
+# @param site_z: float Total height of model
+# @return None
+def create_roof_level(doc , site_z) : 
+    roof_level = Autodesk.Revit.DB.Level.Create(doc, site_z)
+    roof_level.Name = "Roof Level"
+
+
 #-----------------------------------------------------------------------------------------------------------------#
 # Revit Doc
 DOC = DocumentManager.Instance.CurrentDBDocument
@@ -289,3 +315,8 @@ site_b_box = create_bounding_box(site_z)
 corridor_width = convert_to_revit_units(CORRIDOR_WIDTH)
 story_z = convert_to_revit_units(story_z)
 
+create_new_stories(DOC , total_num_stories , ref_level.Elevation)
+create_roof_level(DOC , site_z)
+
+#-----------------------------------------------------------------------------------------------------------------#
+OUT = room_dict
