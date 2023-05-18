@@ -1,7 +1,5 @@
 import clr
 
-from System.Collections.Generic import *
-
 clr.AddReference("RevitNodes")
 import Revit
 
@@ -24,6 +22,28 @@ from Autodesk.Revit.DB.Architecture import *
 
 #-----------------------------------------------------------------------------------------------------------------#
 # Helper functions...
+
+## Converts a string to an integer
+# @param int_as_string:str string to be converted
+# @returns argument converted to an integer
+# @raises ValueError
+def convert_to_int(int_as_string) : 
+    try : 
+        return int(int_as_string)
+    except : 
+        raise ValueError(f"{int_as_string} cannot be converted to integer")
+
+## Converts str to boolean : 
+# @param bool_as_string:str string to be converted
+# @returns argument converted to a boolean
+# @note converted to integer first to counter edge case: "0" is casted to True
+# @raises ValueError
+def convert_to_bool(bool_as_string) : 
+    try : 
+        return bool(convert_to_int(bool_as_string))
+    except ValueError as e : 
+        if "False" in str(e) or "True" in str(e) : return bool(bool_as_string)
+        else : raise ValueError("Argument string cannot be converted to boolean")
 
 ## Converts str to float : 
 # @param float_as_string:str string to be converted
@@ -140,5 +160,132 @@ def create_slab_geometry_by_level(x , y , delta_z , level) :
         slab_geometry.append(lines[i])
     
     return slab_geometry
+
+## Collects all levels from a Revit Doc
+# @param doc: DBDocument Revit Document
+# @returns list<Level> List of all levels in a Revit document
+# @raises ValueError
+def get_all_levels(doc) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
+
+    return (FilteredElementCollector(doc)
+        .OfCategory(BuiltInCategory.OST_Levels)
+        .WhereElementIsNotElementType()
+        .ToElements())
+
+## Delete all elements in a Revit document
+# @param doc: DBDocument Revit Document
+# @note element categories are hard coded into function
+# @returns None
+# @raises ValueError
+def clear_model(doc) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
+    
+    element_categories = [
+        BuiltInCategory.OST_Grids , BuiltInCategory.OST_Doors , BuiltInCategory.OST_Floors , BuiltInCategory.OST_Walls , BuiltInCategory.OST_Roofs
+    ]
+
+    for category in element_categories : 
+        elements = FilteredElementCollector(doc).OfCategory(category).WhereElementIsNotElementType().ToElements()
+        for element in elements : 
+            doc.Delete(element.Id)
+
+## Check the number of existing levels. 
+# If there is more than one level in the document, delete all levels except the one at the reference height
+# The height is then verified and if it doesn't match ref height, level is deleted and a new level is created.
+# @param doc: DBDocument Revit Document
+# @param ref_level_z: float Reference height
+# @returns ref_level: Level Level located at reference height 
+def verify_number_of_levels(doc , ref_level_z) : 
+    levels = get_all_levels(doc)
+
+    deleted_levels_counter = 0
+    if len(levels) > 1 : 
+        for level in levels : 
+            if level.Elevation != ref_level_z : 
+                doc.Delete(level.Id)
+                deleted_levels_counter += 1
+
+    if len(levels) - deleted_levels_counter == 0 : 
+        print("Warning: Found no level at elevation = ref_level_z")
+
+    ref_level = levels[0]
+
+    if ref_level.Elevation != ref_level_z : 
+        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, ref_level_z)
+        doc.Delete(ref_level.Id)
+        ref_level = ref_level_new
+    
+    ref_level.Name = "Story Level 0"
+    
+    return ref_level
+    
+## Create bounding box from origin to a point at z = height
+# @param height: float height of bounding box
+# @returns bounding_box: BoundingBox object
+def create_bounding_box(height) :
+    bounding_box = BoundingBoxXYZ()
+    bounding_box.Min = XYZ(0 , 0 , 0)
+    bounding_box.Max = XYZ(0 , 0 , height)
+
+    return bounding_box
+
 #-----------------------------------------------------------------------------------------------------------------#
+# Revit Doc
+DOC = DocumentManager.Instance.CurrentDBDocument
+TransactionManager.Instance.EnsureInTransaction(DOC)
+
+#-----------------------------------------------------------------------------------------------------------------#
+# Constants...
+EXTERIOR_WALL_TYPE = UnwrapElement(IN[0])
+EXTERIOR_WALL_THICKNESS = 0.3
+INTERIOR_WALL_TYPE = UnwrapElement(IN[2])
+INTERIOR_WALL_THICKNESS = 0.2
+FLOOR_TYPE = UnwrapElement(IN[1])
+FLOOR_THICKNESS = 0.3
+
+parameter_list = UnwrapElement(IN[3][1])
+SITE_X = parameter_list[0]
+SITE_Y = parameter_list[1]
+CORRIDOR_WIDTH = parameter_list[2]
+NUM_ROOMS_NORTH_SIDE = parameter_list[3]
+NUM_ROOMS_SIDE_SIDE = parameter_list[4]
+USE_BOTTLENECKS = parameter_list[5]
+
+new_parameter_list = UnwrapElement(IN[3][2])
+DOOR_WIDTH_HALF = convert_to_revit_units(new_parameter_list[0] / 2.)
+OBSTACLE_WIDTH = new_parameter_list[1]
+
+CREATE_MODE_ON = convert_to_bool(IN[4])
+#-----------------------------------------------------------------------------------------------------------------#
+# Input parameters...
+
+total_num_stories = 1
+story_z = [0]
+total_height = 4
+ref_level_z = 0
+
+#-----------------------------------------------------------------------------------------------------------------#
+# Output dict...
+room_dict = {}
+
+
+#-----------------------------------------------------------------------------------------------------------------#
+# Script 1...
+
+site_x , site_y , site_z = convert_to_revit_units(SITE_X - 0.3) , convert_to_revit_units(SITE_Y - 0.3) , convert_to_revit_units(total_height)
+
+level_array = get_all_levels(DOC)
+clear_model(DOC)
+
+ref_level = verify_number_of_levels(DOC , convert_to_revit_units(ref_level_z))
+site_b_box = create_bounding_box(site_z)
+
+#-----------------------------------------------------------------------------------------------------------------#
+# Script 2...
+
+corridor_width = convert_to_revit_units(CORRIDOR_WIDTH)
+story_z = convert_to_revit_units(story_z)
 
