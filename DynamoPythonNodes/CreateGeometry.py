@@ -198,7 +198,10 @@ def clear_model(doc) :
 # @param doc: DBDocument Revit Document
 # @param ref_level_z: float Reference height
 # @returns ref_level: Level Level located at reference height 
+# @raises ValueError
 def verify_number_of_levels(doc , ref_level_z) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
     levels = get_all_levels(doc)
 
     deleted_levels_counter = 0
@@ -246,6 +249,8 @@ def create_bounding_box(x_min , y_min , z_min , x_max , y_max , z_max) :
 # @return None
 # @raises ValueError
 def create_new_stories(doc , number_of_stories , ref_elevation , story_z) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
     if len(story_z) != number_of_stories : 
         raise ValueError("Number of stories and elevations are not equal.")
 
@@ -254,13 +259,135 @@ def create_new_stories(doc , number_of_stories , ref_elevation , story_z) :
             new_level = Autodesk.Revit.DB.Level.Create(doc, story_z[i])
             new_level.Name = f"Story Level {i}"
 
-## Creates the roof level in a given Revit document
+## Create the roof level in a given Revit document
 # @param doc: DBDocument Revit document
 # @param site_z: float Total height of model
 # @return None
+# @raises ValueError
 def create_roof_level(doc , site_z) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
+    
     roof_level = Autodesk.Revit.DB.Level.Create(doc, site_z)
     roof_level.Name = "Roof Level"
+
+## Create exterior walls around model
+# @uses create_perimeter_lines()
+# @param doc: DBDocument Revit document
+# @param length: float Total length of model (x-direction)
+# @param width: float Total width of model (y-direction)
+# @param height: float Total height of model (z-direction)
+# @param wall_type Wall type (dynamo input parameter)
+# @param ref_level: Level Reference level of model
+# @param site_z: float Height of site
+# @returns list<Wall> List of the exterior walls
+# @raises ValueError
+def create_exterior_walls(doc , length , width , height , wall_type , ref_level , site_z) :
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
+
+    perimeter_lines = create_perimeter_lines(length , width , height)
+
+    return [
+        Wall.Create(doc , line , wall_type.Id , ref_level.Id , site_z , False , True) for line in perimeter_lines
+    ]
+
+## Create floor for each story
+# @uses create_slab_geometry_by_level()
+# @param doc: DBDocument Revit document
+# @param levels: list<Level> List of levels
+# @param length: float Total length of model (x-direction)
+# @param width: float Total width of model (y-direction)
+# @returns floor_list list<Floor> List of floors
+# @raises ValueError
+def create_floor_for_each_level(doc , levels , length , width) : 
+    if doc == None : 
+        raise ValueError("Empty Revit Doc")
+    
+    floor_height = 0. # i.e. floor is at the bottom of the level
+    floor_list = []
+    for level in levels : 
+        floor_geometry = create_slab_geometry_by_level(length , width , floor_height , level)
+        floor_list.append(
+            doc.Create.NewFloor(floor_geometry, FLOOR_TYPE, level, True)
+        )
+    
+    return floor_list
+
+## Create corridor points
+# @Warning A lot of values are hard coded into function, use with care
+# @param length: float Size of model in x-direction
+# @param width: float Size of model in y-direction
+# @param corridor_width: float Width of corridor
+# @param ceiling: float Height of ceiling
+# @returns list<Point>, list<Point> Two lists containing 3 points for the short side and 3 points for the long side
+def create_corridor_points(length , width , corridor_width , ceiling) : 
+    width_main_corridor = width / 2.
+    x_corridor_start = 1.5 * corridor_width
+    x_corridor_end = length - x_corridor_start
+
+    short_point_0 = XYZ(x_corridor_start, 0, ceiling)
+    short_point_1 = XYZ(x_corridor_start, width_main_corridor - corridor_width / 2., ceiling)
+    short_point_2 = XYZ(length, width_main_corridor - corridor_width / 2., ceiling)
+    long_point_0 = XYZ(0, width_main_corridor + corridor_width / 2., ceiling)
+    long_point_1 = XYZ(x_corridor_end, width_main_corridor + corridor_width / 2., ceiling)
+    long_point_2 =  XYZ(x_corridor_end, width, ceiling)
+
+    return [short_point_0 , short_point_1 , short_point_2] , [long_point_0 , long_point_1 , long_point_2]
+
+## Create bound lines from 3 points in 3D space
+# @param points: list<Point> List of 3 points in 3D space
+# @returns list<Line> List of 2 lines, one connecting points 1 and 2, and the other connecting points 2 and 3
+# @raises ValueError
+def create_bounds_from_points(points) :
+    if len(points) != 3 : 
+        raise ValueError("Number of points must be 3")
+
+    line_0 = Autodesk.Revit.DB.Line.CreateBound(points[0], points[1])
+    line_1 = Autodesk.Revit.DB.Line.CreateBound(points[1], points[2])
+
+    return [line_0 , line_1]
+
+## Create corridor lines
+# Creates points in 3D points, uses points to create bound lines, then uses lines to create corridor walls
+# @uses create_bounds_from_points(), create_corridor_points()
+# @param doc: DBDocument Revit document
+# @param wall_type Wall type (dynamo input parameter)
+# @param levels: list<Level> List of levels
+# @param length: float Size of model in x-direction
+# @param width: float Size of model in y-direction
+# @param corridor_width: float Width of corridor
+# @param ceiling: float Height of ceiling
+# @returns list<Wall> List of corridor walls
+def create_corridor_walls(doc , wall_type , levels , length , width , corridor_width , ceiling) : 
+    short_side_points , long_side_points = create_corridor_points(length , width , corridor_width , ceiling)
+
+    short_side_lines = create_bounds_from_points(short_side_points)
+    long_side_lines = create_bounds_from_points(long_side_points)
+
+    corridor_lines = [*short_side_lines , *long_side_lines]
+
+    return [
+        Wall.Create(doc , corridor_line , wall_type.Id , levels[0].Id , levels[1].Elevation - all_levels[0].Elevation , False , True) \
+        for corridor_line in corridor_lines
+    ]
+
+## Create a new dictionary entry for each CROWDIT obstacle
+# Obstacles must be cuboids
+# @param x_min: float Minimum x-coordinate of obstacle
+# @param y_min: float Minimum y-coordinate of obstacle
+# @param x_max: float Maximum x-coordinate of obstacle
+# @param y_max: float Maximum y-coordinate of obstacle
+# @param key_name: str Name of key in dictionary
+# @returns None
+def create_obstacle_dict(x_min , x_max , y_min , y_max , key_name) : 
+    return {
+        str(key_name): [
+                (x_min, y_min),
+                (x_max, y_max)
+            ]
+    }
+
 
 
 #-----------------------------------------------------------------------------------------------------------------#
@@ -288,6 +415,7 @@ USE_BOTTLENECKS = parameter_list[5]
 new_parameter_list = UnwrapElement(IN[3][2])
 DOOR_WIDTH_HALF = convert_to_revit_units(new_parameter_list[0] / 2.)
 OBSTACLE_WIDTH = new_parameter_list[1]
+OBSTACLE_LENGTH = 1.
 
 CREATE_MODE_ON = convert_to_bool(IN[4])
 
@@ -346,247 +474,296 @@ for i in range(total_num_stories) :
 #-----------------------------------------------------------------------------------------------------------------#
 # Create floorplan complexity...
 
-    WIDTH = site_y
-    LENGTH = site_x
-    print('x_length: ' + str(convert_to_meter(LENGTH)))
-    print('y_width: ' + str(convert_to_meter(WIDTH)))
-    print("")
-    z_level = ref_level.Elevation
-    ceiling = all_levels[0].Elevation
+ceiling = all_levels[0].Elevation
+ref_level_z = ref_level.Elevation
 
-    obstacle_counter = 0
+exterior_walls = create_exterior_walls(DOC , site_x , site_y , ref_level_z , EXTERIOR_WALL_TYPE , ref_level , site_z)
 
-    # Create the exterior walls
-    perimeter_lines = create_perimeter_lines(LENGTH , WIDTH , z_level)
-    for ww in range(4):
-        wall = Wall.Create(DOC, perimeter_lines[ww], default_exterior_wall_type.Id, ref_level.Id, site_z, 0, False, True)
-        exterior_wall_list.append(wall)
+floor_list = create_floor_for_each_level(DOC , all_levels , site_x , site_y)
 
-    # Create floor for each story level
-    for ii in range(total_num_stories):
-        ll = all_levels[ii]
-        floor_geometry = create_slab_geometry_by_level(LENGTH , WIDTH , 0. , ll)
-        floor = DOC.Create.NewFloor(floor_geometry, FLOOR_TYPE, ll, True)
-        floor_list.append(floor)
+corridor_walls = create_corridor_walls(DOC , INTERIOR_WALL_TYPE , all_levels , site_x , site_y , corridor_width , ceiling)
 
-    # Create corridor lines
-    y_main_corridor = 0.5*WIDTH
-    x_main_corridor_start = 1.5*CORR_WIDTH
-    x_main_corridor_end = LENGTH-1.5*CORR_WIDTH
-        
-    bottlneck_ys = [CORR_WIDTH, WIDTH-CORR_WIDTH]
+width_main_corridor = site_y / 2.
+x_corridor_start = 1.5 * corridor_width
+x_corridor_end = site_x - x_corridor_start
+#-----------------------------------------------------------------------------------------------------------------#
+# Create obstacles...
+obstacle_counter = 0
 
-    P0_long = XYZ(x_main_corridor_start, 0, ceiling)
-    P1_long = XYZ(x_main_corridor_start, y_main_corridor - CORR_WIDTH/2., ceiling)
-    P2_long = XYZ(LENGTH, y_main_corridor - CORR_WIDTH/2., ceiling)
+x_min_list = [
+    convert_to_meter(x_corridor_end)+0.1 ,
+    convert_to_meter(x_corridor_start)-0.1-OBSTACLE_LENGTH ,
+]
+x_max_list = [
+    x_min + OBSTACLE_LENGTH for x_min in x_min_list
+]
 
-    line_corr_0_long = Autodesk.Revit.DB.Line.CreateBound(P0_long, P1_long)
-    line_corr_1_long = Autodesk.Revit.DB.Line.CreateBound(P1_long, P2_long)
+y_min_list = [
+    convert_to_meter(width_main_corridor + corridor_width / 2.) + 0.5 ,
+    convert_to_meter(width_main_corridor - corridor_width/2.) - 0.5 - OBSTACLE_WIDTH
+]
+y_max_list = [
+    y_min + OBSTACLE_WIDTH for y_min in y_min_list
+]
 
-    P1_short = XYZ(0, y_main_corridor + CORR_WIDTH/2., ceiling)
-    P2_short = XYZ(x_main_corridor_end, y_main_corridor + CORR_WIDTH/2., ceiling)
-    P3_short = XYZ(x_main_corridor_end, WIDTH, ceiling)
-    
-    line_corr_1_short = Autodesk.Revit.DB.Line.CreateBound(P1_short, P2_short)
-    line_corr_2_short = Autodesk.Revit.DB.Line.CreateBound(P2_short, P3_short)
-
-    corr_room_lines = [line_corr_1_short, line_corr_2_short, line_corr_0_long, line_corr_1_long] # , line_corr_2_long, line_corr_3_long]
-    # Create corridor-room walls
-    corr_walls = [Wall.Create(DOC, wall_line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True) \
-        for wall_line in corr_room_lines]
-
-    # obstacles
-    obstacle_length = 1.
-
-    x_obst_min, x_obst_max = convert_to_meter(x_main_corridor_end)+0.1, convert_to_meter(x_main_corridor_end)+0.1+obstacle_length
-    y_obst_min, y_obst_max = convert_to_meter(y_main_corridor + CORR_WIDTH/2.)+0.5, convert_to_meter(y_main_corridor + CORR_WIDTH/2.)+0.5+OBSTACLE_WIDTH
-    room_dict.update({
-        'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'1_1': [
-                (x_obst_min, y_obst_min),
-                (x_obst_max, y_obst_max)
-            ]
-        }
+for obstacle_index in range(len(x_min_list)) : 
+    room_dict.update(
+        create_obstacle_dict(x_min_list[obstacle_index] , x_max_list[obstacle_index] , y_min_list[obstacle_index] , y_max_list[obstacle_index] , f"CROWDIT_OBSTACLE_{obstacle_counter}1_1")
     )
     obstacle_counter += 1
+#-----------------------------------------------------------------------------------------------------------------#
+# Destination areas...
+## Uses the same flow as Create Obstacles
 
-    x_obst_min, x_obst_max = convert_to_meter(x_main_corridor_start)-0.1-obstacle_length, convert_to_meter(x_main_corridor_start)-0.1
-    y_obst_min, y_obst_max = convert_to_meter(y_main_corridor - CORR_WIDTH/2.)-0.5-OBSTACLE_WIDTH, convert_to_meter(y_main_corridor - CORR_WIDTH/2.)-0.5
+destination_counter = 0
+
+
+# 0. is a placeholder for potential change
+x_min_list = [
+    min(0. , x_corridor_start) + 0.5 , 
+    min(x_corridor_end , site_x) + 0.5
+]
+
+x_max_list = [
+    max(0. , x_corridor_start) - 0.5 ,
+    max(x_corridor_end , site_x) - 0.5
+]
+
+# 0. is a placeholder for potential change
+y_min_list = [
+    min(0. , corridor_width) + 0.5 ,
+    min(site_y - corridor_width , site_y) + 0.5
+]
+
+y_max_list = [
+    max(0. , corridor_width) - 0.5 ,
+    max(site_y - corridor_width , site_y) - 0.5
+]
+
+for destination_index in range(len(x_min_list)) : 
+    room_dict.update(
+        create_obstacle_dict(x_min_list[destination_index] , x_max_list[destination_index] , y_min_list[destination_index] , y_max_list[destination_index] , f"CROWDIT_Destination_{destination_counter}")
+    )
+    destination_counter += 1
+#-----------------------------------------------------------------------------------------------------------------#
+# Create office rooms...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bottlneck_ys = [CORR_WIDTH, WIDTH-CORR_WIDTH]
+# destination areas
+origin_opening_list = []
+
+
+
+
+###############
+# Office rooms
+###############
+# DOOR_WIDTH_H = convert_meter_to_unit(0.5)
+DOOR_HEIGHT = convert_meter_to_unit(2.2)
+DOOR_THICKNESS_H = convert_meter_to_unit(0.25)
+
+# short side
+fractions = [1./(NUM_ROOMS_SHORT_SIDE)*i for i in range(NUM_ROOMS_SHORT_SIDE+1)]
+short_x_coord_list = [P1_short[0] + fr * (P2_short[0] - P1_short[0]) for fr in fractions]
+
+for x_coord in short_x_coord_list[1:-1]:
+    office_office_line = Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(x_coord, P2_short[1], ceiling),
+            XYZ(x_coord, P3_short[1], ceiling))
+    Wall.Create(DOC, office_office_line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
+
+# create openings short offices
+for id in range(len(short_x_coord_list)-1):
+    x_opening = (short_x_coord_list[id+1] + short_x_coord_list[id])/2.
+    y_opening = P1_short[1]
+    z_opening = z_level
+
+    start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)
+    end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
+    origin_opening_list.append(DOC.Create.NewOpening(corr_walls[0], start_point, end_point))
+
+    y_min_var_short, y_max_var_short = min(P1_short[1], P3_short[1]), max(P1_short[1], P3_short[1])
+
     room_dict.update({
-        'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'1_1': [
-                (x_obst_min, y_obst_min),
-                (x_obst_max, y_obst_max)
+        'CROWDIT_ORIGIN_'+str(id): [
+                (convert_to_meter(short_x_coord_list[id])+0.5, convert_to_meter(y_min_var_short)+0.5),
+                (convert_to_meter(short_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_short)-0.5)
             ]
         }
     )
-    obstacle_counter += 1
-    
 
-    # destination areas
-    bottlneck_ys_room_dict = [0, WIDTH]
-    origin_opening_list = []
-    
-    x_min_fixed_1, x_max_fixed_1 = min(0, x_main_corridor_start), max(0, x_main_corridor_start)
-    y_min_fixed_1, y_max_fixed_1 = min(bottlneck_ys[0], bottlneck_ys_room_dict[0]), max(bottlneck_ys[0], bottlneck_ys_room_dict[0])
-
-    room_dict.update({
-        'CROWDIT_DESTINATION_0': [
-                (convert_to_meter(x_min_fixed_1)+0.5, convert_to_meter(y_min_fixed_1)+0.5),
-                (convert_to_meter(x_max_fixed_1)-0.5, convert_to_meter(y_max_fixed_1)-0.5)
-            ]
-        }
-    )
-
-    x_min_fixed_2, x_max_fixed_2 = min(x_main_corridor_end, LENGTH), max(x_main_corridor_end, LENGTH)
-    y_min_fixed_2, y_max_fixed_2 = min(bottlneck_ys[1], bottlneck_ys_room_dict[1]), max(bottlneck_ys[1], bottlneck_ys_room_dict[1])
-
-    room_dict.update({
-        'CROWDIT_DESTINATION_1': [
-                (convert_to_meter(x_min_fixed_2)+0.5, convert_to_meter(y_min_fixed_2)+0.5),
-                (convert_to_meter(x_max_fixed_2)-0.5, convert_to_meter(y_max_fixed_2)-0.5)
-            ]
-        }
-    )
-
-    ###############
-    # Office rooms
-    ###############
-    # DOOR_WIDTH_H = convert_meter_to_unit(0.5)
-    DOOR_HEIGHT = convert_meter_to_unit(2.2)
-    DOOR_THICKNESS_H = convert_meter_to_unit(0.25)
-
-    # short side
-    fractions = [1./(NUM_ROOMS_SHORT_SIDE)*i for i in range(NUM_ROOMS_SHORT_SIDE+1)]
-    short_x_coord_list = [P1_short[0] + fr * (P2_short[0] - P1_short[0]) for fr in fractions]
-    
-    for x_coord in short_x_coord_list[1:-1]:
-        office_office_line = Autodesk.Revit.DB.Line.CreateBound(
-                XYZ(x_coord, P2_short[1], ceiling),
-                XYZ(x_coord, P3_short[1], ceiling))
-        Wall.Create(DOC, office_office_line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
-    
-    # create openings short offices
-    for id in range(len(short_x_coord_list)-1):
-        x_opening = (short_x_coord_list[id+1] + short_x_coord_list[id])/2.
-        y_opening = P1_short[1]
-        z_opening = z_level
-
-        start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)
-        end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
-        origin_opening_list.append(DOC.Create.NewOpening(corr_walls[0], start_point, end_point))
-
-        y_min_var_short, y_max_var_short = min(P1_short[1], P3_short[1]), max(P1_short[1], P3_short[1])
+    if id > 0:
+        # obstacle: rectangle (e.g. table: 2x1 m rectangle)
+        obstacle_length = 2.
+        if y_opening < y_main_corridor:
+            y_obst_min = convert_to_meter(y_opening)+0.1
+            y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH
+        else:
+            y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH
+            y_obst_max = convert_to_meter(y_opening)-0.1
 
         room_dict.update({
-            'CROWDIT_ORIGIN_'+str(id): [
-                    (convert_to_meter(short_x_coord_list[id])+0.5, convert_to_meter(y_min_var_short)+0.5),
-                    (convert_to_meter(short_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_short)-0.5)
+            'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'2_1': [
+                    (convert_to_meter(short_x_coord_list[id])-obstacle_length/2., y_obst_min),
+                    (convert_to_meter(short_x_coord_list[id])+obstacle_length/2., y_obst_max)
                 ]
             }
         )
-
-        if id > 0:
-            # obstacle: rectangle (e.g. table: 2x1 m rectangle)
-            obstacle_length = 2.
-            if y_opening < y_main_corridor:
-                y_obst_min = convert_to_meter(y_opening)+0.1
-                y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH
-            else:
-                y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH
-                y_obst_max = convert_to_meter(y_opening)-0.1
-
-            room_dict.update({
-                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'2_1': [
-                        (convert_to_meter(short_x_coord_list[id])-obstacle_length/2., y_obst_min),
-                        (convert_to_meter(short_x_coord_list[id])+obstacle_length/2., y_obst_max)
-                    ]
-                }
-            )
-            obstacle_counter += 1
+        obstacle_counter += 1
 
 
-    # long side
-    # create openings long offices
-    fractions = [1./(NUM_ROOMS_LONG_SIDE)*i for i in range(NUM_ROOMS_LONG_SIDE+1)]
-    long_x_coord_list = [P1_long[0] + fr * (P2_long[0] - P1_long[0]) for fr in fractions]
 
-    for x_coord in long_x_coord_list[1:-1]:
-        office_office_line = Autodesk.Revit.DB.Line.CreateBound(
-                XYZ(x_coord, P2_long[1], ceiling),
-                XYZ(x_coord, P0_long[1], ceiling))
-        Wall.Create(DOC, office_office_line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
 
-    
-    # create openings long offices
-    for id in range(len(long_x_coord_list[:-1])):
-        x_opening = (long_x_coord_list[id+1] + long_x_coord_list[id])/2.
-        y_opening = P1_long[1]
-        z_opening = z_level
 
-        start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)
-        end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
-        origin_opening_list.append(DOC.Create.NewOpening(corr_walls[3], start_point, end_point))
 
-        y_min_var_long, y_max_var_long = min(P0_long[1], P1_long[1]), max(P0_long[1], P1_long[1])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# long side
+# create openings long offices
+fractions = [1./(NUM_ROOMS_LONG_SIDE)*i for i in range(NUM_ROOMS_LONG_SIDE+1)]
+long_x_coord_list = [P1_long[0] + fr * (P2_long[0] - P1_long[0]) for fr in fractions]
+
+for x_coord in long_x_coord_list[1:-1]:
+    office_office_line = Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(x_coord, P2_long[1], ceiling),
+            XYZ(x_coord, P0_long[1], ceiling))
+    Wall.Create(DOC, office_office_line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
+
+
+# create openings long offices
+for id in range(len(long_x_coord_list[:-1])):
+    x_opening = (long_x_coord_list[id+1] + long_x_coord_list[id])/2.
+    y_opening = P1_long[1]
+    z_opening = z_level
+
+    start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)
+    end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
+    origin_opening_list.append(DOC.Create.NewOpening(corr_walls[3], start_point, end_point))
+
+    y_min_var_long, y_max_var_long = min(P0_long[1], P1_long[1]), max(P0_long[1], P1_long[1])
+    room_dict.update({
+        'CROWDIT_ORIGIN_'+str(id+len(short_x_coord_list)-1): [
+                (convert_to_meter(long_x_coord_list[id])+0.5, convert_to_meter(y_min_var_long)+0.5),
+                (convert_to_meter(long_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_long)-0.5)
+            ]
+        }
+    )
+
+    if id > 0:
+        # obstacle: rectangle (e.g. table: 2x1 m rectangle)
+        obstacle_length = 2.
+        if y_opening < y_main_corridor:
+            y_obst_min = convert_to_meter(y_opening)+0.1
+            y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH
+        else:
+            y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH
+            y_obst_max = convert_to_meter(y_opening)-0.1
+
         room_dict.update({
-            'CROWDIT_ORIGIN_'+str(id+len(short_x_coord_list)-1): [
-                    (convert_to_meter(long_x_coord_list[id])+0.5, convert_to_meter(y_min_var_long)+0.5),
-                    (convert_to_meter(long_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_long)-0.5)
+            'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'2_1': [
+                    (convert_to_meter(long_x_coord_list[id])-obstacle_length/2., y_obst_min),
+                    (convert_to_meter(long_x_coord_list[id])+obstacle_length/2., y_obst_max)
                 ]
             }
         )
-
-        if id > 0:
-            # obstacle: rectangle (e.g. table: 2x1 m rectangle)
-            obstacle_length = 2.
-            if y_opening < y_main_corridor:
-                y_obst_min = convert_to_meter(y_opening)+0.1
-                y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH
-            else:
-                y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH
-                y_obst_max = convert_to_meter(y_opening)-0.1
-
-            room_dict.update({
-                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'2_1': [
-                        (convert_to_meter(long_x_coord_list[id])-obstacle_length/2., y_obst_min),
-                        (convert_to_meter(long_x_coord_list[id])+obstacle_length/2., y_obst_max)
-                    ]
-                }
-            )
-            obstacle_counter += 1
+        obstacle_counter += 1
 
 
-    if USE_BOTTLENECKS:
-        bottleneck_lines = [
-            Autodesk.Revit.DB.Line.CreateBound(
-                XYZ(0, bottlneck_ys[0], ceiling),
-                XYZ(x_main_corridor_start, bottlneck_ys[0], ceiling)),
-            
-            Autodesk.Revit.DB.Line.CreateBound(
-                XYZ(x_main_corridor_end, bottlneck_ys[1], ceiling),
-                XYZ(LENGTH, bottlneck_ys[1], ceiling))
-        ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+if USE_BOTTLENECKS:
+    bottleneck_lines = [
+        Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(0, bottlneck_ys[0], ceiling),
+            XYZ(x_main_corridor_start, bottlneck_ys[0], ceiling)),
         
-        bottleneck_walls = [Wall.Create(DOC, line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
-            for line in bottleneck_lines]
+        Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(x_main_corridor_end, bottlneck_ys[1], ceiling),
+            XYZ(LENGTH, bottlneck_ys[1], ceiling))
+    ]
+    
+    bottleneck_walls = [Wall.Create(DOC, line, default_interior_wall_type.Id, all_levels[0].Id, all_levels[1].Elevation - all_levels[0].Elevation, 0, False, True)
+        for line in bottleneck_lines]
 
-        # some doors
-        x_opening_1 = x_main_corridor_start/2.
-        y_opening_1 = bottlneck_ys[0]
-        z_opening_1 = z_level
+    # some doors
+    x_opening_1 = x_main_corridor_start/2.
+    y_opening_1 = bottlneck_ys[0]
+    z_opening_1 = z_level
 
-        start_point_1 = XYZ(x_opening_1-DOOR_WIDTH_H, y_opening_1-DOOR_THICKNESS_H, z_opening_1)
-        end_point_1 = XYZ(x_opening_1+DOOR_WIDTH_H, y_opening_1+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
-        opening_1 = DOC.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)
+    start_point_1 = XYZ(x_opening_1-DOOR_WIDTH_H, y_opening_1-DOOR_THICKNESS_H, z_opening_1)
+    end_point_1 = XYZ(x_opening_1+DOOR_WIDTH_H, y_opening_1+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)
+    opening_1 = DOC.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)
 
-        x_opening_2 = x_main_corridor_end + (LENGTH-x_main_corridor_end)/2.
-        y_opening_2 = bottlneck_ys[1]
-        z_opening_2 = z_level
+    x_opening_2 = x_main_corridor_end + (LENGTH-x_main_corridor_end)/2.
+    y_opening_2 = bottlneck_ys[1]
+    z_opening_2 = z_level
 
-        start_point_2 = XYZ(x_opening_2-DOOR_WIDTH_H, y_opening_2-DOOR_THICKNESS_H, z_opening_2)
-        end_point_2 = XYZ(x_opening_2+DOOR_WIDTH_H, y_opening_2+DOOR_THICKNESS_H, z_opening_2+DOOR_HEIGHT)
-        opening_2 = DOC.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)
+    start_point_2 = XYZ(x_opening_2-DOOR_WIDTH_H, y_opening_2-DOOR_THICKNESS_H, z_opening_2)
+    end_point_2 = XYZ(x_opening_2+DOOR_WIDTH_H, y_opening_2+DOOR_THICKNESS_H, z_opening_2+DOOR_HEIGHT)
+    opening_2 = DOC.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)
 
-    assert len(origin_opening_list) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN_')])
+assert len(origin_opening_list) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN_')])
     
 #-----------------------------------------------------------------------------------------------------------------#
 TransactionManager.Instance.TransactionTaskDone()

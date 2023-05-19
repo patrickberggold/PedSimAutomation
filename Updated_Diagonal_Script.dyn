@@ -246,6 +246,15 @@
           "Level": 2,
           "UseLevels": false,
           "KeepListStructure": false
+        },
+        {
+          "Id": "ef2149eca2bb4b2e8393cf986cfa0d07",
+          "Name": "IN[8]",
+          "Description": "Input #8",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
         }
       ],
       "Outputs": [
@@ -628,7 +637,7 @@
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
       "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
-      "Engine": "IronPython2",
+      "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "64dbfe001638479a97e953d0f9bb2d5a",
       "Inputs": [
@@ -669,7 +678,7 @@
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
       "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
-      "Engine": "IronPython2",
+      "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "a70f593b8c4c49f1b75c24e09faeb1fe",
       "Inputs": [
@@ -710,7 +719,7 @@
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
       "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
-      "Engine": "IronPython2",
+      "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "e2f262c3ef3f43eea9eaef9623533d27",
       "Inputs": [
@@ -972,6 +981,27 @@
       ],
       "Replication": "Auto",
       "Description": "Get the Element Id for this element\n\nElement.Id: int"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 1.0,
+      "Id": "a2efb84ec307400bba0d8147a620e7f0",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "105a115139f74666b1feae901a92dd6c",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
     }
   ],
   "Connectors": [
@@ -1139,6 +1169,11 @@
       "Start": "63f639eb23cc4daaaa614abf20f483fa",
       "End": "b32b3dd9f1e54fd7b76165ed09768e1f",
       "Id": "72c86701854941b494c25d8fce5d225a"
+    },
+    {
+      "Start": "105a115139f74666b1feae901a92dd6c",
+      "End": "ef2149eca2bb4b2e8393cf986cfa0d07",
+      "Id": "bdc1d6999c7a4d498cd4aabc15998195"
     }
   ],
   "Dependencies": [],
@@ -1238,7 +1273,7 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "parameter_prep",
+        "Name": "ParameterPrep",
         "Id": "c614db2c9b21443f815195f46e7e4358",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -1293,8 +1328,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 513.17706188892794,
-        "Y": 733.16902750166082
+        "X": 506.1933672435,
+        "Y": 773.90724626665656
       },
       {
         "ShowGeometry": true,
@@ -1303,8 +1338,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 705.9569502946033,
-        "Y": 800.245588761731
+        "X": 698.97325564917537,
+        "Y": 835.16406198887034
       },
       {
         "ShowGeometry": true,
@@ -1313,8 +1348,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 773.71075054279629,
-        "Y": 889.05800260057822
+        "X": 767.89100500493976,
+        "Y": 922.81252672014625
       },
       {
         "ShowGeometry": true,
@@ -1323,12 +1358,12 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 648.27466089411485,
-        "Y": 952.23384337254151
+        "X": 641.29096624868714,
+        "Y": 985.98836749210943
       },
       {
         "ShowGeometry": true,
-        "Name": "Create Folder",
+        "Name": "CreateFolder",
         "Id": "42e933ab5a9e45a481e1a7d936f8ec0d",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -1338,7 +1373,7 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Create Diagonal Geometry",
+        "Name": "CreateDiagonalGeometry",
         "Id": "338b29ca94854800b8e848413b7c9cc9",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -1475,11 +1510,21 @@
         "Excluded": false,
         "X": 1114.6506842634949,
         "Y": 1098.7285846288776
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "OBSTACLE_LENGTH",
+        "Id": "a2efb84ec307400bba0d8147a620e7f0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 330.99595751623906,
+        "Y": 709.88789710034587
       }
     ],
     "Annotations": [],
-    "X": 262.74987274779733,
-    "Y": 122.37414622954407,
-    "Zoom": 0.51598827783907508
+    "X": 230.85893195206461,
+    "Y": 10.327828335297568,
+    "Zoom": 0.62471782703241263
   }
 }
