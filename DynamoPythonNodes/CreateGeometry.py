@@ -415,7 +415,7 @@ USE_BOTTLENECKS = parameter_list[5]
 new_parameter_list = UnwrapElement(IN[3][2])
 DOOR_WIDTH_HALF = convert_to_revit_units(new_parameter_list[0] / 2.)
 OBSTACLE_WIDTH = new_parameter_list[1]
-OBSTACLE_LENGTH = 1.
+OBSTACLE_LENGTH = new_parameter_list[2]
 
 CREATE_MODE_ON = convert_to_bool(IN[4])
 
@@ -487,7 +487,8 @@ width_main_corridor = site_y / 2.
 x_corridor_start = 1.5 * corridor_width
 x_corridor_end = site_x - x_corridor_start
 #-----------------------------------------------------------------------------------------------------------------#
-# Create obstacles...
+# Obstacles...
+# Save obstacles in the output dict...
 obstacle_counter = 0
 
 x_min_list = [
@@ -513,6 +514,7 @@ for obstacle_index in range(len(x_min_list)) :
     obstacle_counter += 1
 #-----------------------------------------------------------------------------------------------------------------#
 # Destination areas...
+# Save destination areas in output dict...
 ## Uses the same flow as Create Obstacles
 
 destination_counter = 0
