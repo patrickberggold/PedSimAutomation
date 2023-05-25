@@ -16,14 +16,14 @@
       "MinimumValue": 5.0,
       "StepValue": 0.1,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "b946a6d5f8134cbd98d05f5965d1fa06",
       "Name": "Delete All Elements Before Each Run",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "d81e3a3ec50544a4a711c14418961e25",
@@ -34,14 +34,14 @@
       "MinimumValue": 0.0,
       "StepValue": 1.0,
       "NumberType": "Integer",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "Id": "f720c80e6f1d4f21bebdcb9555f2933e",
       "Name": "Terminus",
       "Type": "boolean",
       "Value": "false",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "3cb6533b3fa5459f9123ae291f780de2",
@@ -49,7 +49,7 @@
       "Type": "number",
       "Value": "115",
       "NumberType": "Double",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "Id": "2f3255ccafbc41a380f658fde805b3c4",
@@ -57,14 +57,14 @@
       "Type": "number",
       "Value": "10",
       "NumberType": "Double",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "Id": "7b33e5c900614f629567cf0acb30494b",
       "Name": "Standard Length",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "3949bf9b3e7a4dcfb52c38c63d41f89c",
@@ -75,14 +75,14 @@
       "MinimumValue": 1.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "2122344a6c6c4f5e900634e71d62c5eb",
       "Name": "Local Traffic",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "859c366329bb4d16875a776dac8f000a",
@@ -93,7 +93,7 @@
       "MinimumValue": 6.0,
       "StepValue": 0.5,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "04530e04386248d3a3affe3762d7660b",
@@ -104,7 +104,7 @@
       "MinimumValue": 10.0,
       "StepValue": 10.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "b420fc1637f44fc5a6fd8e9929a525df",
@@ -115,7 +115,7 @@
       "MinimumValue": 1.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "d5fd982584d446088314965fc077506a",
@@ -126,7 +126,7 @@
       "MinimumValue": 1.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "619194ee147a46bf869e3e6373ed406f",
@@ -137,7 +137,7 @@
       "MinimumValue": 5.0,
       "StepValue": 0.5,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "5f4f339b8e3e4864bf9f6a99777f8b4c",
@@ -148,14 +148,14 @@
       "MinimumValue": 3.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "e15d5903d5f94bfabbbc763e0f037f08",
       "Name": "Escalators Facing Inwards",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "31a13685283c42b9add86dd57ed46c95",
@@ -166,7 +166,7 @@
       "MinimumValue": 0.0,
       "StepValue": 1.0,
       "NumberType": "Integer",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "Id": "5d9828480221475baf6e48bad2b42525",
@@ -177,14 +177,14 @@
       "MinimumValue": 1.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "d087c5b10db143da9f71e77163911823",
       "Name": "Regional Traffic",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     }
   ],
   "Outputs": [],
@@ -208,7 +208,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Ebene im aktiven Dokument."
+      "Description": "Select a level in the active document"
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
@@ -229,7 +229,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Wandtypen."
+      "Description": "All wall types available in the document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -253,12 +253,12 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport clr\r\nimport math\r\n\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n#Import Revit Nodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\n# Length - Width - height variables\r\n\r\nlevelEG = UnwrapElement(IN[0])\r\nallElements = UnwrapElement(IN[1])\r\nisDeleteAll = IN[2]\r\n\r\ngeneralParameterList = IN[3]\r\nnumberOfLevels = generalParameterList[0]\r\ntrackLineCount = generalParameterList[1]\r\nnumberofExits = generalParameterList[2]\r\ncolumnRows = generalParameterList[3]\r\ncolumnSpacing = generalParameterList[4]\r\nwallHeight = generalParameterList[5]\r\n\r\nverticalTransportationList = IN[4]\r\nnumberOfStairs = verticalTransportationList[0]\r\nstairWidth = verticalTransportationList[1]\r\nescOrientation = verticalTransportationList[2]\r\nnumberOfEscalators = verticalTransportationList[3]\r\nescalatorWidth = verticalTransportationList[4]\r\nelevatorPosition = verticalTransportationList[5]\r\nelevatorLength = verticalTransportationList[6]\r\n\r\nclearanceVariablesList = IN[5]\r\n\r\nWidthCalcList = IN[6]\r\nplatformWidth = WidthCalcList[0]\r\nplatformHeight = WidthCalcList[1]\r\ntrafficLevel = WidthCalcList[2]\r\nregional = WidthCalcList[3]\r\nouterTrack = WidthCalcList[4]\r\ninnerTracks = WidthCalcList[5]\r\ndistTracks = WidthCalcList[6]\r\ndistTrackPlatform = WidthCalcList[7]\r\ndangerZone = WidthCalcList[8]\r\nsafetyStripPlatform = WidthCalcList[9]\r\n\r\ntopLevelList = IN[7]\r\nexitOffset = topLevelList[0]\r\nnumberOfMachines = topLevelList[1]\r\nticketXOffset = topLevelList[2]\r\n\r\ncrowditList = IN[8]\r\n\r\nlength = IN[9]\r\n\r\ntypeList = IN[10]\r\nfloorType = UnwrapElement(typeList[0])\r\nwallType = UnwrapElement(typeList[1])\r\n\r\npassengers = IN[11]\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Place your code below this line\r\nplatformCount=int(math.ceil(float(trackLineCount)/2))\r\nwallThickness= UnitUtils.ConvertFromInternalUnits(wallType.Width, DisplayUnitType.DUT_METERS)\r\n# issue resolved here: https://forum.dynamobim.com/t/display-unit-type-not-defined/83129: use UnitTypeId.Meters\r\n\r\nwidth = platformCount * platformWidth + (platformCount - 1) * (innerTracks) + wallThickness\r\nif trackLineCount %2 ==0:\r\n\twidth += 2 * outerTrack\r\nelse:\r\n\twidth += outerTrack\r\n\r\nyAxisList = []\r\nrevitApiYAxisList = []\r\nfor indexY in range(platformCount):\r\n\tyAxis = (indexY * platformWidth) + outerTrack + wallThickness/2 + indexY * innerTracks\r\n\tyAxisList.append(yAxis)\r\n\trevitApiYAxisList.append(UnitUtils.ConvertToInternalUnits(yAxis, DisplayUnitType.DUT_METERS))\r\n\r\nescalatorLength = (wallHeight * 1.732050808) + 3.5 + 2.950 +0.4 #Family specific\r\n\r\n# Revit Api Unit Type Conversion\r\nrevitApiLength = UnitUtils.ConvertToInternalUnits(length, DisplayUnitType.DUT_METERS)\r\nrevitApiWidth = UnitUtils.ConvertToInternalUnits(width, DisplayUnitType.DUT_METERS)\r\nrevitApiWallHeight = UnitUtils.ConvertToInternalUnits(wallHeight, DisplayUnitType.DUT_METERS)\r\nrevitApiPlatformHeight = UnitUtils.ConvertToInternalUnits(platformHeight, DisplayUnitType.DUT_METERS)\r\nrevitApiPlatformWidth = UnitUtils.ConvertToInternalUnits(platformWidth, DisplayUnitType.DUT_METERS)\r\nrevitApiStairWidth = UnitUtils.ConvertToInternalUnits(stairWidth, DisplayUnitType.DUT_METERS)\r\nrevitApiEscalatorWidth = UnitUtils.ConvertToInternalUnits(escalatorWidth, DisplayUnitType.DUT_METERS)\r\nrevitApiEscalatorLength = UnitUtils.ConvertToInternalUnits(escalatorLength, DisplayUnitType.DUT_METERS)\r\nrevitApiElevatorLength = UnitUtils.ConvertToInternalUnits(elevatorLength, DisplayUnitType.DUT_METERS)\r\n\r\n#OUT OF ORDER Stair width calculation\r\n\t# set variables dependant on traffic Level\r\n\t#if trafficLevel == 1:\r\n\t#\tv = 1.3 # [m/s]\r\n\t#\tif regional:\r\n\t#\t\td = 0.5 # [p/m^2]\r\n\t#\telse: \r\n\t#\t\td = 0.3\r\n\t#elif trafficLevel == 2:\r\n\t#\tv = 1.3\r\n\t#\tif regional:\r\n\t#\t\td = 1\r\n\t#\telse: \r\n\t#\t\td = 0.8\r\n\t#elif trafficLevel == 3:\r\n\t#\tv = 1.3\r\n\t#\td = 1\r\n\t#clearanceTime = 150 # [s]\r\n\t#stairWidth = passengers/(v * d * clearanceTime) + 0.8 # 813.0202A01 p.1\r\n\t# set the width to a standard value \r\n\t#if stairWidth < 0.8:\r\n\t#\tstairWidth = 0.8\r\n\t#elif stairWidth < 1.6:\r\n\t#\tstairWidth = 1.6\r\n\t#elif stairWidth < 2.4:\r\n\r\n#Start Transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Before Run delete everything for the first time Revit Opened \r\nlevelArr = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Levels).WhereElementIsNotElementType().ToElements()\r\nviewArr = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views).ToElements()\r\n\r\nfor view in viewArr:\r\n\tif view.Name != IN[12].Name and view.ViewType == ViewType.FloorPlan:\r\n\t\tprint (view.Title.ToString(), view.Id.ToString(), view.Name.ToString())\r\n\t\tdoc.Delete(view.Id)\r\n\t\t\r\nif levelArr.Count >= 1:\r\n\tfor levelElem in levelArr:\r\n\t\tif round(levelElem.Elevation,2) == 0.0:\r\n\t\t\tcontinue\r\n\t\tdoc.Delete(levelElem.Id)\r\n\t\t#doc.Regenerate()\r\nif isDeleteAll:\r\n\tfor el in range(len(allElements)-1, -1, -1):\r\n\t\tdoc.Delete(allElements[el].Id)\r\n\t\tdoc.Regenerate()\r\n\r\n# Create Walls based on sizes\r\npoint1 = XYZ(0, 0, 0)\r\npoint2 = XYZ(revitApiLength, 0, 0)\r\npoint3 = XYZ(revitApiLength, revitApiWidth, 0)\r\npoint4 = XYZ(0, revitApiWidth, 0)\r\n\r\n# Create 4 Line/Curve for 4 Walls\r\nline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\nline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\nline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\nline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\nwall1 = Autodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall2 = Autodesk.Revit.DB.Wall.Create(doc, line2, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall3 = Autodesk.Revit.DB.Wall.Create(doc, line3, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall4 = Autodesk.Revit.DB.Wall.Create(doc, line4, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwallList = [wall1, wall2, wall3, wall4]\r\n\r\n# Base Level Floor creation\r\nfloorList = []\r\ncarray = CurveArray()\r\ncarray.Append(line1)\r\ncarray.Append(line2)\r\ncarray.Append(line3)\r\ncarray.Append(line4)\r\nfloor = doc.Create.NewFloor(carray, floorType, levelEG, False)\r\nfloor.GetParameters(\"Height Offset From Level\")[0].Set(-revitApiPlatformHeight)\r\nfloorList.append(floor)\r\n\r\n# Upper Level and their Floor creation based on numberOfLevels arg\r\nlevelList = []\r\nlevelList.append(levelEG)\r\nif numberOfLevels > 1:\r\n\tfor levelNumber in range(1, numberOfLevels):\r\n\t\tnewLevel = Autodesk.Revit.DB.Level.Create(doc, levelNumber * revitApiWallHeight)\r\n\t\tlevelList.append(newLevel)\r\n\t\tlineF1 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point1.X, point1.Y, levelNumber*revitApiWallHeight), XYZ(point2.X, point2.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF2 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point2.X, point2.Y, levelNumber*revitApiWallHeight), XYZ(point3.X, point3.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF3 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point3.X, point3.Y, levelNumber*revitApiWallHeight), XYZ(point4.X, point4.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF4 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point4.X, point4.Y, levelNumber*revitApiWallHeight), XYZ(point1.X, point1.Y, levelNumber*revitApiWallHeight))\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(lineF1)\r\n\t\tcarray.Append(lineF2)\r\n\t\tcarray.Append(lineF3)\r\n\t\tcarray.Append(lineF4)\r\n\t\tnewFloor = doc.Create.NewFloor(carray, floorType, newLevel, False)\r\n\t\tfloorList.append(newFloor)\r\n\t\t\r\n\tlevelNumber += 1\r\n\tnewLevel = Autodesk.Revit.DB.Level.Create(doc, (levelNumber - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, DisplayUnitType.DUT_METERS))\r\n\tlevelList.append(newLevel)\r\n\r\nbaseValueList = [length, width, platformHeight, platformWidth, wallHeight, wallThickness, trackLineCount, platformCount, columnRows, columnSpacing, numberOfLevels]\r\nrevitApiBaseList = [revitApiLength, revitApiWidth, revitApiPlatformHeight, revitApiPlatformWidth, revitApiWallHeight, revitApiStairWidth, revitApiEscalatorWidth, revitApiEscalatorLength, revitApiElevatorLength]\r\nelevationList = [numberOfEscalators, numberOfStairs, escOrientation, elevatorPosition, elevatorLength, escalatorLength, escalatorWidth, stairWidth]\r\nlistList = [levelList, floorList, wallList, yAxisList, revitApiYAxisList, clearanceVariablesList]\r\nupperLevelList = [exitOffset, ticketXOffset, numberOfMachines, numberofExits]\r\ntrackDataList = [distTracks, distTrackPlatform, outerTrack, innerTracks, dangerZone, safetyStripPlatform]\r\n#End Transaction\r\nTransactionManager.Instance.TransactionTaskDone()\r\n# Assign your output to the OUT variable.\r\nOUT = [baseValueList, revitApiBaseList, elevationList, listList, upperLevelList, trackDataList, typeList, crowditList]\r\n",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport clr\r\nimport math\r\n\r\nfrom System.Collections.Generic import List\r\n\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n#Import Revit Nodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\n# Length - Width - height variables\r\n\r\nlevelEG = UnwrapElement(IN[0])\r\nallElements = UnwrapElement(IN[1])\r\nisDeleteAll = IN[2]\r\n\r\ngeneralParameterList = IN[3]\r\nnumberOfLevels = generalParameterList[0]\r\ntrackLineCount = generalParameterList[1]\r\nnumberofExits = generalParameterList[2]\r\ncolumnRows = generalParameterList[3]\r\ncolumnSpacing = generalParameterList[4]\r\nwallHeight = generalParameterList[5]\r\n\r\nverticalTransportationList = IN[4]\r\nnumberOfStairs = verticalTransportationList[0]\r\nstairWidth = verticalTransportationList[1]\r\nescOrientation = verticalTransportationList[2]\r\nnumberOfEscalators = verticalTransportationList[3]\r\nescalatorWidth = verticalTransportationList[4]\r\nelevatorPosition = verticalTransportationList[5]\r\nelevatorLength = verticalTransportationList[6]\r\n\r\nclearanceVariablesList = IN[5]\r\n\r\nWidthCalcList = IN[6]\r\nplatformWidth = WidthCalcList[0]\r\nplatformHeight = WidthCalcList[1]\r\ntrafficLevel = WidthCalcList[2]\r\nregional = WidthCalcList[3]\r\nouterTrack = WidthCalcList[4]\r\ninnerTracks = WidthCalcList[5]\r\ndistTracks = WidthCalcList[6]\r\ndistTrackPlatform = WidthCalcList[7]\r\ndangerZone = WidthCalcList[8]\r\nsafetyStripPlatform = WidthCalcList[9]\r\n\r\ntopLevelList = IN[7]\r\nexitOffset = topLevelList[0]\r\nnumberOfMachines = topLevelList[1]\r\nticketXOffset = topLevelList[2]\r\n\r\ncrowditList = IN[8]\r\n\r\nlength = IN[9]\r\n\r\ntypeList = IN[10]\r\nfloorType = UnwrapElement(typeList[0])\r\nwallType = UnwrapElement(typeList[1])\r\n\r\npassengers = IN[11]\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Place your code below this line\r\nplatformCount=int(math.ceil(float(trackLineCount)/2))\r\n#wallThickness= UnitUtils.ConvertFromInternalUnits(wallType.Width, DisplayUnitType.DUT_METERS)\r\nwallThickness = UnitUtils.ConvertFromInternalUnits(wallType.Width , UnitTypeId.Meters) \r\n# issue resolved here: https://forum.dynamobim.com/t/display-unit-type-not-defined/83129: use UnitTypeId.Meters\r\n\r\nwidth = platformCount * platformWidth + (platformCount - 1) * (innerTracks) + wallThickness\r\nif trackLineCount %2 ==0:\r\n\twidth += 2 * outerTrack\r\nelse:\r\n\twidth += outerTrack\r\n\r\nyAxisList = []\r\nrevitApiYAxisList = []\r\nfor indexY in range(platformCount):\r\n\tyAxis = (indexY * platformWidth) + outerTrack + wallThickness/2 + indexY * innerTracks\r\n\tyAxisList.append(yAxis)\r\n\t#revitApiYAxisList.append(UnitUtils.ConvertToInternalUnits(yAxis, DisplayUnitType.DUT_METERS))\r\n\trevitApiYAxisList.append(UnitUtils.ConvertFromInternalUnits(yAxis , UnitTypeId.Meters))\r\n\r\nescalatorLength = (wallHeight * 1.732050808) + 3.5 + 2.950 +0.4 #Family specific\r\n\r\n# Revit Api Unit Type Conversion\r\nrevitApiLength = UnitUtils.ConvertToInternalUnits(length, UnitTypeId.Meters)\r\nrevitApiWidth = UnitUtils.ConvertToInternalUnits(width, UnitTypeId.Meters)\r\nrevitApiWallHeight = UnitUtils.ConvertToInternalUnits(wallHeight, UnitTypeId.Meters)\r\nrevitApiPlatformHeight = UnitUtils.ConvertToInternalUnits(platformHeight, UnitTypeId.Meters)\r\nrevitApiPlatformWidth = UnitUtils.ConvertToInternalUnits(platformWidth, UnitTypeId.Meters)\r\nrevitApiStairWidth = UnitUtils.ConvertToInternalUnits(stairWidth, UnitTypeId.Meters)\r\nrevitApiEscalatorWidth = UnitUtils.ConvertToInternalUnits(escalatorWidth, UnitTypeId.Meters)\r\nrevitApiEscalatorLength = UnitUtils.ConvertToInternalUnits(escalatorLength, UnitTypeId.Meters)\r\nrevitApiElevatorLength = UnitUtils.ConvertToInternalUnits(elevatorLength, UnitTypeId.Meters)\r\n\r\n#OUT OF ORDER Stair width calculation\r\n\t# set variables dependant on traffic Level\r\n\t#if trafficLevel == 1:\r\n\t#\tv = 1.3 # [m/s]\r\n\t#\tif regional:\r\n\t#\t\td = 0.5 # [p/m^2]\r\n\t#\telse: \r\n\t#\t\td = 0.3\r\n\t#elif trafficLevel == 2:\r\n\t#\tv = 1.3\r\n\t#\tif regional:\r\n\t#\t\td = 1\r\n\t#\telse: \r\n\t#\t\td = 0.8\r\n\t#elif trafficLevel == 3:\r\n\t#\tv = 1.3\r\n\t#\td = 1\r\n\t#clearanceTime = 150 # [s]\r\n\t#stairWidth = passengers/(v * d * clearanceTime) + 0.8 # 813.0202A01 p.1\r\n\t# set the width to a standard value \r\n\t#if stairWidth < 0.8:\r\n\t#\tstairWidth = 0.8\r\n\t#elif stairWidth < 1.6:\r\n\t#\tstairWidth = 1.6\r\n\t#elif stairWidth < 2.4:\r\n\r\n#Start Transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Before Run delete everything for the first time Revit Opened \r\nlevelArr = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Levels).WhereElementIsNotElementType().ToElements()\r\nviewArr = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views).ToElements()\r\n\r\nfor view in viewArr:\r\n\tif view.Name != IN[12].Name and view.ViewType == ViewType.FloorPlan:\r\n\t\tprint (view.Title.ToString(), view.Id.ToString(), view.Name.ToString())\r\n\t\tdoc.Delete(view.Id)\r\n\t\t\r\nif levelArr.Count >= 1:\r\n\tfor levelElem in levelArr:\r\n\t\tif round(levelElem.Elevation,2) == 0.0:\r\n\t\t\tcontinue\r\n\t\tdoc.Delete(levelElem.Id)\r\n\t\t#doc.Regenerate()\r\nif isDeleteAll:\r\n\tfor el in range(len(allElements)-1, -1, -1):\r\n\t\tdoc.Delete(allElements[el].Id)\r\n\t\tdoc.Regenerate()\r\n\r\n# Create Walls based on sizes\r\npoint1 = XYZ(0, 0, 0)\r\npoint2 = XYZ(revitApiLength, 0, 0)\r\npoint3 = XYZ(revitApiLength, revitApiWidth, 0)\r\npoint4 = XYZ(0, revitApiWidth, 0)\r\n\r\n# Create 4 Line/Curve for 4 Walls\r\nline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\nline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\nline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\nline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\nwall1 = Autodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall2 = Autodesk.Revit.DB.Wall.Create(doc, line2, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall3 = Autodesk.Revit.DB.Wall.Create(doc, line3, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwall4 = Autodesk.Revit.DB.Wall.Create(doc, line4, wallType.Id, levelEG.Id, numberOfLevels * revitApiWallHeight, -revitApiPlatformHeight, False, False)\r\nwallList = [wall1, wall2, wall3, wall4]\r\n\r\n# Base Level Floor creation\r\nfloorList = []\r\ncarray = CurveArray()\r\ncarray.Append(line1)\r\ncarray.Append(line2)\r\ncarray.Append(line3)\r\ncarray.Append(line4)\r\nfloor = doc.Create.NewFloor(carray, floorType, levelEG, False)\r\nfloor.GetParameters(\"Height Offset From Level\")[0].Set(-revitApiPlatformHeight)\r\nfloorList.append(floor)\r\n\r\n# Upper Level and their Floor creation based on numberOfLevels arg\r\nlevelList = []\r\nlevelList.append(levelEG)\r\nif numberOfLevels > 1:\r\n\tfor levelNumber in range(1, numberOfLevels):\r\n\t\tnewLevel = Autodesk.Revit.DB.Level.Create(doc, levelNumber * revitApiWallHeight)\r\n\t\tlevelList.append(newLevel)\r\n\t\tlineF1 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point1.X, point1.Y, levelNumber*revitApiWallHeight), XYZ(point2.X, point2.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF2 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point2.X, point2.Y, levelNumber*revitApiWallHeight), XYZ(point3.X, point3.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF3 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point3.X, point3.Y, levelNumber*revitApiWallHeight), XYZ(point4.X, point4.Y, levelNumber*revitApiWallHeight))\r\n\t\tlineF4 = Autodesk.Revit.DB.Line.CreateBound(XYZ(point4.X, point4.Y, levelNumber*revitApiWallHeight), XYZ(point1.X, point1.Y, levelNumber*revitApiWallHeight))\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(lineF1)\r\n\t\tcarray.Append(lineF2)\r\n\t\tcarray.Append(lineF3)\r\n\t\tcarray.Append(lineF4)\r\n\t\tnewFloor = doc.Create.NewFloor(carray, floorType, newLevel, False)\r\n\t\tfloorList.append(newFloor)\r\n\t\t\r\n\tlevelNumber += 1\r\n\tnewLevel = Autodesk.Revit.DB.Level.Create(doc, (levelNumber - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, UnitTypeId.Meters))\r\n\tlevelList.append(newLevel)\r\n\r\nbaseValueList = [length, width, platformHeight, platformWidth, wallHeight, wallThickness, trackLineCount, platformCount, columnRows, columnSpacing, numberOfLevels]\r\nrevitApiBaseList = [revitApiLength, revitApiWidth, revitApiPlatformHeight, revitApiPlatformWidth, revitApiWallHeight, revitApiStairWidth, revitApiEscalatorWidth, revitApiEscalatorLength, revitApiElevatorLength]\r\nelevationList = [numberOfEscalators, numberOfStairs, escOrientation, elevatorPosition, elevatorLength, escalatorLength, escalatorWidth, stairWidth]\r\nlistList = [levelList, floorList, wallList, yAxisList, revitApiYAxisList, clearanceVariablesList]\r\nupperLevelList = [exitOffset, ticketXOffset, numberOfMachines, numberofExits]\r\ntrackDataList = [distTracks, distTrackPlatform, outerTrack, innerTracks, dangerZone, safetyStripPlatform]\r\n#End Transaction\r\nTransactionManager.Instance.TransactionTaskDone()\r\n# Assign your output to the OUT variable.\r\nOUT = [baseValueList, revitApiBaseList, elevationList, listList, upperLevelList, trackDataList, typeList, crowditList]\r\n",
       "Engine": "IronPython2",
       "VariableInputPorts": true,
       "Id": "b94ab649f1304a028e41b8d07f94707c",
@@ -393,7 +393,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "DSRevitNodesUI.StructuralColumnTypes, DSRevitNodesUI",
@@ -414,7 +414,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie einen Tragwerksstützentyp im aktiven Dokument."
+      "Description": "Select a structural column type in the active document"
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -435,7 +435,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.ElementsAtLevel, DSRevitNodesUI",
@@ -464,7 +464,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ruft alle Elemente auf der angegebenen Ebene aus dem Modell ab."
+      "Description": "Get all the elements at the specified Level from the model."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -484,7 +484,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -508,7 +508,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -529,7 +529,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
@@ -550,12 +550,12 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Geschossdeckentypen."
+      "Description": "All floor types available in the document."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport clr\r\nimport math\r\nfrom math import ceil\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n#Import Revit Nodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# Function to rotate a family instance around the z-axis\r\ndef ZRotateInstance(angle, instance, point):\r\n\tpoint2 = XYZ(point.X, point.Y, point.Z+10)\r\n\trotationLine = Line.CreateBound(point, point2)\r\n\trotated = instance.Location.Rotate(rotationLine, angle)\r\n\r\n# The inputs to this node are stored as a list in the IN variables.\r\n# Length - Width - height variables\r\nbaseValueList = IN[0][0]\r\nlength= baseValueList[0]\r\nplatformWidth = baseValueList[3]\r\nwallThickness = baseValueList[5]\r\ntrackLineCount = baseValueList[6]\r\nplatformCount = baseValueList[7]\r\ncolumnRows = baseValueList[8]\r\ncolumnSpacing = baseValueList[9]\r\nnumberOfLevels = baseValueList[10]\r\n\r\nrevitApiBaseList = IN[0][1]\r\nrevitApiLength = revitApiBaseList[0]\r\nrevitApiWidth = revitApiBaseList[1]\r\nrevitApiPlatformHeight = revitApiBaseList[2]\r\nrevitApiPlatformWidth = revitApiBaseList[3]\r\nrevitApiWallHeight = revitApiBaseList[4]\r\nrevitApiStairWidth = revitApiBaseList[5]\r\nrevitApiEscalatorWidth = revitApiBaseList[6]\r\nrevitApiEscalatorLength = revitApiBaseList[7]\r\nrevitApiElevatorLength = revitApiBaseList[8]\r\n\r\nelevationList = IN[0][2]\r\nnumberOfEscalators = elevationList[0]\r\nnumberOfStairs = elevationList[1]\r\nescOrientation = elevationList[2]\r\nelevatorPosition = elevationList[3]\r\nelevatorLength = elevationList[4]\r\nescalatorLength = elevationList[5]\r\nescalatorWidth = elevationList[6]  \r\nstairWidth = elevationList[7]\r\n\r\nlistList = IN[0][3]\r\nlevelEG = UnwrapElement(listList[0][0])\r\nlevelList = UnwrapElement(listList[0])\r\nfloorList = UnwrapElement(listList[1])\r\nwallList = listList[2]\r\nyAxisList = listList[3]\r\nrevitApiYAxisList = listList[4]\r\nclearanceVariablesList = listList[5]\r\n\r\nupperLevelList = IN[0][4]\r\nexitXOffset = upperLevelList[0]\r\nticketXOffset = upperLevelList[1]\r\nnrOfMachines = upperLevelList[2]\r\nnumberOfExits = upperLevelList[3]\r\n\r\ntrackDataList = IN[0][5]\r\ndistTracks = trackDataList[0]\r\ndistTrackPlatform = trackDataList[1]\r\ninnerTracks = trackDataList[3]\r\nsafetyStripWidth = trackDataList[5]\r\n\r\ntypeList = IN[0][6]\r\nfloorType = UnwrapElement(typeList[0])\r\nwallType = UnwrapElement(typeList[1])\r\ncolumnType = UnwrapElement(typeList[2])\r\nstairType = UnwrapElement(typeList[3])\r\nescalatorType = UnwrapElement(typeList[4])\r\ntrainType = UnwrapElement(typeList[5])\r\ntrainWallType = UnwrapElement(typeList[6])\r\natmType = UnwrapElement(typeList[7])\r\nticketType = UnwrapElement(typeList[8])\r\nstoreType = UnwrapElement(typeList[9])\r\nvalidatorType = UnwrapElement(typeList[10])\r\n\r\nnumberOfAgents = IN[0][7][0]\r\ntreadWidth = IN[0][7][1]\r\n\r\nescExitClearance = clearanceVariablesList[0]\t\t#[m] DIN EN 115-1 \r\nstairExitClearance = clearanceVariablesList[1]\t\t#[m] Ril.813.0202 5(5)\r\nelevatorExitClearance = clearanceVariablesList[2]\t#[m] Ril.813.0202 7(5)\r\nminPathWidth = clearanceVariablesList[3]\t\t\t#[m] Ril.813.0202 4(3)\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n#Start Transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Place your code below this line\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Track Lines\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\ntrainList = []\r\ntrainPartLength = UnitUtils.ConvertFromInternalUnits(trainType.LookupParameter(\"length\").AsDouble(), DisplayUnitType.DUT_METERS)+0.5 #0.5 for Distance between waggons\r\nrotationAngle = math.pi\r\n\r\n#calculate waggon count\r\ntrainPartCount = int(length / trainPartLength)\r\ntrainLength = trainPartCount * trainPartLength\r\n\r\nif length - 1 <= trainLength:\r\n\ttrainPartCount -= 1\r\n\ttrainLength = trainPartCount * trainPartLength\r\n\t\r\nplacementMargin = (length - trainLength) / 2\r\n\r\n# Track line Y Axis Coordinates Calculation\r\nyAxisOfTrackLineCoordinateList = []\r\nfor indexY in range( platformCount):\r\n\tyAxis = yAxisList[indexY] - min(indexY,1)*distTracks\r\n\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\tif indexY > 0 :\r\n\t\tsecondMiddleTrack = yAxis + distTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(secondMiddleTrack)\r\n\t\tyAxisWall = secondMiddleTrack - innerTracks/2\r\n\t\trevitApiYAxisWall = UnitUtils.ConvertToInternalUnits(yAxisWall, DisplayUnitType.DUT_METERS)\r\n\t\trevitApiInterWallHeight = UnitUtils.ConvertToInternalUnits(1.5, DisplayUnitType.DUT_METERS)\r\n\t\tpoint1 = XYZ(0, revitApiYAxisWall, 0)\r\n\t\tpoint2 = XYZ(revitApiLength, revitApiYAxisWall, 0)\r\n\t\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\t\tAutodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelEG.Id, revitApiInterWallHeight, -revitApiPlatformHeight, False, False)\r\nif trackLineCount%2 == 0:\r\n\tif trackLineCount == 2:\r\n\t\tyAxis =  yAxis + platformWidth + innerTracks - distTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\telse:\r\n\t\tyAxis =  yAxis + platformWidth + innerTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\r\ncounter = 0\r\n# Track Line Creation\r\nfor yAxis in yAxisOfTrackLineCoordinateList:\t\r\n\ttrainYAxis = UnitUtils.ConvertToInternalUnits(yAxis, DisplayUnitType.DUT_METERS) \r\n\t\r\n\tfor index in range(1,trainPartCount+1,1): \r\n\t\txAxis = index * trainPartLength - trainPartLength + placementMargin\r\n\t\trevitApiXAxis = UnitUtils.ConvertToInternalUnits(xAxis, DisplayUnitType.DUT_METERS)\r\n\t\t# Train Creation\r\n\t\ttrainPoint = XYZ(revitApiXAxis, trainYAxis + UnitUtils.ConvertToInternalUnits(-distTrackPlatform, DisplayUnitType.DUT_METERS), -revitApiPlatformHeight)\r\n\t\t\r\n\t\ttrain = doc.Create.NewFamilyInstance(trainPoint, trainType, levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\ttrain.LookupParameter(\"accu_rate_type\").Set(\"Origin\")\r\n\t\ttrain.LookupParameter(\"Number_Of_Agents\").Set(numberOfAgents)\r\n\t\t\t\r\n\t\ttrainWall = doc.Create.NewFamilyInstance(trainPoint, trainWallType, levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\ttrainWall.LookupParameter(\"IfcExportAs\").Set(\"IfcWall\")\r\n\t\t\r\n\t\tif counter%2 == 0:\r\n\t\t\trotationTrainPoint = XYZ(revitApiXAxis + UnitUtils.ConvertToInternalUnits(trainPartLength/2, DisplayUnitType.DUT_METERS), trainYAxis + UnitUtils.ConvertToInternalUnits(-distTrackPlatform, DisplayUnitType.DUT_METERS), 0)\r\n\t\t\tZRotateInstance(rotationAngle, train,  rotationTrainPoint)\r\n\t\t\tZRotateInstance(rotationAngle, trainWall, rotationTrainPoint)\r\n\t\twrapTrain = train.ToDSType(False)\t\t\t\r\n\t\ttrainList.append(wrapTrain)\r\n\tcounter = counter + 1\t\r\n\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Platforms\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nfor yAxis in revitApiYAxisList:\r\n\tpoint1 = XYZ(0, yAxis, 0)\r\n\tpoint2 = XYZ(revitApiLength, yAxis, 0)\r\n\tpoint3 = XYZ(revitApiLength, yAxis + revitApiPlatformWidth, 0)\r\n\tpoint4 = XYZ(0, yAxis + revitApiPlatformWidth, 0)\r\n\t\r\n\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\tline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\n\tline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\tline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\n\t\r\n\tcarray = CurveArray()\r\n\tcarray.Append(line1)\r\n\tcarray.Append(line2)\r\n\tcarray.Append(line3)\r\n\tcarray.Append(line4)\r\n\tfloor = doc.Create.NewFloor(carray, floorType, levelEG, False)\r\n\tfloor.GetParameters(\"Height Offset From Level\")[0].Set(0)\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Elevators and Stairs\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nescalatorList = []\r\nholeList = []\r\n#Offset to yAxis\r\nminDistToEdge = (platformWidth - escalatorWidth * numberOfEscalators - stairWidth * numberOfStairs)/2 #assures centered placement if ElevatorWidth was the decisive size after guidelines\r\n\r\n#xAxis Centered\r\nxAxisCenter = length/2\r\n\r\n# Parameters for lower escalator positioning (dependant on elevator position)\r\nif elevatorPosition == 1: \t#left\r\n\txAxisEscalator =  minPathWidth + escExitClearance + wallThickness/2# +- for both sides; Wallthickness/2 because it referrs to wall axis\r\n\txAxisCenter += elevatorLength\r\n\toccupiedXSpaceElevator = (0,elevatorLength + elevatorExitClearance + wallThickness/2)\r\nelif elevatorPosition == 2:\t#middle\r\n\txAxisEscalator = elevatorLength/2 + elevatorExitClearance + minPathWidth + escExitClearance + wallThickness/2 # +- for both sides\r\n\toccupiedXSpaceElevator = (xAxisCenter - elevatorLength/2 - elevatorExitClearance - minPathWidth, xAxisCenter + elevatorLength/2 + elevatorExitClearance + minPathWidth)\r\nelif elevatorPosition == 3:\t#right\r\n\txAxisEscalator =  minPathWidth + escExitClearance + wallThickness/2\r\n\txAxisCenter -= elevatorLength\t\r\n\toccupiedXSpaceElevator = (length - elevatorLength - elevatorExitClearance - wallThickness/2, length)\t\r\n\r\n# Parameters dependant on escalator orientation (True: Facing Inwards; False: Outwards)\r\nif escOrientation:\r\n\trevitApiOrientationOffsetLeft = 0\r\n\trevitApiOrientationOffsetRight = revitApiEscalatorWidth\r\n\trotationAngle = 0\r\n\twallOrientation = 1\r\nelse:\r\n\trevitApiOrientationOffsetLeft = revitApiEscalatorWidth\r\n\trevitApiOrientationOffsetRight = 0\r\n\trotationAngle = math.pi\r\n\twallOrientation = -1\r\n\txAxisEscalator += escalatorLength \r\n\r\nrevitApiEscalatorXStartRight = UnitUtils.ConvertToInternalUnits(xAxisCenter + xAxisEscalator, DisplayUnitType.DUT_METERS)\r\nrevitApiEscalatorXStartLeft  = UnitUtils.ConvertToInternalUnits(xAxisCenter - xAxisEscalator, DisplayUnitType.DUT_METERS)\r\n\r\n# Placements\r\nfor yIndex in range(platformCount):\r\n\tyAxis = yAxisList[yIndex] # Bottom Edge of the Platform #PlatformyAxis\r\n\tescalatorYStart = yAxis+ minDistToEdge \t\t\t\t\t\t \r\n\trevitApiEscalatorYStart = UnitUtils.ConvertToInternalUnits(escalatorYStart, DisplayUnitType.DUT_METERS)\r\n\t\r\n# Elevators\r\n\t# Start is bottom left point\r\n\tif elevatorPosition == 1:\r\n\t\trevitApiElevatorXStart = 0\t\r\n\telif elevatorPosition == 2:\r\n\t\trevitApiElevatorXStart = revitApiLength/2 - revitApiElevatorLength/2\r\n\telif elevatorPosition == 3: \r\n\t\trevitApiElevatorXStart = revitApiLength - revitApiElevatorLength\r\n\t\t\t\t\r\n\t# place the elevator in the middle of the platform\r\n\trevitApiDistanceToPlatformAxis = (revitApiPlatformWidth - revitApiElevatorLength)/2\t\t\t\t\t\t\t\t\t\t\r\n\trevitApiElevatorYStart = UnitUtils.ConvertToInternalUnits(yAxis, DisplayUnitType.DUT_METERS) + revitApiDistanceToPlatformAxis\r\n\t\t\t\r\n\t# Create Elevator walls \r\n\tpoint1 = XYZ(revitApiElevatorXStart, revitApiElevatorYStart, 0)\r\n\tpoint2 = XYZ(revitApiElevatorXStart + revitApiElevatorLength, revitApiElevatorYStart, 0)\r\n\tpoint3 = XYZ(revitApiElevatorXStart, revitApiElevatorYStart + revitApiElevatorLength, 0)\r\n\tpoint4 = XYZ(revitApiElevatorXStart + revitApiElevatorLength, revitApiElevatorYStart + revitApiElevatorLength, 0)\r\n\t\r\n\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\tline2 = Autodesk.Revit.DB.Line.CreateBound(point1, point3)\r\n\tline3 = Autodesk.Revit.DB.Line.CreateBound(point2, point4)\r\n\tline4 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\t\r\n\twall1 = Autodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall2 = Autodesk.Revit.DB.Wall.Create(doc, line2, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall3 = Autodesk.Revit.DB.Wall.Create(doc, line3, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall4 = Autodesk.Revit.DB.Wall.Create(doc, line4, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\r\n\t#Opening\r\n\tif numberOfLevels > 1:\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(line1)\r\n\t\tcarray.Append(line2)\r\n\t\tcarray.Append(line3)\r\n\t\tcarray.Append(line4)\t\r\n\tfor level in range(1, numberOfLevels):\r\n\t\topening = doc.Create.NewOpening(floorList[level], carray, False)\r\n\t\r\n#Escalators\r\n\tfor level in range(0,numberOfLevels - 1):\r\n\t\tfor number in range(0, numberOfEscalators):\r\n\t\t\t#left\r\n\t\t\tescPoint = XYZ(revitApiEscalatorXStartLeft ,revitApiEscalatorYStart + revitApiOrientationOffsetLeft , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\tescalator = doc.Create.NewFamilyInstance(escPoint, escalatorType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tescalatorList.append(escalator)\r\n\t\t\tZRotateInstance((math.pi/2) + rotationAngle, escalator, escPoint)\r\n\t\t\t\r\n\t\t\t#right\r\n\t\t\tescPoint = XYZ(revitApiEscalatorXStartRight ,revitApiEscalatorYStart + revitApiOrientationOffsetRight , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\tescalator = doc.Create.NewFamilyInstance(escPoint, escalatorType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tescalatorList.append(escalator)\r\n\t\t\tZRotateInstance((-math.pi/2) + rotationAngle, escalator, escPoint)\r\n\t\t\t\r\n\t\t\t#offset for next iteration\r\n\t\t\trevitApiEscalatorYStart += revitApiEscalatorWidth\r\n\t\r\n\t\t\t#Stairs\r\n\t\t\tif (number == numberOfEscalators - 1) and (numberOfStairs > 0):\t\t\r\n\t\t\t\t#left\r\n\t\t\t\tstairPoint = XYZ(revitApiEscalatorXStartLeft, revitApiEscalatorYStart + revitApiStairWidth /2 , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\t\tstairs.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\t\t\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\t\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\t\t\t\tZRotateInstance(math.pi*2.5 + rotationAngle, stairs, stairPoint)\r\n\t\t\t\tdelta = revitApiEscalatorLength - stairs.LookupParameter(\"Run Length\").AsDouble()\r\n\t\t\t\tElementTransformUtils.MoveElement(doc, stairs.Id, XYZ(-delta * wallOrientation, 0 , 0))\t\t\t\r\n\t\t\t\t#right\r\n\t\t\t\tstairPoint = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, revitApiEscalatorYStart + revitApiStairWidth /2 , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\t\tstairs.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\t\t\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\t\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\t\t\t\tZRotateInstance(math.pi*1.5 + rotationAngle, stairs, stairPoint)\r\n\t\t\telse:\r\n\t\t\t\tdelta = 0\r\n\r\n\t\trevitApiEscalatorYStart -= revitApiEscalatorWidth*numberOfEscalators\t\r\n\t\t\r\n\t#Holes for the Escalators\r\n\tfor level in range(1, numberOfLevels):\r\n\t\tholeYStart = revitApiEscalatorYStart \r\n\t\tholeYEnd = revitApiEscalatorYStart + numberOfEscalators * revitApiEscalatorWidth + numberOfStairs * revitApiStairWidth\r\n\t\tif level == numberOfLevels -1:\r\n\t\t\tnumberOfStairs2 = 0\r\n\t\t\tdelta = 0\r\n\t\telse:\r\n\t\t\tnumberOfStairs2 = numberOfStairs\r\n\t\t#left\r\n\t\tholePoint1 = XYZ(revitApiEscalatorXStartLeft, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint2 = XYZ(revitApiEscalatorXStartLeft - revitApiEscalatorLength * wallOrientation, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint3 = XYZ(revitApiEscalatorXStartLeft - revitApiEscalatorLength * wallOrientation, holeYEnd , level * revitApiWallHeight)\r\n\t\tholePoint4 = XYZ(revitApiEscalatorXStartLeft - delta * wallOrientation, holeYEnd, level * revitApiWallHeight)\r\n\t\tholePoint5 = XYZ(revitApiEscalatorXStartLeft - delta * wallOrientation, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\tholePoint6 = XYZ(revitApiEscalatorXStartLeft, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\t\r\n\t\tholeLine1 = Autodesk.Revit.DB.Line.CreateBound(holePoint1, holePoint2)\r\n\t\tholeLine2 = Autodesk.Revit.DB.Line.CreateBound(holePoint2, holePoint3)\r\n\t\tholeLine3 = Autodesk.Revit.DB.Line.CreateBound(holePoint3, holePoint4)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tholeLine4 = Autodesk.Revit.DB.Line.CreateBound(holePoint4, holePoint5)\r\n\t\t\tholeLine5 = Autodesk.Revit.DB.Line.CreateBound(holePoint5, holePoint6)\r\n\t\tholeLine6 = Autodesk.Revit.DB.Line.CreateBound(holePoint6, holePoint1)\r\n\t\t\r\n\t\tcarray = CurveArray()\t\r\n\t\tcarray.Append(holeLine1)\r\n\t\tcarray.Append(holeLine2)\r\n\t\tcarray.Append(holeLine3)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tcarray.Append(holeLine4)\r\n\t\t\tcarray.Append(holeLine5)\r\n\t\tcarray.Append(holeLine6)\r\n\t\tdoc.Create.NewOpening(floorList[level], carray, False)\r\n\t\tholeList.append(carray)\r\n\t\t#right \r\n\t\tholePoint1 = XYZ(revitApiEscalatorXStartRight, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint2 = XYZ(revitApiEscalatorXStartRight + revitApiEscalatorLength * wallOrientation, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint3 = XYZ(revitApiEscalatorXStartRight + revitApiEscalatorLength * wallOrientation, holeYEnd , level * revitApiWallHeight)\r\n\t\tholePoint4 = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, holeYEnd, level * revitApiWallHeight)\r\n\t\tholePoint5 = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\tholePoint6 = XYZ(revitApiEscalatorXStartRight, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\t\r\n\t\tholeLine1 = Autodesk.Revit.DB.Line.CreateBound(holePoint1, holePoint2)\r\n\t\tholeLine2 = Autodesk.Revit.DB.Line.CreateBound(holePoint2, holePoint3)\r\n\t\tholeLine3 = Autodesk.Revit.DB.Line.CreateBound(holePoint3, holePoint4)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tholeLine4 = Autodesk.Revit.DB.Line.CreateBound(holePoint4, holePoint5)\r\n\t\t\tholeLine5 = Autodesk.Revit.DB.Line.CreateBound(holePoint5, holePoint6)\r\n\t\tholeLine6 = Autodesk.Revit.DB.Line.CreateBound(holePoint6, holePoint1)\r\n\t\t\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(holeLine1)\r\n\t\tcarray.Append(holeLine2)\r\n\t\tcarray.Append(holeLine3)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tcarray.Append(holeLine4)\r\n\t\t\tcarray.Append(holeLine5)\r\n\t\tcarray.Append(holeLine6)\r\n\t\tdoc.Create.NewOpening(floorList[level], carray, False)\r\n\t\tholeList.append(carray)\r\n# Escalator parameter\r\nfor escalator in escalatorList:\r\n\tescalator.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\tescalator.LookupParameter(\"accu_rate_type\").Set(\"Escalator\")\r\n\tescalator.LookupParameter(\"tread_width\").Set(treadWidth)\r\n\tescalator.LookupParameter(\"Lower Arrow\").Set(0)\r\n\tescalator.LookupParameter(\"Upper Arrow\").Set(0)\r\n\tescalator.LookupParameter(\"Clearence\").Set(0)\r\n# for columns \r\nif escOrientation:\r\n\toccupiedXSpaceEscalatorRight =  (xAxisCenter + xAxisEscalator - escExitClearance, xAxisCenter +  xAxisEscalator + escalatorLength)\r\n\toccupiedXSpaceEscalatorLeft = (xAxisCenter - xAxisEscalator - escalatorLength, xAxisCenter - xAxisEscalator + escExitClearance)\r\nelse:\r\n\toccupiedXSpaceEscalatorLeft =  (xAxisCenter - xAxisEscalator - escExitClearance, xAxisCenter -  xAxisEscalator + escalatorLength)\r\n\toccupiedXSpaceEscalatorRight = (xAxisCenter + xAxisEscalator - escalatorLength, xAxisCenter + xAxisEscalator + escExitClearance)\r\noccupiedXSpacesList = [occupiedXSpaceElevator, occupiedXSpaceEscalatorLeft, occupiedXSpaceEscalatorRight]\r\n\r\noccupiedYSpacesEscalator = (minDistToEdge, platformWidth - minDistToEdge)\r\noccupiedYSpaceElevator = (platformWidth/2 - elevatorLength/2, platformWidth/2 + elevatorLength/2)\r\noccupiedYSpacesList = [occupiedYSpaceElevator, occupiedYSpacesEscalator]\r\n\r\n# place walls around the escalator holes platformCount*numberOfLevels\r\nif numberOfLevels ==4:\r\n\thList = holeList[numberOfLevels::(numberOfLevels-1)*2] + holeList[numberOfLevels+1::(numberOfLevels-1)*2]\r\nelif numberOfLevels == 3:\r\n\thList = holeList[numberOfLevels::(numberOfLevels-1)*2] + holeList[numberOfLevels-1::(numberOfLevels-1)*2]\r\nelse:\r\n\thList = holeList\r\n\r\nfor carray in hList:\r\n\t# don't place walls in front if the escalator\r\n\tfor i in range(0, 4):\r\n\t\tfor k in range(1, numberOfLevels):\r\n\t\t\tlevel2 = UnwrapElement(levelList[k])\r\n\t\t\tif (i == 3 and escOrientation == 1 and k == numberOfLevels -1) or (i == 3 and escOrientation == 0 and k == numberOfLevels -1) or i ==2 or i==0:\r\n\t\t\t\tline = carray[i]\r\n\t\t\t\twall = Autodesk.Revit.DB.Wall.Create(doc, line, wallType.Id, level2.Id, 3.3, 0, False, False)\r\n\t\t\t\tif i == 2:\r\n\t\t\t\t\twall.Location.Move(XYZ(0, wallType.Width/2, 0))\r\n\t\t\t\telif i == 0:\r\n\t\t\t\t\twall.Location.Move(XYZ(0, -wallType.Width/2, 0))\t\t\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n#columns\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\ncolumnWidth = 0.75 #[m]\r\nsafetyStripWidth += (0.9 + columnWidth/2) # 0.9 m Ril 813.0201A04 3(3) for small obstacles\r\nrevitApiFloorThickness = UnitUtils.ConvertToInternalUnits(0.2, DisplayUnitType.DUT_METERS)\r\n\r\nif columnRows > 0:\r\n\tcolumnCountLeft  = int( math.floor(xAxisCenter / columnSpacing)) #split because xAxisCenter not always in the middle and columns should be center orientated\r\n\tcolumnCountRight = int( math.floor((length - xAxisCenter)/ columnSpacing) + 1)\r\n\tcolumnStartX = xAxisCenter - columnCountLeft * columnSpacing\r\n\tcolumnXListBefore = []\r\n\tfor i in range(0,(columnCountLeft + columnCountRight)):\r\n\t\tcolumnXListBefore.append(i * columnSpacing + columnStartX)\r\n\r\n\t# Clash detection with occupiedYSpaces; only for escalators\r\n\toccupiedXSpacesColumnList = list(occupiedXSpacesList)\r\n\tif columnRows > 1:\r\n\t\tif occupiedYSpacesList[1][0] > (safetyStripWidth + columnWidth/2) and occupiedYSpacesList[1][1] > (platformCount - (safetyStripWidth + columnWidth/2)):\r\n\t\t\tdel occupiedXSpacesColumnList[1:3]\r\n\r\n\t# Clash detection with occupiedXSpaces\r\n\tcolumnXList = [] \r\n\tfor x in columnXListBefore:\r\n\t\ti = 0\r\n\t\tfor space in occupiedXSpacesColumnList:\r\n\t\t\tif not(x > space[0] and x < space[1]):\r\n\t\t\t\ti += 1\r\n\t\t\tif i == len(occupiedXSpacesColumnList):\r\n\t\t\t\tcolumnXList.append(x)\r\n\t# YAxis\r\n\tcolumnYList = []\r\n\tfor p in range(platformCount):\r\n\t\tif columnRows == 2:\r\n\t\t\tcolumnYList.append(yAxisList[p] + safetyStripWidth)\r\n\t\t\tcolumnYList.append(yAxisList[p] + platformWidth - safetyStripWidth)\r\n\t\telif columnRows == 1:\r\n\t\t\tcolumnYList.append(yAxisList[p] + platformWidth/2)\r\n\t\t\t\r\n\tfor x in columnXList:\r\n\t\tfor y in columnYList:\r\n\t\t\trevitApiX = UnitUtils.ConvertToInternalUnits(x, DisplayUnitType.DUT_METERS)\r\n\t\t\trevitApiY = UnitUtils.ConvertToInternalUnits(y, DisplayUnitType.DUT_METERS)\r\n\t\t\tbasePoint = XYZ(revitApiX, revitApiY, 0)\r\n\t\t\ttopHeight = revitApiWallHeight - revitApiFloorThickness\r\n\t\t\tcolumn = doc.Create.NewFamilyInstance(basePoint, columnType,  levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tcolumn.LookupParameter(\"Enable Analytical Model\").Set(0)\r\n\t\t\tcolumn.LookupParameter(\"Top Offset\").Set(topHeight)\r\n\t\t\tcolumn.LookupParameter(\"Top Level\").Set(levelEG.Id)\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n#Top Decoration\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nrevitApiExitXOffset = UnitUtils.ConvertToInternalUnits(exitXOffset, DisplayUnitType.DUT_METERS)\r\nrevitApiTicketXOffset = UnitUtils.ConvertToInternalUnits(ticketXOffset, DisplayUnitType.DUT_METERS)\r\nrevitApiTicketWidth = UnitUtils.ConvertToInternalUnits(0.8, DisplayUnitType.DUT_METERS)\r\nrevitApiStoreWidth = UnitUtils.ConvertToInternalUnits(5, DisplayUnitType.DUT_METERS)\r\nrevitApiRailingHeight = UnitUtils.ConvertToInternalUnits(1.2, DisplayUnitType.DUT_METERS)\r\n\r\n# Define points where exits are inserted\r\nexitPoint1 = XYZ(revitApiExitXOffset, UnitUtils.ConvertToInternalUnits(7, DisplayUnitType.DUT_METERS), 0)\t# 7m = exitOffset in Y = inwards\r\nexitPoint2 = XYZ(revitApiLength - revitApiExitXOffset, UnitUtils.ConvertToInternalUnits(7, DisplayUnitType.DUT_METERS), 0)\r\nexitPoint3 = XYZ(revitApiLength - revitApiExitXOffset - revitApiEscalatorWidth, revitApiWidth - UnitUtils.ConvertToInternalUnits(7, DisplayUnitType.DUT_METERS), 0)\r\nexitPoint4 = XYZ(revitApiExitXOffset - revitApiEscalatorWidth, revitApiWidth - UnitUtils.ConvertToInternalUnits(7, DisplayUnitType.DUT_METERS), 0)\r\npointList = [exitPoint1, exitPoint2, exitPoint3, exitPoint4]\r\n\t\r\n# Start the transaction\r\ndecorationList = []\r\nif numberOfLevels > 1:\r\n\ttopLevel = list(levelList)[-2]\r\n\t\r\n\t# Place ATMs\r\n\taPoint1 = XYZ(UnitUtils.ConvertToInternalUnits(xAxisCenter, DisplayUnitType.DUT_METERS), 1, 0)\r\n\taPoint2 = XYZ(UnitUtils.ConvertToInternalUnits(xAxisCenter, DisplayUnitType.DUT_METERS), revitApiWidth - 3, 0)\r\n\taPointList = [aPoint1, aPoint2]\r\n\tatm = doc.Create.NewFamilyInstance(aPoint1, atmType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\tdecorationList.append(atm)\r\n\tatm = doc.Create.NewFamilyInstance(aPoint2, atmType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\tdecorationList.append(atm)\r\n\t\r\n\t# Place TIcketmachines\r\n\tfor point in aPointList:\r\n\t\tfor machineNr in range(0, nrOfMachines):\r\n\t\t\tmPoint = XYZ(point.X - machineNr*revitApiTicketWidth + revitApiTicketXOffset, point.Y, point.Z)\r\n\t\t\tmachine = doc.Create.NewFamilyInstance(mPoint, ticketType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(machine)\r\n\t\tfor machineNr in range(0, nrOfMachines):\r\n\t\t\tmPoint = XYZ(point.X + machineNr*revitApiTicketWidth - revitApiTicketXOffset, point.Y, point.Z)\r\n\t\t\tmachine = doc.Create.NewFamilyInstance(mPoint, ticketType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(machine)\r\n\t\t\t\r\n\t# Place Ticketvalidators\r\n\tif escOrientation:\r\n\t\txLeft  = occupiedXSpacesList[1][0] - escExitClearance\r\n\t\txRight = occupiedXSpacesList[2][1] + escExitClearance\r\n\t\tyLeft  = [revitApiEscalatorWidth * i + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], DisplayUnitType.DUT_METERS) for i in range(numberOfEscalators + 1)]\r\n\t\tyRight = [revitApiEscalatorWidth * i + revitApiEscalatorWidth + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], DisplayUnitType.DUT_METERS) for i in range(numberOfEscalators)]\r\n\t\tyRight.append(yRight[-1] + revitApiStairWidth)\r\n\telse:\r\n\t\txLeft  = occupiedXSpacesList[1][1] + escExitClearance\r\n\t\txRight = occupiedXSpacesList[2][0] - escExitClearance\r\n\t\tyRight = [revitApiEscalatorWidth * i + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], DisplayUnitType.DUT_METERS) for i in range(numberOfEscalators + 1)]\r\n\t\tyLeft  = [revitApiEscalatorWidth * i + revitApiEscalatorWidth + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], DisplayUnitType.DUT_METERS) for i in range(numberOfEscalators)]\r\n\t\tyLeft.append(yLeft[-1] + revitApiStairWidth)\r\n\tif numberOfStairs == 0:\r\n\t\tdel yRight[-1]\r\n\t\tdel yLeft[-1]\r\n\tfor baseY in revitApiYAxisList:\t\r\n\t\tfor y in range(len(yLeft)):\r\n\t\t\tpointLeft  = XYZ(UnitUtils.ConvertToInternalUnits(xLeft , DisplayUnitType.DUT_METERS), yLeft[y]  + baseY, 0)\r\n\t\t\tpointRight = XYZ(UnitUtils.ConvertToInternalUnits(xRight, DisplayUnitType.DUT_METERS), yRight[y] + baseY, 0)\r\n\t\t\tvalidatorLeft  = doc.Create.NewFamilyInstance(pointLeft , validatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tvalidatorRight = doc.Create.NewFamilyInstance(pointRight, validatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(validatorLeft)\r\n\t\t\tdecorationList.append(validatorRight)\r\n\t\t\r\n\t# place escalators as exits + ticketmachines\r\n\tfor exitNumber in range(0, numberOfExits):\r\n\t\tescalator = doc.Create.NewFamilyInstance(pointList[exitNumber], escalatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\tescalator.LookupParameter(\"accu_rate_type\").Set(\"Escalator\")\r\n\t\tescalator.LookupParameter(\"tread_width\").Set(treadWidth)\r\n\t\tescalator.LookupParameter(\"Lower Arrow\").Set(0)\r\n\t\tescalator.LookupParameter(\"Upper Arrow\").Set(0)\r\n\t\tescalator.LookupParameter(\"Clearence\").Set(0)\r\n\t\t\r\n\t\tstairPoint = XYZ(pointList[exitNumber].X + revitApiStairWidth/2, pointList[exitNumber].Y, 0)\r\n\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\r\n\t\tdelta = (escalator.LookupParameter(\"Length\").AsDouble() - UnitUtils.ConvertToInternalUnits(1.7, DisplayUnitType.DUT_METERS)) #beginning of the surface slab (abs)\r\n\t\tsurfaceSlabMeasure = UnitUtils.ConvertToInternalUnits(6, DisplayUnitType.DUT_METERS) #Arbitrary\r\n\t\t\r\n\t\tif exitNumber<2:\t\r\n\t\t\tfloorYOffset  = - delta\r\n\t\t\tfloorYOffset2 = - surfaceSlabMeasure\r\n\t\t\tZRotateInstance(math.pi, escalator, pointList[exitNumber])\r\n\t\t\tZRotateInstance(math.pi, stairs, stairPoint)\r\n\t\t\tstairs.Location.Move(XYZ(0, floorYOffset + stairs.LookupParameter(\"Run Length\").AsDouble() , 0))\r\n\t\t\t\t\r\n\t\t\t#create the opening in the wall\r\n\t\t\to1 = XYZ(pointList[exitNumber].X + revitApiStairWidth, 0,  UnitUtils.ConvertToInternalUnits(1.17, DisplayUnitType.DUT_METERS) + revitApiWallHeight * (numberOfLevels - 1))\r\n\t\t\to2 = XYZ(pointList[exitNumber].X - revitApiEscalatorWidth, 0, UnitUtils.ConvertToInternalUnits(5, DisplayUnitType.DUT_METERS) + revitApiWallHeight * (numberOfLevels))\r\n\t\t\topening = doc.Create.NewOpening(UnwrapElement(wallList[0]), o1, o2)\r\n\t\t\t\r\n\t\t\t# place storebooths\r\n\t\t\tif exitNumber == 1:\r\n\t\t\t\tbpoint = XYZ(pointList[exitNumber].X - revitApiStoreWidth - revitApiEscalatorWidth - 30, 1, 0)\r\n\t\t\telse:\r\n\t\t\t\tbpoint = XYZ(pointList[exitNumber].X + revitApiEscalatorWidth + 30, 1, 0)\r\n\t\t\tstoreBooth = doc.Create.NewFamilyInstance(bpoint, storeType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(storeBooth)\t\t\t\r\n\t\telse:\r\n\t\t\tfloorYOffset  = delta\r\n\t\t\tfloorYOffset2 = surfaceSlabMeasure\r\n\t\t\tstairs.Location.Move(XYZ(revitApiEscalatorWidth, floorYOffset - stairs.LookupParameter(\"Run Length\").AsDouble() , 0))\r\n\t\t\t\r\n\t\t\t#create the opening in the wall\r\n\t\t\to1 = XYZ(pointList[exitNumber].X, 0, UnitUtils.ConvertToInternalUnits(1, DisplayUnitType.DUT_METERS) + revitApiWallHeight * (numberOfLevels - 1))\r\n\t\t\to2 = XYZ(pointList[exitNumber].X + revitApiEscalatorWidth + revitApiStairWidth, 0, UnitUtils.ConvertToInternalUnits(5, DisplayUnitType.DUT_METERS) + revitApiWallHeight*(numberOfLevels))\r\n\t\t\topening = doc.Create.NewOpening(UnwrapElement(wallList[2]), o1, o2)\r\n\t\t\r\n\t\t#Surface slab\r\n\t\tpoint1 = XYZ(pointList[exitNumber].X - surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, DisplayUnitType.DUT_METERS))\r\n\t\tpoint2 = XYZ(pointList[exitNumber].X + surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, DisplayUnitType.DUT_METERS))\r\n\t\tpoint3 = XYZ(pointList[exitNumber].X + surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset + floorYOffset2, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, DisplayUnitType.DUT_METERS))\r\n\t\tpoint4 = XYZ(pointList[exitNumber].X - surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset + floorYOffset2, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, DisplayUnitType.DUT_METERS))\r\n\t\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\t\tline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\n\t\tline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\t\tline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(line1)\r\n\t\tcarray.Append(line2)\r\n\t\tcarray.Append(line3)\r\n\t\tcarray.Append(line4)\r\n\t\tfloor = doc.Create.NewFloor(carray, floorType, list(levelList)[-1], False)\r\n\t\tfloor.LookupParameter(\"accu_rate_type\").Set(\"Destination\")\t\r\n\r\n#End Transaction\r\nTransactionManager.Instance.TransactionTaskDone()\r\n# Assign your output to the OUT variable.\r\noutput = IN[0]\r\noutput[0].append(xAxisCenter)\r\noutput[3].append(occupiedXSpacesList)\r\noutput[3].append(occupiedYSpacesList)\r\noutput[3].append(decorationList)\r\nOUT = output\r\n",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport clr\r\nimport math\r\nfrom math import ceil\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n#Import Revit Nodes\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n# Import DocumentManager and TransactionManager\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\n# Function to rotate a family instance around the z-axis\r\ndef ZRotateInstance(angle, instance, point):\r\n\tpoint2 = XYZ(point.X, point.Y, point.Z+10)\r\n\trotationLine = Line.CreateBound(point, point2)\r\n\trotated = instance.Location.Rotate(rotationLine, angle)\r\n\r\n# The inputs to this node are stored as a list in the IN variables.\r\n# Length - Width - height variables\r\nbaseValueList = IN[0][0]\r\nlength= baseValueList[0]\r\nplatformWidth = baseValueList[3]\r\nwallThickness = baseValueList[5]\r\ntrackLineCount = baseValueList[6]\r\nplatformCount = baseValueList[7]\r\ncolumnRows = baseValueList[8]\r\ncolumnSpacing = baseValueList[9]\r\nnumberOfLevels = baseValueList[10]\r\n\r\nrevitApiBaseList = IN[0][1]\r\nrevitApiLength = revitApiBaseList[0]\r\nrevitApiWidth = revitApiBaseList[1]\r\nrevitApiPlatformHeight = revitApiBaseList[2]\r\nrevitApiPlatformWidth = revitApiBaseList[3]\r\nrevitApiWallHeight = revitApiBaseList[4]\r\nrevitApiStairWidth = revitApiBaseList[5]\r\nrevitApiEscalatorWidth = revitApiBaseList[6]\r\nrevitApiEscalatorLength = revitApiBaseList[7]\r\nrevitApiElevatorLength = revitApiBaseList[8]\r\n\r\nelevationList = IN[0][2]\r\nnumberOfEscalators = elevationList[0]\r\nnumberOfStairs = elevationList[1]\r\nescOrientation = elevationList[2]\r\nelevatorPosition = elevationList[3]\r\nelevatorLength = elevationList[4]\r\nescalatorLength = elevationList[5]\r\nescalatorWidth = elevationList[6]  \r\nstairWidth = elevationList[7]\r\n\r\nlistList = IN[0][3]\r\nlevelEG = UnwrapElement(listList[0][0])\r\nlevelList = UnwrapElement(listList[0])\r\nfloorList = UnwrapElement(listList[1])\r\nwallList = listList[2]\r\nyAxisList = listList[3]\r\nrevitApiYAxisList = listList[4]\r\nclearanceVariablesList = listList[5]\r\n\r\nupperLevelList = IN[0][4]\r\nexitXOffset = upperLevelList[0]\r\nticketXOffset = upperLevelList[1]\r\nnrOfMachines = upperLevelList[2]\r\nnumberOfExits = upperLevelList[3]\r\n\r\ntrackDataList = IN[0][5]\r\ndistTracks = trackDataList[0]\r\ndistTrackPlatform = trackDataList[1]\r\ninnerTracks = trackDataList[3]\r\nsafetyStripWidth = trackDataList[5]\r\n\r\ntypeList = IN[0][6]\r\nfloorType = UnwrapElement(typeList[0])\r\nwallType = UnwrapElement(typeList[1])\r\ncolumnType = UnwrapElement(typeList[2])\r\nstairType = UnwrapElement(typeList[3])\r\nescalatorType = UnwrapElement(typeList[4])\r\ntrainType = UnwrapElement(typeList[5])\r\ntrainWallType = UnwrapElement(typeList[6])\r\natmType = UnwrapElement(typeList[7])\r\nticketType = UnwrapElement(typeList[8])\r\nstoreType = UnwrapElement(typeList[9])\r\nvalidatorType = UnwrapElement(typeList[10])\r\n\r\nnumberOfAgents = IN[0][7][0]\r\ntreadWidth = IN[0][7][1]\r\n\r\nescExitClearance = clearanceVariablesList[0]\t\t#[m] DIN EN 115-1 \r\nstairExitClearance = clearanceVariablesList[1]\t\t#[m] Ril.813.0202 5(5)\r\nelevatorExitClearance = clearanceVariablesList[2]\t#[m] Ril.813.0202 7(5)\r\nminPathWidth = clearanceVariablesList[3]\t\t\t#[m] Ril.813.0202 4(3)\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n#Start Transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Place your code below this line\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Track Lines\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\ntrainList = []\r\ntrainPartLength = UnitUtils.ConvertFromInternalUnits(trainType.LookupParameter(\"length\").AsDouble(), UnitTypeId.Meters)+0.5 #0.5 for Distance between waggons\r\nrotationAngle = math.pi\r\n\r\n#calculate waggon count\r\ntrainPartCount = int(length / trainPartLength)\r\ntrainLength = trainPartCount * trainPartLength\r\n\r\nif length - 1 <= trainLength:\r\n\ttrainPartCount -= 1\r\n\ttrainLength = trainPartCount * trainPartLength\r\n\t\r\nplacementMargin = (length - trainLength) / 2\r\n\r\n# Track line Y Axis Coordinates Calculation\r\nyAxisOfTrackLineCoordinateList = []\r\nfor indexY in range( platformCount):\r\n\tyAxis = yAxisList[indexY] - min(indexY,1)*distTracks\r\n\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\tif indexY > 0 :\r\n\t\tsecondMiddleTrack = yAxis + distTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(secondMiddleTrack)\r\n\t\tyAxisWall = secondMiddleTrack - innerTracks/2\r\n\t\trevitApiYAxisWall = UnitUtils.ConvertToInternalUnits(yAxisWall, UnitTypeId.Meters)\r\n\t\trevitApiInterWallHeight = UnitUtils.ConvertToInternalUnits(1.5, UnitTypeId.Meters)\r\n\t\tpoint1 = XYZ(0, revitApiYAxisWall, 0)\r\n\t\tpoint2 = XYZ(revitApiLength, revitApiYAxisWall, 0)\r\n\t\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\t\tAutodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelEG.Id, revitApiInterWallHeight, -revitApiPlatformHeight, False, False)\r\nif trackLineCount%2 == 0:\r\n\tif trackLineCount == 2:\r\n\t\tyAxis =  yAxis + platformWidth + innerTracks - distTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\telse:\r\n\t\tyAxis =  yAxis + platformWidth + innerTracks\r\n\t\tyAxisOfTrackLineCoordinateList.append(yAxis)\r\n\r\ncounter = 0\r\n# Track Line Creation\r\nfor yAxis in yAxisOfTrackLineCoordinateList:\t\r\n\ttrainYAxis = UnitUtils.ConvertToInternalUnits(yAxis, UnitTypeId.Meters) \r\n\t\r\n\tfor index in range(1,trainPartCount+1,1): \r\n\t\txAxis = index * trainPartLength - trainPartLength + placementMargin\r\n\t\trevitApiXAxis = UnitUtils.ConvertToInternalUnits(xAxis, UnitTypeId.Meters)\r\n\t\t# Train Creation\r\n\t\ttrainPoint = XYZ(revitApiXAxis, trainYAxis + UnitUtils.ConvertToInternalUnits(-distTrackPlatform, UnitTypeId.Meters), -revitApiPlatformHeight)\r\n\t\t\r\n\t\ttrain = doc.Create.NewFamilyInstance(trainPoint, trainType, levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\ttrain.LookupParameter(\"accu_rate_type\").Set(\"Origin\")\r\n\t\ttrain.LookupParameter(\"Number_Of_Agents\").Set(numberOfAgents)\r\n\t\t\t\r\n\t\ttrainWall = doc.Create.NewFamilyInstance(trainPoint, trainWallType, levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\ttrainWall.LookupParameter(\"IfcExportAs\").Set(\"IfcWall\")\r\n\t\t\r\n\t\tif counter%2 == 0:\r\n\t\t\trotationTrainPoint = XYZ(revitApiXAxis + UnitUtils.ConvertToInternalUnits(trainPartLength/2, UnitTypeId.Meters), trainYAxis + UnitUtils.ConvertToInternalUnits(-distTrackPlatform, UnitTypeId.Meters), 0)\r\n\t\t\tZRotateInstance(rotationAngle, train,  rotationTrainPoint)\r\n\t\t\tZRotateInstance(rotationAngle, trainWall, rotationTrainPoint)\r\n\t\twrapTrain = train.ToDSType(False)\t\t\t\r\n\t\ttrainList.append(wrapTrain)\r\n\tcounter = counter + 1\t\r\n\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Platforms\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nfor yAxis in revitApiYAxisList:\r\n\tpoint1 = XYZ(0, yAxis, 0)\r\n\tpoint2 = XYZ(revitApiLength, yAxis, 0)\r\n\tpoint3 = XYZ(revitApiLength, yAxis + revitApiPlatformWidth, 0)\r\n\tpoint4 = XYZ(0, yAxis + revitApiPlatformWidth, 0)\r\n\t\r\n\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\tline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\n\tline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\tline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\n\t\r\n\tcarray = CurveArray()\r\n\tcarray.Append(line1)\r\n\tcarray.Append(line2)\r\n\tcarray.Append(line3)\r\n\tcarray.Append(line4)\r\n\tfloor = doc.Create.NewFloor(carray, floorType, levelEG, False)\r\n\tfloor.GetParameters(\"Height Offset From Level\")[0].Set(0)\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n# Elevators and Stairs\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nescalatorList = []\r\nholeList = []\r\n#Offset to yAxis\r\nminDistToEdge = (platformWidth - escalatorWidth * numberOfEscalators - stairWidth * numberOfStairs)/2 #assures centered placement if ElevatorWidth was the decisive size after guidelines\r\n\r\n#xAxis Centered\r\nxAxisCenter = length/2\r\n\r\n# Parameters for lower escalator positioning (dependant on elevator position)\r\nif elevatorPosition == 1: \t#left\r\n\txAxisEscalator =  minPathWidth + escExitClearance + wallThickness/2# +- for both sides; Wallthickness/2 because it referrs to wall axis\r\n\txAxisCenter += elevatorLength\r\n\toccupiedXSpaceElevator = (0,elevatorLength + elevatorExitClearance + wallThickness/2)\r\nelif elevatorPosition == 2:\t#middle\r\n\txAxisEscalator = elevatorLength/2 + elevatorExitClearance + minPathWidth + escExitClearance + wallThickness/2 # +- for both sides\r\n\toccupiedXSpaceElevator = (xAxisCenter - elevatorLength/2 - elevatorExitClearance - minPathWidth, xAxisCenter + elevatorLength/2 + elevatorExitClearance + minPathWidth)\r\nelif elevatorPosition == 3:\t#right\r\n\txAxisEscalator =  minPathWidth + escExitClearance + wallThickness/2\r\n\txAxisCenter -= elevatorLength\t\r\n\toccupiedXSpaceElevator = (length - elevatorLength - elevatorExitClearance - wallThickness/2, length)\t\r\n\r\n# Parameters dependant on escalator orientation (True: Facing Inwards; False: Outwards)\r\nif escOrientation:\r\n\trevitApiOrientationOffsetLeft = 0\r\n\trevitApiOrientationOffsetRight = revitApiEscalatorWidth\r\n\trotationAngle = 0\r\n\twallOrientation = 1\r\nelse:\r\n\trevitApiOrientationOffsetLeft = revitApiEscalatorWidth\r\n\trevitApiOrientationOffsetRight = 0\r\n\trotationAngle = math.pi\r\n\twallOrientation = -1\r\n\txAxisEscalator += escalatorLength \r\n\r\nrevitApiEscalatorXStartRight = UnitUtils.ConvertToInternalUnits(xAxisCenter + xAxisEscalator, UnitTypeId.Meters)\r\nrevitApiEscalatorXStartLeft  = UnitUtils.ConvertToInternalUnits(xAxisCenter - xAxisEscalator, UnitTypeId.Meters)\r\n\r\n# Placements\r\nfor yIndex in range(platformCount):\r\n\tyAxis = yAxisList[yIndex] # Bottom Edge of the Platform #PlatformyAxis\r\n\tescalatorYStart = yAxis+ minDistToEdge \t\t\t\t\t\t \r\n\trevitApiEscalatorYStart = UnitUtils.ConvertToInternalUnits(escalatorYStart, UnitTypeId.Meters)\r\n\t\r\n# Elevators\r\n\t# Start is bottom left point\r\n\tif elevatorPosition == 1:\r\n\t\trevitApiElevatorXStart = 0\t\r\n\telif elevatorPosition == 2:\r\n\t\trevitApiElevatorXStart = revitApiLength/2 - revitApiElevatorLength/2\r\n\telif elevatorPosition == 3: \r\n\t\trevitApiElevatorXStart = revitApiLength - revitApiElevatorLength\r\n\t\t\t\t\r\n\t# place the elevator in the middle of the platform\r\n\trevitApiDistanceToPlatformAxis = (revitApiPlatformWidth - revitApiElevatorLength)/2\t\t\t\t\t\t\t\t\t\t\r\n\trevitApiElevatorYStart = UnitUtils.ConvertToInternalUnits(yAxis, UnitTypeId.Meters) + revitApiDistanceToPlatformAxis\r\n\t\t\t\r\n\t# Create Elevator walls \r\n\tpoint1 = XYZ(revitApiElevatorXStart, revitApiElevatorYStart, 0)\r\n\tpoint2 = XYZ(revitApiElevatorXStart + revitApiElevatorLength, revitApiElevatorYStart, 0)\r\n\tpoint3 = XYZ(revitApiElevatorXStart, revitApiElevatorYStart + revitApiElevatorLength, 0)\r\n\tpoint4 = XYZ(revitApiElevatorXStart + revitApiElevatorLength, revitApiElevatorYStart + revitApiElevatorLength, 0)\r\n\t\r\n\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\tline2 = Autodesk.Revit.DB.Line.CreateBound(point1, point3)\r\n\tline3 = Autodesk.Revit.DB.Line.CreateBound(point2, point4)\r\n\tline4 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\t\r\n\twall1 = Autodesk.Revit.DB.Wall.Create(doc, line1, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall2 = Autodesk.Revit.DB.Wall.Create(doc, line2, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall3 = Autodesk.Revit.DB.Wall.Create(doc, line3, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\twall4 = Autodesk.Revit.DB.Wall.Create(doc, line4, wallType.Id, levelList[0].Id, (revitApiWallHeight*numberOfLevels)-revitApiPlatformHeight, -revitApiPlatformHeight, False, False)\r\n\r\n\t#Opening\r\n\tif numberOfLevels > 1:\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(line1)\r\n\t\tcarray.Append(line2)\r\n\t\tcarray.Append(line3)\r\n\t\tcarray.Append(line4)\t\r\n\tfor level in range(1, numberOfLevels):\r\n\t\topening = doc.Create.NewOpening(floorList[level], carray, False)\r\n\t\r\n#Escalators\r\n\tfor level in range(0,numberOfLevels - 1):\r\n\t\tfor number in range(0, numberOfEscalators):\r\n\t\t\t#left\r\n\t\t\tescPoint = XYZ(revitApiEscalatorXStartLeft ,revitApiEscalatorYStart + revitApiOrientationOffsetLeft , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\tescalator = doc.Create.NewFamilyInstance(escPoint, escalatorType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tescalatorList.append(escalator)\r\n\t\t\tZRotateInstance((math.pi/2) + rotationAngle, escalator, escPoint)\r\n\t\t\t\r\n\t\t\t#right\r\n\t\t\tescPoint = XYZ(revitApiEscalatorXStartRight ,revitApiEscalatorYStart + revitApiOrientationOffsetRight , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\tescalator = doc.Create.NewFamilyInstance(escPoint, escalatorType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tescalatorList.append(escalator)\r\n\t\t\tZRotateInstance((-math.pi/2) + rotationAngle, escalator, escPoint)\r\n\t\t\t\r\n\t\t\t#offset for next iteration\r\n\t\t\trevitApiEscalatorYStart += revitApiEscalatorWidth\r\n\t\r\n\t\t\t#Stairs\r\n\t\t\tif (number == numberOfEscalators - 1) and (numberOfStairs > 0):\t\t\r\n\t\t\t\t#left\r\n\t\t\t\tstairPoint = XYZ(revitApiEscalatorXStartLeft, revitApiEscalatorYStart + revitApiStairWidth /2 , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\t\tstairs.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\t\t\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\t\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\t\t\t\tZRotateInstance(math.pi*2.5 + rotationAngle, stairs, stairPoint)\r\n\t\t\t\tdelta = revitApiEscalatorLength - stairs.LookupParameter(\"Run Length\").AsDouble()\r\n\t\t\t\tElementTransformUtils.MoveElement(doc, stairs.Id, XYZ(-delta * wallOrientation, 0 , 0))\t\t\t\r\n\t\t\t\t#right\r\n\t\t\t\tstairPoint = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, revitApiEscalatorYStart + revitApiStairWidth /2 , revitApiPlatformHeight + level * revitApiWallHeight)\r\n\t\t\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, levelList[level], Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\t\tstairs.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\t\t\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\t\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\t\t\t\tZRotateInstance(math.pi*1.5 + rotationAngle, stairs, stairPoint)\r\n\t\t\telse:\r\n\t\t\t\tdelta = 0\r\n\r\n\t\trevitApiEscalatorYStart -= revitApiEscalatorWidth*numberOfEscalators\t\r\n\t\t\r\n\t#Holes for the Escalators\r\n\tfor level in range(1, numberOfLevels):\r\n\t\tholeYStart = revitApiEscalatorYStart \r\n\t\tholeYEnd = revitApiEscalatorYStart + numberOfEscalators * revitApiEscalatorWidth + numberOfStairs * revitApiStairWidth\r\n\t\tif level == numberOfLevels -1:\r\n\t\t\tnumberOfStairs2 = 0\r\n\t\t\tdelta = 0\r\n\t\telse:\r\n\t\t\tnumberOfStairs2 = numberOfStairs\r\n\t\t#left\r\n\t\tholePoint1 = XYZ(revitApiEscalatorXStartLeft, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint2 = XYZ(revitApiEscalatorXStartLeft - revitApiEscalatorLength * wallOrientation, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint3 = XYZ(revitApiEscalatorXStartLeft - revitApiEscalatorLength * wallOrientation, holeYEnd , level * revitApiWallHeight)\r\n\t\tholePoint4 = XYZ(revitApiEscalatorXStartLeft - delta * wallOrientation, holeYEnd, level * revitApiWallHeight)\r\n\t\tholePoint5 = XYZ(revitApiEscalatorXStartLeft - delta * wallOrientation, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\tholePoint6 = XYZ(revitApiEscalatorXStartLeft, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\t\r\n\t\tholeLine1 = Autodesk.Revit.DB.Line.CreateBound(holePoint1, holePoint2)\r\n\t\tholeLine2 = Autodesk.Revit.DB.Line.CreateBound(holePoint2, holePoint3)\r\n\t\tholeLine3 = Autodesk.Revit.DB.Line.CreateBound(holePoint3, holePoint4)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tholeLine4 = Autodesk.Revit.DB.Line.CreateBound(holePoint4, holePoint5)\r\n\t\t\tholeLine5 = Autodesk.Revit.DB.Line.CreateBound(holePoint5, holePoint6)\r\n\t\tholeLine6 = Autodesk.Revit.DB.Line.CreateBound(holePoint6, holePoint1)\r\n\t\t\r\n\t\tcarray = CurveArray()\t\r\n\t\tcarray.Append(holeLine1)\r\n\t\tcarray.Append(holeLine2)\r\n\t\tcarray.Append(holeLine3)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tcarray.Append(holeLine4)\r\n\t\t\tcarray.Append(holeLine5)\r\n\t\tcarray.Append(holeLine6)\r\n\t\tdoc.Create.NewOpening(floorList[level], carray, False)\r\n\t\tholeList.append(carray)\r\n\t\t#right \r\n\t\tholePoint1 = XYZ(revitApiEscalatorXStartRight, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint2 = XYZ(revitApiEscalatorXStartRight + revitApiEscalatorLength * wallOrientation, holeYStart, level * revitApiWallHeight)\r\n\t\tholePoint3 = XYZ(revitApiEscalatorXStartRight + revitApiEscalatorLength * wallOrientation, holeYEnd , level * revitApiWallHeight)\r\n\t\tholePoint4 = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, holeYEnd, level * revitApiWallHeight)\r\n\t\tholePoint5 = XYZ(revitApiEscalatorXStartRight + delta * wallOrientation, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\tholePoint6 = XYZ(revitApiEscalatorXStartRight, holeYEnd - numberOfStairs2 * revitApiStairWidth, level * revitApiWallHeight)\r\n\t\t\r\n\t\tholeLine1 = Autodesk.Revit.DB.Line.CreateBound(holePoint1, holePoint2)\r\n\t\tholeLine2 = Autodesk.Revit.DB.Line.CreateBound(holePoint2, holePoint3)\r\n\t\tholeLine3 = Autodesk.Revit.DB.Line.CreateBound(holePoint3, holePoint4)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tholeLine4 = Autodesk.Revit.DB.Line.CreateBound(holePoint4, holePoint5)\r\n\t\t\tholeLine5 = Autodesk.Revit.DB.Line.CreateBound(holePoint5, holePoint6)\r\n\t\tholeLine6 = Autodesk.Revit.DB.Line.CreateBound(holePoint6, holePoint1)\r\n\t\t\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(holeLine1)\r\n\t\tcarray.Append(holeLine2)\r\n\t\tcarray.Append(holeLine3)\r\n\t\tif numberOfStairs == 1 and level < numberOfLevels -1:\r\n\t\t\tcarray.Append(holeLine4)\r\n\t\t\tcarray.Append(holeLine5)\r\n\t\tcarray.Append(holeLine6)\r\n\t\tdoc.Create.NewOpening(floorList[level], carray, False)\r\n\t\tholeList.append(carray)\r\n# Escalator parameter\r\nfor escalator in escalatorList:\r\n\tescalator.GetParameters(\"Top Offset\")[0].Set(revitApiWallHeight)\r\n\tescalator.LookupParameter(\"accu_rate_type\").Set(\"Escalator\")\r\n\tescalator.LookupParameter(\"tread_width\").Set(treadWidth)\r\n\tescalator.LookupParameter(\"Lower Arrow\").Set(0)\r\n\tescalator.LookupParameter(\"Upper Arrow\").Set(0)\r\n\tescalator.LookupParameter(\"Clearence\").Set(0)\r\n# for columns \r\nif escOrientation:\r\n\toccupiedXSpaceEscalatorRight =  (xAxisCenter + xAxisEscalator - escExitClearance, xAxisCenter +  xAxisEscalator + escalatorLength)\r\n\toccupiedXSpaceEscalatorLeft = (xAxisCenter - xAxisEscalator - escalatorLength, xAxisCenter - xAxisEscalator + escExitClearance)\r\nelse:\r\n\toccupiedXSpaceEscalatorLeft =  (xAxisCenter - xAxisEscalator - escExitClearance, xAxisCenter -  xAxisEscalator + escalatorLength)\r\n\toccupiedXSpaceEscalatorRight = (xAxisCenter + xAxisEscalator - escalatorLength, xAxisCenter + xAxisEscalator + escExitClearance)\r\noccupiedXSpacesList = [occupiedXSpaceElevator, occupiedXSpaceEscalatorLeft, occupiedXSpaceEscalatorRight]\r\n\r\noccupiedYSpacesEscalator = (minDistToEdge, platformWidth - minDistToEdge)\r\noccupiedYSpaceElevator = (platformWidth/2 - elevatorLength/2, platformWidth/2 + elevatorLength/2)\r\noccupiedYSpacesList = [occupiedYSpaceElevator, occupiedYSpacesEscalator]\r\n\r\n# place walls around the escalator holes platformCount*numberOfLevels\r\nif numberOfLevels ==4:\r\n\thList = holeList[numberOfLevels::(numberOfLevels-1)*2] + holeList[numberOfLevels+1::(numberOfLevels-1)*2]\r\nelif numberOfLevels == 3:\r\n\thList = holeList[numberOfLevels::(numberOfLevels-1)*2] + holeList[numberOfLevels-1::(numberOfLevels-1)*2]\r\nelse:\r\n\thList = holeList\r\n\r\nfor carray in hList:\r\n\t# don't place walls in front if the escalator\r\n\tfor i in range(0, 4):\r\n\t\tfor k in range(1, numberOfLevels):\r\n\t\t\tlevel2 = UnwrapElement(levelList[k])\r\n\t\t\tif (i == 3 and escOrientation == 1 and k == numberOfLevels -1) or (i == 3 and escOrientation == 0 and k == numberOfLevels -1) or i ==2 or i==0:\r\n\t\t\t\tline = carray[i]\r\n\t\t\t\twall = Autodesk.Revit.DB.Wall.Create(doc, line, wallType.Id, level2.Id, 3.3, 0, False, False)\r\n\t\t\t\tif i == 2:\r\n\t\t\t\t\twall.Location.Move(XYZ(0, wallType.Width/2, 0))\r\n\t\t\t\telif i == 0:\r\n\t\t\t\t\twall.Location.Move(XYZ(0, -wallType.Width/2, 0))\t\t\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n#columns\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\ncolumnWidth = 0.75 #[m]\r\nsafetyStripWidth += (0.9 + columnWidth/2) # 0.9 m Ril 813.0201A04 3(3) for small obstacles\r\nrevitApiFloorThickness = UnitUtils.ConvertToInternalUnits(0.2, UnitTypeId.Meters)\r\n\r\nif columnRows > 0:\r\n\tcolumnCountLeft  = int( math.floor(xAxisCenter / columnSpacing)) #split because xAxisCenter not always in the middle and columns should be center orientated\r\n\tcolumnCountRight = int( math.floor((length - xAxisCenter)/ columnSpacing) + 1)\r\n\tcolumnStartX = xAxisCenter - columnCountLeft * columnSpacing\r\n\tcolumnXListBefore = []\r\n\tfor i in range(0,(columnCountLeft + columnCountRight)):\r\n\t\tcolumnXListBefore.append(i * columnSpacing + columnStartX)\r\n\r\n\t# Clash detection with occupiedYSpaces; only for escalators\r\n\toccupiedXSpacesColumnList = list(occupiedXSpacesList)\r\n\tif columnRows > 1:\r\n\t\tif occupiedYSpacesList[1][0] > (safetyStripWidth + columnWidth/2) and occupiedYSpacesList[1][1] > (platformCount - (safetyStripWidth + columnWidth/2)):\r\n\t\t\tdel occupiedXSpacesColumnList[1:3]\r\n\r\n\t# Clash detection with occupiedXSpaces\r\n\tcolumnXList = [] \r\n\tfor x in columnXListBefore:\r\n\t\ti = 0\r\n\t\tfor space in occupiedXSpacesColumnList:\r\n\t\t\tif not(x > space[0] and x < space[1]):\r\n\t\t\t\ti += 1\r\n\t\t\tif i == len(occupiedXSpacesColumnList):\r\n\t\t\t\tcolumnXList.append(x)\r\n\t# YAxis\r\n\tcolumnYList = []\r\n\tfor p in range(platformCount):\r\n\t\tif columnRows == 2:\r\n\t\t\tcolumnYList.append(yAxisList[p] + safetyStripWidth)\r\n\t\t\tcolumnYList.append(yAxisList[p] + platformWidth - safetyStripWidth)\r\n\t\telif columnRows == 1:\r\n\t\t\tcolumnYList.append(yAxisList[p] + platformWidth/2)\r\n\t\t\t\r\n\tfor x in columnXList:\r\n\t\tfor y in columnYList:\r\n\t\t\trevitApiX = UnitUtils.ConvertToInternalUnits(x, UnitTypeId.Meters)\r\n\t\t\trevitApiY = UnitUtils.ConvertToInternalUnits(y, UnitTypeId.Meters)\r\n\t\t\tbasePoint = XYZ(revitApiX, revitApiY, 0)\r\n\t\t\ttopHeight = revitApiWallHeight - revitApiFloorThickness\r\n\t\t\tcolumn = doc.Create.NewFamilyInstance(basePoint, columnType,  levelEG, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tcolumn.LookupParameter(\"Enable Analytical Model\").Set(0)\r\n\t\t\tcolumn.LookupParameter(\"Top Offset\").Set(topHeight)\r\n\t\t\tcolumn.LookupParameter(\"Top Level\").Set(levelEG.Id)\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\n#Top Decoration\r\n####################################################################################################################################################################################\r\n####################################################################################################################################################################################\r\nrevitApiExitXOffset = UnitUtils.ConvertToInternalUnits(exitXOffset, UnitTypeId.Meters)\r\nrevitApiTicketXOffset = UnitUtils.ConvertToInternalUnits(ticketXOffset, UnitTypeId.Meters)\r\nrevitApiTicketWidth = UnitUtils.ConvertToInternalUnits(0.8, UnitTypeId.Meters)\r\nrevitApiStoreWidth = UnitUtils.ConvertToInternalUnits(5, UnitTypeId.Meters)\r\nrevitApiRailingHeight = UnitUtils.ConvertToInternalUnits(1.2, UnitTypeId.Meters)\r\n\r\n# Define points where exits are inserted\r\nexitPoint1 = XYZ(revitApiExitXOffset, UnitUtils.ConvertToInternalUnits(7, UnitTypeId.Meters), 0)\t# 7m = exitOffset in Y = inwards\r\nexitPoint2 = XYZ(revitApiLength - revitApiExitXOffset, UnitUtils.ConvertToInternalUnits(7, UnitTypeId.Meters), 0)\r\nexitPoint3 = XYZ(revitApiLength - revitApiExitXOffset - revitApiEscalatorWidth, revitApiWidth - UnitUtils.ConvertToInternalUnits(7, UnitTypeId.Meters), 0)\r\nexitPoint4 = XYZ(revitApiExitXOffset - revitApiEscalatorWidth, revitApiWidth - UnitUtils.ConvertToInternalUnits(7, UnitTypeId.Meters), 0)\r\npointList = [exitPoint1, exitPoint2, exitPoint3, exitPoint4]\r\n\t\r\n# Start the transaction\r\ndecorationList = []\r\nif numberOfLevels > 1:\r\n\ttopLevel = list(levelList)[-2]\r\n\t\r\n\t# Place ATMs\r\n\taPoint1 = XYZ(UnitUtils.ConvertToInternalUnits(xAxisCenter, UnitTypeId.Meters), 1, 0)\r\n\taPoint2 = XYZ(UnitUtils.ConvertToInternalUnits(xAxisCenter, UnitTypeId.Meters), revitApiWidth - 3, 0)\r\n\taPointList = [aPoint1, aPoint2]\r\n\tatm = doc.Create.NewFamilyInstance(aPoint1, atmType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\tdecorationList.append(atm)\r\n\tatm = doc.Create.NewFamilyInstance(aPoint2, atmType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\tdecorationList.append(atm)\r\n\t\r\n\t# Place TIcketmachines\r\n\tfor point in aPointList:\r\n\t\tfor machineNr in range(0, nrOfMachines):\r\n\t\t\tmPoint = XYZ(point.X - machineNr*revitApiTicketWidth + revitApiTicketXOffset, point.Y, point.Z)\r\n\t\t\tmachine = doc.Create.NewFamilyInstance(mPoint, ticketType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(machine)\r\n\t\tfor machineNr in range(0, nrOfMachines):\r\n\t\t\tmPoint = XYZ(point.X + machineNr*revitApiTicketWidth - revitApiTicketXOffset, point.Y, point.Z)\r\n\t\t\tmachine = doc.Create.NewFamilyInstance(mPoint, ticketType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(machine)\r\n\t\t\t\r\n\t# Place Ticketvalidators\r\n\tif escOrientation:\r\n\t\txLeft  = occupiedXSpacesList[1][0] - escExitClearance\r\n\t\txRight = occupiedXSpacesList[2][1] + escExitClearance\r\n\t\tyLeft  = [revitApiEscalatorWidth * i + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], UnitTypeId.Meters) for i in range(numberOfEscalators + 1)]\r\n\t\tyRight = [revitApiEscalatorWidth * i + revitApiEscalatorWidth + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], UnitTypeId.Meters) for i in range(numberOfEscalators)]\r\n\t\tyRight.append(yRight[-1] + revitApiStairWidth)\r\n\telse:\r\n\t\txLeft  = occupiedXSpacesList[1][1] + escExitClearance\r\n\t\txRight = occupiedXSpacesList[2][0] - escExitClearance\r\n\t\tyRight = [revitApiEscalatorWidth * i + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], UnitTypeId.Meters) for i in range(numberOfEscalators + 1)]\r\n\t\tyLeft  = [revitApiEscalatorWidth * i + revitApiEscalatorWidth + UnitUtils.ConvertToInternalUnits(occupiedYSpacesList[1][0], UnitTypeId.Meters) for i in range(numberOfEscalators)]\r\n\t\tyLeft.append(yLeft[-1] + revitApiStairWidth)\r\n\tif numberOfStairs == 0:\r\n\t\tdel yRight[-1]\r\n\t\tdel yLeft[-1]\r\n\tfor baseY in revitApiYAxisList:\t\r\n\t\tfor y in range(len(yLeft)):\r\n\t\t\tpointLeft  = XYZ(UnitUtils.ConvertToInternalUnits(xLeft , UnitTypeId.Meters), yLeft[y]  + baseY, 0)\r\n\t\t\tpointRight = XYZ(UnitUtils.ConvertToInternalUnits(xRight, UnitTypeId.Meters), yRight[y] + baseY, 0)\r\n\t\t\tvalidatorLeft  = doc.Create.NewFamilyInstance(pointLeft , validatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tvalidatorRight = doc.Create.NewFamilyInstance(pointRight, validatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(validatorLeft)\r\n\t\t\tdecorationList.append(validatorRight)\r\n\t\t\r\n\t# place escalators as exits + ticketmachines\r\n\tfor exitNumber in range(0, numberOfExits):\r\n\t\tescalator = doc.Create.NewFamilyInstance(pointList[exitNumber], escalatorType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\tescalator.LookupParameter(\"accu_rate_type\").Set(\"Escalator\")\r\n\t\tescalator.LookupParameter(\"tread_width\").Set(treadWidth)\r\n\t\tescalator.LookupParameter(\"Lower Arrow\").Set(0)\r\n\t\tescalator.LookupParameter(\"Upper Arrow\").Set(0)\r\n\t\tescalator.LookupParameter(\"Clearence\").Set(0)\r\n\t\t\r\n\t\tstairPoint = XYZ(pointList[exitNumber].X + revitApiStairWidth/2, pointList[exitNumber].Y, 0)\r\n\t\tstairs = doc.Create.NewFamilyInstance(stairPoint, stairType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\tstairs.GetParameters(\"Step Width\")[0].Set(revitApiStairWidth)\r\n\t\tstairs.LookupParameter(\"accu_rate_type\").Set(\"Stair\")\r\n\r\n\t\tdelta = (escalator.LookupParameter(\"Length\").AsDouble() - UnitUtils.ConvertToInternalUnits(1.7, UnitTypeId.Meters)) #beginning of the surface slab (abs)\r\n\t\tsurfaceSlabMeasure = UnitUtils.ConvertToInternalUnits(6, UnitTypeId.Meters) #Arbitrary\r\n\t\t\r\n\t\tif exitNumber<2:\t\r\n\t\t\tfloorYOffset  = - delta\r\n\t\t\tfloorYOffset2 = - surfaceSlabMeasure\r\n\t\t\tZRotateInstance(math.pi, escalator, pointList[exitNumber])\r\n\t\t\tZRotateInstance(math.pi, stairs, stairPoint)\r\n\t\t\tstairs.Location.Move(XYZ(0, floorYOffset + stairs.LookupParameter(\"Run Length\").AsDouble() , 0))\r\n\t\t\t\t\r\n\t\t\t#create the opening in the wall\r\n\t\t\to1 = XYZ(pointList[exitNumber].X + revitApiStairWidth, 0,  UnitUtils.ConvertToInternalUnits(1.17, UnitTypeId.Meters) + revitApiWallHeight * (numberOfLevels - 1))\r\n\t\t\to2 = XYZ(pointList[exitNumber].X - revitApiEscalatorWidth, 0, UnitUtils.ConvertToInternalUnits(5, UnitTypeId.Meters) + revitApiWallHeight * (numberOfLevels))\r\n\t\t\topening = doc.Create.NewOpening(UnwrapElement(wallList[0]), o1, o2)\r\n\t\t\t\r\n\t\t\t# place storebooths\r\n\t\t\tif exitNumber == 1:\r\n\t\t\t\tbpoint = XYZ(pointList[exitNumber].X - revitApiStoreWidth - revitApiEscalatorWidth - 30, 1, 0)\r\n\t\t\telse:\r\n\t\t\t\tbpoint = XYZ(pointList[exitNumber].X + revitApiEscalatorWidth + 30, 1, 0)\r\n\t\t\tstoreBooth = doc.Create.NewFamilyInstance(bpoint, storeType, topLevel, Autodesk.Revit.DB.Structure.StructuralType.NonStructural)\r\n\t\t\tdecorationList.append(storeBooth)\t\t\t\r\n\t\telse:\r\n\t\t\tfloorYOffset  = delta\r\n\t\t\tfloorYOffset2 = surfaceSlabMeasure\r\n\t\t\tstairs.Location.Move(XYZ(revitApiEscalatorWidth, floorYOffset - stairs.LookupParameter(\"Run Length\").AsDouble() , 0))\r\n\t\t\t\r\n\t\t\t#create the opening in the wall\r\n\t\t\to1 = XYZ(pointList[exitNumber].X, 0, UnitUtils.ConvertToInternalUnits(1, UnitTypeId.Meters) + revitApiWallHeight * (numberOfLevels - 1))\r\n\t\t\to2 = XYZ(pointList[exitNumber].X + revitApiEscalatorWidth + revitApiStairWidth, 0, UnitUtils.ConvertToInternalUnits(5, UnitTypeId.Meters) + revitApiWallHeight*(numberOfLevels))\r\n\t\t\topening = doc.Create.NewOpening(UnwrapElement(wallList[2]), o1, o2)\r\n\t\t\r\n\t\t#Surface slab\r\n\t\tpoint1 = XYZ(pointList[exitNumber].X - surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, UnitTypeId.Meters))\r\n\t\tpoint2 = XYZ(pointList[exitNumber].X + surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, UnitTypeId.Meters))\r\n\t\tpoint3 = XYZ(pointList[exitNumber].X + surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset + floorYOffset2, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, UnitTypeId.Meters))\r\n\t\tpoint4 = XYZ(pointList[exitNumber].X - surfaceSlabMeasure, pointList[exitNumber].Y + floorYOffset + floorYOffset2, (numberOfLevels - 1) * revitApiWallHeight + UnitUtils.ConvertToInternalUnits(4.5, UnitTypeId.Meters))\r\n\t\tline1 = Autodesk.Revit.DB.Line.CreateBound(point1, point2)\r\n\t\tline2 = Autodesk.Revit.DB.Line.CreateBound(point2, point3)\r\n\t\tline3 = Autodesk.Revit.DB.Line.CreateBound(point3, point4)\r\n\t\tline4 = Autodesk.Revit.DB.Line.CreateBound(point4, point1)\r\n\t\tcarray = CurveArray()\r\n\t\tcarray.Append(line1)\r\n\t\tcarray.Append(line2)\r\n\t\tcarray.Append(line3)\r\n\t\tcarray.Append(line4)\r\n\t\tfloor = doc.Create.NewFloor(carray, floorType, list(levelList)[-1], False)\r\n\t\tfloor.LookupParameter(\"accu_rate_type\").Set(\"Destination\")\t\r\n\r\n#End Transaction\r\nTransactionManager.Instance.TransactionTaskDone()\r\n# Assign your output to the OUT variable.\r\noutput = IN[0]\r\noutput[0].append(xAxisCenter)\r\noutput[3].append(occupiedXSpacesList)\r\noutput[3].append(occupiedYSpacesList)\r\noutput[3].append(decorationList)\r\nOUT = output\r\n",
       "Engine": "IronPython2",
       "VariableInputPorts": true,
       "Id": "5e46294564674e7d8151f3a2a1c328fa",
@@ -582,7 +582,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -650,7 +650,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -670,7 +670,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -691,7 +691,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -712,7 +712,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -732,7 +732,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -881,7 +881,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -905,7 +905,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -925,7 +925,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -949,7 +949,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -973,7 +973,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -997,7 +997,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1021,7 +1021,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1042,7 +1042,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1063,7 +1063,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1087,7 +1087,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1111,7 +1111,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1131,7 +1131,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1152,7 +1152,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -1274,7 +1274,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1295,7 +1295,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1316,7 +1316,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -1327,7 +1327,7 @@
         {
           "Id": "c9359ab310644dc086eac78ab28cc4b2",
           "Name": "list",
-          "Description": "Liste, aus der ein Element abgerufen werden soll\n\nvar[]..[]",
+          "Description": "List to fetch an item from.\n\nvar[]..[]",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1336,7 +1336,7 @@
         {
           "Id": "c771ffd098194cc984325f2c5a9e9676",
           "Name": "index",
-          "Description": "Index des abzurufenden Elements\n\nint",
+          "Description": "Index of the item to be fetched.\n\nint",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1347,7 +1347,7 @@
         {
           "Id": "e9e416f150ca477f8f408d9c658c002e",
           "Name": "item",
-          "Description": "Element am angegebenen Index in der Liste",
+          "Description": "Item in the list at the given index.",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1355,7 +1355,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Gibt ein Element aus der angegebenen Liste an der Position des angegebenen Index zurück.\n\nList.GetItemAtIndex (list: var[]..[], index: int): var[]..[]"
+      "Description": "Returns an item from the given list that's located at the specified index.\n\nList.GetItemAtIndex (list: var[]..[], index: int): var[]..[]"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1379,7 +1379,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
@@ -1435,7 +1435,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die direkte Erstellung von DesignScript-Code."
+      "Description": "Allows for DesignScript code to be authored directly"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1459,7 +1459,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1479,7 +1479,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1503,7 +1503,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1527,7 +1527,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FamilyTypes, DSRevitNodesUI",
@@ -1548,7 +1548,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Familientypen"
+      "Description": "All family types available in the document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1568,7 +1568,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1592,7 +1592,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1612,7 +1612,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1636,7 +1636,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1660,7 +1660,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1684,7 +1684,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1708,7 +1708,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
@@ -1755,7 +1755,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die direkte Erstellung von DesignScript-Code."
+      "Description": "Allows for DesignScript code to be authored directly"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1779,7 +1779,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1803,7 +1803,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1827,7 +1827,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1851,7 +1851,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1875,7 +1875,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
@@ -1899,7 +1899,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung ganzzahliger Werte"
+      "Description": "A slider that produces integer values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -1923,7 +1923,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -1934,7 +1934,7 @@
         {
           "Id": "7b5eb51eefed43b5ac17505de7d87f67",
           "Name": "item",
-          "Description": "Das hinzuzufügende Element. Dies kann ein Objekt oder eine Liste sein.\n\nvar[]..[]",
+          "Description": "Item to be added.Item could be an object or a list.\n\nvar[]..[]",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1943,7 +1943,7 @@
         {
           "Id": "f90c08daa0d34091b05af87c23713ace",
           "Name": "list",
-          "Description": "Liste, der das Element hinzugefügt werden soll\n\nvar[]..[]",
+          "Description": "List to add on to.\n\nvar[]..[]",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1962,7 +1962,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Fügt ein Element am Ende der Liste hinzu.\n\nList.AddItemToEnd (item: var[]..[], list: var[]..[]): var[]..[]"
+      "Description": "Adds an item to the end of a list.\n\nList.AddItemToEnd (item: var[]..[], list: var[]..[]): var[]..[]"
     },
     {
       "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
@@ -2046,7 +2046,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine neue Liste aus den angegebenen Eingaben."
+      "Description": "Makes a new list out of the given inputs"
     },
     {
       "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
@@ -2121,7 +2121,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine neue Liste aus den angegebenen Eingaben."
+      "Description": "Makes a new list out of the given inputs"
     },
     {
       "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
@@ -2169,7 +2169,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine neue Liste aus den angegebenen Eingaben."
+      "Description": "Makes a new list out of the given inputs"
     },
     {
       "ConcreteType": "CoreNodeModels.CreateList, CoreNodeModels",
@@ -2208,7 +2208,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine neue Liste aus den angegebenen Eingaben."
+      "Description": "Makes a new list out of the given inputs"
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -2330,7 +2330,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -2416,7 +2416,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2436,7 +2436,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2456,7 +2456,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2476,7 +2476,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2496,7 +2496,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2516,7 +2516,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
@@ -2537,7 +2537,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die Auswahl einen Verzeichnisses auf dem System, um seinen Pfad abzurufen."
+      "Description": "Allows you to select a directory on the system to get its path"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2557,7 +2557,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
@@ -2577,7 +2577,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zeichenfolge."
+      "Description": "Creates a string."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -2597,7 +2597,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.ColorPalette, CoreNodeModels",
@@ -2622,7 +2622,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Farbe aus der Palette."
+      "Description": "Select a Color from the palette"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.ColorPalette, CoreNodeModels",
@@ -2647,7 +2647,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Farbe aus der Palette."
+      "Description": "Select a Color from the palette"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.ColorPalette, CoreNodeModels",
@@ -2672,7 +2672,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Farbe aus der Palette."
+      "Description": "Select a Color from the palette"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.ColorPalette, CoreNodeModels",
@@ -2697,7 +2697,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Farbe aus der Palette."
+      "Description": "Select a Color from the palette"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.ColorPalette, CoreNodeModels",
@@ -2722,11 +2722,11 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Wählen Sie eine Farbe aus der Palette."
+      "Description": "Select a Color from the palette"
     },
     {
       "ConcreteType": "DSRevitNodesUI.Views, DSRevitNodesUI",
-      "SelectedIndex": 19,
+      "SelectedIndex": 20,
       "SelectedString": "EG (Architekt)",
       "NodeType": "ExtensionNode",
       "Id": "263536cdede54434af2a2036eca4f9c8",
@@ -2743,7 +2743,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im aktuellen Dokument verfügbaren Ansichten"
+      "Description": "All views available in the current document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
@@ -2764,7 +2764,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die Auswahl einer Datei auf dem System, um ihren Dateinamen abzurufen."
+      "Description": "Allows you to select a file on the system to get its filename"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -2794,7 +2794,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Startet nötigenfalls eine Transaktion, und gibt den übergebenen Wert zurück.\n\nTransaction.Start (input: var): var[]..[]"
+      "Description": "Start a transaction if neccesssary, returning whatever was passed in.\n\nTransaction.Start (input: var): var[]..[]"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -2824,7 +2824,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Startet nötigenfalls eine Transaktion, und gibt den übergebenen Wert zurück.\n\nTransaction.Start (input: var): var[]..[]"
+      "Description": "Start a transaction if neccesssary, returning whatever was passed in.\n\nTransaction.Start (input: var): var[]..[]"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -2835,7 +2835,7 @@
         {
           "Id": "026105fc13a14e7bb9f1e12c2e9d9cf9",
           "Name": "input",
-          "Description": "Ein Objekt\n\nvar",
+          "Description": "An object.\n\nvar",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -2854,7 +2854,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Beendet die aktuelle Dynamo-Transaktion, und gibt den übergebenen Wert zurück.\n\nTransaction.End (input: var): var[]..[]"
+      "Description": "Ends the current Dynamo transaction, returning whatever was passed in.\n\nTransaction.End (input: var): var[]..[]"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -2865,7 +2865,7 @@
         {
           "Id": "7e6517a4541c473f9d5460790eba3905",
           "Name": "input",
-          "Description": "Ein Objekt\n\nvar",
+          "Description": "An object.\n\nvar",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -2884,7 +2884,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Beendet die aktuelle Dynamo-Transaktion, und gibt den übergebenen Wert zurück.\n\nTransaction.End (input: var): var[]..[]"
+      "Description": "Ends the current Dynamo transaction, returning whatever was passed in.\n\nTransaction.End (input: var): var[]..[]"
     }
   ],
   "Connectors": [
@@ -3347,7 +3347,7 @@
       "RunPeriod": "1000"
     },
     "Camera": {
-      "Name": "Hintergrundvorschau",
+      "Name": "Background Preview",
       "EyeX": 0.10511863245405331,
       "EyeY": 46.098557915990938,
       "EyeZ": 45.795292282782142,
@@ -4203,13 +4203,13 @@
           "b420fc1637f44fc5a6fd8e9929a525df"
         ],
         "Left": -2155.7053165422321,
-        "Top": 552.91233001025387,
-        "Width": 699.976444010573,
-        "Height": 423.63545297749329,
+        "Top": 553.24566334358724,
+        "Width": 700.30977734390626,
+        "Height": 422.30211964415992,
         "FontSize": 36.0,
         "InitialTop": 606.24566334358724,
         "InitialHeight": 446.30211964415992,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFC1D676"
       },
       {
@@ -4229,13 +4229,13 @@
           "b2c1f69647394f44a916f5bcb14b7bff"
         ],
         "Left": -2156.4457673462548,
-        "Top": -145.10521106310293,
-        "Width": 1161.4607790347191,
-        "Height": 691.57353852883546,
+        "Top": -144.77187772976959,
+        "Width": 1161.7941123680525,
+        "Height": 690.24020519550209,
         "FontSize": 36.0,
         "InitialTop": -91.771877729769585,
         "InitialHeight": 714.24020519550209,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFC1D676"
       },
       {
@@ -4255,13 +4255,13 @@
           "859c366329bb4d16875a776dac8f000a"
         ],
         "Left": -2157.5216715124279,
-        "Top": -959.515674119536,
-        "Width": 861.357046357462,
-        "Height": 791.45329286362085,
+        "Top": -959.18234078620264,
+        "Width": 862.02371302412871,
+        "Height": 790.7866261969541,
         "FontSize": 36.0,
         "InitialTop": -906.18234078620264,
         "InitialHeight": 710.7866261969541,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       },
       {
@@ -4282,13 +4282,13 @@
           "8cde6c34c459454e9004058a26f28e9c"
         ],
         "Left": -2155.2785271748571,
-        "Top": 983.34937163414941,
-        "Width": 809.31793367177579,
-        "Height": 1102.3835803807742,
+        "Top": 983.68270496748278,
+        "Width": 809.651267005109,
+        "Height": 1100.7169137141075,
         "FontSize": 36.0,
         "InitialTop": 1036.6827049674828,
         "InitialHeight": 1099.7169137141075,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFC1D676"
       },
       {
@@ -4300,13 +4300,13 @@
           "7702ac28ad8c4ec2abf515aa060304b1"
         ],
         "Left": 986.33752731674963,
-        "Top": 351.33818890353086,
-        "Width": 781.16666666666674,
-        "Height": 170.33333333333331,
+        "Top": 350.67152223686418,
+        "Width": 780.5,
+        "Height": 172.0,
         "FontSize": 48.0,
         "InitialTop": 418.67152223686418,
         "InitialHeight": 144.99999999999994,
-        "TextblockHeight": 57.333333333333336,
+        "TextblockHeight": 58.0,
         "Background": "#FFA4E1FF"
       },
       {
@@ -4318,13 +4318,13 @@
           "e345f84b7c264af9b6dab424ebebf9c2"
         ],
         "Left": -951.42002353540613,
-        "Top": 402.85550739454442,
-        "Width": 556.21060759384579,
-        "Height": 192.1100901441535,
+        "Top": 403.18884072787773,
+        "Width": 556.87727426051242,
+        "Height": 190.77675681082019,
         "FontSize": 36.0,
         "InitialTop": 456.18884072787773,
         "InitialHeight": 214.77675681082019,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       },
       {
@@ -4337,13 +4337,13 @@
           "057219e7ac7943268312aa8bbe8cf431"
         ],
         "Left": -950.92718423221459,
-        "Top": 115.85614847745413,
-        "Width": 558.156981048647,
-        "Height": 287.90783760224917,
+        "Top": 116.18948181078747,
+        "Width": 558.82364771531365,
+        "Height": 286.5745042689158,
         "FontSize": 36.0,
         "InitialTop": 169.18948181078747,
         "InitialHeight": 310.5745042689158,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       },
       {
@@ -4359,13 +4359,13 @@
           "1661a82a791d4ef8aefdd38dc65c9189"
         ],
         "Left": -1296.14571148733,
-        "Top": -959.1965375233334,
+        "Top": -958.86320419,
         "Width": 716.30782809286086,
-        "Height": 439.02140313358245,
+        "Height": 437.68806980024908,
         "FontSize": 36.0,
         "InitialTop": -905.86320419,
         "InitialHeight": 461.68806980024908,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       },
       {
@@ -4375,13 +4375,13 @@
           "5d9828480221475baf6e48bad2b42525"
         ],
         "Left": 168.5693132096759,
-        "Top": 686.669795293129,
-        "Width": 319.33333333333331,
-        "Height": 100.33333333333337,
+        "Top": 686.0031286264624,
+        "Width": 319.0,
+        "Height": 100.0,
         "FontSize": 18.0,
         "InitialTop": 718.0031286264624,
         "InitialHeight": 145.0,
-        "TextblockHeight": 21.333333333333332,
+        "TextblockHeight": 22.0,
         "Background": "#FFB5B5B5"
       },
       {
@@ -4410,13 +4410,13 @@
           "42fa0620dad04892beca9eb2a257c5c3"
         ],
         "Left": 2016.2277618827438,
-        "Top": 353.64809494143833,
-        "Width": 1076.8920965401671,
-        "Height": 1118.5820202993934,
+        "Top": 352.98142827477164,
+        "Width": 1077.2254298735006,
+        "Height": 1118.2486869660602,
         "FontSize": 48.0,
         "InitialTop": 420.98142827477164,
         "InitialHeight": 1127.2486869660602,
-        "TextblockHeight": 57.333333333333336,
+        "TextblockHeight": 58.0,
         "Background": "#FFFF7BAC"
       },
       {
@@ -4430,18 +4430,18 @@
           "263536cdede54434af2a2036eca4f9c8"
         ],
         "Left": -336.870142114209,
-        "Top": -329.30937079917231,
-        "Width": 1104.3042328934623,
-        "Height": 891.6531516956552,
+        "Top": -328.976037465839,
+        "Width": 1104.9708995601291,
+        "Height": 892.31981836232194,
         "FontSize": 36.0,
         "InitialTop": -275.976037465839,
         "InitialHeight": 568.31981836232194,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFA4E1FF"
       }
     ],
-    "X": -82.737949941049351,
-    "Y": 77.5325082325116,
-    "Zoom": 0.58888018686808663
+    "X": -2128.8620728146734,
+    "Y": -337.93010384039837,
+    "Zoom": 1.148974882243109
   }
 }
