@@ -1125,7 +1125,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import sys\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport tempfile\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Get the current active view\r\nview = doc.ActiveView\r\n\r\n# Get the view's crop box\r\ncropBox = view.CropBox\r\n\r\n# Get the bottom left and top right corner coordinates\r\nbottomLeft = cropBox.Min\r\ntopRight = cropBox.Max\r\n\r\n# Extract the x and y coordinates for bottom left corner\r\nx_bottom_left = bottomLeft.X\r\ny_bottom_left = bottomLeft.Y\r\n\r\n# Extract the x and y coordinates for top right corner\r\nx_top_right = topRight.X\r\ny_top_right = topRight.Y\r\n\r\n# Return the coordinates\r\nOUT = (x_bottom_left, y_bottom_left), (x_top_right, y_top_right)\r\n",
+      "Code": "import sys\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport tempfile\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Get the current active view\r\nview = doc.ActiveView\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\n\r\n# Get the view's crop box\r\ncropBox = view.CropBox\r\n\r\n# Get the bottom left and top right corner coordinates\r\nbottomLeft = cropBox.Min\r\ntopRight = cropBox.Max\r\n\r\n# Extract the x and y coordinates for bottom left corner\r\nx_bottom_left = bottomLeft.X\r\ny_bottom_left = bottomLeft.Y\r\n\r\n# Extract the x and y coordinates for top right corner\r\nx_top_right = topRight.X\r\ny_top_right = topRight.Y\r\n\r\n# Return the coordinates\r\nOUT = (x_bottom_left, y_bottom_left), (x_top_right, y_top_right)\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "0956911cf68840b7aba93589b420a731",
@@ -1186,7 +1186,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import sys\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\n# Get the crop box of the view\r\ncropBox = view.GetCropBox()\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\n# Define the geometry dimensions\r\ngeometryWidth = convert_meter_to_unit(25.6)  # Example width\r\ngeometryHeight = convert_meter_to_unit(25.6)  # Example height\r\n\r\n\r\nmin_x , min_y , max_x , max_y = cropBox.Min.X , cropBox.Min.Y , cropBox.Max.X , cropBox.Min.Y\r\nmin_x_geom , min_y_geom = convert_meter_to_unit(-0.3) , convert_meter_to_unit(-0.3)\r\nmax_x_geom = min_x_geom + geometryWidth\r\nmax_y_geom = min_y_geom + geometryHeight\r\n\r\ndistances = [min_x_geom - min_x , min_y_geom - min_y , max_x - max_x_geom , max_y - max_y_geom]\r\ngeomDims = [geometryWidth , geometryHeight]\r\ndims = [distances[0] + distances[2] + geometryWidth , distances[1] + distances[3] + geometryHeight]\r\n# Return the distances\r\nOUT = distances , geomDims , dims ,  [min_x , min_y , max_x , max_y]\r\n",
+      "Code": "#IN[0]: view element id\r\n\r\nimport sys\r\nimport clr\r\n\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\ncropBox = view.CropBox\r\n\r\nminVertex = cropBox.Min\r\nmaxVertex = cropBox.Max\r\n\r\nx_bottom_left = minVertex.X\r\ny_bottom_left = minVertex.Y\r\nx_top_right = maxVertex.X\r\ny_top_right = maxVertex.Y\r\n\r\nOUT = x_bottom_left, y_bottom_left, x_top_right, y_top_right, x_top_right - x_bottom_left, y_top_right - y_bottom_left",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "6b72c6e980554334b59cb4462d6ab958",
@@ -1296,6 +1296,158 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: view element id\r\n#IN[1]: Output of Input prep. script\r\n\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\n\r\nwalls = FilteredElementCollector(doc).OfClass(Wall).ToElements()\r\n\r\nnon_unique_vertices = []\r\nfor wall in walls:\r\n    wall_location = wall.Location\r\n    if isinstance(wall_location, LocationCurve):\r\n        wall_location_curve = wall_location.Curve\r\n        curve_start_point = wall_location_curve.GetEndPoint(0)\r\n        curve_end_point = wall_location_curve.GetEndPoint(1)\r\n\r\n        non_unique_vertices.append(curve_start_point)\r\n        non_unique_vertices.append(curve_end_point)\r\n\r\ngeometry_vertices = list(set(non_unique_vertices))\r\n\r\ntotal_x_in_dynamo = IN[1][1][0]\r\ntotal_y_in_dynamo = IN[1][1][1]\r\n\r\nif geometry_vertices:\r\n    min_vertex = min(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* bottom left of outer rectangle\r\n    max_vertex = max(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* top right of outer rectangle\r\n    \r\n    x_min , y_min = min_vertex.X , min_vertex.Y\r\n    x_max , y_max = max_vertex.X , max_vertex.Y\r\n\r\n    total_x_in_view = x_max - x_min\r\n    total_y_in_view = y_max - y_min\r\n    \r\n    OUT = total_x_in_view / total_x_in_dynamo , total_y_in_view / total_y_in_dynamo\r\nelse : \r\n    OUT = None",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "0739107c1bf34e7cb3b800698ecac74e",
+      "Inputs": [
+        {
+          "Id": "dcd3c7e22c1845d38c553feab2bba391",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6839a5aa9569454f85a9faf6d838e420",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4448629aad42443e9c68cac244d06f41",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "OUT = IN[2][:2]",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "53ac5a6b8818456594d27b6b2548e01e",
+      "Inputs": [
+        {
+          "Id": "7b10153fdf0d42cabf8c130e13636405",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "43f528073de841468b3682dd6c1619af",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "a60db3c8107a4b7581ec7cf3105d0f26",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9df06810a9df4d43ac1fc88bfb2ceeb8",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import sys\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\n# Get the crop box of the view\r\ncropBox = view.GetCropBox()\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\n# Define the geometry dimensions\r\ngeometryWidth = convert_meter_to_unit(25.6)  # Example width\r\ngeometryHeight = convert_meter_to_unit(25.6)  # Example height\r\n\r\n\r\nmin_x , min_y , max_x , max_y = cropBox.Min.X , cropBox.Min.Y , cropBox.Max.X , cropBox.Min.Y\r\nmin_x_geom , min_y_geom = convert_meter_to_unit(-0.3) , convert_meter_to_unit(-0.3)\r\nmax_x_geom = min_x_geom + geometryWidth\r\nmax_y_geom = min_y_geom + geometryHeight\r\n\r\ndistances = [min_x_geom - min_x , min_y_geom - min_y , max_x - max_x_geom , max_y - max_y_geom]\r\ngeomDims = [geometryWidth , geometryHeight]\r\ndims = [distances[0] + distances[2] + geometryWidth , distances[1] + distances[3] + geometryHeight]\r\n# Return the distances\r\nOUT = distances , geomDims , dims ,  [min_x , min_y , max_x , max_y]\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e9cc7f3b7acf4c6eb6d098bc25a5d0c6",
+      "Inputs": [
+        {
+          "Id": "f8410411856947529cd8d8e95b2c5d43",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dce0e3c1c27d4a009554f3bd0cd1b7c6",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "970be31466114e1ea0d6b73c85dc84d5",
+      "Inputs": [
+        {
+          "Id": "fad3aef52f044f049259e4f8add3ffec",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f70b1701e4854ad0a10e673b70b407d8",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
     }
   ],
   "Connectors": [
@@ -1313,6 +1465,11 @@
       "Start": "d2d109a0acb841e2ad567236db560e7c",
       "End": "41e7cf50a6ea420da401ae8f2a401d2b",
       "Id": "04380a7af24b41d69762b7e8504b18fa"
+    },
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "7b10153fdf0d42cabf8c130e13636405",
+      "Id": "17494cdd930848f1a27ad2757722df35"
     },
     {
       "Start": "057be26b8fd3456eb6929db48710712f",
@@ -1378,6 +1535,16 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "d3c4f061e4b64096b8aef02fed54c4b5",
       "Id": "dbcaab06aec04479b6e323747ccea76d"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "2d1ffbb08c9d4413bf1de3f2d89b638e",
+      "Id": "1c74c43806f24373bc08917b88a367ab"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "dcd3c7e22c1845d38c553feab2bba391",
+      "Id": "daa55aba2d7e42918c0cd91f9ea48f27"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1460,6 +1627,11 @@
       "Id": "7447a9773d8144b3ac3c64f92bba880f"
     },
     {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "6839a5aa9569454f85a9faf6d838e420",
+      "Id": "cb3b425eaca245d78ad588f189b11722"
+    },
+    {
       "Start": "dae2fa19de3846cba91a069194e1d34d",
       "End": "fbc05400e9644888bbe944aea5739183",
       "Id": "b766767d7e1b443a88e88f33eed5584e"
@@ -1495,6 +1667,11 @@
       "Id": "29e30520e8a2416a8876545fb1f45b3f"
     },
     {
+      "Start": "fe16132d7db84ae6a98c27f63b8ea918",
+      "End": "a60db3c8107a4b7581ec7cf3105d0f26",
+      "Id": "89e77f75bc9c4087b3d9fba7d2608bdf"
+    },
+    {
       "Start": "ef8b0782be4242e59154a989a0cc23d1",
       "End": "b31c6b6f85b24aa4a0bc9cf4b00757a9",
       "Id": "0e56ff27dde84c4c9a07a57f3ea7062a"
@@ -1508,6 +1685,11 @@
       "Start": "2f7b7d05cbcd439cb32781549b070cf4",
       "End": "27f2138d2f8142519f7f9a58ee1aac2f",
       "Id": "1163988ca9fb40879c948b9a914f2576"
+    },
+    {
+      "Start": "4448629aad42443e9c68cac244d06f41",
+      "End": "43f528073de841468b3682dd6c1619af",
+      "Id": "b64dafca203a497189430c292ee19294"
     }
   ],
   "Dependencies": [],
@@ -1852,8 +2034,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1283.1334738138528,
-        "Y": 1160.717445121795
+        "X": -353.852252213522,
+        "Y": 1252.4023817010918
       },
       {
         "ShowGeometry": true,
@@ -1862,8 +2044,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1494.8362494752989,
-        "Y": 1339.2619547157854
+        "X": -987.71566013137931,
+        "Y": 1390.4565822023606
       },
       {
         "ShowGeometry": true,
@@ -1872,18 +2054,18 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -765.24006376146212,
-        "Y": 1124.141352268641
+        "X": -199.590624526478,
+        "Y": 1201.8404510646551
       },
       {
         "ShowGeometry": true,
-        "Name": "Python Script",
+        "Name": "GetViewDimensions",
         "Id": "6b72c6e980554334b59cb4462d6ab958",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1700.536478054905,
-        "Y": 1563.1058418727346
+        "X": -1531.007957220831,
+        "Y": 1403.8894032706874
       },
       {
         "ShowGeometry": true,
@@ -1892,8 +2074,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1231.2058579009854,
-        "Y": 1524.7421139953017
+        "X": -491.51043736292945,
+        "Y": 1683.2482755391709
       },
       {
         "ShowGeometry": true,
@@ -1902,8 +2084,48 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1093.1657389992506,
-        "Y": 1084.5879609647691
+        "X": -412.5216335461655,
+        "Y": 781.56147566031359
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetTransformationFromDynamoToView",
+        "Id": "0739107c1bf34e7cb3b800698ecac74e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1976.1032457475178,
+        "Y": 1458.6521007276092
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetScaledOriginsAndDestinations",
+        "Id": "53ac5a6b8818456594d27b6b2548e01e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1842.1063108218384,
+        "Y": 1819.6470329928025
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateImage",
+        "Id": "e9cc7f3b7acf4c6eb6d098bc25a5d0c6",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1351.1345267900915,
+        "Y": 1883.4445337855407
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "FloorPlanWithOriginAndDestinationMarkers",
+        "Id": "970be31466114e1ea0d6b73c85dc84d5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1396.1885650714528,
+        "Y": 1780.1943228775519
       }
     ],
     "Annotations": [
@@ -1921,7 +2143,7 @@
         "Height": 407.44229510039236,
         "FontSize": 36.0,
         "InitialTop": -124.37251862438825,
-        "InitialHeight": 363.44229510039224,
+        "InitialHeight": 363.44229510039236,
         "TextblockHeight": 86.0,
         "Background": "#FFD4B6DB"
       },
@@ -2003,8 +2225,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1644.9726201936978,
-    "Y": -726.02389705690689,
-    "Zoom": 0.82349548680452378
+    "X": 1727.0893597400536,
+    "Y": -718.0477840032446,
+    "Zoom": 0.65557464208768756
   }
 }

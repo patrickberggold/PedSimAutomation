@@ -1,0 +1,4 @@
+-> get view size (x and y distance between arrows) -> returns (x_min , y_min , x_max , y_max , x_length , y_length) in revit units
+-> get geometry size from walls and given site_x and site_y get a transformation from dynamo scale to view scale (in revit units)
+-> get bounding boxes for origin and destinations from room_dict and convert them to revit units, then scale them using the output of the script above
+-> given scaled room_dict (as a list), outcome of first script, overlay image with either red or green
