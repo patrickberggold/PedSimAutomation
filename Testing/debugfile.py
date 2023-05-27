@@ -1,16 +1,16 @@
-def transform_coordinates(x0_original, y0_original, x1_original, y1_original, x_min_new, y_min_new, x_max_new, y_max_new):
-    width, height = 984 , 713
+def transform_to_image_coordinates(point , site_bbox_image , site_dims_revit) : 
+    transformed_point = []
+    for c in range(len(point)) : 
+        gradient = (site_bbox_image[c + 2] - site_bbox_image[c]) / site_dims_revit[c] /  # bbox: xmin,ymin,xmax,ymax
+        transformed_point.append(point[c] * gradient + site_bbox_image[c])
 
-    scale_x = width / (x1_original - x0_original)
-    scale_y = height / (y1_original - y0_original)
+    return transformed_point
 
-    pixel_xmin = int((x_min_new) * scale_x)
-    pixel_ymin = int(height - (y_max_new) * scale_y)
-    pixel_xmax = int((x_max_new) * scale_x)
-    pixel_ymax = int(height - (y_min_new) * scale_y)
+def transform_set_of_points(points , site_bbox_image , site_dims_revit) : 
+    transformed_points = []
+    for point in points : 
+        transformed_points.append(
+            transform_to_image_coordinates(point , site_bbox_image , site_dims_revit)
+        )
 
-    return pixel_xmin, pixel_ymin, pixel_xmax, pixel_ymax
-
-x_min , x_max , y_min , y_max = transform_coordinates(-100, -100 , 100 , 100, 105, 220, 171, 303)
-
-x = 0
+    return transformed_points

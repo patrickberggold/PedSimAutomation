@@ -1,6 +1,6 @@
 #IN[0]: room dict.
-#IN[1]: scales from transformation script
-#IN[2]: view's bounding box and bounding box's width and height from getviewdimensions script
+#IN[1]: bbox of geometry inside png
+#IN[2]: site_x and site_y
 
 import clr
 from System.Drawing import *
@@ -15,41 +15,43 @@ def extract_lists_with_string(room_dict, type):
             extracted_lists.append(room_dict[key])
     return extracted_lists
 
-def convert_meter_to_unit(pre_value):
-    tempo_list = []
-    tempo_value = 0
-    if isinstance(pre_value, list):
-        len_list = len(pre_value)
-        for ii in range(len_list):
-            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))
-        pre_value = tempo_list
-    else:
-        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))
-        pre_value = tempo_value
-    return pre_value
+def flip_point_y_axis(point, height) :
+    return height + 1 - point
+
+def transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness) : 
+    transformed_point = []
+    for c in range(len(point)) : 
+        gradient = (site_bbox_image[c + 2] - site_bbox_image[c]) / site_dims_revit[c] # bbox: xmin,ymin,xmax,ymax
+        if c == 0 :
+            transformed_point.append(int(point[c] * gradient + site_bbox_image[c] + wall_thickness / 2 * gradient))
+        else : 
+            transformed_point.append(int(flip_point_y_axis(point[c] * gradient , site_bbox_image[c + 2] - site_bbox_image[c]) + site_bbox_image[c] - wall_thickness / 2 * gradient))
+
+    return transformed_point
+
+def transform_set_of_points(points , site_bbox_image , site_dims_revit , wall_thickness) : 
+    transformed_points = []
+    for point in points : 
+        transformed_points.append(
+            transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness)
+        )
+
+    return transformed_points
     
 dict = IN[0]
-scale_in_x , scale_in_y = IN[1]
-x_min_view , y_min_view = IN[2][:2]
+site_bbox_in_image , image_width , image_height = IN[1]
+site_dimensions_revit = IN[2][1][:2]
+wall_thickness = IN[3]
+
 
 origins = extract_lists_with_string(dict , "ORIGIN")
 destinations = extract_lists_with_string(dict , "DESTINATION")
 
-transform_in_x = lambda pre_transformation_value : convert_meter_to_unit(pre_transformation_value) * scale_in_x - x_min_view
-transform_in_y = lambda pre_transformation_value : convert_meter_to_unit(pre_transformation_value) * scale_in_y - y_min_view
+origins_in_image = [
+    transform_set_of_points(origin , site_bbox_in_image , site_dimensions_revit , wall_thickness) for origin in origins
+]
+destinations_in_image = [
+    transform_set_of_points(destination , site_bbox_in_image , site_dimensions_revit , wall_thickness) for destination in destinations
+]
 
-origins_in_view = []
-for origin in origins : 
-    origin_in_view =  [
-        [transform_in_x(origin[0][0]) , transform_in_y(origin[0][1])] , [transform_in_x(origin[1][0]) , transform_in_y(origin[1][1])]
-    ]
-    origins_in_view.append(origin_in_view)
-
-destinations_in_view = []
-for destination in destinations : 
-    destination_in_view =  [
-        [transform_in_x(destination[0][0]) , transform_in_y(destination[0][1])] , [transform_in_x(destination[1][0]) , transform_in_y(destination[1][1])]
-    ]
-    destinations_in_view.append(destination_in_view)
-
-OUT = origins_in_view , destinations_in_view
+OUT = origins_in_image , destinations_in_image
