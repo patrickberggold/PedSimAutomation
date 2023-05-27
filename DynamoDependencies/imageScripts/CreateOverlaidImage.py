@@ -45,8 +45,8 @@ destination_color = (0, 255, 0)
 
 for origin in origins:
     reshaped_origin = [*origin[0], *origin[1]]
-    pixel_coordinates = fix_open_cv_flipped_y(image, *reshaped_origin)
-    image = change_bounding_box_color(*pixel_coordinates, origin_color)
+    pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)
+    image = change_bounding_box_color(image , *pixel_coordinates, origin_color)
 
 for destination in destinations:
     reshaped_destination = [*destination[0], *destination[1]]
