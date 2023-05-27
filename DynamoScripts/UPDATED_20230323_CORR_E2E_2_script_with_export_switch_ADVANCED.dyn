@@ -2,7 +2,7 @@
   "Uuid": "fbc6d016-0cd7-4b3c-8fff-4142e5e2550b",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
+  "Name": "UPDATED_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
   "ElementResolver": {
     "ResolutionMap": {
       "Point": {
@@ -17,14 +17,14 @@
       "Name": "Create Folder Structure",
       "Type": "boolean",
       "Value": "false",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "2d96f25030c54fbebaa59cd1ce4c3394",
       "Name": "True== Create Building // False==Export Floorplan",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
@@ -35,7 +35,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "6eda79a2c2e040078d1fd66754c14bd9",
@@ -46,7 +46,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "d441a2d6f0c14ff48dd4597348011063",
@@ -57,7 +57,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "7e346971f5c24f37a17e4b6625f1dfd8",
@@ -68,7 +68,7 @@
       "MinimumValue": 20.0,
       "StepValue": 5.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "584bef6044484045b318ed18b4ef189a",
@@ -79,14 +79,14 @@
       "MinimumValue": 10.0,
       "StepValue": 5.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "a4e31f61d6e142a69577153b5065a6bf",
       "Name": "INCLUDE_BOTTLENECK",
       "Type": "boolean",
       "Value": "false",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     }
   ],
   "Outputs": [
@@ -95,7 +95,7 @@
       "Name": "Create Folder (py)",
       "Type": "unknown",
       "InitialValue": "",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Nodes": [
@@ -183,7 +183,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -251,7 +251,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
@@ -272,7 +272,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die Auswahl einen Verzeichnisses auf dem System, um seinen Pfad abzurufen."
+      "Description": "Allows you to select a directory on the system to get its path"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -292,7 +292,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -312,7 +312,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -353,7 +353,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -382,7 +382,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -412,7 +412,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Ruft die Element-ID für dieses Element ab.\n\nElement.Id: int"
+      "Description": "Get the Element Id for this element\n\nElement.Id: int"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
@@ -442,7 +442,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die direkte Erstellung von DesignScript-Code."
+      "Description": "Allows for DesignScript code to be authored directly"
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -471,7 +471,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -512,7 +512,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "DSRevitNodesUI.ElementsOfType, DSRevitNodesUI",
@@ -541,7 +541,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle Elemente eines angegebenen Typs im aktiven Dokument"
+      "Description": "All elements in the active document of a given type."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -570,7 +570,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "DSRevitNodesUI.ElementTypes, DSRevitNodesUI",
@@ -591,7 +591,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle Untertypen des Elements"
+      "Description": "All element subtypes."
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
@@ -612,7 +612,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Wandtypen."
+      "Description": "All wall types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
@@ -633,11 +633,11 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Wandtypen."
+      "Description": "All wall types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
-      "SelectedIndex": 6,
+      "SelectedIndex": -1,
       "SelectedString": "Generic 150mm - Filled",
       "NodeType": "ExtensionNode",
       "Id": "40bb13f55e2f49fa852ce792d05d6883",
@@ -654,7 +654,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Geschossdeckentypen."
+      "Description": "All floor types available in the document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -678,7 +678,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -702,7 +702,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -726,7 +726,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -750,7 +750,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -774,7 +774,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -851,7 +851,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -892,7 +892,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -921,7 +921,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -950,7 +950,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -979,7 +979,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
@@ -999,7 +999,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zeichenfolge."
+      "Description": "Creates a string."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1019,7 +1019,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -1040,7 +1040,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -1061,7 +1061,286 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif IN[1] : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    screenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n    \r\n    options = ImageExportOptions()\r\n    options.ExportRange = ExportRange.CurrentView\r\n    options.ViewName = view.Name\r\n    options.FilePath = screenshot_of_view_path\r\n    options.ZoomType = ZoomFitType.Zoom\r\n    options.PixelSize = 2048\r\n    \r\n    doc.ExportImage(options)\r\n    \r\n    saved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n    \r\n    OUT = saved_image_path\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ce4c30a677d4426c844b3524f813f26f",
+      "Inputs": [
+        {
+          "Id": "b1318ec70193417d9fc3e2d6762d008b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4421fc93b19a415caca9880865f31d28",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "72122f1040ac4f419d1d50f62d58d590",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] : path to temp jpg image of floor plan\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\nimport cv2\r\n\r\ndef get_model_bbox(image_path):\r\n    floor_plan_no_colors = cv2.imread(image_path)\r\n    image_height , image_width , _ = floor_plan_no_colors.shape\r\n\r\n    gray = cv2.cvtColor(floor_plan_no_colors, cv2.COLOR_BGR2GRAY)\r\n    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)\r\n\r\n    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)\r\n    contours = list(contours)\r\n    contours.sort(key=cv2.contourArea , reverse=True)\r\n\r\n    if not contours : \r\n        return None\r\n\r\n    # second largest contour is geometry (full image is largest)\r\n    x, y, w, h = cv2.boundingRect(contours[1])\r\n    bbox = [x , y , x + w , y + h]\r\n\r\n    return bbox , image_width , image_height\r\n\r\nif IN[1] : \r\n    image_path = IN[0]\r\n    \r\n    geometry_corners , image_width , image_height = get_model_bbox(image_path)\r\n    OUT = geometry_corners , image_width , image_height\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "16925d2734114e518a2e0817d5bfb62b",
+      "Inputs": [
+        {
+          "Id": "b0eba8e1426a4277953861a2b2893218",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b679dde4241a44ab8ac7d9ddd2b9c9c8",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c8a180bce11a40f0b1522dc2b7310f2a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    image_path = IN[2]\r\n    origins, destinations = IN[1]\r\n    \r\n    image = cv2.imread(image_path)\r\n    image_copy = np.copy(image)\r\n    \r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "794a8dd2ebb44b2a87807233d34c3876",
+      "Inputs": [
+        {
+          "Id": "c4cb1223d51f4d45ac2bbf726ef74a54",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "eb080bd94e4f471daacc1bf83e12f3ff",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "88ff5d2558284847bdbdd233fc4ead78",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "89565c11cbfe4e61839c0d4c312274a6",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "92445c89710047dab33e1b0da28787a8",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: room dict.\r\n#IN[1]: bbox of geometry inside png\r\n#IN[2]: site_x and site_y\r\n#IN[3]: wall thickness in meters\r\n\r\nimport clr\r\nfrom System.Drawing import *\r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom Autodesk.Revit.DB import *\r\n\r\ndef extract_lists_with_string(room_dict, type):\r\n    extracted_lists = []\r\n    for key in room_dict:\r\n        if type in key:\r\n            extracted_lists.append(room_dict[key])\r\n    return extracted_lists\r\n\r\ndef flip_point_y_axis(point, height) :\r\n    return height + 1 - point\r\n\r\ndef transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness) : \r\n    transformed_point = []\r\n    for c in range(len(point)) : \r\n        gradient = (site_bbox_image[c + 2] - site_bbox_image[c]) / site_dims_revit[c] # bbox: xmin,ymin,xmax,ymax\r\n        if c == 0 :\r\n            transformed_point.append(int(point[c] * gradient + site_bbox_image[c] + wall_thickness / 2 * gradient))\r\n        else : \r\n            transformed_point.append(int(flip_point_y_axis(point[c] * gradient , site_bbox_image[c + 2] - site_bbox_image[c]) + site_bbox_image[c] - wall_thickness / 2 * gradient))\r\n\r\n    return transformed_point\r\n\r\ndef transform_set_of_points(points , site_bbox_image , site_dims_revit , wall_thickness) : \r\n    transformed_points = []\r\n    for point in points : \r\n        transformed_points.append(\r\n            transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness)\r\n        )\r\n\r\n    return transformed_points\r\n    \r\nif IN[4] : \r\n    \r\n        \r\n    dict = IN[0]\r\n    site_bbox_in_image , image_width , image_height = IN[1]\r\n    site_dimensions_revit = IN[2][1][:2]\r\n    wall_thickness = IN[3]\r\n    \r\n    \r\n    origins = extract_lists_with_string(dict , \"ORIGIN\")\r\n    destinations = extract_lists_with_string(dict , \"DESTINATION\")\r\n    \r\n    origins_in_image = [\r\n        transform_set_of_points(origin , site_bbox_in_image , site_dimensions_revit , wall_thickness) for origin in origins\r\n    ]\r\n    destinations_in_image = [\r\n        transform_set_of_points(destination , site_bbox_in_image , site_dimensions_revit , wall_thickness) for destination in destinations\r\n    ]\r\n    \r\n    OUT = origins_in_image , destinations_in_image",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "bbd14b26b29a4d8688aa34d183f427bf",
+      "Inputs": [
+        {
+          "Id": "d96b73cfcc484f5280572352651107a7",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bd242929bf33458ca2d1e8dbf66e388a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "79284aeaea8242f2a0f3089fbc870e05",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "393e9654850448d0b3e5796ceacd2b1f",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1ec5fcb3245e46e1ada0b233ed53ced2",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "87dfdf8d0f1344c89a269fa7189aae7e",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.3,
+      "Id": "04d6da4bc54f498abfab8b585162874d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "095f97f3f15c419c9d3bb11c42bef4a6",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "416dd37e2b5d49548ef7a809e7dde878",
+      "Inputs": [
+        {
+          "Id": "07d79e82842d4bb59b892c920929f9f7",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fd633c47bdc8429f97646fd229e71486",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "b76cb871e5f34634899df760de3583dc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e8ab52e6064c40699c0befe39c1096e5",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
     }
   ],
   "Connectors": [
@@ -1074,6 +1353,11 @@
       "Start": "d2d109a0acb841e2ad567236db560e7c",
       "End": "f3e6d1d6bf9e4f1c9fd212e298848c48",
       "Id": "d485a78e64ba4370ba11881b07ebaf4b"
+    },
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "d96b73cfcc484f5280572352651107a7",
+      "Id": "d4f0479a8fc34c87b3a8eb9330bb01b8"
     },
     {
       "Start": "057be26b8fd3456eb6929db48710712f",
@@ -1129,6 +1413,11 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "c93dcaa3ac65436a9e5f8de7d943839b",
       "Id": "94bb7e1e78f84c58aafc711d1d31c9c8"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "b1318ec70193417d9fc3e2d6762d008b",
+      "Id": "87a3caf73f11441a91853bdda93d6ad0"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1206,6 +1495,11 @@
       "Id": "98b70620af694f5daefcc82570c84acb"
     },
     {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "79284aeaea8242f2a0f3089fbc870e05",
+      "Id": "404d63a7b853422cb149e6bfd442c1dc"
+    },
+    {
       "Start": "dae2fa19de3846cba91a069194e1d34d",
       "End": "fbc05400e9644888bbe944aea5739183",
       "Id": "b766767d7e1b443a88e88f33eed5584e"
@@ -1229,6 +1523,61 @@
       "Start": "a89419cf1b51448eb515ea3a35dce344",
       "End": "e785c04dc86a4eafa6c6fc278d4fe1bc",
       "Id": "3641550bda8c47e1b78e6fe326df8f0a"
+    },
+    {
+      "Start": "72122f1040ac4f419d1d50f62d58d590",
+      "End": "b0eba8e1426a4277953861a2b2893218",
+      "Id": "67176ae11dbe4edcb9b5946f3bfc9c0e"
+    },
+    {
+      "Start": "72122f1040ac4f419d1d50f62d58d590",
+      "End": "88ff5d2558284847bdbdd233fc4ead78",
+      "Id": "0b6cfd09b39242b3ac4e8949b5154673"
+    },
+    {
+      "Start": "c8a180bce11a40f0b1522dc2b7310f2a",
+      "End": "bd242929bf33458ca2d1e8dbf66e388a",
+      "Id": "0523f963bcb045f8b32eff83f358b587"
+    },
+    {
+      "Start": "c8a180bce11a40f0b1522dc2b7310f2a",
+      "End": "c4cb1223d51f4d45ac2bbf726ef74a54",
+      "Id": "5fe494898f334f969459f9225904af33"
+    },
+    {
+      "Start": "92445c89710047dab33e1b0da28787a8",
+      "End": "07d79e82842d4bb59b892c920929f9f7",
+      "Id": "27139b8a345641e4894f7a2d35fd9c77"
+    },
+    {
+      "Start": "87dfdf8d0f1344c89a269fa7189aae7e",
+      "End": "eb080bd94e4f471daacc1bf83e12f3ff",
+      "Id": "a40bb02967404e728a994437b4cd6192"
+    },
+    {
+      "Start": "095f97f3f15c419c9d3bb11c42bef4a6",
+      "End": "393e9654850448d0b3e5796ceacd2b1f",
+      "Id": "37f3c97cec8b41ac92ca3cfef5fc8985"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "4421fc93b19a415caca9880865f31d28",
+      "Id": "9d159c9a656047ba80af4c54c50e0940"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "b679dde4241a44ab8ac7d9ddd2b9c9c8",
+      "Id": "b5c118f8d11b4b608c750ff3ea5e955d"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "1ec5fcb3245e46e1ada0b233ed53ced2",
+      "Id": "cb829a1b9dda41eb8a1be1f6f2aa9ab2"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "89565c11cbfe4e61839c0d4c312274a6",
+      "Id": "df1e9d606431406d82e00fab348cb7b9"
     }
   ],
   "Dependencies": [],
@@ -1244,7 +1593,7 @@
       "RunPeriod": "1000"
     },
     "Camera": {
-      "Name": "Hintergrundvorschau",
+      "Name": "Background Preview",
       "EyeX": -6.7137899398803711,
       "EyeY": 19.17303466796875,
       "EyeZ": 20.845033645629883,
@@ -1565,6 +1914,76 @@
         "Excluded": false,
         "X": -2081.0406749172475,
         "Y": 522.557490718079
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportViewAsTempPng",
+        "Id": "ce4c30a677d4426c844b3524f813f26f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1336.2756071558028,
+        "Y": 1214.1348320083998
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "DetectEdges",
+        "Id": "16925d2734114e518a2e0817d5bfb62b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1070.5602892701104,
+        "Y": 1213.1741130113553
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateOverlaidImage",
+        "Id": "794a8dd2ebb44b2a87807233d34c3876",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -518.72881229227255,
+        "Y": 1002.8955520376451
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetScaledOriginsAndDestinations",
+        "Id": "bbd14b26b29a4d8688aa34d183f427bf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -845.99550402535033,
+        "Y": 1200.5311289296217
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "04d6da4bc54f498abfab8b585162874d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1007.130378663486,
+        "Y": 1353.0541614072779
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "InputForNN",
+        "Id": "416dd37e2b5d49548ef7a809e7dde878",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -165.42783980993136,
+        "Y": 1009.8358280144607
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateFloorPlanWithOverlaidZones",
+        "Id": "b76cb871e5f34634899df760de3583dc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1715.2413512897642,
+        "Y": 1378.2505001150766
       }
     ],
     "Annotations": [
@@ -1577,13 +1996,13 @@
           "40bb13f55e2f49fa852ce792d05d6883"
         ],
         "Left": -2509.6418451570776,
-        "Top": -221.03918529105482,
-        "Width": 254.13942232782983,
-        "Height": 409.44229510039224,
+        "Top": -220.37251862438814,
+        "Width": 287.0,
+        "Height": 407.44229510039224,
         "FontSize": 36.0,
         "InitialTop": -124.37251862438814,
         "InitialHeight": 363.44229510039224,
-        "TextblockHeight": 86.666666666666671,
+        "TextblockHeight": 86.0,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1597,13 +2016,13 @@
           "5cf7b4a5da5a4f08be1428ffddc92ea7"
         ],
         "Left": -2524.0621692211462,
-        "Top": 1076.2949968653647,
-        "Width": 1081.0693417628572,
-        "Height": 150.82066761144029,
+        "Top": 1076.628330198698,
+        "Width": 1080.736008429524,
+        "Height": 295.19485626486949,
         "FontSize": 36.0,
         "InitialTop": 1129.628330198698,
         "InitialHeight": 148.19485626486949,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1615,13 +2034,13 @@
           "0cdde517e1d14ae98acd0f9839922297"
         ],
         "Left": -1127.1150067308231,
-        "Top": 302.08050551619209,
-        "Width": 181.20996620619064,
-        "Height": 643.60535840172861,
+        "Top": 302.4138388495254,
+        "Width": 181.543299539524,
+        "Height": 642.938691735062,
         "FontSize": 36.0,
         "InitialTop": 355.4138388495254,
         "InitialHeight": 604.938691735062,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1633,13 +2052,13 @@
           "2d96f25030c54fbebaa59cd1ce4c3394"
         ],
         "Left": -2983.9365178556354,
-        "Top": 606.63372808264546,
-        "Width": 387.33333333333348,
-        "Height": 364.67973922757562,
+        "Top": 606.96706141597883,
+        "Width": 388.0,
+        "Height": 363.34640589424225,
         "FontSize": 36.0,
         "InitialTop": 659.96706141597883,
         "InitialHeight": 387.34640589424225,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       },
       {
@@ -1654,18 +2073,18 @@
           "a4e31f61d6e142a69577153b5065a6bf"
         ],
         "Left": -3074.2095325197274,
-        "Top": -36.220572647085071,
-        "Width": 329.13724568397538,
-        "Height": 560.13072161211687,
+        "Top": -35.887239313751735,
+        "Width": 328.80391235064189,
+        "Height": 558.7973882787835,
         "FontSize": 36.0,
         "InitialTop": 17.112760686248265,
         "InitialHeight": 582.7973882787835,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1903.8051959376226,
-    "Y": -71.507026039518337,
-    "Zoom": 0.53111351607745527
+    "X": 1969.5257020458475,
+    "Y": -416.7345597553699,
+    "Zoom": 0.739756803631936
   }
 }
