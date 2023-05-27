@@ -2,25 +2,11 @@
 #IN[1]: scales from transformation script
 #IN[2]: view's bounding box and bounding box's width and height from getviewdimensions script
 
-import sys
 import clr
-import System
-from System.IO import *
-clr.AddReference('ProtoGeometry')
-from Autodesk.DesignScript.Geometry import *
-
-clr.AddReference("RevitServices")
-import RevitServices
-from RevitServices.Persistence import DocumentManager 
-
-clr.AddReference("RevitAPI")
-from Autodesk.Revit.DB import *
-
-clr.AddReference('System.Drawing')
-import System.Drawing
 from System.Drawing import *
-import os
-import tempfile
+from Autodesk.DesignScript.Geometry import *
+from RevitServices.Persistence import DocumentManager 
+from Autodesk.Revit.DB import *
 
 def extract_lists_with_string(room_dict, type):
     extracted_lists = []

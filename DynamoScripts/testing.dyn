@@ -1300,7 +1300,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "#IN[0]: view element id\r\n#IN[1]: Output of Input prep. script\r\n\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\n\r\nwalls = FilteredElementCollector(doc).OfClass(Wall).ToElements()\r\n\r\nnon_unique_vertices = []\r\nfor wall in walls:\r\n    wall_location = wall.Location\r\n    if isinstance(wall_location, LocationCurve):\r\n        wall_location_curve = wall_location.Curve\r\n        curve_start_point = wall_location_curve.GetEndPoint(0)\r\n        curve_end_point = wall_location_curve.GetEndPoint(1)\r\n\r\n        non_unique_vertices.append(curve_start_point)\r\n        non_unique_vertices.append(curve_end_point)\r\n\r\ngeometry_vertices = list(set(non_unique_vertices))\r\n\r\ntotal_x_in_dynamo = IN[1][1][0]\r\ntotal_y_in_dynamo = IN[1][1][1]\r\n\r\nif geometry_vertices:\r\n    min_vertex = min(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* bottom left of outer rectangle\r\n    max_vertex = max(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* top right of outer rectangle\r\n    \r\n    x_min , y_min = min_vertex.X , min_vertex.Y\r\n    x_max , y_max = max_vertex.X , max_vertex.Y\r\n\r\n    total_x_in_view = x_max - x_min\r\n    total_y_in_view = y_max - y_min\r\n    \r\n    OUT = total_x_in_view / total_x_in_dynamo , total_y_in_view / total_y_in_dynamo\r\nelse : \r\n    OUT = None",
+      "Code": "#IN[0]: view element id\r\n#IN[1]: Output of Input prep. script\r\n\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\n\r\nwalls = FilteredElementCollector(doc).OfClass(Wall).ToElements()\r\n\r\nnon_unique_vertices = []\r\nfor wall in walls:\r\n    wall_location = wall.Location\r\n    if isinstance(wall_location, LocationCurve):\r\n        wall_location_curve = wall_location.Curve\r\n        curve_start_point = wall_location_curve.GetEndPoint(0)\r\n        curve_end_point = wall_location_curve.GetEndPoint(1)\r\n\r\n        non_unique_vertices.append(curve_start_point)\r\n        non_unique_vertices.append(curve_end_point)\r\n\r\ngeometry_vertices = list(set(non_unique_vertices))\r\n\r\ntotal_x_in_dynamo = convert_meter_to_unit(IN[1][1][0])\r\ntotal_y_in_dynamo = convert_meter_to_unit(IN[1][1][1])\r\n\r\nif geometry_vertices:\r\n    min_vertex = min(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* bottom left of outer rectangle\r\n    max_vertex = max(geometry_vertices, key=lambda vertex: (vertex.X, vertex.Y, vertex.Z)) #* top right of outer rectangle\r\n    \r\n    x_min , y_min = min_vertex.X , min_vertex.Y\r\n    x_max , y_max = max_vertex.X , max_vertex.Y\r\n\r\n    total_x_in_view = x_max - x_min\r\n    total_y_in_view = y_max - y_min\r\n    \r\n    OUT = total_x_in_view / total_x_in_dynamo , total_y_in_view / total_y_in_dynamo\r\nelse : \r\n    OUT = None",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "0739107c1bf34e7cb3b800698ecac74e",
@@ -1341,7 +1341,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "OUT = IN[2][:2]",
+      "Code": "#IN[0]: room dict.\r\n#IN[1]: scales from transformation script\r\n#IN[2]: view's bounding box and bounding box's width and height from getviewdimensions script\r\n\r\nimport clr\r\nfrom System.Drawing import *\r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom Autodesk.Revit.DB import *\r\n\r\ndef extract_lists_with_string(room_dict, type):\r\n    extracted_lists = []\r\n    for key in room_dict:\r\n        if type in key:\r\n            extracted_lists.append(room_dict[key])\r\n    return extracted_lists\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n    \r\ndict = IN[0]\r\nscale_in_x , scale_in_y = IN[1]\r\nx_min_view , y_min_view = IN[2][:2]\r\n\r\norigins = extract_lists_with_string(dict , \"ORIGIN\")\r\ndestinations = extract_lists_with_string(dict , \"DESTINATION\")\r\n\r\ntransform_in_x = lambda pre_transformation_value : convert_meter_to_unit(pre_transformation_value) * scale_in_x * 0.93 - x_min_view - 36.3\r\ntransform_in_y = lambda pre_transformation_value : convert_meter_to_unit(pre_transformation_value) * scale_in_y * 1.3 - y_min_view - 8.5\r\n\r\norigins_in_view = []\r\nfor origin in origins : \r\n    origin_in_view =  [\r\n        [transform_in_x(origin[0][0]) , transform_in_y(origin[0][1])] , [transform_in_x(origin[1][0]) , transform_in_y(origin[1][1])]\r\n    ]\r\n    origins_in_view.append(origin_in_view)\r\n\r\ndestinations_in_view = []\r\nfor destination in destinations : \r\n    destination_in_view =  [\r\n        [transform_in_x(destination[0][0]) , transform_in_y(destination[0][1])] , [transform_in_x(destination[1][0]) , transform_in_y(destination[1][1])]\r\n    ]\r\n    destinations_in_view.append(destination_in_view)\r\n\r\nOUT = origins_in_view , destinations_in_view",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "53ac5a6b8818456594d27b6b2548e01e",
@@ -1391,7 +1391,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import sys\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\n# Get the active view\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nview = doc.ActiveView\r\n\r\n# Get the crop box of the view\r\ncropBox = view.GetCropBox()\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\n# Define the geometry dimensions\r\ngeometryWidth = convert_meter_to_unit(25.6)  # Example width\r\ngeometryHeight = convert_meter_to_unit(25.6)  # Example height\r\n\r\n\r\nmin_x , min_y , max_x , max_y = cropBox.Min.X , cropBox.Min.Y , cropBox.Max.X , cropBox.Min.Y\r\nmin_x_geom , min_y_geom = convert_meter_to_unit(-0.3) , convert_meter_to_unit(-0.3)\r\nmax_x_geom = min_x_geom + geometryWidth\r\nmax_y_geom = min_y_geom + geometryHeight\r\n\r\ndistances = [min_x_geom - min_x , min_y_geom - min_y , max_x - max_x_geom , max_y - max_y_geom]\r\ngeomDims = [geometryWidth , geometryHeight]\r\ndims = [distances[0] + distances[2] + geometryWidth , distances[1] + distances[3] + geometryHeight]\r\n# Return the distances\r\nOUT = distances , geomDims , dims ,  [min_x , min_y , max_x , max_y]\r\n",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nviewId = IN[0]\r\nelementId = ElementId(viewId)\r\nview = doc.GetElement(elementId)\r\n\r\nscreenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n\r\noptions = ImageExportOptions()\r\noptions.ExportRange = ExportRange.CurrentView\r\noptions.ViewName = view.Name\r\noptions.FilePath = screenshot_of_view_path\r\noptions.ZoomType = ZoomFitType.Zoom\r\noptions.PixelSize = 1024\r\n\r\ndoc.ExportImage(options)\r\n\r\nsaved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n\r\nOUT = saved_image_path\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "e9cc7f3b7acf4c6eb6d098bc25a5d0c6",
@@ -1448,6 +1448,88 @@
       ],
       "Replication": "Disabled",
       "Description": "Previews an image"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] : path of temp image created in script that runs before this one\r\n# IN[1] : min and max in both x and y in view coordinate system in revit units\r\n# IN[2] : origin and destination lists from origin and destination prepper script\r\n\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport tempfile\r\nfrom PIL import Image as im\r\n\r\ndef transform_coordinates(image , x0_original, y0_original, x1_original, y1_original, x_min_new, y_min_new, x_max_new, y_max_new):\r\n    width, height = image.size\r\n\r\n    scale_x = width / (x1_original - x0_original)\r\n    scale_y = height / (y1_original - y0_original)\r\n\r\n    pixel_xmin = int((x_min_new) * scale_x)\r\n    pixel_ymin = int(height - (y_max_new) * scale_y)\r\n    pixel_xmax = int((x_max_new) * scale_x)\r\n    pixel_ymax = int(height - (y_min_new) * scale_y)\r\n\r\n    return pixel_xmin, pixel_ymin, pixel_xmax, pixel_ymax\r\n\r\ndef change_bounding_box_color(image, pixels, x_min, y_min, x_max, y_max, color):\r\n    width, height = image.size\r\n\r\n    rgb_color = tuple(color)\r\n\r\n    x_min = max(0, min(x_min, width - 1))\r\n    y_min = max(0, min(y_min, height - 1))\r\n    x_max = max(0, min(x_max, width - 1))\r\n    y_max = max(0, min(y_max, height - 1))\r\n\r\n    for x in range(x_min, x_max + 1):\r\n        for y in range(y_min, y_max + 1):\r\n            pixels[x, y] = rgb_color\r\n\r\n    return image, pixels\r\n\r\nimage_path = IN[0]\r\nview_dims = IN[1][:4]\r\norigins , destinations = IN[2]\r\n\r\nimage = im.open(image_path)\r\npixels = image.load()\r\n\r\norigin_color = (255, 0, 0)\r\ndestination_color = (0, 255, 0)\r\n\r\nfor origin in origins : \r\n    reshaped_origin = [*origin[0] , *origin[1]]\r\n    pixel_coordinates = transform_coordinates(image , *view_dims , *reshaped_origin)\r\n    image , pixels = change_bounding_box_color(image , pixels , *pixel_coordinates , origin_color)\r\n\r\nfor destination in destinations : \r\n    reshaped_destination = [*destination[0] , *destination[1]]\r\n    pixel_coordinates = transform_coordinates(image , *view_dims , *reshaped_destination)\r\n    image , pixels = change_bounding_box_color(image , pixels , *pixel_coordinates , destination_color)\r\n\r\noverlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\nimage.save(overlayed_image_path)\r\n\r\nresult = Image.FromFile(overlayed_image_path)\r\n\r\nOUT = result",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "5808d5cd14934ec997832a5918bde487",
+      "Inputs": [
+        {
+          "Id": "e0f6a30cb8e847f0a2fa98eef2855f52",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "56dc947adfa34545ab64306f15caaa14",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "9e54fb9533a24c689432355b3acc0d11",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d7ff228b87a7484eb34102f8c119025a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nimport numpy as np\r\nfrom skimage import io, color, feature, filters\r\nfrom skimage.transform import probabilistic_hough_line\r\nfrom skimage.morphology import square\r\n\r\n# Load the image\r\nimage = io.imread(IN[0])\r\n\r\n# Convert the image to grayscale\r\ngray_image = color.rgb2gray(image)\r\n\r\n# Apply Gaussian blur\r\nblurred_image = filters.gaussian(gray_image, sigma=1)\r\n\r\n# Perform Canny edge detection\r\nedges = feature.canny(blurred_image)\r\n\r\n# Apply dilation to enhance the edges if needed\r\ndilated_edges = filters.rank.maximum(edges, square(3))\r\n\r\n# Use probabilistic Hough line transform to detect lines\r\nlines = probabilistic_hough_line(dilated_edges, threshold=10, line_length=50, line_gap=10)\r\n\r\n# Find intersections to locate corners\r\ncorners = []\r\nfor line1 in lines:\r\n    for line2 in lines:\r\n        intersection = line_intersection(line1, line2)\r\n        if intersection is not None:\r\n            corners.append(intersection)\r\n\r\nOUT = corners\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e8341a78de464616bbe0c14fd8ca5f9e",
+      "Inputs": [
+        {
+          "Id": "1b4b25f7cc5b4509b8f6c0bad07ab6a7",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b16db980495f475e9c2c101bd8ce24dd",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -1545,6 +1627,11 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "dcd3c7e22c1845d38c553feab2bba391",
       "Id": "daa55aba2d7e42918c0cd91f9ea48f27"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "f8410411856947529cd8d8e95b2c5d43",
+      "Id": "bcd222d2ffa3417f89030b06fa6d764a"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1672,6 +1759,11 @@
       "Id": "89e77f75bc9c4087b3d9fba7d2608bdf"
     },
     {
+      "Start": "fe16132d7db84ae6a98c27f63b8ea918",
+      "End": "56dc947adfa34545ab64306f15caaa14",
+      "Id": "12ceba708aa340e380017febe3d51bec"
+    },
+    {
       "Start": "ef8b0782be4242e59154a989a0cc23d1",
       "End": "b31c6b6f85b24aa4a0bc9cf4b00757a9",
       "Id": "0e56ff27dde84c4c9a07a57f3ea7062a"
@@ -1690,6 +1782,26 @@
       "Start": "4448629aad42443e9c68cac244d06f41",
       "End": "43f528073de841468b3682dd6c1619af",
       "Id": "b64dafca203a497189430c292ee19294"
+    },
+    {
+      "Start": "9df06810a9df4d43ac1fc88bfb2ceeb8",
+      "End": "9e54fb9533a24c689432355b3acc0d11",
+      "Id": "36d8df3c4983485d829887493abed1e8"
+    },
+    {
+      "Start": "dce0e3c1c27d4a009554f3bd0cd1b7c6",
+      "End": "e0f6a30cb8e847f0a2fa98eef2855f52",
+      "Id": "020658819bb34910a825f74b600e7745"
+    },
+    {
+      "Start": "dce0e3c1c27d4a009554f3bd0cd1b7c6",
+      "End": "1b4b25f7cc5b4509b8f6c0bad07ab6a7",
+      "Id": "663d332c03cf4f09920c2dacfe7d6721"
+    },
+    {
+      "Start": "d7ff228b87a7484eb34102f8c119025a",
+      "End": "fad3aef52f044f049259e4f8add3ffec",
+      "Id": "dfcbefe6915a430a99d85bc64b4a8146"
     }
   ],
   "Dependencies": [],
@@ -2065,7 +2177,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -1531.007957220831,
-        "Y": 1403.8894032706874
+        "Y": 1402.9197976785574
       },
       {
         "ShowGeometry": true,
@@ -2109,7 +2221,7 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "CreateImage",
+        "Name": "ExportViewAsTempPng",
         "Id": "e9cc7f3b7acf4c6eb6d098bc25a5d0c6",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -2124,8 +2236,28 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1396.1885650714528,
-        "Y": 1780.1943228775519
+        "X": -766.67433080058,
+        "Y": 1853.79042047649
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportViewAsTempPng",
+        "Id": "5808d5cd14934ec997832a5918bde487",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1029.1776726671337,
+        "Y": 1854.0173615343497
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "DetectEdges",
+        "Id": "e8341a78de464616bbe0c14fd8ca5f9e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1008.2571324926805,
+        "Y": 2234.9177585725438
       }
     ],
     "Annotations": [
@@ -2225,8 +2357,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1727.0893597400536,
-    "Y": -718.0477840032446,
-    "Zoom": 0.65557464208768756
+    "X": 1870.5351100603139,
+    "Y": -2813.2965943518802,
+    "Zoom": 1.4129763226675662
   }
 }
