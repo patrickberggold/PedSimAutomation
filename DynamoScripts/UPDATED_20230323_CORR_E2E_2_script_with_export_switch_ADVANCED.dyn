@@ -1148,7 +1148,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    image_path = IN[2]\r\n    origins, destinations = IN[1]\r\n    \r\n    image = cv2.imread(image_path)\r\n    image_copy = np.copy(image)\r\n    \r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
+      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n# IN[3] : create input image or not (boolean)\r\n# IN[4] : output of prepper script\r\n# IN[5] : padded image width (input param)\r\n# IN[6] : padded image height (input param)\r\n\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    site_bbox_in_image = IN[0][0]\r\n    origins, destinations = IN[1]\r\n    image_path = IN[2]\r\n    site_dimensions_meters = IN[4][1][:2]\r\n    padded_image_width = int(IN[5])\r\n    padded_image_height = int(IN[6])\r\n    \r\n    image = cv2.imread(image_path)\r\n\r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n\r\n    padded_image = np.zeros((padded_image_height, padded_image_width , 3), dtype=np.uint8)\r\n    padded_image_centers = [\r\n        int(dim / 2) for dim in [padded_image_width , padded_image_height]\r\n    ]\r\n\r\n    site_cutout = image[site_bbox_in_image[1] : site_bbox_in_image[3] , site_bbox_in_image[0] : site_bbox_in_image[2]]\r\n    site_dims_in_padded_image = [\r\n        dim * 10 for dim in site_dimensions_meters\r\n    ]\r\n\r\n    # using different interpolation order for upsizing and downsizing\r\n    if site_dims_in_padded_image[0] > site_bbox_in_image[2] - site_bbox_in_image[0] and site_dims_in_padded_image[1] > site_bbox_in_image[3] - site_bbox_in_image[1] : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_CUBIC)\r\n    else : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_AREA)\r\n\r\n    origin_padded_image = [\r\n        int(padded_image_centers[i] - site_dims_in_padded_image[i] / 2) for i in range(2)\r\n    ]\r\n    padded_image[origin_padded_image[1] : origin_padded_image[1] + site_dims_in_padded_image[1] , origin_padded_image[0] : origin_padded_image[0] + site_dims_in_padded_image[0]] = scaled_cutout\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, padded_image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "794a8dd2ebb44b2a87807233d34c3876",
@@ -1184,6 +1184,33 @@
           "Id": "89565c11cbfe4e61839c0d4c312274a6",
           "Name": "IN[3]",
           "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "efa852e8bc9a4d28a0f0162098da47b9",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ead2bf9f8306456d961b4d89ca246d5f",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7744516de5514a6da47ea09ce284cb0d",
+          "Name": "IN[6]",
+          "Description": "Input #6",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1341,6 +1368,69 @@
       ],
       "Replication": "Disabled",
       "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "08ec84eede214fe2806fe31c64c51e8c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d71dadadf79b40d4b9205171f8c20c21",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.0,
+      "Id": "9faf7a00218f4e43b4eaa5d83ff7d4b2",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "3f1442dad4a84226909575db6aef6212",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "9837e460461143a98767330dff931c1d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5dc1a28c21034ad8b7cdb00ccf578de2",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
     }
   ],
   "Connectors": [
@@ -1500,6 +1590,11 @@
       "Id": "404d63a7b853422cb149e6bfd442c1dc"
     },
     {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "efa852e8bc9a4d28a0f0162098da47b9",
+      "Id": "27476264d0584619be21900351f6daaa"
+    },
+    {
       "Start": "dae2fa19de3846cba91a069194e1d34d",
       "End": "fbc05400e9644888bbe944aea5739183",
       "Id": "b766767d7e1b443a88e88f33eed5584e"
@@ -1542,7 +1637,7 @@
     {
       "Start": "c8a180bce11a40f0b1522dc2b7310f2a",
       "End": "c4cb1223d51f4d45ac2bbf726ef74a54",
-      "Id": "5fe494898f334f969459f9225904af33"
+      "Id": "abbd25ba2c2b451db81470f59548da4c"
     },
     {
       "Start": "92445c89710047dab33e1b0da28787a8",
@@ -1578,6 +1673,16 @@
       "Start": "e8ab52e6064c40699c0befe39c1096e5",
       "End": "89565c11cbfe4e61839c0d4c312274a6",
       "Id": "df1e9d606431406d82e00fab348cb7b9"
+    },
+    {
+      "Start": "d71dadadf79b40d4b9205171f8c20c21",
+      "End": "ead2bf9f8306456d961b4d89ca246d5f",
+      "Id": "1619240a6483436ab0551928598adef5"
+    },
+    {
+      "Start": "5dc1a28c21034ad8b7cdb00ccf578de2",
+      "End": "7744516de5514a6da47ea09ce284cb0d",
+      "Id": "02195ceb4f274f6f8049207a90251d91"
     }
   ],
   "Dependencies": [],
@@ -1937,13 +2042,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "CreateOverlaidImage",
+        "Name": "CreateOverlaidAndPaddedImage",
         "Id": "794a8dd2ebb44b2a87807233d34c3876",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -518.72881229227255,
-        "Y": 1002.8955520376451
+        "X": -470.2051098007355,
+        "Y": 976.42807795135218
       },
       {
         "ShowGeometry": true,
@@ -1957,13 +2062,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Number",
+        "Name": "WallThickness",
         "Id": "04d6da4bc54f498abfab8b585162874d",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1007.130378663486,
-        "Y": 1353.0541614072779
+        "X": -1586.2236172535779,
+        "Y": 1472.1478865671938
       },
       {
         "ShowGeometry": true,
@@ -1984,6 +2089,36 @@
         "Excluded": false,
         "X": -1715.2413512897642,
         "Y": 1378.2505001150766
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageWidth(INT)",
+        "Id": "08ec84eede214fe2806fe31c64c51e8c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1646.5777852799206,
+        "Y": 1559.1718405236873
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Number",
+        "Id": "9faf7a00218f4e43b4eaa5d83ff7d4b2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 71.043757148835539,
+        "Y": 1152.1837225296154
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageHeight(INT)",
+        "Id": "9837e460461143a98767330dff931c1d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1652.5929797816298,
+        "Y": 1632.3364697065331
       }
     ],
     "Annotations": [
@@ -2083,8 +2218,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1969.5257020458475,
-    "Y": -416.7345597553699,
-    "Zoom": 0.739756803631936
+    "X": 968.6060351943338,
+    "Y": 162.26388310522805,
+    "Zoom": 0.345156904127725
   }
 }
