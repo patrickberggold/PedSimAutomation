@@ -1394,27 +1394,6 @@
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Double",
-      "InputValue": 0.0,
-      "Id": "9faf7a00218f4e43b4eaa5d83ff7d4b2",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "3f1442dad4a84226909575db6aef6212",
-          "Name": "",
-          "Description": "Double",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Creates a number."
-    },
-    {
-      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
-      "NodeType": "NumberInputNode",
-      "NumberType": "Double",
       "InputValue": 640.0,
       "Id": "9837e460461143a98767330dff931c1d",
       "Inputs": [],
@@ -2102,16 +2081,6 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Number",
-        "Id": "9faf7a00218f4e43b4eaa5d83ff7d4b2",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": 71.043757148835539,
-        "Y": 1152.1837225296154
-      },
-      {
-        "ShowGeometry": true,
         "Name": "PaddedImageHeight(INT)",
         "Id": "9837e460461143a98767330dff931c1d",
         "IsSetAsInput": false,
@@ -2153,7 +2122,7 @@
         "Left": -2524.0621692211462,
         "Top": 1076.628330198698,
         "Width": 1080.736008429524,
-        "Height": 295.19485626486949,
+        "Height": 150.19485626486949,
         "FontSize": 36.0,
         "InitialTop": 1129.628330198698,
         "InitialHeight": 148.19485626486949,
@@ -2218,8 +2187,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 968.6060351943338,
-    "Y": 162.26388310522805,
-    "Zoom": 0.345156904127725
+    "X": 869.66397516852851,
+    "Y": -521.32316615268485,
+    "Zoom": 0.87499852225948282
   }
 }
