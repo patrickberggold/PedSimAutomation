@@ -1414,7 +1414,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif IN[1] : \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 0\r\n    else : \r\n        OUT = 1\r\n",
+      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif 1 : \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 0\r\n    else : \r\n        OUT = 1\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "69e6c27f576641929345b661b889e958",
@@ -1455,7 +1455,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif IN[0] : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 0\r\n        \r\n    else :\r\n        OUT = 1\r\n# Set view properties\r\n#view.CropBoxActive = True\r\n#viewRange = view.GetViewRange()\r\n#viewRange.SetOffset(PlanViewPlane.ViewDepthPlane, -5)\r\n#view.SetViewRange(viewRange)\r\n#view.DetailLevel = ViewDetailLevel.Medium",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif 1 : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 0\r\n        \r\n    else :\r\n        OUT = 1\r\n# Set view properties\r\n#view.CropBoxActive = True\r\n#viewRange = view.GetViewRange()\r\n#viewRange.SetOffset(PlanViewPlane.ViewDepthPlane, -5)\r\n#view.SetViewRange(viewRange)\r\n#view.DetailLevel = ViewDetailLevel.Medium",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "5f8d540eb95b4b15901dccd55a9721a4",
@@ -1496,7 +1496,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = 0",
+      "Code": "#IN[0]: view element id\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif 1 : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    view.CropBoxActive = False\r\n    view.CropBoxVisible = False\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 0",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "7571221c112148bca01a778215a43c2c",
@@ -1505,6 +1505,15 @@
           "Id": "60456b2ad9aa410fa4be67982e7516ba",
           "Name": "IN[0]",
           "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1fda3b40650340a58e4bd0a928415190",
+          "Name": "IN[1]",
+          "Description": "Input #1",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1611,6 +1620,11 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "55cd6917e0434d28ab65712b43339919",
       "Id": "bd81cc671339451d8b6a1facf5251bc1"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "60456b2ad9aa410fa4be67982e7516ba",
+      "Id": "dc64edd3dc8b4d9bbfce04e536941e51"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1786,6 +1800,11 @@
       "Start": "e8ab52e6064c40699c0befe39c1096e5",
       "End": "7eba68bec28b4c8f983334dddadc8513",
       "Id": "5ae35498935548d1b5ab6a92dad730f1"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "1fda3b40650340a58e4bd0a928415190",
+      "Id": "14af048d7b8d4360a54d334bc6377fea"
     },
     {
       "Start": "d71dadadf79b40d4b9205171f8c20c21",
@@ -2140,8 +2159,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1336.2756071558028,
-        "Y": 1214.1348320083998
+        "X": -1324.1699870374975,
+        "Y": 1216.9284366510856
       },
       {
         "ShowGeometry": true,
@@ -2200,8 +2219,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1715.2413512897642,
-        "Y": 1378.2505001150766
+        "X": -1718.6753153464181,
+        "Y": 1398.0882094194706
       },
       {
         "ShowGeometry": true,
@@ -2230,8 +2249,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1308.5559184518097,
-        "Y": 1682.5404832122706
+        "X": -1339.2855695213534,
+        "Y": 1733.7565683281771
       },
       {
         "ShowGeometry": true,
@@ -2240,18 +2259,18 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1308.2017786925958,
-        "Y": 1806.3243959606698
+        "X": -1478.3630908463515,
+        "Y": 1902.6657271065462
       },
       {
         "ShowGeometry": true,
-        "Name": "Python Script",
+        "Name": "Get rid of cropbox",
         "Id": "7571221c112148bca01a778215a43c2c",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -873.34241624960021,
-        "Y": 1482.2869983894129
+        "X": -1350.9313309191371,
+        "Y": 1574.9289876393352
       }
     ],
     "Annotations": [
@@ -2351,8 +2370,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 2458.4063524855273,
-    "Y": -3035.5915403050162,
-    "Zoom": 2.2823759320381969
+    "X": 1381.0097635109755,
+    "Y": -517.29403941963449,
+    "Zoom": 0.68745460761121757
   }
 }
