@@ -1410,6 +1410,47 @@
       ],
       "Replication": "Disabled",
       "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif IN[1] : \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 0\r\n    else : \r\n        OUT = 1\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "69e6c27f576641929345b661b889e958",
+      "Inputs": [
+        {
+          "Id": "6a956cc828e84d548938eb2ffe293ccd",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "05a97ac23a6e4d92bed1ddfc7cb2385f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4c746b45fc7341beab582c90dda5c01b",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -1487,6 +1528,11 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "b1318ec70193417d9fc3e2d6762d008b",
       "Id": "87a3caf73f11441a91853bdda93d6ad0"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "6a956cc828e84d548938eb2ffe293ccd",
+      "Id": "30d6f7ee2d64442db2e7effc66bfe595"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1652,6 +1698,11 @@
       "Start": "e8ab52e6064c40699c0befe39c1096e5",
       "End": "89565c11cbfe4e61839c0d4c312274a6",
       "Id": "df1e9d606431406d82e00fab348cb7b9"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "05a97ac23a6e4d92bed1ddfc7cb2385f",
+      "Id": "83e366b18fb840bfbd986ae26a179421"
     },
     {
       "Start": "d71dadadf79b40d4b9205171f8c20c21",
@@ -2088,6 +2139,16 @@
         "Excluded": false,
         "X": -1652.5929797816298,
         "Y": 1632.3364697065331
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Color Walls Black",
+        "Id": "69e6c27f576641929345b661b889e958",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1304.5924714501386,
+        "Y": 1681.2193342117134
       }
     ],
     "Annotations": [
@@ -2187,8 +2248,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 466.78939981681862,
-    "Y": -268.43188226746918,
-    "Zoom": 0.6212384051621026
+    "X": 1296.3662727845658,
+    "Y": -402.02762480757565,
+    "Zoom": 0.59529058538383217
   }
 }
