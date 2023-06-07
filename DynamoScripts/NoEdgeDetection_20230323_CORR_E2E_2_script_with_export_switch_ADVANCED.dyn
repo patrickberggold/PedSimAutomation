@@ -2,7 +2,7 @@
   "Uuid": "fbc6d016-0cd7-4b3c-8fff-4142e5e2550b",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "UPDATED_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
+  "Name": "NoEdgeDetection_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
   "ElementResolver": {
     "ResolutionMap": {
       "Point": {
