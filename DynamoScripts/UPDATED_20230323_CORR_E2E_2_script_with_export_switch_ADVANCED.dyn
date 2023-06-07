@@ -1451,6 +1451,47 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif IN[0] : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 0\r\n        \r\n    else :\r\n        OUT = 1\r\n# Set view properties\r\n#view.CropBoxActive = True\r\n#viewRange = view.GetViewRange()\r\n#viewRange.SetOffset(PlanViewPlane.ViewDepthPlane, -5)\r\n#view.SetViewRange(viewRange)\r\n#view.DetailLevel = ViewDetailLevel.Medium",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "5f8d540eb95b4b15901dccd55a9721a4",
+      "Inputs": [
+        {
+          "Id": "7eba68bec28b4c8f983334dddadc8513",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "55cd6917e0434d28ab65712b43339919",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f7aa75857f8b499983b8d1261e1eba6a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -1533,6 +1574,11 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "6a956cc828e84d548938eb2ffe293ccd",
       "Id": "30d6f7ee2d64442db2e7effc66bfe595"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "55cd6917e0434d28ab65712b43339919",
+      "Id": "bd81cc671339451d8b6a1facf5251bc1"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1703,6 +1749,11 @@
       "Start": "e8ab52e6064c40699c0befe39c1096e5",
       "End": "05a97ac23a6e4d92bed1ddfc7cb2385f",
       "Id": "83e366b18fb840bfbd986ae26a179421"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "7eba68bec28b4c8f983334dddadc8513",
+      "Id": "5ae35498935548d1b5ab6a92dad730f1"
     },
     {
       "Start": "d71dadadf79b40d4b9205171f8c20c21",
@@ -2107,8 +2158,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -165.42783980993136,
-        "Y": 1009.8358280144607
+        "X": -168.63223864135398,
+        "Y": 977.7918397002345
       },
       {
         "ShowGeometry": true,
@@ -2147,8 +2198,18 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1304.5924714501386,
-        "Y": 1681.2193342117134
+        "X": -1308.5559184518097,
+        "Y": 1682.5404832122706
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Hide Elevation Arrows",
+        "Id": "5f8d540eb95b4b15901dccd55a9721a4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1308.2017786925958,
+        "Y": 1806.3243959606698
       }
     ],
     "Annotations": [
@@ -2248,8 +2309,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1296.3662727845658,
-    "Y": -402.02762480757565,
-    "Zoom": 0.59529058538383217
+    "X": 1172.3542040435357,
+    "Y": -435.55811063223416,
+    "Zoom": 0.624142032629585
   }
 }
