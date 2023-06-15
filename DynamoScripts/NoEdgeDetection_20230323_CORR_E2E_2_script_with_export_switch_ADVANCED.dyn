@@ -1107,7 +1107,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# IN[0] : path to temp jpg image of floor plan\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\nimport cv2\r\n\r\ndef get_model_bbox(image_path):\r\n    floor_plan_no_colors = cv2.imread(image_path)\r\n    image_height , image_width , _ = floor_plan_no_colors.shape\r\n\r\n    gray = cv2.cvtColor(floor_plan_no_colors, cv2.COLOR_BGR2GRAY)\r\n    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)\r\n\r\n    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)\r\n    contours = list(contours)\r\n    contours.sort(key=cv2.contourArea , reverse=True)\r\n\r\n    if not contours : \r\n        return None\r\n        \r\n    if len(contours) == 1 : \r\n\r\n        return [0 , 0 , image_width , image_height] , image_width , image_height\r\n\r\n    # second largest contour is geometry (full image is largest)\r\n    x, y, w, h = cv2.boundingRect(contours[1])\r\n    bbox = [x , y , x + w , y + h]\r\n\r\n    return bbox , image_width , image_height\r\n\r\nif IN[1] : \r\n    image_path = IN[0]\r\n    \r\n    geometry_corners , image_width , image_height = get_model_bbox(image_path)\r\n    OUT = geometry_corners , image_width , image_height\r\n",
+      "Code": "# IN[0] : path to temp jpg image of floor plan\r\nimport sys\r\n#sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\nsys.path.append(r'C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\Lib\\site-packages')\r\nimport cv2\r\n\r\ndef get_model_bbox(image_path):\r\n    floor_plan_no_colors = cv2.imread(image_path)\r\n    image_height , image_width , _ = floor_plan_no_colors.shape\r\n\r\n    gray = cv2.cvtColor(floor_plan_no_colors, cv2.COLOR_BGR2GRAY)\r\n    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)\r\n\r\n    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)\r\n    contours = list(contours)\r\n    contours.sort(key=cv2.contourArea , reverse=True)\r\n\r\n    if not contours : \r\n        return None\r\n        \r\n    if len(contours) == 1 : \r\n\r\n        return [0 , 0 , image_width , image_height] , image_width , image_height\r\n\r\n    # second largest contour is geometry (full image is largest)\r\n    x, y, w, h = cv2.boundingRect(contours[1])\r\n    bbox = [x , y , x + w , y + h]\r\n\r\n    return bbox , image_width , image_height\r\n\r\nif IN[1] : \r\n    image_path = IN[0]\r\n    \r\n    geometry_corners , image_width , image_height = get_model_bbox(image_path)\r\n    OUT = geometry_corners , image_width , image_height\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "16925d2734114e518a2e0817d5bfb62b",
@@ -1148,7 +1148,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n# IN[3] : create input image or not (boolean)\r\n# IN[4] : output of prepper script\r\n# IN[5] : padded image width (input param)\r\n# IN[6] : padded image height (input param)\r\n\r\nimport sys\r\nsys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    site_bbox_in_image = IN[0][0]\r\n    origins, destinations = IN[1]\r\n    image_path = IN[2]\r\n    site_dimensions_meters = IN[4][1][:2]\r\n    padded_image_width = int(IN[5])\r\n    padded_image_height = int(IN[6])\r\n    \r\n    image = cv2.imread(image_path)\r\n\r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n\r\n    padded_image = np.zeros((padded_image_height, padded_image_width , 3), dtype=np.uint8)\r\n    padded_image_centers = [\r\n        int(dim / 2) for dim in [padded_image_width , padded_image_height]\r\n    ]\r\n\r\n    site_cutout = image[site_bbox_in_image[1] : site_bbox_in_image[3] , site_bbox_in_image[0] : site_bbox_in_image[2]]\r\n    site_dims_in_padded_image = [\r\n        dim * 10 for dim in site_dimensions_meters\r\n    ]\r\n\r\n    # using different interpolation order for upsizing and downsizing\r\n    if site_dims_in_padded_image[0] > site_bbox_in_image[2] - site_bbox_in_image[0] and site_dims_in_padded_image[1] > site_bbox_in_image[3] - site_bbox_in_image[1] : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_CUBIC)\r\n    else : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_AREA)\r\n\r\n    origin_padded_image = [\r\n        int(padded_image_centers[i] - site_dims_in_padded_image[i] / 2) for i in range(2)\r\n    ]\r\n    padded_image[origin_padded_image[1] : origin_padded_image[1] + site_dims_in_padded_image[1] , origin_padded_image[0] : origin_padded_image[0] + site_dims_in_padded_image[0]] = scaled_cutout\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, padded_image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
+      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n# IN[3] : create input image or not (boolean)\r\n# IN[4] : output of prepper script\r\n# IN[5] : padded image width (input param)\r\n# IN[6] : padded image height (input param)\r\n\r\nimport sys\r\n#sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nsys.path.append(r'C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    site_bbox_in_image = IN[0][0]\r\n    origins, destinations = IN[1]\r\n    image_path = IN[2]\r\n    site_dimensions_meters = IN[4][1][:2]\r\n    padded_image_width = int(IN[5])\r\n    padded_image_height = int(IN[6])\r\n    \r\n    image = cv2.imread(image_path)\r\n\r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n\r\n    padded_image = np.zeros((padded_image_height, padded_image_width , 3), dtype=np.uint8)\r\n    padded_image_centers = [\r\n        int(dim / 2) for dim in [padded_image_width , padded_image_height]\r\n    ]\r\n\r\n    site_cutout = image[site_bbox_in_image[1] : site_bbox_in_image[3] , site_bbox_in_image[0] : site_bbox_in_image[2]]\r\n    site_dims_in_padded_image = [\r\n        dim * 10 for dim in site_dimensions_meters\r\n    ]\r\n\r\n    # using different interpolation order for upsizing and downsizing\r\n    if site_dims_in_padded_image[0] > site_bbox_in_image[2] - site_bbox_in_image[0] and site_dims_in_padded_image[1] > site_bbox_in_image[3] - site_bbox_in_image[1] : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_CUBIC)\r\n    else : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_AREA)\r\n\r\n    origin_padded_image = [\r\n        int(padded_image_centers[i] - site_dims_in_padded_image[i] / 2) for i in range(2)\r\n    ]\r\n    padded_image[origin_padded_image[1] : origin_padded_image[1] + site_dims_in_padded_image[1] , origin_padded_image[0] : origin_padded_image[0] + site_dims_in_padded_image[0]] = scaled_cutout\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, padded_image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "794a8dd2ebb44b2a87807233d34c3876",
@@ -1523,6 +1523,38 @@
       "Outputs": [
         {
           "Id": "ed1e233f7cad4b62929989e8d763bef4",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = sys.version",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
+      "Inputs": [
+        {
+          "Id": "f83a0d636eee4d4c8196d3f914060f86",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c2c91de349714d648fcf6b5931cd6192",
           "Name": "OUT",
           "Description": "Result of the python script",
           "UsingDefaultValue": false,
@@ -2271,6 +2303,16 @@
         "Excluded": false,
         "X": -1350.9313309191371,
         "Y": 1574.9289876393352
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -784.02630213564908,
+        "Y": 1523.4770375288176
       }
     ],
     "Annotations": [
@@ -2283,13 +2325,13 @@
           "40bb13f55e2f49fa852ce792d05d6883"
         ],
         "Left": -2509.6418451570776,
-        "Top": -220.37251862438814,
-        "Width": 287.0,
+        "Top": -220.77251862438814,
+        "Width": 293.81812678575034,
         "Height": 407.44229510039224,
         "FontSize": 36.0,
         "InitialTop": -124.37251862438814,
         "InitialHeight": 363.44229510039224,
-        "TextblockHeight": 86.0,
+        "TextblockHeight": 86.4,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2303,13 +2345,13 @@
           "5cf7b4a5da5a4f08be1428ffddc92ea7"
         ],
         "Left": -2524.0621692211462,
-        "Top": 1076.628330198698,
-        "Width": 1080.736008429524,
-        "Height": 295.19485626486949,
+        "Top": 1076.4283301986979,
+        "Width": 1079.736008429524,
+        "Height": 397.7948562648694,
         "FontSize": 36.0,
         "InitialTop": 1129.628330198698,
         "InitialHeight": 148.19485626486949,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2321,13 +2363,13 @@
           "0cdde517e1d14ae98acd0f9839922297"
         ],
         "Left": -1127.1150067308231,
-        "Top": 302.4138388495254,
-        "Width": 181.543299539524,
-        "Height": 642.938691735062,
+        "Top": 302.21383884952542,
+        "Width": 181.34329953952397,
+        "Height": 643.338691735062,
         "FontSize": 36.0,
         "InitialTop": 355.4138388495254,
         "InitialHeight": 604.938691735062,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2339,13 +2381,13 @@
           "2d96f25030c54fbebaa59cd1ce4c3394"
         ],
         "Left": -2983.9365178556354,
-        "Top": 606.96706141597883,
-        "Width": 388.0,
+        "Top": 606.76706141597879,
+        "Width": 388.80000000000018,
         "Height": 363.34640589424225,
         "FontSize": 36.0,
         "InitialTop": 659.96706141597883,
         "InitialHeight": 387.34640589424225,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       },
       {
@@ -2360,18 +2402,18 @@
           "a4e31f61d6e142a69577153b5065a6bf"
         ],
         "Left": -3074.2095325197274,
-        "Top": -35.887239313751735,
-        "Width": 328.80391235064189,
+        "Top": -36.087239313751738,
+        "Width": 329.00391235064171,
         "Height": 558.7973882787835,
         "FontSize": 36.0,
         "InitialTop": 17.112760686248265,
         "InitialHeight": 582.7973882787835,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1381.0097635109755,
-    "Y": -517.29403941963449,
-    "Zoom": 0.68745460761121757
+    "X": 641.11966044643623,
+    "Y": -2988.5444100922587,
+    "Zoom": 2.6105086393505759
   }
 }
