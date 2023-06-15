@@ -1352,7 +1352,7 @@
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
-      "InputValue": true,
+      "InputValue": false,
       "Id": "b76cb871e5f34634899df760de3583dc",
       "Inputs": [],
       "Outputs": [
@@ -1537,7 +1537,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef slab_geometry_by_level(x, y, level, delta_z):\r\n    zz = level.Elevation + delta_z\r\n    xx = x\r\n    yy = y\r\n    line_1 = Line.CreateBound(XYZ(0, 0, zz), XYZ(xx, 0, zz))\r\n    line_2 = Line.CreateBound(XYZ(xx, 0, zz), XYZ(xx, yy, zz))\r\n    line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(0, yy, zz))\r\n    line_4 = Line.CreateBound(XYZ(0, yy, zz), XYZ(0, 0, zz))\r\n\r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\n# Start a transaction\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n# Define floor dimensions\r\nlength = 15.0\r\nwidth = 15.0\r\n\r\n# Get the level to place the floor on\r\nlevel = doc.ActiveView.GenLevel\r\n\r\n# Create floor geometry\r\nfloor_geometry = slab_geometry_by_level(length, width, level, 1.)\r\n\r\n# Create a floor\r\nfloor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n# Set the floor color\r\nred = Color(255, 0, 0)  # Solid red color\r\nfillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\nsolidPattern = None\r\nfor pattern in fillPatterns:\r\n    if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n        solidPattern = pattern\r\n        break\r\n\r\nview = doc.ActiveView\r\n\r\nif solidPattern : \r\n    OverrideColorPattern(floor, red, solidPattern, view)\r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    OUT = 0\r\nelse : \r\n    OUT = 1",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n    zz = level.Elevation + delta_z\r\n    xx = x\r\n    yy = y\r\n    line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n    line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n    line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n    line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetProjectionLineColor(color)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif 1 : \r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    length = 50.\r\n    width = 50.\r\n    start_x = 20.\r\n    start_y = 20.\r\n\r\n    level = doc.ActiveView.GenLevel\r\n\r\n    floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n    floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n    red = Color(255 , 0 , 0) \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n\r\n    view = doc.ActiveView\r\n\r\n    if solidPattern : \r\n        OverrideColorPattern(floor, red, solidPattern, view)\r\n\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 0\r\n    else : \r\n        OUT = 1",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
@@ -1565,16 +1565,6 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
-      "NodeType": "CodeBlockNode",
-      "Code": "",
-      "Id": "336d9cfa76414613b852b1ca0a7fd593",
-      "Inputs": [],
-      "Outputs": [],
-      "Replication": "Disabled",
-      "Description": "Allows for DesignScript code to be authored directly"
     }
   ],
   "Connectors": [
@@ -2316,23 +2306,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Python Script",
+        "Name": "override color",
         "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -784.02630213564908,
         "Y": 1523.4770375288176
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Code Block",
-        "Id": "336d9cfa76414613b852b1ca0a7fd593",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": -325.0,
-        "Y": 1252.0
       }
     ],
     "Annotations": [
@@ -2432,8 +2412,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 995.24505190147693,
-    "Y": -948.81769902553208,
-    "Zoom": 0.9777224507665524
+    "X": 1627.9028502775566,
+    "Y": -979.23480920804275,
+    "Zoom": 0.97141181463691217
   }
 }
