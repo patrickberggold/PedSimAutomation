@@ -1,0 +1,2419 @@
+{
+  "Uuid": "fbc6d016-0cd7-4b3c-8fff-4142e5e2550b",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "NoEdgeDetection_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Point": {
+        "Key": "Autodesk.DesignScript.Geometry.Point",
+        "Value": "ProtoGeometry.dll"
+      }
+    }
+  },
+  "Inputs": [
+    {
+      "Id": "a990a64c6fa5486584c535071d418c0f",
+      "Name": "Create Folder Structure",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "Id": "2d96f25030c54fbebaa59cd1ce4c3394",
+      "Name": "True== Create Building // False==Export Floorplan",
+      "Type": "boolean",
+      "Value": "true",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "Id": "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
+      "Name": "CORRIDOR WIDTH",
+      "Type": "number",
+      "Value": "2",
+      "MaximumValue": 4.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "6eda79a2c2e040078d1fd66754c14bd9",
+      "Name": "NUM_ROOMS_SHORT_SIDE",
+      "Type": "number",
+      "Value": "3",
+      "MaximumValue": 15.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "d441a2d6f0c14ff48dd4597348011063",
+      "Name": "NUM_ROOMS_LONG_SIDE",
+      "Type": "number",
+      "Value": "3",
+      "MaximumValue": 15.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "7e346971f5c24f37a17e4b6625f1dfd8",
+      "Name": "SITE_X",
+      "Type": "number",
+      "Value": "25",
+      "MaximumValue": 60.0,
+      "MinimumValue": 20.0,
+      "StepValue": 5.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "584bef6044484045b318ed18b4ef189a",
+      "Name": "SITE_Y",
+      "Type": "number",
+      "Value": "20",
+      "MaximumValue": 40.0,
+      "MinimumValue": 10.0,
+      "StepValue": 5.0,
+      "NumberType": "Double",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "Id": "a4e31f61d6e142a69577153b5065a6bf",
+      "Name": "INCLUDE_BOTTLENECK",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Selection between a true and false."
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "12840875741d46e2869b3632ac80d603",
+      "Name": "Create Folder (py)",
+      "Type": "unknown",
+      "InitialValue": "",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "###############################################################\r\n# Load the Libraries\r\n###############################################################\r\nimport os\r\nimport clr\r\nimport sys\r\nimport math\r\nimport System\r\n\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\n#from Autodesk.Revit.UI import *\r\nfrom Autodesk.Revit.DB import StairsEditScope\r\nfrom Autodesk.Revit.DB import Parameter\r\nfrom Autodesk.Revit.DB.Architecture import StairsRun\r\nfrom Autodesk.Revit.DB.Architecture import *\r\nfrom Autodesk.Revit.DB import IFailuresPreprocessor\r\n\r\n###############################################################\r\n# Customize functions \r\n###############################################################\r\n\"\"\"\r\nConverts default unit in Dynamo into meter...\r\n\"\"\"\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\n\r\ndef convert_to_meter(internal_value):\r\n\tif isinstance(internal_value, list):\r\n\t\treturn [UnitUtils.ConvertFromInternalUnits(value, UnitTypeId.Meters) for value in internal_value]\r\n\treturn float(UnitUtils.ConvertFromInternalUnits(internal_value, UnitTypeId.Meters))\r\n\r\n\"\"\"\r\nProvide perimeter lines from three dimensions...\r\n\"\"\"\r\ndef find_perimeter_lines(x,y,z):\r\n    line_list = []\r\n    xx = x\r\n    yy = y\r\n    zz = z \r\n    # print \"find_perimeter_lines x: \" + str(x)\r\n    # print \"find_perimeter_lines y: \" + str(y)\r\n    # print \"find_perimeter_lines z: \" + str(z)\r\n\t\r\n    line_1 = Autodesk.Revit.DB.Line.CreateBound(XYZ(0,0,zz),    XYZ(xx,0,zz))\r\n    line_2 = Autodesk.Revit.DB.Line.CreateBound(XYZ(xx,0,zz),   XYZ(xx,yy,zz))\r\n    line_3 = Autodesk.Revit.DB.Line.CreateBound(XYZ(xx,yy,zz),  XYZ(0,yy,zz))\r\n    line_4 = Autodesk.Revit.DB.Line.CreateBound(XYZ(0,yy,zz),   XYZ(0,0,zz))\r\n\r\n    line_list.append(line_1)\r\n    line_list.append(line_2)\r\n    line_list.append(line_3)\r\n    line_list.append(line_4)\r\n    \r\n    return line_list\r\n\r\n\"\"\"\r\nProvide the geometry of slab by level...\r\n\"\"\"\r\ndef slab_geometry_by_level(x,y,level,delta_z):\r\n    zz = level.Elevation + delta_z\r\n    xx = x\r\n    yy = y \r\n    line_1 = Autodesk.Revit.DB.Line.CreateBound(XYZ(0,0,zz),    XYZ(xx,0,zz))\r\n    line_2 = Autodesk.Revit.DB.Line.CreateBound(XYZ(xx,0,zz),   XYZ(xx,yy,zz))\r\n    line_3 = Autodesk.Revit.DB.Line.CreateBound(XYZ(xx,yy,zz),  XYZ(0,yy,zz))\r\n    line_4 = Autodesk.Revit.DB.Line.CreateBound(XYZ(0,yy,zz),   XYZ(0,0,zz))\r\n    \r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\n###############################################################\r\n# Current doc/app/ui\r\n###############################################################\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n# uiapp = DocumentManager.Instance.CurrentUIApplication \r\n# app = uiapp.Application\r\n# uidoc = uiapp.ActiveUIDocument\r\n\r\n###############################################################\r\n# Prepare the input\r\n###############################################################\r\ndefault_exterior_wall_type = UnwrapElement(IN[0])                   # Default exterior wall type\r\ndefault_floor_type = UnwrapElement(IN[1])                           # Default Floor type\r\ndefault_interior_wall_type = UnwrapElement(IN[2])\t\t\t\t# Default interior wall type\r\n### INPUT PARAMETERS ###\r\nparameter_list = IN[3][1]\r\nsite_x = parameter_list[0]                                # the overall length of the site\r\nsite_y = parameter_list[1]                                # the overall widthness of the site\r\nCORR_WIDTH = parameter_list[2] # convert_meter_to_unit(3)\r\nNUM_ROOMS_SHORT_SIDE = parameter_list[3]\r\nNUM_ROOMS_LONG_SIDE = parameter_list[4]\r\nUSE_BOTTLENECKS = parameter_list[5]\r\n\r\ncreate_mode = IN[4]\r\nDOOR_WIDTH_H = convert_meter_to_unit(float(IN[5])/2.)\r\nOBSTACLE_WIDTH = float(IN[6])\r\n\r\nnumber_story = 1                                          # the total amount of the stories;\r\nstory_z = [0]\r\nsite_z = 4                                              # the overall height of the site\r\nref_level_z = 0                                         # the z-position of the reference level (default level = level 0, created in the prepared .rvt)\r\n###############################################################\r\n# Transaction in Revit\r\n###############################################################\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n###############################################################\r\n# Define the output\r\n###############################################################\r\n\r\n# Create room dict\r\nroom_dict = {}\r\n\r\nif create_mode:\r\n    geo_site = []                                                       # archive all the input data\r\n    ref_level = []                                                      # the reference level\r\n    bbox_site = []                                                      # bounding box of the site\r\n\r\n    # sys.path.append('C:\\Users\\ga78jem\\Miniconda3\\envs\\trajectron++\\Lib\\site-packages')\r\n\r\n    ###############################################################\r\n    # Convert the Units | b = UnitUtils.ConvertToInternalUnits(a, UnitTypeId.Meters)  b = a*3 | c = UnitUtils.ConvertFromInternalUnits(a, UnitTypeId.Meters)  c = a*3\r\n    ###############################################################\r\n\r\n    # print \"site x before conversion:\" + str(site_x)\r\n    # adjust the sizes to account for wall thickness\r\n    site_x -= 0.3\r\n    site_y -= 0.3\r\n    site_x = convert_meter_to_unit(site_x)\r\n    site_y = convert_meter_to_unit(site_y)\r\n    site_z = convert_meter_to_unit(site_z)\r\n    ref_level_z = convert_meter_to_unit(ref_level_z)\r\n    CORR_WIDTH = convert_meter_to_unit(CORR_WIDTH)\r\n    # print \"site x after conversion:\" + str(site_x)\r\n\r\n    ###############################################################\r\n    # Delete all levels apart from the reference level (when there are multiple levels)\r\n    ###############################################################\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    def clear_model(bool_value):\r\n        if bool_value:\r\n            del_grid = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Grids).WhereElementIsNotElementType().ToElements()\r\n            del_door = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Doors).WhereElementIsNotElementType().ToElements()\r\n            del_floor = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElements()\r\n            del_wall = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElements()\r\n            del_roof = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Roofs).WhereElementIsNotElementType().ToElements()\r\n            del_all = [del_grid, del_door, del_floor, del_wall, del_roof]\r\n            for element_type in del_all:\r\n                for element in element_type:\r\n                    doc.Delete(element.Id)\r\n\r\n    clear_model(True)\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 01_Site\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level_z:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != ref_level_z:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, ref_level_z)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    #--------------------------------------------------------------\r\n    #------------------ OK NOW YOU CAN CODE -----------------------\r\n    #--------------------------------------------------------------\r\n\r\n    # Create Bounding Box\r\n    bb = BoundingBoxXYZ()\r\n    bb.Min = XYZ(0, 0, 0)\r\n    bb.Max = XYZ(0, 0, site_z)\r\n    bbox_site.append(bb.ToProtoType())                  # the bounding box of the entire site\r\n    # Close and save the recording file\r\n    # geo_site.append(site_x)\r\n    # geo_site.append(site_y)\r\n    # geo_site.append(site_z)\r\n\r\n    ###############################################################\r\n    # END OF SCRIPT 1\r\n    # START OF SCRIPT 2\r\n    ###############################################################\r\n\r\n    archive_data = []                                                   # archive all the input data\r\n    bbox_story = []\r\n    exterior_wall_list = []\r\n    floor_list = []\r\n    roof_list = []\r\n    entrance_door_list = []\r\n\r\n    ###############################################################\r\n    # Convert the Units | b = UnitUtils.ConvertToInternalUnits(a, UnitTypeId.Meters)  b = a*3 | c = UnitUtils.ConvertFromInternalUnits(a, UnitTypeId.Meters)  c = a*3\r\n    ###############################################################\r\n    story_z = convert_meter_to_unit(story_z)\r\n\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 02_Story\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level.Elevation:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != 0:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, 0)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    ###############################################################\r\n    # Check the consistence with the bouning box of the side \r\n    ###############################################################\r\n    # Check the z-position of the highest story against the site box\r\n\r\n    check_site_story = True if max(story_z) < site_z else False\r\n    #print \"The stories are consistent with the overal site:\" + str(check_site_story)\r\n\r\n    # Create new story levels\r\n    for ii in range(number_story):\r\n        if ref_level.Elevation == story_z[ii]:\r\n            continue\r\n        new_level = Autodesk.Revit.DB.Level.Create(doc, story_z[ii])\r\n        new_level.Name = \"Story Level \" + str(ii)\r\n\r\n    # Create the roof level\r\n    roof_level = Autodesk.Revit.DB.Level.Create(doc, site_z)\r\n    roof_level.Name = \"Roof Level\"\r\n\r\n    # all levels\r\n    allLevels = FilteredElementCollector(doc).OfClass(Level).ToElements()\r\n\r\n    # Create Bounding Box for each story level\r\n    for ii in range(number_story):\r\n        level_bbox_end_z = story_z[ii+1] if ii < (number_story-1) else site_z\r\n        #print \"Story\"+str(ii)\r\n        #print str(level_bbox_end_z)\r\n        bb = BoundingBoxXYZ()\r\n        bb.Min = XYZ(0, 0, story_z[ii])\r\n        bb.Max = XYZ(site_x, site_y, level_bbox_end_z)\r\n        bbox_story.append(bb.ToProtoType())\r\n\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n    # Create floorplan complexity\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n\r\n    WIDTH = site_y\r\n    LENGTH = site_x\r\n    print('x_length: ' + str(convert_to_meter(LENGTH)))\r\n    print('y_width: ' + str(convert_to_meter(WIDTH)))\r\n    print(\"\")\r\n    z_level = ref_level.Elevation\r\n    ceiling = allLevels[0].Elevation\r\n\r\n    obstacle_counter = 0\r\n\r\n    # Create the exterior walls\r\n    perimeter_lines = find_perimeter_lines(LENGTH, WIDTH, z_level)\r\n    for ww in range(4):\r\n        wall = Wall.Create(doc, perimeter_lines[ww], default_exterior_wall_type.Id, ref_level.Id, site_z, 0, False, True)\r\n        exterior_wall_list.append(wall)\r\n\r\n    # Create floor for each story level\r\n    for ii in range(number_story):\r\n        ll = allLevels[ii]\r\n        floor_geometry = slab_geometry_by_level(LENGTH, WIDTH, ll, 0.0)\r\n        floor = doc.Create.NewFloor(floor_geometry, default_floor_type, ll, True)\r\n        floor_list.append(floor)\r\n\r\n    # Create corridor lines\r\n    y_main_corridor = 0.5*WIDTH\r\n    x_main_corridor_start = 1.5*CORR_WIDTH\r\n    x_main_corridor_end = LENGTH-1.5*CORR_WIDTH\r\n        \r\n    bottlneck_ys = [CORR_WIDTH, WIDTH-CORR_WIDTH]\r\n\r\n    P0_long = XYZ(x_main_corridor_start, 0, ceiling)\r\n    P1_long = XYZ(x_main_corridor_start, y_main_corridor - CORR_WIDTH/2., ceiling)\r\n    P2_long = XYZ(LENGTH, y_main_corridor - CORR_WIDTH/2., ceiling)\r\n\r\n    line_corr_0_long = Autodesk.Revit.DB.Line.CreateBound(P0_long, P1_long)\r\n    line_corr_1_long = Autodesk.Revit.DB.Line.CreateBound(P1_long, P2_long)\r\n\r\n    P1_short = XYZ(0, y_main_corridor + CORR_WIDTH/2., ceiling)\r\n    P2_short = XYZ(x_main_corridor_end, y_main_corridor + CORR_WIDTH/2., ceiling)\r\n    P3_short = XYZ(x_main_corridor_end, WIDTH, ceiling)\r\n    \r\n    line_corr_1_short = Autodesk.Revit.DB.Line.CreateBound(P1_short, P2_short)\r\n    line_corr_2_short = Autodesk.Revit.DB.Line.CreateBound(P2_short, P3_short)\r\n\r\n    corr_room_lines = [line_corr_1_short, line_corr_2_short, line_corr_0_long, line_corr_1_long] # , line_corr_2_long, line_corr_3_long]\r\n    # Create corridor-room walls\r\n    corr_walls = [Wall.Create(doc, wall_line, default_interior_wall_type.Id, allLevels[0].Id, allLevels[1].Elevation - allLevels[0].Elevation, 0, False, True) \\\r\n        for wall_line in corr_room_lines]\r\n\r\n    # obstacles\r\n    obstacle_length = 1.\r\n\r\n    x_obst_min, x_obst_max = convert_to_meter(x_main_corridor_end)+0.1, convert_to_meter(x_main_corridor_end)+0.1+obstacle_length\r\n    y_obst_min, y_obst_max = convert_to_meter(y_main_corridor + CORR_WIDTH/2.)+0.5, convert_to_meter(y_main_corridor + CORR_WIDTH/2.)+0.5+OBSTACLE_WIDTH\r\n    room_dict.update({\r\n        'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_1_1_': [\r\n                (x_obst_min, y_obst_min),\r\n                (x_obst_max, y_obst_max)\r\n            ]\r\n        }\r\n    )\r\n    obstacle_counter += 1\r\n\r\n    x_obst_min, x_obst_max = convert_to_meter(x_main_corridor_start)-0.1-obstacle_length, convert_to_meter(x_main_corridor_start)-0.1\r\n    y_obst_min, y_obst_max = convert_to_meter(y_main_corridor - CORR_WIDTH/2.)-0.5-OBSTACLE_WIDTH, convert_to_meter(y_main_corridor - CORR_WIDTH/2.)-0.5\r\n    room_dict.update({\r\n        'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_1_1_': [\r\n                (x_obst_min, y_obst_min),\r\n                (x_obst_max, y_obst_max)\r\n            ]\r\n        }\r\n    )\r\n    obstacle_counter += 1\r\n    \r\n\r\n    # destination areas\r\n    bottlneck_ys_room_dict = [0, WIDTH]\r\n    origin_opening_list = []\r\n    \r\n    x_min_fixed_1, x_max_fixed_1 = min(0, x_main_corridor_start), max(0, x_main_corridor_start)\r\n    y_min_fixed_1, y_max_fixed_1 = min(bottlneck_ys[0], bottlneck_ys_room_dict[0]), max(bottlneck_ys[0], bottlneck_ys_room_dict[0])\r\n\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_0': [\r\n                (convert_to_meter(x_min_fixed_1)+0.5, convert_to_meter(y_min_fixed_1)+0.5),\r\n                (convert_to_meter(x_max_fixed_1)-0.5, convert_to_meter(y_max_fixed_1)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    x_min_fixed_2, x_max_fixed_2 = min(x_main_corridor_end, LENGTH), max(x_main_corridor_end, LENGTH)\r\n    y_min_fixed_2, y_max_fixed_2 = min(bottlneck_ys[1], bottlneck_ys_room_dict[1]), max(bottlneck_ys[1], bottlneck_ys_room_dict[1])\r\n\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_1': [\r\n                (convert_to_meter(x_min_fixed_2)+0.5, convert_to_meter(y_min_fixed_2)+0.5),\r\n                (convert_to_meter(x_max_fixed_2)-0.5, convert_to_meter(y_max_fixed_2)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    ###############\r\n    # Office rooms\r\n    ###############\r\n    # DOOR_WIDTH_H = convert_meter_to_unit(0.5)\r\n    DOOR_HEIGHT = convert_meter_to_unit(2.2)\r\n    DOOR_THICKNESS_H = convert_meter_to_unit(0.25)\r\n\r\n    # short side\r\n    fractions = [1./(NUM_ROOMS_SHORT_SIDE)*i for i in range(NUM_ROOMS_SHORT_SIDE+1)]\r\n    short_x_coord_list = [P1_short[0] + fr * (P2_short[0] - P1_short[0]) for fr in fractions]\r\n    \r\n    for x_coord in short_x_coord_list[1:-1]:\r\n        office_office_line = Autodesk.Revit.DB.Line.CreateBound(\r\n                XYZ(x_coord, P2_short[1], ceiling),\r\n                XYZ(x_coord, P3_short[1], ceiling))\r\n        Wall.Create(doc, office_office_line, default_interior_wall_type.Id, allLevels[0].Id, allLevels[1].Elevation - allLevels[0].Elevation, 0, False, True)\r\n    \r\n    # create openings short offices\r\n    for id in range(len(short_x_coord_list)-1):\r\n        x_opening = (short_x_coord_list[id+1] + short_x_coord_list[id])/2.\r\n        y_opening = P1_short[1]\r\n        z_opening = z_level\r\n\r\n        start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)\r\n        end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)\r\n        origin_opening_list.append(doc.Create.NewOpening(corr_walls[0], start_point, end_point))\r\n\r\n        y_min_var_short, y_max_var_short = min(P1_short[1], P3_short[1]), max(P1_short[1], P3_short[1])\r\n\r\n        room_dict.update({\r\n            'CROWDIT_ORIGIN_'+str(id): [\r\n                    (convert_to_meter(short_x_coord_list[id])+0.5, convert_to_meter(y_min_var_short)+0.5),\r\n                    (convert_to_meter(short_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_short)-0.5)\r\n                ]\r\n            }\r\n        )\r\n\r\n        if id > 0:\r\n            # obstacle: rectangle (e.g. table: 2x1 m rectangle)\r\n            obstacle_length = 2.\r\n            if y_opening < y_main_corridor:\r\n                y_obst_min = convert_to_meter(y_opening)+0.1\r\n                y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH\r\n            else:\r\n                y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH\r\n                y_obst_max = convert_to_meter(y_opening)-0.1\r\n\r\n            room_dict.update({\r\n                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                        (convert_to_meter(short_x_coord_list[id])-obstacle_length/2., y_obst_min),\r\n                        (convert_to_meter(short_x_coord_list[id])+obstacle_length/2., y_obst_max)\r\n                    ]\r\n                }\r\n            )\r\n            obstacle_counter += 1\r\n\r\n\r\n    # long side\r\n    # create openings long offices\r\n    fractions = [1./(NUM_ROOMS_LONG_SIDE)*i for i in range(NUM_ROOMS_LONG_SIDE+1)]\r\n    long_x_coord_list = [P1_long[0] + fr * (P2_long[0] - P1_long[0]) for fr in fractions]\r\n\r\n    for x_coord in long_x_coord_list[1:-1]:\r\n        office_office_line = Autodesk.Revit.DB.Line.CreateBound(\r\n                XYZ(x_coord, P2_long[1], ceiling),\r\n                XYZ(x_coord, P0_long[1], ceiling))\r\n        Wall.Create(doc, office_office_line, default_interior_wall_type.Id, allLevels[0].Id, allLevels[1].Elevation - allLevels[0].Elevation, 0, False, True)\r\n\r\n    \r\n    # create openings long offices\r\n    for id in range(len(long_x_coord_list[:-1])):\r\n        x_opening = (long_x_coord_list[id+1] + long_x_coord_list[id])/2.\r\n        y_opening = P1_long[1]\r\n        z_opening = z_level\r\n\r\n        start_point = XYZ(x_opening-DOOR_WIDTH_H, y_opening-DOOR_THICKNESS_H, z_opening)\r\n        end_point = XYZ(x_opening+DOOR_WIDTH_H, y_opening+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)\r\n        origin_opening_list.append(doc.Create.NewOpening(corr_walls[3], start_point, end_point))\r\n\r\n        y_min_var_long, y_max_var_long = min(P0_long[1], P1_long[1]), max(P0_long[1], P1_long[1])\r\n        room_dict.update({\r\n            'CROWDIT_ORIGIN_'+str(id+len(short_x_coord_list)-1): [\r\n                    (convert_to_meter(long_x_coord_list[id])+0.5, convert_to_meter(y_min_var_long)+0.5),\r\n                    (convert_to_meter(long_x_coord_list[id+1])-0.5, convert_to_meter(y_max_var_long)-0.5)\r\n                ]\r\n            }\r\n        )\r\n\r\n        if id > 0:\r\n            # obstacle: rectangle (e.g. table: 2x1 m rectangle)\r\n            obstacle_length = 2.\r\n            if y_opening < y_main_corridor:\r\n                y_obst_min = convert_to_meter(y_opening)+0.1\r\n                y_obst_max = convert_to_meter(y_opening)+0.1+OBSTACLE_WIDTH\r\n            else:\r\n                y_obst_min = convert_to_meter(y_opening)-0.1-OBSTACLE_WIDTH\r\n                y_obst_max = convert_to_meter(y_opening)-0.1\r\n\r\n            room_dict.update({\r\n                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                        (convert_to_meter(long_x_coord_list[id])-obstacle_length/2., y_obst_min),\r\n                        (convert_to_meter(long_x_coord_list[id])+obstacle_length/2., y_obst_max)\r\n                    ]\r\n                }\r\n            )\r\n            obstacle_counter += 1\r\n\r\n\r\n    if USE_BOTTLENECKS:\r\n        bottleneck_lines = [\r\n            Autodesk.Revit.DB.Line.CreateBound(\r\n                XYZ(0, bottlneck_ys[0], ceiling),\r\n                XYZ(x_main_corridor_start, bottlneck_ys[0], ceiling)),\r\n            \r\n            Autodesk.Revit.DB.Line.CreateBound(\r\n                XYZ(x_main_corridor_end, bottlneck_ys[1], ceiling),\r\n                XYZ(LENGTH, bottlneck_ys[1], ceiling))\r\n        ]\r\n        \r\n        bottleneck_walls = [Wall.Create(doc, line, default_interior_wall_type.Id, allLevels[0].Id, allLevels[1].Elevation - allLevels[0].Elevation, 0, False, True)\r\n            for line in bottleneck_lines]\r\n\r\n        # some doors\r\n        x_opening_1 = x_main_corridor_start/2.\r\n        y_opening_1 = bottlneck_ys[0]\r\n        z_opening_1 = z_level\r\n\r\n        start_point_1 = XYZ(x_opening_1-DOOR_WIDTH_H, y_opening_1-DOOR_THICKNESS_H, z_opening_1)\r\n        end_point_1 = XYZ(x_opening_1+DOOR_WIDTH_H, y_opening_1+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)\r\n        opening_1 = doc.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)\r\n\r\n        x_opening_2 = x_main_corridor_end + (LENGTH-x_main_corridor_end)/2.\r\n        y_opening_2 = bottlneck_ys[1]\r\n        z_opening_2 = z_level\r\n\r\n        start_point_2 = XYZ(x_opening_2-DOOR_WIDTH_H, y_opening_2-DOOR_THICKNESS_H, z_opening_2)\r\n        end_point_2 = XYZ(x_opening_2+DOOR_WIDTH_H, y_opening_2+DOOR_THICKNESS_H, z_opening_2+DOOR_HEIGHT)\r\n        opening_2 = doc.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)\r\n\r\n    assert len(origin_opening_list) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN_')])\r\n    \r\n#--------------------------------------------------------------\r\n#------------------ OK NOW END THE CODE -----------------------\r\n#--------------------------------------------------------------\r\n\r\nTransactionManager.Instance.TransactionTaskDone()\r\n\r\n###############################################################\r\n# Prepare the output \r\n###############################################################\r\nOUT = room_dict # , len([key for key in room_dict if key.startswith('CROWDIT_OBSTACLE_')])",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ec5e304ac4a245be9aa9421d0e99101c",
+      "Inputs": [
+        {
+          "Id": "35c72e7a9b8e4c1c9896dbe0ea97a867",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "df4e28a0157c4957be1d9f39b5f8c7a3",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ce4e283bd5544be2a3e47dffa8a04616",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fa75968f4d2345dc9c17d0edb234c7db",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7a3d46c441f742268f44d1ab34c5cb38",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "793de23a0c2c4f2bae45731ef6ae28e9",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e785c04dc86a4eafa6c6fc278d4fe1bc",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d2d109a0acb841e2ad567236db560e7c",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Phython-Standard- und DesignScript-Bibliotheken laden\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\nimport os\r\nimport shutil\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\n# Die Eingaben für diesen Block werden in Form einer Liste in den IN-Variablen gespeichert.\r\ndataEnteringNode = IN\r\n\r\n# Code unterhalb dieser Linie platzieren\r\n\r\ntxt_filename = IN[0][0]\r\ndo_create = IN[1]\r\nstore_dir = IN[2]\r\nlayout_name = str(IN[3])\r\ncreate_folder_structure = IN[4]\r\n\r\nnew_folder_name = None\r\ntxt_filepath = None\r\n\r\nif create_folder_structure:\r\n\r\n\tdataset_folder_name = os.path.join(store_dir, layout_name)\r\n\tif not os.path.isdir(dataset_folder_name): os.mkdir(dataset_folder_name)\r\n\t\r\n\tnew_folder_name = txt_filename.replace('.txt', '')\r\n\t# only check for duplicate settings when creating a new subfolder corresponding to the settings\r\n\tprefix = None\r\n\tif do_create:\r\n\t\tif len(os.listdir(dataset_folder_name)) > 0:\r\n\t\t\tfor dirname in os.listdir(dataset_folder_name):\r\n\t\t\t\tassert new_folder_name != dirname.split('__')[-1], 'Duplicate settings!'\r\n\t\tprefix = str(len(os.listdir(dataset_folder_name)))+'__'\r\n\t\r\n\telif not do_create:\r\n\t\tfor dirname in os.listdir(dataset_folder_name):\r\n\t\t\tif new_folder_name == dirname.split('__')[-1]:\r\n\t\t\t\tprefix = dirname.split('__')[0] + '__'\r\n\t\r\n\tassert prefix, 'folder prefix is empty or doesnt exist, probably because a folder does not exist'\r\n\tnew_folder_name = prefix+new_folder_name\r\n\tnew_folder_name = os.path.join(dataset_folder_name, new_folder_name)\r\n\t\r\n\t# dont create the folder when exporting (it should already be there from the previous step...\r\n\tif do_create:\r\n\t\tos.mkdir(new_folder_name)\r\n\t#shutil.move(txt_filename, new_folder_name)\r\n\ttxt_filepath = os.path.join(new_folder_name, txt_filename)\r\n\r\n#doc.Regenerate()\r\n# Weisen Sie Ihre Ausgabe der OUT-Variablen zu.\r\nOUT = txt_filepath, do_create",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "12840875741d46e2869b3632ac80d603",
+      "Inputs": [
+        {
+          "Id": "3fdebb02b73c42fbb9d2b63963d85320",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "744e28e37a3247c8966f01044fe04aea",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6c295d65a7f448d687a1eab703ad163a",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4c5f5701ba524c2c962faabb3f993132",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8590b878d8cb4b52975190556e8abc3c",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "057be26b8fd3456eb6929db48710712f",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\ga78jem\\Documents\\Revit\\Exports_EGICE",
+      "InputValue": "C:\\Users\\ga78jem\\Documents\\Revit\\Exports_EGICE",
+      "NodeType": "ExtensionNode",
+      "Id": "0717b03185c842809049432b02459f1b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2c1462c6b78e460a8d38b62fb5f16a72",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "a990a64c6fa5486584c535071d418c0f",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "f1cdc488e94e45f2b98b9d0513ec9b9c",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "2d96f25030c54fbebaa59cd1ce4c3394",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "57fc432eb85048fe9e610e307697938d",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Phython-Standard- und DesignScript-Bibliotheken laden\r\nimport sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System')\r\n#from System.Collections.Generic import *\r\nfrom System.Collections.Generic import List\r\n\r\n# Die Eingaben für diesen Block werden in Form einer Liste in den IN-Variablen gespeichert.\r\ndataEnteringNode = IN\r\n\r\n# Code unterhalb dieser Linie platzieren\r\n###############################################################\r\n# Current doc/app/ui\r\n###############################################################\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ntxt_filepath = IN[0][0]\r\ndo_create = IN[0][1]\r\nviewId = IN[1]\r\n\r\ndef ExportDxf(name, id, folder, filename):\r\n\toptions = DXFExportOptions()\r\n\toptions.TargetUnit = ExportUnit.Meter\r\n\tviews = List[ElementId]()\r\n\tviews.Add(ElementId(id))\r\n\tresult = doc.Export(folder, name, views, options)\r\n\treturn result\r\n\r\nfullpath = None\r\nif not do_create and txt_filepath: \r\n\tfolderPath = '\\\\'.join(txt_filepath.split('\\\\')[:-1])\r\n\tfilename = txt_filepath.split('\\\\')[-1].replace('.txt', '.dxf')\r\n\t\r\n\tassert not os.path.isfile(os.path.join(folderPath, filename)), '.dxf already exists!'\r\n\tExportDxf(filename, viewId, folderPath, filename)\r\n\tfullpath = txt_filepath.replace('.txt', '.dxf')\r\n\r\n#Assign your output to the OUT variable\r\nOUT = fullpath",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "badd748d2f004957aee23b934675de97",
+      "Inputs": [
+        {
+          "Id": "db716f7236584b958d342d66db77865d",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c93dcaa3ac65436a9e5f8de7d943839b",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "63a41394e9964a72845b9f1e87c2abdc",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "e4540706bf3f4b20ad9d12df51646c9f",
+      "Inputs": [
+        {
+          "Id": "e2227e7495194564a126a72606591c6e",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c2a87ef810b6474f94105271b291520b",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Element.Id",
+      "Id": "7220f621ce7e434793244ca8152628d2",
+      "Inputs": [
+        {
+          "Id": "126fbc4bee13466c95f10ca4f4d6baba",
+          "Name": "element",
+          "Description": "Revit.Elements.Element",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "0e203426adb24fc3b09a639f203677fd",
+          "Name": "int",
+          "Description": "int",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Get the Element Id for this element\n\nElement.Id: int"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "OUT=IN[0];",
+      "Id": "958fc39c09054177afcc4d52bea0d278",
+      "Inputs": [
+        {
+          "Id": "0a7dccafca144324b0f6f58a08cdf533",
+          "Name": "IN",
+          "Description": "IN",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "552bddf97e8d4af78eb2532e8db2d70a",
+          "Name": "",
+          "Description": "OUT",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "1c5a73eeed6c4e0d8fd1b7a51a6a63cd",
+      "Inputs": [
+        {
+          "Id": "6b8eb8d18f7a440db0e7a103fc076cea",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "60c91914c05f4d39953693cefa6fedb3",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Phython-Standard- und DesignScript-Bibliotheken laden\r\nimport sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\n# Import RevitAPI\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System')\r\n#from System.Collections.Generic import *\r\nfrom System.Collections.Generic import List\r\n\r\n# Die Eingaben für diesen Block werden in Form einer Liste in den IN-Variablen gespeichert.\r\ndataEnteringNode = IN\r\n\r\n# Code unterhalb dieser Linie platzieren\r\n###############################################################\r\n# Current doc/app/ui\r\n###############################################################\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\ntxt_filepath = IN[0][0]\r\ndo_create = IN[0][1]\r\nviewId = IN[1]\r\n\t\r\ndef ExportPdf(id, folder, filename):\r\n\toptions = PDFExportOptions()\r\n\toptions.FileName = filename\r\n\t#options.TargetUnit = ExportUnit.Meter\r\n\tviews = List[ElementId]()\r\n\tviews.Add(ElementId(id))\r\n\tresult = doc.Export(folder, views, options)\r\n\treturn result\r\n\r\nfull_path = None\r\nif not do_create and txt_filepath:\r\n\tfolderPath = '\\\\'.join(txt_filepath.split('\\\\')[:-1])\r\n\tfilename = txt_filepath.split('\\\\')[-1].replace('.txt', '')\r\n\t#filename = folderPath.split('__')[-1].split('\\\\')[-1]\r\n\t#filename = txt_folderpath.replace('.txt', '')\r\n\t\r\n\tassert not os.path.isfile(txt_filepath.replace('.txt', '.pdf')), '.dxf already exists!'\r\n\t\r\n\tExportPdf(viewId, folderPath, filename)\r\n\tfull_path = txt_filepath.replace('.txt', '.pdf')\r\n\r\n#Assign your output to the OUT variable\r\nOUT = full_path",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "ac893ff636d54d21aed7d146ed10e438",
+      "Inputs": [
+        {
+          "Id": "c827e78d629a4fa8b52a82d4dbe57857",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ff0fb51a0d9243faadc56ccdabdd8c52",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "752f953fa4ec493bbe2677cdb447def7",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfType, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "5c1fb66a83cb4d55a51126b23a19e6e3",
+      "Inputs": [
+        {
+          "Id": "c482ec105a67468cab7d945011c2f0fc",
+          "Name": "element type",
+          "Description": "Ein Elementtyp",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "738f70ed9d144b838d2fe5ac08fce90c",
+          "Name": "elements",
+          "Description": "Alle Elemente eines angegebenen Typs im aktiven Dokument",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All elements in the active document of a given type."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "cfe83eb1be084683a7029da1aa22c460",
+      "Inputs": [
+        {
+          "Id": "d331e83aba904b7485f97be53622d0b8",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "493d3c6648be48c4802333f2116504ec",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementTypes, DSRevitNodesUI",
+      "SelectedIndex": 350,
+      "SelectedString": "ViewPlan",
+      "NodeType": "ExtensionNode",
+      "Id": "5cf7b4a5da5a4f08be1428ffddc92ea7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9e166105834d45628501fd717f9a8231",
+          "Name": "Types",
+          "Description": "Die ausgewählte Types",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All element subtypes."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
+      "SelectedIndex": 14,
+      "SelectedString": "Generic - 200mm",
+      "NodeType": "ExtensionNode",
+      "Id": "f30b125359f14000a76fa5c133fb3543",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "da786ad9c2324f788dc3112e82b677d7",
+          "Name": "Wall Type",
+          "Description": "Die ausgewählte Wall Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All wall types available in the document."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
+      "SelectedIndex": 17,
+      "SelectedString": "Generic - 300mm",
+      "NodeType": "ExtensionNode",
+      "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9c01fa3cad20409dbdcd375612fa4c8e",
+          "Name": "Wall Type",
+          "Description": "Die ausgewählte Wall Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All wall types available in the document."
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
+      "SelectedIndex": -1,
+      "SelectedString": "Generic 150mm - Filled",
+      "NodeType": "ExtensionNode",
+      "Id": "40bb13f55e2f49fa852ce792d05d6883",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9bf6ec29a49e4c13b6b0397da06c4f03",
+          "Name": "Floor Type",
+          "Description": "Die ausgewählte Floor Type",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "All floor types available in the document."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 4.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "InputValue": 2.0,
+      "Id": "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "930889da4d4d423b863c113519287359",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 15.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "InputValue": 3.0,
+      "Id": "6eda79a2c2e040078d1fd66754c14bd9",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "847871052710423085f7a6128caa335c",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 15.0,
+      "MinimumValue": 2.0,
+      "StepValue": 1.0,
+      "InputValue": 3.0,
+      "Id": "d441a2d6f0c14ff48dd4597348011063",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "b800d4a6f1c4478887101fb376c5fef6",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 60.0,
+      "MinimumValue": 20.0,
+      "StepValue": 5.0,
+      "InputValue": 25.0,
+      "Id": "7e346971f5c24f37a17e4b6625f1dfd8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "18f34a600a404da18eb08d07bc812f06",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "MaximumValue": 40.0,
+      "MinimumValue": 10.0,
+      "StepValue": 5.0,
+      "InputValue": 20.0,
+      "Id": "584bef6044484045b318ed18b4ef189a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "12a26aaf908b4bab95840ba4dc85eaa6",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Phython-Standard- und DesignScript-Bibliotheken laden\r\nimport sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Die Eingaben für diesen Block werden in Form einer Liste in den IN-Variablen gespeichert.\r\ndataEnteringNode = IN\r\n\r\n# Code unterhalb dieser Linie platzieren\r\nsite_x = int(IN[0])                                # the overall length of the site\r\nsite_y = int(IN[1])                                # the overall widthness of the site\r\nCORR_WIDTH = int(IN[2]) # convert_meter_to_unit(3)\r\nNUM_ROOMS_SHORT_SIDE = int(IN[3])\r\nNUM_ROOMS_LONG_SIDE = int(IN[4])\r\nINCLUDE_BOTTLENECK = bool(IN[5])\r\n#store_dir = IN[6]\r\n#layout_name = IN[7]\r\n\r\n\r\ntxt_filename = \\\r\n    'floorplan_siteX_'+str(int(site_x))+'_siteY_'+str(int(site_y))+'_CORRWIDTH_'+str(CORR_WIDTH)+ '_NUMROOMS_'+str(NUM_ROOMS_SHORT_SIDE)+'_'+str(NUM_ROOMS_LONG_SIDE)+'_INCBNECK_'+str(INCLUDE_BOTTLENECK)+'.txt'\r\n# Weisen Sie Ihre Ausgabe der OUT-Variablen zu.\r\nOUT = txt_filename, [site_x, site_y, CORR_WIDTH, NUM_ROOMS_SHORT_SIDE, NUM_ROOMS_LONG_SIDE, INCLUDE_BOTTLENECK]",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "a296cde849384991a7ca241cbc98f5fb",
+      "Inputs": [
+        {
+          "Id": "3431a07f7f8f4c9897236498223dba3c",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "647a974d6a684543a040e83c36da759d",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4c1765db052946249c7dfe061daf2f0a",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "34347bf83d5a4d6aa31f30e60c8ea79d",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7b591e97eb804a8c9c92795d1a27d5c2",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "6d16b8090d0346c293f5ef6dcf388afb",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "eb90d5b34b1b4d5f82f76b475484ba71",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Phython-Standard- und DesignScript-Bibliotheken laden\r\nimport sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# Die Eingaben für diesen Block werden in Form einer Liste in den IN-Variablen gespeichert.\r\ndataEnteringNode = IN\r\nroom_dict = IN[0]\r\ntxt_filepath = IN[1][0]\r\n\r\n# Code unterhalb dieser Linie platzieren\r\nif bool(room_dict) and txt_filepath:\r\n\tstdout_original = sys.stdout\r\n\tstdout_file = open(txt_filepath, 'w')\r\n\tsys.stdout = stdout_file\r\n\t\r\n\tfor key in room_dict:\r\n\t    print key\r\n\t    for coord in room_dict[key]:\r\n\t        print \"COORD_\"+str(coord[0])+\",\"+str(coord[1])\r\n\t    print \"\"\r\n\t\r\n\tsys.stdout = stdout_original\r\n\tstdout_file.close()\r\n\r\n# Weisen Sie Ihre Ausgabe der OUT-Variablen zu.\r\nOUT = [room_dict, txt_filepath]",
+      "Engine": "IronPython2",
+      "VariableInputPorts": true,
+      "Id": "0cdde517e1d14ae98acd0f9839922297",
+      "Inputs": [
+        {
+          "Id": "0c25499bbdc14034b8d510dff4b360a6",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bf2b0a9155964fb6bb690d3741af81cf",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dae2fa19de3846cba91a069194e1d34d",
+          "Name": "OUT",
+          "Description": "Ergebnis des Python-Skripts",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "8c9b303547fb462393691ed769352f34",
+      "Inputs": [
+        {
+          "Id": "fbc05400e9644888bbe944aea5739183",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5b1b3ba20fc943818d579c1f56237d0a",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "fbf55812974a4f588134879016e340f0",
+      "Inputs": [
+        {
+          "Id": "d9893c9b6f3e49ae94141f5b28dbefa7",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2ff46ff8c1ba4d47afc7d1b642e56ad0",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "285a5f8102be427ab3ad07524fa72f6a",
+      "Inputs": [
+        {
+          "Id": "f3e6d1d6bf9e4f1c9fd212e298848c48",
+          "Name": "",
+          "Description": "Auszuwertender Block",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "46e3356d70bf472f9b30423beef189ab",
+          "Name": "",
+          "Description": "Inhalt beobachten",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Visualize the output of node."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "corr_e2e",
+      "Id": "9908f9a41f4741f4a63e5dfce716d1e1",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "100878cb3de64732bb6d6ad442d6df3f",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a string."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "a4e31f61d6e142a69577153b5065a6bf",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "df8d276d2094405fae1bd75149a31f04",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.915,
+      "Id": "70fcc779d10b4e938be946e767918ee3",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "8d3bf1da095642f599a8d81544fe2b93",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.8,
+      "Id": "6f1a4e47855a4b5585aab50009ce3e5c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "a89419cf1b51448eb515ea3a35dce344",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif IN[1] : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    screenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n    \r\n    options = ImageExportOptions()\r\n    options.ExportRange = ExportRange.CurrentView\r\n    options.ViewName = view.Name\r\n    options.FilePath = screenshot_of_view_path\r\n    options.ZoomType = ZoomFitType.Zoom\r\n    options.PixelSize = 2048\r\n    \r\n    doc.ExportImage(options)\r\n    \r\n    saved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n    \r\n    OUT = saved_image_path\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "ce4c30a677d4426c844b3524f813f26f",
+      "Inputs": [
+        {
+          "Id": "b1318ec70193417d9fc3e2d6762d008b",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4421fc93b19a415caca9880865f31d28",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "72122f1040ac4f419d1d50f62d58d590",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] : path to temp jpg image of floor plan\r\nimport sys\r\n#sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\nsys.path.append(r'C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\Lib\\site-packages')\r\nimport cv2\r\n\r\ndef get_model_bbox(image_path):\r\n    floor_plan_no_colors = cv2.imread(image_path)\r\n    image_height , image_width , _ = floor_plan_no_colors.shape\r\n\r\n    gray = cv2.cvtColor(floor_plan_no_colors, cv2.COLOR_BGR2GRAY)\r\n    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)\r\n\r\n    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)\r\n    contours = list(contours)\r\n    contours.sort(key=cv2.contourArea , reverse=True)\r\n\r\n    if not contours : \r\n        return None\r\n        \r\n    if len(contours) == 1 : \r\n\r\n        return [0 , 0 , image_width , image_height] , image_width , image_height\r\n\r\n    # second largest contour is geometry (full image is largest)\r\n    x, y, w, h = cv2.boundingRect(contours[1])\r\n    bbox = [x , y , x + w , y + h]\r\n\r\n    return bbox , image_width , image_height\r\n\r\nif IN[1] : \r\n    image_path = IN[0]\r\n    \r\n    geometry_corners , image_width , image_height = get_model_bbox(image_path)\r\n    OUT = geometry_corners , image_width , image_height\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "16925d2734114e518a2e0817d5bfb62b",
+      "Inputs": [
+        {
+          "Id": "b0eba8e1426a4277953861a2b2893218",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b679dde4241a44ab8ac7d9ddd2b9c9c8",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c8a180bce11a40f0b1522dc2b7310f2a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] : bbox of geometry in image coordinate system, image width , image height\r\n# IN[1] : origin and destination lists from origin and destination prepper script\r\n# IN[2] : path of temp image created in script that runs before this one\r\n# IN[3] : create input image or not (boolean)\r\n# IN[4] : output of prepper script\r\n# IN[5] : padded image width (input param)\r\n# IN[6] : padded image height (input param)\r\n\r\nimport sys\r\n#sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nsys.path.append(r'C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\nimport os\r\nimport cv2\r\nimport numpy as np\r\nimport tempfile\r\n\r\ndef fix_open_cv_flipped_y(x_min_new, y_min_new, x_max_new, y_max_new):\r\n    return x_min_new , y_max_new , x_max_new , y_min_new\r\n\r\ndef change_bounding_box_color(image, x_min, y_min, x_max, y_max, color):\r\n    image[y_min:y_max, x_min:x_max] = tuple(color)\r\n\r\n    return image\r\n\r\nif IN[3] : \r\n    site_bbox_in_image = IN[0][0]\r\n    origins, destinations = IN[1]\r\n    image_path = IN[2]\r\n    site_dimensions_meters = IN[4][1][:2]\r\n    padded_image_width = int(IN[5])\r\n    padded_image_height = int(IN[6])\r\n    \r\n    image = cv2.imread(image_path)\r\n\r\n    origin_color = (0, 0, 255) #bgr\r\n    destination_color = (0, 255, 0)\r\n    \r\n    for origin in origins:\r\n        reshaped_origin = [*origin[0], *origin[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_origin)\r\n        image = change_bounding_box_color(image , *pixel_coordinates, origin_color)\r\n    \r\n    for destination in destinations:\r\n        reshaped_destination = [*destination[0], *destination[1]]\r\n        pixel_coordinates = fix_open_cv_flipped_y(*reshaped_destination)\r\n        image = change_bounding_box_color(image, *pixel_coordinates, destination_color)\r\n\r\n    padded_image = np.zeros((padded_image_height, padded_image_width , 3), dtype=np.uint8)\r\n    padded_image_centers = [\r\n        int(dim / 2) for dim in [padded_image_width , padded_image_height]\r\n    ]\r\n\r\n    site_cutout = image[site_bbox_in_image[1] : site_bbox_in_image[3] , site_bbox_in_image[0] : site_bbox_in_image[2]]\r\n    site_dims_in_padded_image = [\r\n        dim * 10 for dim in site_dimensions_meters\r\n    ]\r\n\r\n    # using different interpolation order for upsizing and downsizing\r\n    if site_dims_in_padded_image[0] > site_bbox_in_image[2] - site_bbox_in_image[0] and site_dims_in_padded_image[1] > site_bbox_in_image[3] - site_bbox_in_image[1] : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_CUBIC)\r\n    else : \r\n        scaled_cutout = cv2.resize(site_cutout, tuple(site_dims_in_padded_image), interpolation=cv2.INTER_AREA)\r\n\r\n    origin_padded_image = [\r\n        int(padded_image_centers[i] - site_dims_in_padded_image[i] / 2) for i in range(2)\r\n    ]\r\n    padded_image[origin_padded_image[1] : origin_padded_image[1] + site_dims_in_padded_image[1] , origin_padded_image[0] : origin_padded_image[0] + site_dims_in_padded_image[0]] = scaled_cutout\r\n    \r\n    overlayed_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(overlayed_image_path, padded_image)\r\n    \r\n    result = Image.FromFile(overlayed_image_path)\r\n    \r\n    OUT = result",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "794a8dd2ebb44b2a87807233d34c3876",
+      "Inputs": [
+        {
+          "Id": "c4cb1223d51f4d45ac2bbf726ef74a54",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "eb080bd94e4f471daacc1bf83e12f3ff",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "88ff5d2558284847bdbdd233fc4ead78",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "89565c11cbfe4e61839c0d4c312274a6",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "efa852e8bc9a4d28a0f0162098da47b9",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "ead2bf9f8306456d961b4d89ca246d5f",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "7744516de5514a6da47ea09ce284cb0d",
+          "Name": "IN[6]",
+          "Description": "Input #6",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "92445c89710047dab33e1b0da28787a8",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: room dict.\r\n#IN[1]: bbox of geometry inside png\r\n#IN[2]: site_x and site_y\r\n#IN[3]: wall thickness in meters\r\n\r\nimport clr\r\nfrom System.Drawing import *\r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom Autodesk.Revit.DB import *\r\n\r\ndef extract_lists_with_string(room_dict, type):\r\n    extracted_lists = []\r\n    for key in room_dict:\r\n        if type in key:\r\n            extracted_lists.append(room_dict[key])\r\n    return extracted_lists\r\n\r\ndef flip_point_y_axis(point, height) :\r\n    return height + 1 - point\r\n\r\ndef transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness) : \r\n    transformed_point = []\r\n    for c in range(len(point)) : \r\n        gradient = (site_bbox_image[c + 2] - site_bbox_image[c]) / site_dims_revit[c] # bbox: xmin,ymin,xmax,ymax\r\n        if c == 0 :\r\n            transformed_point.append(int(point[c] * gradient + site_bbox_image[c] + wall_thickness / 2 * gradient))\r\n        else : \r\n            transformed_point.append(int(flip_point_y_axis(point[c] * gradient , site_bbox_image[c + 2] - site_bbox_image[c]) + site_bbox_image[c] - wall_thickness / 2 * gradient))\r\n\r\n    return transformed_point\r\n\r\ndef transform_set_of_points(points , site_bbox_image , site_dims_revit , wall_thickness) : \r\n    transformed_points = []\r\n    for point in points : \r\n        transformed_points.append(\r\n            transform_to_image_coordinates(point , site_bbox_image , site_dims_revit , wall_thickness)\r\n        )\r\n\r\n    return transformed_points\r\n    \r\nif IN[4] : \r\n    \r\n        \r\n    dict = IN[0]\r\n    site_bbox_in_image , image_width , image_height = IN[1]\r\n    site_dimensions_revit = IN[2][1][:2]\r\n    wall_thickness = IN[3]\r\n    \r\n    \r\n    origins = extract_lists_with_string(dict , \"ORIGIN\")\r\n    destinations = extract_lists_with_string(dict , \"DESTINATION\")\r\n    \r\n    origins_in_image = [\r\n        transform_set_of_points(origin , site_bbox_in_image , site_dimensions_revit , wall_thickness) for origin in origins\r\n    ]\r\n    destinations_in_image = [\r\n        transform_set_of_points(destination , site_bbox_in_image , site_dimensions_revit , wall_thickness) for destination in destinations\r\n    ]\r\n    \r\n    OUT = origins_in_image , destinations_in_image",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "bbd14b26b29a4d8688aa34d183f427bf",
+      "Inputs": [
+        {
+          "Id": "d96b73cfcc484f5280572352651107a7",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "bd242929bf33458ca2d1e8dbf66e388a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "79284aeaea8242f2a0f3089fbc870e05",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "393e9654850448d0b3e5796ceacd2b1f",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1ec5fcb3245e46e1ada0b233ed53ced2",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "87dfdf8d0f1344c89a269fa7189aae7e",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.3,
+      "Id": "04d6da4bc54f498abfab8b585162874d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "095f97f3f15c419c9d3bb11c42bef4a6",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "416dd37e2b5d49548ef7a809e7dde878",
+      "Inputs": [
+        {
+          "Id": "07d79e82842d4bb59b892c920929f9f7",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "fd633c47bdc8429f97646fd229e71486",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "b76cb871e5f34634899df760de3583dc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e8ab52e6064c40699c0befe39c1096e5",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "08ec84eede214fe2806fe31c64c51e8c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d71dadadf79b40d4b9205171f8c20c21",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "9837e460461143a98767330dff931c1d",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "5dc1a28c21034ad8b7cdb00ccf578de2",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif 1 : \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 0\r\n    else : \r\n        OUT = 1\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "69e6c27f576641929345b661b889e958",
+      "Inputs": [
+        {
+          "Id": "6a956cc828e84d548938eb2ffe293ccd",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "05a97ac23a6e4d92bed1ddfc7cb2385f",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4c746b45fc7341beab582c90dda5c01b",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif 1 : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 0\r\n        \r\n    else :\r\n        OUT = 1\r\n# Set view properties\r\n#view.CropBoxActive = True\r\n#viewRange = view.GetViewRange()\r\n#viewRange.SetOffset(PlanViewPlane.ViewDepthPlane, -5)\r\n#view.SetViewRange(viewRange)\r\n#view.DetailLevel = ViewDetailLevel.Medium",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "5f8d540eb95b4b15901dccd55a9721a4",
+      "Inputs": [
+        {
+          "Id": "7eba68bec28b4c8f983334dddadc8513",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "55cd6917e0434d28ab65712b43339919",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f7aa75857f8b499983b8d1261e1eba6a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: view element id\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif 1 : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    view.CropBoxActive = False\r\n    view.CropBoxVisible = False\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 0",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "7571221c112148bca01a778215a43c2c",
+      "Inputs": [
+        {
+          "Id": "60456b2ad9aa410fa4be67982e7516ba",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1fda3b40650340a58e4bd0a928415190",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ed1e233f7cad4b62929989e8d763bef4",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\n# The inputs to this node will be stored as a list in the IN variables.\r\ndataEnteringNode = IN\r\n\r\n# Place your code below this line\r\n\r\n# Assign your output to the OUT variable.\r\nOUT = sys.version",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
+      "Inputs": [
+        {
+          "Id": "f83a0d636eee4d4c8196d3f914060f86",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c2c91de349714d648fcf6b5931cd6192",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "0c25499bbdc14034b8d510dff4b360a6",
+      "Id": "2482d3d4fad041af8da2adf29379e289"
+    },
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "f3e6d1d6bf9e4f1c9fd212e298848c48",
+      "Id": "d485a78e64ba4370ba11881b07ebaf4b"
+    },
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "d96b73cfcc484f5280572352651107a7",
+      "Id": "d4f0479a8fc34c87b3a8eb9330bb01b8"
+    },
+    {
+      "Start": "057be26b8fd3456eb6929db48710712f",
+      "End": "bf2b0a9155964fb6bb690d3741af81cf",
+      "Id": "432c584fb5c74ff7ad9f4980ce0981c3"
+    },
+    {
+      "Start": "057be26b8fd3456eb6929db48710712f",
+      "End": "c827e78d629a4fa8b52a82d4dbe57857",
+      "Id": "770a8e43771a4ed0867fa2839c0b9810"
+    },
+    {
+      "Start": "057be26b8fd3456eb6929db48710712f",
+      "End": "d9893c9b6f3e49ae94141f5b28dbefa7",
+      "Id": "63ac663e998b4bf0af68140851397755"
+    },
+    {
+      "Start": "057be26b8fd3456eb6929db48710712f",
+      "End": "db716f7236584b958d342d66db77865d",
+      "Id": "20ad75498ab749c1a90f8e670fd4a514"
+    },
+    {
+      "Start": "2c1462c6b78e460a8d38b62fb5f16a72",
+      "End": "6c295d65a7f448d687a1eab703ad163a",
+      "Id": "6781d931b2e14187bae9156f8f6426b6"
+    },
+    {
+      "Start": "f1cdc488e94e45f2b98b9d0513ec9b9c",
+      "End": "8590b878d8cb4b52975190556e8abc3c",
+      "Id": "c520e383453f4764b3c31198cf1cd383"
+    },
+    {
+      "Start": "57fc432eb85048fe9e610e307697938d",
+      "End": "7a3d46c441f742268f44d1ab34c5cb38",
+      "Id": "4cc71bc224c6461286832aee32e4906d"
+    },
+    {
+      "Start": "57fc432eb85048fe9e610e307697938d",
+      "End": "744e28e37a3247c8966f01044fe04aea",
+      "Id": "20f9004539034d1d85aebf3aac21c509"
+    },
+    {
+      "Start": "63a41394e9964a72845b9f1e87c2abdc",
+      "End": "e2227e7495194564a126a72606591c6e",
+      "Id": "027fa58522fb4e6483f0be414d06a6e1"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "ff0fb51a0d9243faadc56ccdabdd8c52",
+      "Id": "393e83f14f6c4b5985b1d23188f7398a"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "c93dcaa3ac65436a9e5f8de7d943839b",
+      "Id": "94bb7e1e78f84c58aafc711d1d31c9c8"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "b1318ec70193417d9fc3e2d6762d008b",
+      "Id": "87a3caf73f11441a91853bdda93d6ad0"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "6a956cc828e84d548938eb2ffe293ccd",
+      "Id": "30d6f7ee2d64442db2e7effc66bfe595"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "55cd6917e0434d28ab65712b43339919",
+      "Id": "bd81cc671339451d8b6a1facf5251bc1"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "60456b2ad9aa410fa4be67982e7516ba",
+      "Id": "dc64edd3dc8b4d9bbfce04e536941e51"
+    },
+    {
+      "Start": "552bddf97e8d4af78eb2532e8db2d70a",
+      "End": "126fbc4bee13466c95f10ca4f4d6baba",
+      "Id": "5720f12ac5894638b29d477e1972adbd"
+    },
+    {
+      "Start": "60c91914c05f4d39953693cefa6fedb3",
+      "End": "0a7dccafca144324b0f6f58a08cdf533",
+      "Id": "0e47016ad7724fe4803bcbcb4d7f7637"
+    },
+    {
+      "Start": "752f953fa4ec493bbe2677cdb447def7",
+      "End": "d331e83aba904b7485f97be53622d0b8",
+      "Id": "d61d46b9d70741d09277b89fce15620f"
+    },
+    {
+      "Start": "738f70ed9d144b838d2fe5ac08fce90c",
+      "End": "6b8eb8d18f7a440db0e7a103fc076cea",
+      "Id": "5614f30c93c947e28481eb72964f037d"
+    },
+    {
+      "Start": "9e166105834d45628501fd717f9a8231",
+      "End": "c482ec105a67468cab7d945011c2f0fc",
+      "Id": "83d2ac43283b44d9a64262083c5b674e"
+    },
+    {
+      "Start": "da786ad9c2324f788dc3112e82b677d7",
+      "End": "ce4e283bd5544be2a3e47dffa8a04616",
+      "Id": "b511805edeef401ca072dfb875b0bdf3"
+    },
+    {
+      "Start": "9c01fa3cad20409dbdcd375612fa4c8e",
+      "End": "35c72e7a9b8e4c1c9896dbe0ea97a867",
+      "Id": "7e145983e8984c32bf22dff958bd419a"
+    },
+    {
+      "Start": "9bf6ec29a49e4c13b6b0397da06c4f03",
+      "End": "df4e28a0157c4957be1d9f39b5f8c7a3",
+      "Id": "783778be480f421fb7c996824120d779"
+    },
+    {
+      "Start": "930889da4d4d423b863c113519287359",
+      "End": "4c1765db052946249c7dfe061daf2f0a",
+      "Id": "c715b33c653b4e4b88675bb80d7ca9dc"
+    },
+    {
+      "Start": "847871052710423085f7a6128caa335c",
+      "End": "34347bf83d5a4d6aa31f30e60c8ea79d",
+      "Id": "7e6fe753fb99457fb383987c3a0ca383"
+    },
+    {
+      "Start": "b800d4a6f1c4478887101fb376c5fef6",
+      "End": "7b591e97eb804a8c9c92795d1a27d5c2",
+      "Id": "4071915818ea402b8f3b693f9897b412"
+    },
+    {
+      "Start": "18f34a600a404da18eb08d07bc812f06",
+      "End": "3431a07f7f8f4c9897236498223dba3c",
+      "Id": "bc24115cd61b4486b7531bbb15afd66a"
+    },
+    {
+      "Start": "12a26aaf908b4bab95840ba4dc85eaa6",
+      "End": "647a974d6a684543a040e83c36da759d",
+      "Id": "ddfc882e369040eda5b92fa3c556a02f"
+    },
+    {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "3fdebb02b73c42fbb9d2b63963d85320",
+      "Id": "7a672a9007004870ac2d1c171800993a"
+    },
+    {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "fa75968f4d2345dc9c17d0edb234c7db",
+      "Id": "98b70620af694f5daefcc82570c84acb"
+    },
+    {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "79284aeaea8242f2a0f3089fbc870e05",
+      "Id": "404d63a7b853422cb149e6bfd442c1dc"
+    },
+    {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "efa852e8bc9a4d28a0f0162098da47b9",
+      "Id": "27476264d0584619be21900351f6daaa"
+    },
+    {
+      "Start": "dae2fa19de3846cba91a069194e1d34d",
+      "End": "fbc05400e9644888bbe944aea5739183",
+      "Id": "b766767d7e1b443a88e88f33eed5584e"
+    },
+    {
+      "Start": "100878cb3de64732bb6d6ad442d6df3f",
+      "End": "4c5f5701ba524c2c962faabb3f993132",
+      "Id": "9c94b76c24f242229e16ffd5a4771134"
+    },
+    {
+      "Start": "df8d276d2094405fae1bd75149a31f04",
+      "End": "6d16b8090d0346c293f5ef6dcf388afb",
+      "Id": "7e04d7001d564021b4c539c0c28b7193"
+    },
+    {
+      "Start": "8d3bf1da095642f599a8d81544fe2b93",
+      "End": "793de23a0c2c4f2bae45731ef6ae28e9",
+      "Id": "3756f38becab43d2aa13ad396d69ec56"
+    },
+    {
+      "Start": "a89419cf1b51448eb515ea3a35dce344",
+      "End": "e785c04dc86a4eafa6c6fc278d4fe1bc",
+      "Id": "3641550bda8c47e1b78e6fe326df8f0a"
+    },
+    {
+      "Start": "72122f1040ac4f419d1d50f62d58d590",
+      "End": "b0eba8e1426a4277953861a2b2893218",
+      "Id": "67176ae11dbe4edcb9b5946f3bfc9c0e"
+    },
+    {
+      "Start": "72122f1040ac4f419d1d50f62d58d590",
+      "End": "88ff5d2558284847bdbdd233fc4ead78",
+      "Id": "0b6cfd09b39242b3ac4e8949b5154673"
+    },
+    {
+      "Start": "c8a180bce11a40f0b1522dc2b7310f2a",
+      "End": "bd242929bf33458ca2d1e8dbf66e388a",
+      "Id": "0523f963bcb045f8b32eff83f358b587"
+    },
+    {
+      "Start": "c8a180bce11a40f0b1522dc2b7310f2a",
+      "End": "c4cb1223d51f4d45ac2bbf726ef74a54",
+      "Id": "abbd25ba2c2b451db81470f59548da4c"
+    },
+    {
+      "Start": "92445c89710047dab33e1b0da28787a8",
+      "End": "07d79e82842d4bb59b892c920929f9f7",
+      "Id": "27139b8a345641e4894f7a2d35fd9c77"
+    },
+    {
+      "Start": "87dfdf8d0f1344c89a269fa7189aae7e",
+      "End": "eb080bd94e4f471daacc1bf83e12f3ff",
+      "Id": "a40bb02967404e728a994437b4cd6192"
+    },
+    {
+      "Start": "095f97f3f15c419c9d3bb11c42bef4a6",
+      "End": "393e9654850448d0b3e5796ceacd2b1f",
+      "Id": "37f3c97cec8b41ac92ca3cfef5fc8985"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "4421fc93b19a415caca9880865f31d28",
+      "Id": "9d159c9a656047ba80af4c54c50e0940"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "b679dde4241a44ab8ac7d9ddd2b9c9c8",
+      "Id": "b5c118f8d11b4b608c750ff3ea5e955d"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "1ec5fcb3245e46e1ada0b233ed53ced2",
+      "Id": "cb829a1b9dda41eb8a1be1f6f2aa9ab2"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "89565c11cbfe4e61839c0d4c312274a6",
+      "Id": "df1e9d606431406d82e00fab348cb7b9"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "05a97ac23a6e4d92bed1ddfc7cb2385f",
+      "Id": "83e366b18fb840bfbd986ae26a179421"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "7eba68bec28b4c8f983334dddadc8513",
+      "Id": "5ae35498935548d1b5ab6a92dad730f1"
+    },
+    {
+      "Start": "e8ab52e6064c40699c0befe39c1096e5",
+      "End": "1fda3b40650340a58e4bd0a928415190",
+      "Id": "14af048d7b8d4360a54d334bc6377fea"
+    },
+    {
+      "Start": "d71dadadf79b40d4b9205171f8c20c21",
+      "End": "ead2bf9f8306456d961b4d89ca246d5f",
+      "Id": "1619240a6483436ab0551928598adef5"
+    },
+    {
+      "Start": "5dc1a28c21034ad8b7cdb00ccf578de2",
+      "End": "7744516de5514a6da47ea09ce284cb0d",
+      "Id": "02195ceb4f274f6f8049207a90251d91"
+    }
+  ],
+  "Dependencies": [],
+  "NodeLibraryDependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.10.1.3976",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -6.7137899398803711,
+      "EyeY": 19.17303466796875,
+      "EyeZ": 20.845033645629883,
+      "LookX": 20.300876617431641,
+      "LookY": -15.531648635864258,
+      "LookZ": -23.898988723754883,
+      "UpX": 0.15629346668720245,
+      "UpY": 0.97042179107666016,
+      "UpZ": -0.18399426341056824
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Create Corridor End2End (py)",
+        "Id": "ec5e304ac4a245be9aa9421d0e99101c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1821.07184499006,
+        "Y": 246.29856356891653
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Create Folder (py)",
+        "Id": "12840875741d46e2869b3632ac80d603",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "X": -2045.5947240660817,
+        "Y": 756.95856037154056
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Directory Path",
+        "Id": "0717b03185c842809049432b02459f1b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2871.0356478898166,
+        "Y": 733.457569339935
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Create Folder Structure",
+        "Id": "a990a64c6fa5486584c535071d418c0f",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2811.8383967284467,
+        "Y": 902.31346731022109
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "True== Create Building // False==Export Floorplan",
+        "Id": "2d96f25030c54fbebaa59cd1ce4c3394",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2973.9365178556354,
+        "Y": 659.96706141597883
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Export2DXF (py)",
+        "Id": "badd748d2f004957aee23b934675de97",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1112.5717071912991,
+        "Y": 815.35253058458738
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "e4540706bf3f4b20ad9d12df51646c9f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -843.02258181070056,
+        "Y": 812.01967206368909
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element.Id",
+        "Id": "7220f621ce7e434793244ca8152628d2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1638.3261607916222,
+        "Y": 1129.628330198698
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewPlan Selector",
+        "Id": "958fc39c09054177afcc4d52bea0d278",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1845.7168282561211,
+        "Y": 1132.7823311434718
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "1c5a73eeed6c4e0d8fd1b7a51a6a63cd",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1993.3480550901643,
+        "Y": 1132.8231864635675
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Export2PDF (py)",
+        "Id": "ac893ff636d54d21aed7d146ed10e438",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1114.9138283814186,
+        "Y": 585.06611891200987
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Type",
+        "Id": "5c1fb66a83cb4d55a51126b23a19e6e3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2273.5029719435838,
+        "Y": 1130.1277893137396
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "cfe83eb1be084683a7029da1aa22c460",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -842.84492393989945,
+        "Y": 589.48119655830328
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Element Types",
+        "Id": "5cf7b4a5da5a4f08be1428ffddc92ea7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2514.0621692211462,
+        "Y": 1130.568833154276
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Default Interior Wall Types",
+        "Id": "f30b125359f14000a76fa5c133fb3543",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2496.2237183713273,
+        "Y": 94.069776476004108
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Default Exterior Wall Types",
+        "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2499.6418451570776,
+        "Y": -124.37251862438814
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Default Floor Types",
+        "Id": "40bb13f55e2f49fa852ce792d05d6883",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2498.1690894959142,
+        "Y": -15.599989649222266
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CORRIDOR WIDTH",
+        "Id": "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3054.6239375429086,
+        "Y": 201.20532220011452
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NUM_ROOMS_SHORT_SIDE",
+        "Id": "6eda79a2c2e040078d1fd66754c14bd9",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3054.4056201690855,
+        "Y": 286.92381129846
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NUM_ROOMS_LONG_SIDE",
+        "Id": "d441a2d6f0c14ff48dd4597348011063",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3064.2095325197274,
+        "Y": 370.09620793777697
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SITE_X",
+        "Id": "7e346971f5c24f37a17e4b6625f1dfd8",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3058.5780066326256,
+        "Y": 17.112760686248265
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "SITE_Y",
+        "Id": "584bef6044484045b318ed18b4ef189a",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -3058.0773559934305,
+        "Y": 109.70326882584274
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Parameter processing (py)",
+        "Id": "a296cde849384991a7ca241cbc98f5fb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2448.2199114203213,
+        "Y": 270.55794498283342
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Save to txt (py)",
+        "Id": "0cdde517e1d14ae98acd0f9839922297",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1117.1150067308231,
+        "Y": 355.4138388495254
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "8c9b303547fb462393691ed769352f34",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -858.10334388686147,
+        "Y": 354.19602139228584
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "fbf55812974a4f588134879016e340f0",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1741.1656373037447,
+        "Y": 886.06504001616315
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch",
+        "Id": "285a5f8102be427ab3ad07524fa72f6a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1329.073894187801,
+        "Y": 136.03374989052543
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "String",
+        "Id": "9908f9a41f4741f4a63e5dfce716d1e1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2712.6692084294559,
+        "Y": 824.35613806160268
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "INCLUDE_BOTTLENECK",
+        "Id": "a4e31f61d6e142a69577153b5065a6bf",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2980.2908069463119,
+        "Y": 454.91014896503179
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Door width",
+        "Id": "70fcc779d10b4e938be946e767918ee3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2067.45643815006,
+        "Y": 442.720200567544
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Obstacle width",
+        "Id": "6f1a4e47855a4b5585aab50009ce3e5c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2081.0406749172475,
+        "Y": 522.557490718079
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportViewAsTempPng",
+        "Id": "ce4c30a677d4426c844b3524f813f26f",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1324.1699870374975,
+        "Y": 1216.9284366510856
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "DetectEdges",
+        "Id": "16925d2734114e518a2e0817d5bfb62b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1070.5602892701104,
+        "Y": 1213.1741130113553
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateOverlaidAndPaddedImage",
+        "Id": "794a8dd2ebb44b2a87807233d34c3876",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -470.2051098007355,
+        "Y": 976.42807795135218
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetScaledOriginsAndDestinations",
+        "Id": "bbd14b26b29a4d8688aa34d183f427bf",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -845.99550402535033,
+        "Y": 1200.5311289296217
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "WallThickness",
+        "Id": "04d6da4bc54f498abfab8b585162874d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1586.2236172535779,
+        "Y": 1472.1478865671938
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "InputForNN",
+        "Id": "416dd37e2b5d49548ef7a809e7dde878",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -168.63223864135398,
+        "Y": 977.7918397002345
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateFloorPlanWithOverlaidZones",
+        "Id": "b76cb871e5f34634899df760de3583dc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1718.6753153464181,
+        "Y": 1398.0882094194706
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageWidth(INT)",
+        "Id": "08ec84eede214fe2806fe31c64c51e8c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1646.5777852799206,
+        "Y": 1559.1718405236873
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageHeight(INT)",
+        "Id": "9837e460461143a98767330dff931c1d",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1652.5929797816298,
+        "Y": 1632.3364697065331
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Color Walls Black",
+        "Id": "69e6c27f576641929345b661b889e958",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1339.2855695213534,
+        "Y": 1733.7565683281771
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Hide Elevation Arrows",
+        "Id": "5f8d540eb95b4b15901dccd55a9721a4",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1478.3630908463515,
+        "Y": 1902.6657271065462
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Get rid of cropbox",
+        "Id": "7571221c112148bca01a778215a43c2c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1350.9313309191371,
+        "Y": 1574.9289876393352
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "e7cb47ec83be4e5188ce95bdd805cd81",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -784.02630213564908,
+        "Y": 1523.4770375288176
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "9ee3e13afd8c457e9710e5a6d4a77f60",
+        "Title": "Wall & Floor Types",
+        "Nodes": [
+          "f30b125359f14000a76fa5c133fb3543",
+          "9abbe9e09e324c899a59bdff2eca4aa8",
+          "40bb13f55e2f49fa852ce792d05d6883"
+        ],
+        "Left": -2509.6418451570776,
+        "Top": -220.77251862438814,
+        "Width": 293.81812678575034,
+        "Height": 407.44229510039224,
+        "FontSize": 36.0,
+        "InitialTop": -124.37251862438814,
+        "InitialHeight": 363.44229510039224,
+        "TextblockHeight": 86.4,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "b9df4177ffdb46eeaa5d58600a52bb86",
+        "Title": "Floorplan View",
+        "Nodes": [
+          "7220f621ce7e434793244ca8152628d2",
+          "958fc39c09054177afcc4d52bea0d278",
+          "1c5a73eeed6c4e0d8fd1b7a51a6a63cd",
+          "5c1fb66a83cb4d55a51126b23a19e6e3",
+          "5cf7b4a5da5a4f08be1428ffddc92ea7"
+        ],
+        "Left": -2524.0621692211462,
+        "Top": 1076.4283301986979,
+        "Width": 1079.736008429524,
+        "Height": 397.7948562648694,
+        "FontSize": 36.0,
+        "InitialTop": 1129.628330198698,
+        "InitialHeight": 148.19485626486949,
+        "TextblockHeight": 43.2,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "65222cb3314044ed8e410d9b6fd377ad",
+        "Title": "Export",
+        "Nodes": [
+          "badd748d2f004957aee23b934675de97",
+          "ac893ff636d54d21aed7d146ed10e438",
+          "0cdde517e1d14ae98acd0f9839922297"
+        ],
+        "Left": -1127.1150067308231,
+        "Top": 302.21383884952542,
+        "Width": 181.34329953952397,
+        "Height": 643.338691735062,
+        "FontSize": 36.0,
+        "InitialTop": 355.4138388495254,
+        "InitialHeight": 604.938691735062,
+        "TextblockHeight": 43.2,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "ee24e2b3d82f4bf9b60291d591d62ae6",
+        "Title": "Settings",
+        "Nodes": [
+          "0717b03185c842809049432b02459f1b",
+          "a990a64c6fa5486584c535071d418c0f",
+          "2d96f25030c54fbebaa59cd1ce4c3394"
+        ],
+        "Left": -2983.9365178556354,
+        "Top": 606.76706141597879,
+        "Width": 388.80000000000018,
+        "Height": 363.34640589424225,
+        "FontSize": 36.0,
+        "InitialTop": 659.96706141597883,
+        "InitialHeight": 387.34640589424225,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFFAA45"
+      },
+      {
+        "Id": "7377ffdb94ad473484490fae569a6988",
+        "Title": "Input parameters",
+        "Nodes": [
+          "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
+          "6eda79a2c2e040078d1fd66754c14bd9",
+          "d441a2d6f0c14ff48dd4597348011063",
+          "7e346971f5c24f37a17e4b6625f1dfd8",
+          "584bef6044484045b318ed18b4ef189a",
+          "a4e31f61d6e142a69577153b5065a6bf"
+        ],
+        "Left": -3074.2095325197274,
+        "Top": -36.087239313751738,
+        "Width": 329.00391235064171,
+        "Height": 558.7973882787835,
+        "FontSize": 36.0,
+        "InitialTop": 17.112760686248265,
+        "InitialHeight": 582.7973882787835,
+        "TextblockHeight": 43.2,
+        "Background": "#FFFFAA45"
+      }
+    ],
+    "X": 641.11966044643623,
+    "Y": -2988.5444100922587,
+    "Zoom": 2.6105086393505759
+  }
+}
