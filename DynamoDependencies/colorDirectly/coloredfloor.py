@@ -24,6 +24,14 @@ def slab_geometry_by_level(x, y, level, delta_z):
     slab_geometry.Append(line_4)
     return slab_geometry
 
+def OverrideColorPattern(element, color, pattern, view):
+    graphicSettings = OverrideGraphicSettings()
+    graphicSettings.SetSurfaceForegroundPatternColor(color)
+    graphicSettings.SetCutForegroundPatternColor(color)
+    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)
+    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)
+    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)
+
 # Start a transaction
 TransactionManager.Instance.EnsureInTransaction(doc)
 
@@ -35,21 +43,26 @@ width = 5.0
 level = doc.ActiveView.GenLevel
 
 # Create floor geometry
-floor_geometry = slab_geometry_by_level(length, width, level, 0.0)
+floor_geometry = slab_geometry_by_level(length, width, level, 1.)
 
 # Create a floor
 floor = doc.Create.NewFloor(floor_geometry, True)
 
 # Set the floor color
 red = Color(255, 0, 0)  # Solid red color
+fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)
+solidPattern = None
+for pattern in fillPatterns:
+    if UnwrapElement(pattern).GetFillPattern().IsSolidFill:
+        solidPattern = pattern
+        break
 
-# Get the parameter for the floor color
-param = floor.LookupParameter(BuiltInParameter.VISUALIZATION_COLOR)
+view = doc.ActiveView
 
-# Set the color value for the parameter
-param.Set(red)
+if solidPattern : 
+    OverrideColorPattern(floor, red, solidPattern, view)
 
-# Commit the transaction
-TransactionManager.Instance.TransactionTaskDone()
-
-OUT = floor
+    TransactionManager.Instance.TransactionTaskDone()
+    OUT = 0
+else : 
+    OUT = 1
