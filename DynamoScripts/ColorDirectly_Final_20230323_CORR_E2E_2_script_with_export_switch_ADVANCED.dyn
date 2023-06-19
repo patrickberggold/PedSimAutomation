@@ -595,8 +595,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 14,
-      "SelectedString": "Generic - 200mm",
+      "SelectedIndex": 23,
+      "SelectedString": "Wall-Ret_300Con",
       "NodeType": "ExtensionNode",
       "Id": "f30b125359f14000a76fa5c133fb3543",
       "Inputs": [],
@@ -616,8 +616,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 17,
-      "SelectedString": "Generic - 300mm",
+      "SelectedIndex": 23,
+      "SelectedString": "Wall-Ret_300Con",
       "NodeType": "ExtensionNode",
       "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
       "Inputs": [],
@@ -1578,7 +1578,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n    zz = level.Elevation + delta_z\r\n    xx = x\r\n    yy = y\r\n    line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n    line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n    line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n    line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\ndef override_color_pattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetProjectionLineColor(color)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\ndef create_colored_floor(length , width , start_x , start_y , level , doc , color) : \r\n    floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n    floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n    override_color_pattern(floor, color, solidPattern, view)\r\n\r\n\r\nif IN[0] : \r\n    view_id = IN[1]\r\n    element_id = ElementId(view_id)\r\n    view = doc.GetElement(element_id)\r\n\r\n    origins, destinations = IN[0]\r\n\r\n    level = view.GenLevel\r\n\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n\r\n    if solidPattern : \r\n        red = Color(255 , 0 , 0)\r\n        green = Color(0 , 255 , 0)\r\n\r\n        for origin in origins : \r\n            origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])\r\n\r\n            start_x , start_y = origin_bbox[0] , origin_bbox[1]\r\n\r\n            size_x = origin_bbox[2] - origin_bbox[0]\r\n            size_y = origin_bbox[3] - origin_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , red)\r\n\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 1\r\n    else : \r\n        OUT = 0\r\n",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n    zz = level.Elevation + delta_z\r\n    xx = x + start_x\r\n    yy = y + start_y\r\n    line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n    line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n    line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n    line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\ndef override_color_pattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetProjectionLineColor(color)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\ndef create_colored_floor(length , width , start_x , start_y , level , doc , color) : \r\n    floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n    floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n    override_color_pattern(floor, color, solidPattern, view)\r\n\r\n\r\nif IN[0] : \r\n    view_id = IN[1]\r\n    element_id = ElementId(view_id)\r\n    view = doc.GetElement(element_id)\r\n\r\n    origins, destinations = IN[0]\r\n\r\n    level = view.GenLevel\r\n\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n\r\n    if solidPattern : \r\n        red = Color(255 , 0 , 0)\r\n        green = Color(0 , 255 , 0)\r\n\r\n        for origin in origins : \r\n            origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])\r\n\r\n            start_x , start_y = origin_bbox[0] , origin_bbox[1]\r\n\r\n            size_x = origin_bbox[2] - origin_bbox[0]\r\n            size_y = origin_bbox[3] - origin_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , red)\r\n        for destination in destinations : \r\n            destination_bbox = convert_meter_to_unit([*destination[0], *destination[1]])\r\n\r\n            start_x , start_y = destination_bbox[0] , destination_bbox[1]\r\n\r\n            size_x = destination_bbox[2] - destination_bbox[0]\r\n            size_y = destination_bbox[3] - destination_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , green)\r\n\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 1\r\n    else : \r\n        OUT = 0\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "b607e5ee08c946b8816c21803dc3f6d2",
@@ -1640,7 +1640,7 @@
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Double",
-      "InputValue": 0.3,
+      "InputValue": 0.75,
       "Id": "0d92508365cf411f952388b56d094142",
       "Inputs": [],
       "Outputs": [
@@ -1791,7 +1791,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif not UnwrapElement(IN[1]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    screenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n    \r\n    options = ImageExportOptions()\r\n    options.ExportRange = ExportRange.CurrentView\r\n    options.ViewName = view.Name\r\n    options.FilePath = screenshot_of_view_path\r\n    options.ZoomType = ZoomFitType.Zoom\r\n    options.PixelSize = 2048\r\n    \r\n    doc.ExportImage(options)\r\n    \r\n    saved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n    \r\n    OUT = saved_image_path\r\n",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif UnwrapElement(IN[1]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    screenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n    \r\n    options = ImageExportOptions()\r\n    options.ExportRange = ExportRange.CurrentView\r\n    options.ViewName = view.Name\r\n    options.FilePath = screenshot_of_view_path\r\n    options.ZoomType = ZoomFitType.Zoom\r\n    options.PixelSize = 2048\r\n    \r\n    doc.ExportImage(options)\r\n    \r\n    saved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n    \r\n    image = 1\r\n    \r\n    OUT = saved_image_path , image\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "39c8b3571d1b4bd9a7f5b4b792155bea",
@@ -1828,6 +1828,67 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\n\r\nif IN[0] : \r\n    result = Image.FromFile(IN[0][0])\r\n    \r\n    OUT = result\r\n    ",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "caa538dbcf344efea33d2db1a0a2ec21",
+      "Inputs": [
+        {
+          "Id": "359e6aa382b940b58f3658ef98176da5",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "99a90839192349358e484ef6aa1d699e",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "e8462224e9f2464b918fd2166ed16ad8",
+      "Inputs": [
+        {
+          "Id": "92dc5d0a14824863997f26f284da9dad",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "ee70d31b827848c5b1c9fd898a3aaab5",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
     }
   ],
   "Connectors": [
@@ -2165,6 +2226,16 @@
       "Start": "ff60602af1fd432abe48467e82dbbdf5",
       "End": "6233e37033d54556858575b78c2ad7a3",
       "Id": "b98af5f1893e4789810f62df1714abde"
+    },
+    {
+      "Start": "d2444878136d488f964badfe5505ab64",
+      "End": "359e6aa382b940b58f3658ef98176da5",
+      "Id": "fef1e3ba5f3945c6bbbfbc2146209cbd"
+    },
+    {
+      "Start": "99a90839192349358e484ef6aa1d699e",
+      "End": "92dc5d0a14824863997f26f284da9dad",
+      "Id": "0d563289c6034dd5bc34a81a959b33f1"
     }
   ],
   "Dependencies": [],
@@ -2704,13 +2775,33 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "GetImageAsBitmap",
+        "Name": "GetPaddedImage",
         "Id": "39c8b3571d1b4bd9a7f5b4b792155bea",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": 168.234628988208,
         "Y": 2050.8703394297581
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetImageAsBitmap",
+        "Id": "caa538dbcf344efea33d2db1a0a2ec21",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 360.46611102907173,
+        "Y": 2050.6308439574927
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch Image",
+        "Id": "e8462224e9f2464b918fd2166ed16ad8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 579.93616633944907,
+        "Y": 2050.6308439574927
       }
     ],
     "Annotations": [
@@ -2723,13 +2814,13 @@
           "40bb13f55e2f49fa852ce792d05d6883"
         ],
         "Left": -2509.6418451570776,
-        "Top": -220.37251862438814,
-        "Width": 287.0,
+        "Top": -220.77251862438814,
+        "Width": 249.01812678575016,
         "Height": 407.44229510039224,
         "FontSize": 36.0,
         "InitialTop": -124.37251862438814,
         "InitialHeight": 363.44229510039224,
-        "TextblockHeight": 86.0,
+        "TextblockHeight": 86.4,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2743,13 +2834,13 @@
           "5cf7b4a5da5a4f08be1428ffddc92ea7"
         ],
         "Left": -2524.0621692211462,
-        "Top": 1076.628330198698,
-        "Width": 1086.0180602825519,
-        "Height": 295.19485626486949,
+        "Top": 1076.4283301986979,
+        "Width": 1085.0180602825519,
+        "Height": 397.7948562648694,
         "FontSize": 36.0,
         "InitialTop": 1129.628330198698,
         "InitialHeight": 148.19485626486949,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2761,13 +2852,13 @@
           "0cdde517e1d14ae98acd0f9839922297"
         ],
         "Left": -1127.1150067308231,
-        "Top": 302.4138388495254,
-        "Width": 181.543299539524,
-        "Height": 642.938691735062,
+        "Top": 302.21383884952542,
+        "Width": 181.34329953952397,
+        "Height": 643.338691735062,
         "FontSize": 36.0,
         "InitialTop": 355.4138388495254,
         "InitialHeight": 604.938691735062,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -2779,13 +2870,13 @@
           "2d96f25030c54fbebaa59cd1ce4c3394"
         ],
         "Left": -2983.9365178556354,
-        "Top": 606.96706141597883,
-        "Width": 388.0,
+        "Top": 606.76706141597879,
+        "Width": 388.80000000000018,
         "Height": 363.34640589424225,
         "FontSize": 36.0,
         "InitialTop": 659.96706141597883,
         "InitialHeight": 387.34640589424225,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       },
       {
@@ -2800,18 +2891,18 @@
           "a4e31f61d6e142a69577153b5065a6bf"
         ],
         "Left": -3074.2095325197274,
-        "Top": -35.887239313751735,
-        "Width": 328.80391235064189,
+        "Top": -36.087239313751738,
+        "Width": 329.00391235064171,
         "Height": 558.7973882787835,
         "FontSize": 36.0,
         "InitialTop": 17.112760686248265,
         "InitialHeight": 582.7973882787835,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 325.64422798394622,
-    "Y": -2359.9546240429627,
-    "Zoom": 1.382013742361172
+    "X": 381.62306291828946,
+    "Y": -663.82060122562621,
+    "Zoom": 0.46201848100930404
   }
 }
