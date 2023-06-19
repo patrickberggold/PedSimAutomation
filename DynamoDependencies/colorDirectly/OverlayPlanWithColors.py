@@ -61,7 +61,7 @@ if IN[0] :
     element_id = ElementId(view_id)
     view = doc.GetElement(element_id)
 
-    origins, destinations = IN[0]
+    origins, destinations , obstacles = IN[0]
 
     level = view.GenLevel
 
@@ -77,6 +77,7 @@ if IN[0] :
     if solidPattern : 
         red = Color(255 , 0 , 0)
         green = Color(0 , 255 , 0)
+        black = Color(0 , 0 , 0)
 
         for origin in origins : 
             origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])
@@ -96,6 +97,16 @@ if IN[0] :
             size_y = destination_bbox[3] - destination_bbox[1]
 
             create_colored_floor(size_x , size_y , start_x , start_y , level , doc , green)
+        
+        for obstacle in obstacles : 
+            obstacle_bbox = convert_meter_to_unit([*obstacle[0], *obstacle[1]])
+
+            start_x , start_y = obstacle_bbox[0] , obstacle_bbox[1]
+
+            size_x = obstacle_bbox[2] - obstacle_bbox[0]
+            size_y = obstacle_bbox[3] - obstacle_bbox[1]
+
+            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , black)
 
         TransactionManager.Instance.TransactionTaskDone()
         OUT = 1
