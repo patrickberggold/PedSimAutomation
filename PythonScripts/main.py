@@ -2,10 +2,17 @@ import torch
 import numpy as np
 from my_model_beit import MyModel
 from collections import OrderedDict
-from PIL import Image
 from torchvision import transforms
 import matplotlib.pyplot as plt
+import PIL
 SEP = '\\'
+
+def get_color(class_label):
+    if class_label == 1: return np.array([143, 225,255], dtype=np.uint8)
+    elif class_label == 2: return np.array([0, 0, 255], dtype=np.uint8)
+    elif class_label == 3: return np.array([255, 0,255], dtype=np.uint8)
+    return None
+
 
 CUDA_DEVICE = 0 # 0, 1 or 'cpu'
 MODE = 'density_class'# implemented: grayscale, evac, evac_only, class_movie, density_reg, density_class, denseClass_wEvac
@@ -34,12 +41,12 @@ model = MyModel('density_class', output_channels=4, num_heads=8, additional_info
 
 model.eval()
 
-image_batch = np.array(Image.open('C:\\Users\\ga78jem\\Downloads\\test_image.png'))
-image_batch = image_batch.transpose(2,0,1).astype(np.float32) / 255. 
-image_batch = torch.tensor(image_batch).unsqueeze(0)
-image_batch = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_batch)
+image = np.array(PIL.Image.open('C:\\Users\\ga78jem\\Downloads\\test_image.png')) 
+image_t = image.transpose(2,0,1).astype(np.float32) / 255.
+image_t = torch.tensor(image_t).unsqueeze(0)
+image_t = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_t)
 
-prediction_raw = model(image_batch, add_info)
+# prediction_raw = model(image_t, add_info)
 
 # load checkpoint
 ckpt = 'C:\\Users\\ga78jem\\Downloads\\model_epoch=45-step=230000.pth'
@@ -58,7 +65,42 @@ for key, tensor in module_state_dict.items():
 
 model.load_state_dict(load_dict)
 
-prediction_trained = model(image_batch, add_info)
-
-# visualization is still missing
 # evac time prediction is still missing
+# FORWARD PASS & VISUALIZATION
+if MODE == 'denseClass_wEvac':
+    dense_pred, evac_time_pred = model(image_t, add_info)
+    MODE = 'density_class'
+else:
+    dense_pred = model(image_t, add_info)
+
+predicted_frames = []
+
+dense_pred = dense_pred.squeeze().cpu().detach().numpy()
+dense_pred = np.argmax(dense_pred, axis=0)
+dense_pred = dense_pred.transpose(1,2,0)
+num_frames = dense_pred.shape[-1]
+
+cell_size = 4
+add_vector_template = np.zeros((cell_size**2,2), dtype=np.int32)
+for x in range(cell_size):
+    for y in range(cell_size):
+        add_vector_template[cell_size*x + y] = np.array([x, y], dtype=np.int32)
+
+for frame_id in range(num_frames):
+
+    frame_pred_np = dense_pred[:,:,frame_id]
+    nnz_coords = np.argwhere(frame_pred_np > 0).squeeze()
+    pred_counts = frame_pred_np[nnz_coords[:,0], nnz_coords[:,1]]
+    # scale up
+    nnz_coords = np.repeat(nnz_coords, cell_size**2, axis=0) * cell_size
+    add_vector = np.tile(add_vector_template.transpose(1,0), np.argwhere(frame_pred_np > 0).squeeze().shape[0]).transpose(1,0)
+    nnz_coords += add_vector
+    pred_counts = np.repeat(pred_counts, cell_size**2, axis=0)
+    pred_counts_colored = [get_color(count) for count in pred_counts]
+    binned_pred_img = image.copy()
+    if len(pred_counts_colored) > 0: binned_pred_img[nnz_coords[:,0], nnz_coords[:,1]] = pred_counts_colored
+
+    plt.imshow(binned_pred_img)
+    plt.close('all')
+
+    predicted_frames.append(binned_pred_img)
