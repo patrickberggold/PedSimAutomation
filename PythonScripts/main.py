@@ -14,7 +14,7 @@ def get_color(class_label):
     return None
 
 
-CUDA_DEVICE = 0 # 0, 1 or 'cpu'
+CUDA_DEVICE = 'cpu' # 0, 1 or 'cpu'
 MODE = 'density_class'# implemented: grayscale, evac, evac_only, class_movie, density_reg, density_class, denseClass_wEvac
 BATCH_SIZE = 2
 ARCH = 'MyModel' # MyModel, DeepLab, BeIT, SegFormer
@@ -41,7 +41,8 @@ model = MyModel('density_class', output_channels=4, num_heads=8, additional_info
 
 model.eval()
 
-image = np.array(PIL.Image.open('C:\\Users\\ga78jem\\Downloads\\test_image.png')) 
+# image = np.array(PIL.Image.open('C:\\Users\\ga78jem\\Downloads\\test_image.png')) 
+image = np.array(PIL.Image.open(r"C:\Users\mohab\Documents\TUM\HiWiPatrick\PedSimAutomation\PythonScripts/test_image.png")) 
 image_t = image.transpose(2,0,1).astype(np.float32) / 255.
 image_t = torch.tensor(image_t).unsqueeze(0)
 image_t = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_t)
@@ -49,8 +50,10 @@ image_t = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_t)
 # prediction_raw = model(image_t, add_info)
 
 # load checkpoint
-ckpt = 'C:\\Users\\ga78jem\\Downloads\\model_epoch=45-step=230000.pth'
-state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt).items()])
+# ckpt = 'C:\\Users\\ga78jem\\Downloads\\model_epoch=45-step=230000.pth'
+ckpt = r"C:\Users\mohab\Documents\TUM\HiWiPatrick\PedSimAutomation\PythonScripts/model_epoch=45-step=230000.pth"
+# state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt).items()])
+state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt , map_location=torch.device('cpu')).items()])
 module_state_dict = model.state_dict()
 
 mkeys_missing_in_loaded = [module_key for module_key in list(module_state_dict.keys()) if module_key not in list(state_dict.keys())]
