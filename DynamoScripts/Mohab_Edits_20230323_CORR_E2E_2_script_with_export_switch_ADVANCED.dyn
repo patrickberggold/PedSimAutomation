@@ -1756,6 +1756,68 @@
       "Outputs": [],
       "Replication": "Disabled",
       "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "InputValue": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "NodeType": "ExtensionNode",
+      "Id": "5c93081669324210be810a4e4a7ec04e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ad00d2e87abe43e0aa26b638d356cc87",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "from PIL import Image\r\n\r\n\r\nif IN[0] : \r\n    paths = IN[0]\r\n    save_path = IN[1]\r\n    frames = [\r\n            Image.open(path).convert('RGB') for path in paths\r\n    ]\r\n\r\n    frames[0].save(f'{save_path}/prediction.gif', format='GIF', append_images=frames[1:], save_all=True, duration=100 * len(frames), loop=0)\r\n\r\n    OUT = \"DONE\"",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c3d50dcd6f8e4499944ec38f97e14415",
+      "Inputs": [
+        {
+          "Id": "54b6225dd99c477f9947071d319c648f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "502835758b364069ad45466f2cbc890a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e38126397ce64da8bccfdef07c1e16d0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -2045,6 +2107,11 @@
       "Id": "dfa8bfe8538b4d8bb9f6b4bbf23a08c5"
     },
     {
+      "Start": "5349b6b40d504375afc9a0c833d17dab",
+      "End": "54b6225dd99c477f9947071d319c648f",
+      "Id": "819a4119abb04ebc9ffec76bde7ed56c"
+    },
+    {
       "Start": "2e1c74af0f224c04b84ab0f0b6dfdf62",
       "End": "41ba99cba4e64f519e08c9c1e860ea69",
       "Id": "3a8bd7f0fdf5488d904327beffaf1e57"
@@ -2058,6 +2125,11 @@
       "Start": "e2a140ed706d4a1cafa57c293606868a",
       "End": "aa27d230562c48938f3dcd5e00d7cd3f",
       "Id": "73151f6355384b77bdb944cdc42c03d5"
+    },
+    {
+      "Start": "ad00d2e87abe43e0aa26b638d356cc87",
+      "End": "502835758b364069ad45466f2cbc890a",
+      "Id": "a5018022418e446c9003b01c127bcf47"
     }
   ],
   "Dependencies": [],
@@ -2604,6 +2676,26 @@
         "Excluded": false,
         "X": 19.0,
         "Y": 1650.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GIF Export Path",
+        "Id": "5c93081669324210be810a4e4a7ec04e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1933.5591713843,
+        "Y": 1967.6426656575284
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetResultAsBitmap",
+        "Id": "c3d50dcd6f8e4499944ec38f97e14415",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 644.65019497113963,
+        "Y": 1195.147073267432
       }
     ],
     "Annotations": [
@@ -2703,8 +2795,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": -289.32561527782468,
-    "Y": -1170.7349686466123,
-    "Zoom": 0.92113932813614907
+    "X": 48.322136787566023,
+    "Y": -848.06281962427079,
+    "Zoom": 0.81890851017781729
   }
 }
