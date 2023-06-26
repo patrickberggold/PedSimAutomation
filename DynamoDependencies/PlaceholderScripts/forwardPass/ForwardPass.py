@@ -20,6 +20,7 @@ import math
 import tempfile
 
 if UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) : 
+# if 1 : 
     class MyModel(nn.Module):
         def __init__(self, mode, output_channels, num_heads, additional_info, config) -> None:
             super().__init__()
@@ -636,7 +637,7 @@ if UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) :
     model.eval()
 
     # image = np.array(PIL.Image.open('C:\\Users\\ga78jem\\Downloads\\test_image.png')) 
-    # image = np.array(PIL.Image.open(r"C:\Users\mohab\Documents\TUM\HiWiPatrick\PedSimAutomation\DynamoDependencies/PlaceholderScripts/ForwardPass/test_image.png")) 
+    # image = np.array(PIL.Image.open(r"C:\Users\mohab\Documents\TUM\HiWiPatrick\PedSimAutomation\DynamoDependencies/PlaceholderScripts/ForwardPass/tmpn98l4445.png")) 
     image = np.array(PIL.Image.open(IN[2]))
     image_t = image.transpose(2,0,1).astype(np.float32) / 255.
     image_t = torch.tensor(image_t).unsqueeze(0)
@@ -648,6 +649,7 @@ if UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) :
     # ckpt = 'C:\\Users\\ga78jem\\Downloads\\model_epoch=45-step=230000.pth'
     # ckpt = r"C:\Users\mohab\Documents\TUM\HiWiPatrick\PedSimAutomation\DynamoDependencies/PlaceholderScripts/ForwardPass/model_epoch=45-step=230000.pth"
     ckpt = fr"{IN[1]}\model_epoch=45-step=230000.pth"
+    # ckpt = "./model_epoch=45-step=230000.pth"
     # state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt).items()])
     state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt , map_location=torch.device('cpu')).items()])
     module_state_dict = model.state_dict()
@@ -704,8 +706,15 @@ if UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) :
 
         predicted_frames.append(binned_pred_img)
 
-    last_frame = PilImage.fromarray(predicted_frames[-1])
-    temp_inference_image_path = tempfile.mktemp(suffix=".png")
-    last_frame.save(temp_inference_image_path)
+    # last_frame = PilImage.fromarray(predicted_frames[-1])
+    temp_images_paths = []
+    for f , frame in enumerate(predicted_frames) : 
+        frame_as_image = PilImage.fromarray(frame)
+        temp_inference_image_path = tempfile.mktemp(suffix=".png")
+        # frame_as_image.save(f"C:/Users/mohab/Documents/TUM/HiWiPatrick/PedSimAutomation/DynamoDependencies/PlaceholderScripts/ForwardPass/{f}.png")
+        frame_as_image.save(temp_inference_image_path)
+        temp_images_paths.append(temp_inference_image_path)
+        # last_frame.save(temp_inference_image_path)
 
-    OUT = temp_inference_image_path
+    # OUT = temp_inference_image_path
+    OUT = temp_images_paths
