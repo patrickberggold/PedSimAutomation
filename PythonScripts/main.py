@@ -5,6 +5,7 @@ from collections import OrderedDict
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import PIL
+from PIL import Image as PilImage
 SEP = '\\'
 
 def get_color(class_label):
@@ -107,3 +108,6 @@ for frame_id in range(num_frames):
     plt.close('all')
 
     predicted_frames.append(binned_pred_img)
+
+last_frame = PilImage.fromarray(predicted_frames[-1])
+last_frame.save("./x.png")
