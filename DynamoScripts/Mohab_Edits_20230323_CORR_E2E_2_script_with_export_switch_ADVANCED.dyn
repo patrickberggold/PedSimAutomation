@@ -2,7 +2,7 @@
   "Uuid": "fbc6d016-0cd7-4b3c-8fff-4142e5e2550b",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "ColorDirectly_Final_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
+  "Name": "Mohab_Edits_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
   "ElementResolver": {
     "ResolutionMap": {
       "Point": {
@@ -1509,7 +1509,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nif IN[0] and IN[1] : \r\n    # sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n    # sys.path.\r\n    package_path = fr\"{IN[1]}\\lib\\site-packages\"\r\n\r\n    if os.path.isdir(package_path):\r\n        OUT = 1\r\n    else : \r\n        raise ImportError(\"VEnv not found. Make sure the venv path is correct and the venv contains opencv-python and numpy. The venv should also use the same python version as dynamo.\")",
+      "Code": "import sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nif IN[0] and IN[1] and IN[2] : \r\n    # sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n    # sys.path.\r\n    package_path = fr\"{IN[1]}\\lib\\site-packages\"\r\n    checkpoint_path = fr\"{IN[2]}\\model_epoch=45-step=230000.pth\"\r\n\r\n    if os.path.isdir(package_path) and os.path.exists(checkpoint_path):\r\n        OUT = 1\r\n    else : \r\n        raise ImportError(\"VEnv not found. Make sure the venv path is correct and the venv contains opencv-python and numpy. The venv should also use the same python version as dynamo.\")",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "8bfa90b9112e4e23a68fc39756efa4e1",
@@ -1527,6 +1527,15 @@
           "Id": "95775af539bb4fe7894be58765b6ea9d",
           "Name": "IN[1]",
           "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1b3e6de00acf4699a43fefa197101759",
+          "Name": "IN[2]",
+          "Description": "Input #2",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1605,6 +1614,138 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import sys\r\npackage_path = fr\"{IN[0]}\\lib\\site-packages\"\r\nsys.path.append(package_path)\r\n\r\nimport torch\r\nimport torch.nn as nn\r\nimport torch.nn.functional as F\r\nfrom torch import einsum, nn\r\nfrom torchvision import transforms\r\nfrom transformers.models.beit.modeling_beit import BeitEncoder, BeitLayer, BeitModelOutputWithPooling, BeitEmbeddings, BeitRelativePositionBias, BeitConfig\r\nfrom transformers.activations import ACT2FN\r\nfrom transformers.modeling_outputs import BaseModelOutput\r\nimport numpy as np\r\nfrom einops import rearrange, repeat\r\nimport PIL\r\nfrom PIL import Image as PilImage\r\nimport matplotlib.pyplot as plt\r\nfrom collections import OrderedDict\r\nimport math\r\nimport tempfile\r\n\r\nif UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) : \r\n    class MyModel(nn.Module):\r\n        def __init__(self, mode, output_channels, num_heads, additional_info, config) -> None:\r\n            super().__init__()\r\n\r\n            assert mode in ['denseClass_wEvac', 'density_class']\r\n            # assert additional_info == True\r\n            self.mode = mode\r\n            self.additional_info = additional_info\r\n\r\n            # Sequence? TF or visual TF\r\n            # TODO last layer --> BN,  so far 68472 samples, with corr_edge it is 130356\r\n            # --[CHECK]-- positional embedding yes/no? if yes, self.position_embeddings + emb or like CoCa?\r\n            # --[CHECK]-- attention pooling for image tokens (CoCa)\r\n            # loss functions (wCE vs Tversky)\r\n            # img reading (padded vs raw)\r\n            # network: self.attention_key/val/qu  VS.  q, k, v, ff = self.fused_attn_ff_proj(x).split(self.fused_dims, dim=-1) (CoCa)\r\n            # --[CHECK]-- marriage: how (cross attention vs concatenation) and where (before/after)\r\n\r\n            # contrastive loss?\r\n            self.decoder_mode = config['decoder_mode']\r\n            self.settings = config['settings']\r\n            self.output_channels = output_channels\r\n            self.num_frames = num_heads\r\n            self.add_info_length = 5 \r\n            self.final_conv_batch = self.settings['final_conv_batch'] if 'final_conv_batch' in self.settings else False\r\n\r\n            self.output_hidden_states = False\r\n            self.marriage_mode = self.settings['marriage_mode'] # 0=before, 1=during, 2=after\r\n            if self.marriage_mode == 1: raise NotImplementedError('During attention requires as many CrossAttention layers as TF layers')\r\n            \r\n            # EMBEDDING IMAGE\r\n            self.patch_size = 16\r\n            self.num_channels = 3\r\n            self.hidden_size = self.settings['hidden_size'] # 768 as default\r\n\r\n            self.image_size = (640, 640) # None\r\n            self.window = (self.image_size[0] // self.patch_size, self.image_size[1] // self.patch_size) if self.image_size is not None else None\r\n\r\n            # BEIT LAYERS\r\n            # beit_model_config = BeitForSemanticSegmentation.from_pretrained('microsoft/beit-base-finetuned-ade-640-640').config\r\n            from transformers.models.beit.modeling_beit import BeitConfig\r\n            beit_model_config = BeitConfig.from_pretrained('microsoft/beit-base-finetuned-ade-640-640')\r\n            beit_model_config.num_hidden_layers = config['num_hidden_img_layers']\r\n            \"\"\"config_pretrained = beit_model.config\r\n            config_pretrained.hidden_size = self.hidden_size\r\n            config_pretrained.use_mask_token = False\r\n            config_pretrained.use_absolute_position_embeddings = False\r\n            config_pretrained.hidden_dropout_prob = 0.0\r\n            config_pretrained.image_size = 640\r\n            config_pretrained.patch_size = 16\r\n            config_pretrained.num_channels = 3\r\n            config_pretrained.layer_norm_eps = 1e-12\r\n            config_pretrained.use_mean_pooling = True\r\n            config_pretrained.use_shared_relative_position_bias = True \"\"\"\r\n            # self.beit = BeitModel(beit_model_config)\r\n\r\n            self.beit_embeddings = BeitEmbeddings(beit_model_config)\r\n            self.encoder = BeitEncoder(beit_model_config)\r\n            \r\n            dpr = [x.item() for x in torch.linspace(0, beit_model_config.drop_path_rate, beit_model_config.num_hidden_layers)]\r\n            self.encoder.layer = nn.ModuleList([\r\n                nn.ModuleList([\r\n                    BeitLayer(beit_model_config,\r\n                        window_size=self.beit_embeddings.patch_embeddings.patch_shape if beit_model_config.use_relative_position_bias else None,\r\n                        drop_path_rate=dpr[i],\r\n                    ),\r\n                    CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True)\r\n                ]) for i in range(beit_model_config.num_hidden_layers)\r\n            ])\r\n\r\n            self.encoder.forward = self.forward_encoder  \r\n\r\n            # EMBEDDING SIMULATION PARAMETERS\r\n            if self.additional_info:\r\n                # distr\r\n                # assert (self.hidden_size / self.add_info_length).is_integer()\r\n                # self.od_distances_embedding = nn.Linear(16, self.hidden_size) # //self.add_info_length)\r\n                self.origin_embedding = nn.Embedding(8, self.hidden_size) # nn.Linear(1, self.hidden_size) \r\n                self.destination_embedding = nn.Embedding(2, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.num_agents_embedding = nn.Embedding(3, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.fp_size_embedding = nn.Linear(2, self.hidden_size)\r\n                self.vel_embedding = nn.Embedding(3, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.input_emb_scale = 8\r\n\r\n                self.input_embedding = nn.Linear(self.add_info_length * self.hidden_size, self.add_info_length * self.hidden_size)\r\n                # self.input_embedding = nn.Linear(self.add_info_length * self.hidden_size, self.input_emb_scale * self.hidden_size)\r\n            if mode=='denseClass_wEvac':\r\n                self.evac_preprocess = nn.Linear(self.add_info_length * self.hidden_size,self.add_info_length * self.hidden_size) \r\n                self.evac_predictor = nn.Linear(self.add_info_length * self.hidden_size, 1)\r\n\r\n                # several layers?\r\n                self.num_hidden_ca_layers = self.settings['num_hidden_ca_layers']\r\n                # self.marriage_att = CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True)\r\n                self.marriage_att = nn.ModuleList([\r\n                    CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True) for i in range(self.num_hidden_ca_layers)\r\n                ])\r\n                # also cross attention here?\r\n\r\n\r\n            if self.settings['use_pe']:\r\n                # self.positional_embedding = nn.Parameter(torch.zeros(1, num_patches + 1, config.hidden_size))\r\n                max_len = 10000\r\n                self.positional_encoding = torch.zeros(max_len, self.hidden_size)\r\n                position = torch.arange(0, max_len).unsqueeze(1).float()\r\n                div_term = torch.exp(torch.arange(0, self.hidden_size, 2).float() * -(math.log(10000.0) / self.hidden_size))\r\n                self.positional_encoding[:, 0::2] = torch.sin(position * div_term)\r\n                self.positional_encoding[:, 1::2] = torch.cos(position * div_term)\r\n                self.positional_encoding = self.positional_encoding.unsqueeze(0)\r\n\r\n            if self.settings['attn_pooling']:\r\n                # attention pooling for image tokens\r\n                self.img_queries = nn.Parameter(torch.randn(self.hidden_size, self.hidden_size)) # 256, self.hidden_size))\r\n                self.img_attn_pool = CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True)\r\n                self.img_attn_pool_norm = nn.LayerNorm(self.hidden_size)\r\n                \r\n\r\n            # HOW TO DECODE FROM hidden_states\r\n            if self.decoder_mode == 'fpn':\r\n                from transformers.models.beit.modeling_beit import BeitUperHead, BeitConfig\r\n                self.output_hidden_states = True\r\n                # FPN\r\n                self.out_indices = [3, 5, 7, 11]\r\n\r\n                self.fpn1 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                    nn.BatchNorm2d(self.hidden_size),\r\n                    nn.GELU(),\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.fpn2 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.fpn3 = nn.Identity()\r\n                self.fpn4 = nn.MaxPool2d(kernel_size=2, stride=2)\r\n\r\n                # Semantic segmentation head(s)           \r\n                self.decode_head = BeitUperHead(beit_model_config)\r\n                self.decode_head.classifier = ClassMovieClassifier(self.hidden_size, self.output_channels, self.num_frames, self.final_conv_batch)\r\n                # nn.ModuleList(\r\n                #     [nn.Sequential(\r\n                #         nn.Conv2d(self.hidden_size, self.output_channels, kernel_size=1), \r\n                #         nn.ReLU()) for i in range(self.num_frames)]\r\n                # )\r\n\r\n            elif self.decoder_mode == 'trans_conv':\r\n                self.tc1 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                    nn.BatchNorm2d(self.hidden_size),\r\n                    nn.GELU(),\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.tc2 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.tc3 = nn.MaxPool2d(kernel_size=2, stride=2)\r\n\r\n                self.decode_head = ClassMovieClassifier(self.hidden_size, self.output_channels, self.num_frames, self.final_conv_batch) \r\n\r\n            self.apply(self._initialize_weights)\r\n\r\n        \r\n        def _initialize_weights(self, m):\r\n            if hasattr(m, 'weight'):\r\n                try:\r\n                    torch.nn.init.xavier_normal_(m.weight)\r\n                    # torch.nn.init.normal_(m.weight, mean=0, std=0.1)\r\n                    # m.weight.data.uniform_(-0.1, 0.1)\r\n                except ValueError:\r\n                    # Prevent ValueError(\"Fan in and fan out can not be computed for tensor with fewer than 2 dimensions\")\r\n                    m.weight.data.uniform_(-0.2, 0.2)\r\n                    # print(\"Bypassing ValueError...\")\r\n            elif hasattr(m, 'bias'):\r\n                m.bias.data.zero_()\r\n\r\n\r\n        def forward(self, pixel_values: torch.Tensor, add_info = None) -> torch.Tensor:\r\n            batch_size, num_channels, height, width = pixel_values.shape\r\n            assert height % self.patch_size == 0 and width % self.patch_size == 0, 'Image size not patchable!'\r\n\r\n            if add_info is not None:\r\n                # distances = add_info[0]\r\n                num_origins_id = add_info[0]-1\r\n                num_destinations_id = add_info[1]-1\r\n                num_agents_id= add_info[2]\r\n                fp_size = add_info[3]\r\n                velocity_id = add_info[4]\r\n\r\n                if fp_size.ndim == 1:\r\n                    fp_size = fp_size.unsqueeze(0)\r\n\r\n                or_emb = self.origin_embedding(num_origins_id)\r\n                dest_emb = self.destination_embedding(num_destinations_id)\r\n                num_ag_emb = self.num_agents_embedding(num_agents_id)\r\n                fp_size_emb = self.fp_size_embedding(fp_size)\r\n                vel_emb = self.vel_embedding(velocity_id)\r\n\r\n                info_emb = torch.cat((or_emb, dest_emb, num_ag_emb, fp_size_emb, vel_emb), dim=-1)\r\n                info_emb = self.input_embedding(info_emb).view(batch_size, self.add_info_length, self.hidden_size)\r\n\r\n            # if self.settings['use_pe']:\r\n            #     add_me = self.positional_encoding[:, :hidden_states.size(1), :].repeat(batch_size, 1, 1).to(hidden_states.device)\r\n            #     hidden_states = hidden_states + add_me\r\n            \r\n            embedding_output = self.beit_embeddings(pixel_values, None)\r\n\r\n            encoder_outputs = self.encoder(\r\n                embedding_output,\r\n                info_emb,\r\n                bool_masked_pos = None,\r\n                head_mask = None,\r\n                output_attentions = None,\r\n                output_hidden_states = True,\r\n                return_dict = True,\r\n            )\r\n            sequence_output = encoder_outputs[0]\r\n\r\n            beit_model_output = BeitModelOutputWithPooling(\r\n                last_hidden_state=sequence_output,\r\n                pooler_output=None,\r\n                hidden_states=encoder_outputs.hidden_states,\r\n                attentions=encoder_outputs.attentions,\r\n            )\r\n\r\n            hidden_states = beit_model_output.last_hidden_state\r\n            all_hidden_states = beit_model_output.hidden_states\r\n            \r\n            if self.settings['attn_pooling']:\r\n                img_queries = repeat(self.img_queries, 'n d -> b n d', b=hidden_states.shape[0])\r\n                img_queries = self.img_attn_pool(img_queries, hidden_states)\r\n                img_queries = self.img_attn_pool_norm(img_queries)\r\n        \r\n            # patch_resolution * 4\r\n            if self.decoder_mode == 'fpn':\r\n                # FPNs: input: (640, 640), hidden_states: (2, 1600, 768) --> (2, 5, 160, 160)  //  input: (768, 256), hidden_states: (2, 768, 768) --> (2, 5, 192, 64)\r\n                features = [feature for idx, feature in enumerate(all_hidden_states) if idx + 1 in self.out_indices]\r\n                batch_size = hidden_states.size()[0] # pixel_values.shape[0]\r\n                patch_resolution_h, patch_resolution_w = height // self.patch_size, width // self.patch_size\r\n                # reshape hidden states\r\n                features = [\r\n                    x[:,1:,:].permute(0, 2, 1).reshape(batch_size, -1, patch_resolution_h, patch_resolution_w) for x in features\r\n                ]\r\n                \r\n                ops = [self.fpn1, self.fpn2, self.fpn3, self.fpn4]\r\n                for i in range(len(features)):\r\n                    features[i] = ops[i](features[i])\r\n                \r\n                logits = self.decode_head(features)\r\n                logits = torch.stack(logits, dim=2).squeeze()\r\n\r\n            # patch_resolution * 4\r\n            elif self.decoder_mode == 'trans_conv':\r\n                patch_resolution_h, patch_resolution_w = height // self.patch_size, width // self.patch_size\r\n                features = hidden_states.permute(0, 2, 1).reshape(batch_size, -1, patch_resolution_h, patch_resolution_w)\r\n\r\n                for tc in [self.tc1, self.tc2, self.tc3]:\r\n                    features = tc(features)\r\n                \r\n                logits = self.decode_head(features)\r\n                logits = torch.stack(logits, dim=2).squeeze()\r\n\r\n                \r\n            # MARRIAGE AFTER\r\n            if self.mode=='denseClass_wEvac' and add_info is not None:\r\n                info_emb_2 = torch.cat((or_emb, dest_emb, num_ag_emb, fp_size_emb, vel_emb), dim=-1)\r\n                info_emb_2 = self.evac_preprocess(info_emb_2)\r\n\r\n                # info_emb = self.marriage_att(info_emb, img_queries) if self.settings['attn_pooling'] else self.marriage_att(info_emb, hidden_states)\r\n                for marr_layer in self.marriage_att:\r\n                    info_emb = marr_layer(info_emb, hidden_states) # if self.settings['attn_pooling'] else marr_layer(info_emb, hidden_states)\r\n\r\n                info_emb = info_emb.flatten(start_dim=1)\r\n                info_emb = info_emb + info_emb_2\r\n                evac_prediction = self.evac_predictor(info_emb)\r\n                evac_prediction = nn.ReLU()(evac_prediction) # + upper theshold ReLU()?\r\n                evac_prediction = torch.multiply(evac_prediction, 100.)\r\n\r\n                return logits, evac_prediction\r\n            \r\n            return logits\r\n        \r\n\r\n        def forward_encoder(\r\n            self,\r\n            hidden_states,\r\n            vector_embeddings,\r\n            bool_masked_pos = None,\r\n            head_mask = None,\r\n            output_attentions = False,\r\n            output_hidden_states = True,\r\n            return_dict = True,\r\n        ):\r\n            # assuming relative_position_bias = None and gradient_checkpointing = False\r\n            all_hidden_states = () if output_hidden_states else None\r\n            all_self_attentions = () if output_attentions else None\r\n\r\n            for i, layer_modules in enumerate(self.encoder.layer):\r\n                if output_hidden_states:\r\n                    all_hidden_states = all_hidden_states + (hidden_states,)\r\n\r\n                beit_layer = layer_modules[0]\r\n                ca_layer = layer_modules[1]\r\n\r\n                layer_outputs = beit_layer(hidden_states, None, output_attentions, None)\r\n                layer_outputs = (ca_layer(layer_outputs[0], vector_embeddings), )\r\n\r\n                hidden_states = layer_outputs[0]\r\n\r\n                if output_attentions:\r\n                    all_self_attentions = all_self_attentions + (layer_outputs[1],)\r\n\r\n            if output_hidden_states:\r\n                all_hidden_states = all_hidden_states + (hidden_states,)\r\n\r\n            if not return_dict:\r\n                return tuple(v for v in [hidden_states, all_hidden_states, all_self_attentions] if v is not None)\r\n            return BaseModelOutput(\r\n                last_hidden_state=hidden_states,\r\n                hidden_states=all_hidden_states,\r\n                attentions=all_self_attentions,\r\n            )\r\n\r\n\r\n    class Layer(nn.Module):\r\n        def __init__(self, drop_path_rate=0.0, num_attention_heads=12, hidden_size=768, window=None) -> None:\r\n            super().__init__()\r\n            self.intermediate_size = 3072\r\n            self.dropout_rate = drop_path_rate\r\n            self.layer_scale_init_value = 0.1\r\n            self.window = window\r\n\r\n            # BeitSelfAttention (BeitAttention)\r\n            self.num_attention_heads = num_attention_heads\r\n            self.hidden_size = hidden_size\r\n            assert self.hidden_size % self.num_attention_heads == 0, f'The hidden size {self.hidden_size,} is not a multiple of num_attention_heads!'\r\n            self.attention_head_size = int(self.hidden_size / self.num_attention_heads)\r\n            self.all_head_size = self.num_attention_heads * self.attention_head_size\r\n\r\n            self.attention_query = nn.Linear(self.hidden_size, self.all_head_size)\r\n            self.attention_key = nn.Linear(self.hidden_size, self.all_head_size, bias=False)\r\n            self.attention_value = nn.Linear(self.hidden_size, self.all_head_size)\r\n            if self.window is not None:\r\n                config_pretrained = BeitConfig()\r\n                config_pretrained.num_attention_heads = self.num_attention_heads\r\n                self.attention_rel_pos_bias = BeitRelativePositionBias(config_pretrained, window_size=self.window)\r\n\r\n            # BeitSelfOutput (BeitAttention)\r\n            self.attention_output = nn.Linear(self.hidden_size, self.hidden_size)\r\n\r\n            # BeitIntermediate\r\n            self.intermediate = nn.Linear(self.hidden_size, self.intermediate_size)\r\n            self.intermediate_act_fn = ACT2FN['gelu']\r\n\r\n            # BeitOutput\r\n            self.output = nn.Linear(self.intermediate_size, self.hidden_size)\r\n\r\n            self.layernorm_before = nn.LayerNorm(self.hidden_size, eps=1e-12)\r\n            self.drop_path = BeitDropPath(self.dropout_rate) if self.dropout_rate > 0.0 else nn.Identity()\r\n            self.layernorm_after = nn.LayerNorm(self.hidden_size, eps=1e-12)\r\n            init_values = self.layer_scale_init_value\r\n            if init_values > 0:\r\n                self.lambda_1 = nn.Parameter(init_values * torch.ones((self.hidden_size)), requires_grad=True)\r\n                self.lambda_2 = nn.Parameter(init_values * torch.ones((self.hidden_size)), requires_grad=True)\r\n\r\n        \r\n        def transpose_for_scores(self, x):\r\n            new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)\r\n            x = x.view(*new_x_shape)\r\n            return x.permute(0, 2, 1, 3)\r\n\r\n            \r\n        def forward(self, hidden_states):\r\n\r\n            mixed_query_layer = self.attention_query(self.layernorm_before(hidden_states))\r\n\r\n            key_layer = self.transpose_for_scores(self.attention_key(hidden_states))\r\n            value_layer = self.transpose_for_scores(self.attention_value(hidden_states))\r\n            query_layer = self.transpose_for_scores(mixed_query_layer)\r\n\r\n            # Take the dot product between \"query\" and \"key\" to get the raw attention scores.\r\n            attention_scores = torch.matmul(query_layer, key_layer.transpose(-1, -2))\r\n            attention_scores = attention_scores / math.sqrt(self.attention_head_size)\r\n\r\n            # Add relative position bias if present.\r\n            if self.window is not None:\r\n                attention_scores = attention_scores + self.attention_rel_pos_bias()[:,1:,1:].unsqueeze(0) # cls token not included, thats why [:,1:,1:]\r\n\r\n            # Normalize the attention scores to probabilities.\r\n            attention_probs = nn.functional.softmax(attention_scores, dim=-1)\r\n\r\n            context_layer = torch.matmul(attention_probs, value_layer)\r\n\r\n            context_layer = context_layer.permute(0, 2, 1, 3).contiguous()\r\n            new_context_layer_shape = context_layer.size()[:-2] + (self.all_head_size,)\r\n            context_layer = context_layer.view(*new_context_layer_shape)\r\n\r\n            attention_output = self.attention_output(context_layer)\r\n\r\n            if self.lambda_1 is not None:\r\n                attention_output = self.lambda_1 * attention_output\r\n            \r\n            # first residual connection\r\n            hidden_states = self.drop_path(attention_output) + hidden_states\r\n\r\n            layer_output = self.layernorm_after(hidden_states)\r\n\r\n            layer_output = self.intermediate(layer_output)\r\n            layer_output = self.output(layer_output)\r\n\r\n            if self.lambda_2 is not None:\r\n                layer_output = self.lambda_2 * layer_output\r\n\r\n            # second residual connection\r\n            outputs = self.drop_path(layer_output) + hidden_states\r\n\r\n            return outputs\r\n\r\n\r\n    class CrossAttention(nn.Module):\r\n        def __init__(\r\n            self,\r\n            dim,\r\n            context_dim=None,\r\n            dim_head=64,\r\n            heads=8,\r\n            parallel_ff=False,\r\n            ff_mult=4,\r\n            norm_context=False\r\n        ):\r\n            super().__init__()\r\n            self.heads = heads\r\n            self.scale = dim_head ** -0.5\r\n            inner_dim = heads * dim_head\r\n\r\n            def default(val, d):\r\n                def exists(val):\r\n                    return val is not None\r\n                return val if exists(val) else d\r\n            \r\n            context_dim = default(context_dim, dim)\r\n\r\n            self.norm = nn.LayerNorm(dim)\r\n            self.context_norm = nn.LayerNorm(context_dim) if norm_context else nn.Identity()\r\n\r\n            self.to_q = nn.Linear(dim, inner_dim, bias=False)\r\n            self.to_kv = nn.Linear(context_dim, dim_head * 2, bias=False)\r\n            self.to_out = nn.Linear(inner_dim, dim, bias=False)\r\n\r\n            # whether to have parallel feedforward\r\n\r\n            ff_inner_dim = ff_mult * dim\r\n\r\n            self.ff = nn.Sequential(\r\n                nn.Linear(dim, ff_inner_dim * 2, bias=False),\r\n                SwiGLU(),\r\n                nn.Linear(ff_inner_dim, dim, bias=False)\r\n            ) if parallel_ff else None\r\n\r\n        def forward(self, x, context):\r\n            \"\"\"\r\n            einstein notation\r\n            b - batch\r\n            h - heads\r\n            n, i, j - sequence length (base sequence length, source, target)\r\n            d - feature dimension\r\n            \"\"\"\r\n\r\n            # pre-layernorm, for queries and context\r\n\r\n            x = self.norm(x)\r\n            context = self.context_norm(context)\r\n\r\n            # get queries\r\n\r\n            q = self.to_q(x)\r\n            q = rearrange(q, 'b n (h d) -> b h n d', h = self.heads)\r\n\r\n            # scale\r\n\r\n            q = q * self.scale\r\n\r\n            # get key / values\r\n\r\n            k, v = self.to_kv(context).chunk(2, dim=-1)\r\n\r\n            # query / key similarity\r\n\r\n            sim = einsum('b h i d, b j d -> b h i j', q, k)\r\n\r\n            # attention\r\n\r\n            sim = sim - sim.amax(dim=-1, keepdim=True)\r\n            attn = sim.softmax(dim=-1)\r\n\r\n            # aggregate\r\n\r\n            out = einsum('b h i j, b j d -> b h i d', attn, v)\r\n\r\n            # merge and combine heads\r\n\r\n            out = rearrange(out, 'b h n d -> b n (h d)')\r\n            out = self.to_out(out)\r\n\r\n            # add parallel feedforward (for multimodal layers)\r\n            if self.ff:\r\n                out = out + self.ff(x)\r\n\r\n            return out\r\n\r\n\r\n    class BeitDropPath(nn.Module):\r\n        \"\"\"Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).\"\"\"\r\n\r\n        def __init__(self, drop_prob: float = None) -> None:\r\n            super().__init__()\r\n            self.drop_prob = drop_prob\r\n\r\n        def forward(self, x: torch.Tensor) -> torch.Tensor:\r\n            \"\"\"\r\n                Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).\r\n\r\n                Comment by Ross Wightman: This is the same as the DropConnect impl I created for EfficientNet, etc networks,\r\n                however, the original name is misleading as 'Drop Connect' is a different form of dropout in a separate paper...\r\n                See discussion: https://github.com/tensorflow/tpu/issues/494#issuecomment-532968956 ... I've opted for changing the\r\n                layer and argument names to 'drop path' rather than mix DropConnect as a layer name and use 'survival rate' as the\r\n                argument.\r\n            \"\"\"\r\n\r\n            if self.drop_prob == 0.0 or not self.training:\r\n                return x\r\n            keep_prob = 1 - self.drop_prob\r\n            shape = (x.shape[0],) + (1,) * (x.ndim - 1)  # work with diff dim tensors, not just 2D ConvNets\r\n            random_tensor = keep_prob + torch.rand(shape, dtype=x.dtype, device=x.device)\r\n            random_tensor.floor_()  # binarize\r\n            output = x.div(keep_prob) * random_tensor\r\n            return output\r\n\r\n\r\n\r\n    class SwiGLU(nn.Module):\r\n        def forward(self, x):\r\n            x, gate = x.chunk(2, dim=-1)\r\n            return F.silu(gate) * x\r\n\r\n\r\n    class ClassMovieClassifier(nn.Module):\r\n        def __init__(self, input_channels, output_channels, num_frames, final_batch=False) -> None:\r\n            super().__init__()\r\n\r\n            if not final_batch:\r\n                self.module_list = nn.ModuleList([\r\n                    nn.Sequential(\r\n                        nn.Conv2d(input_channels, output_channels, kernel_size=1),\r\n                        nn.ReLU()\r\n                    ) for i in range(num_frames)\r\n                ])\r\n\r\n            else:\r\n                self.module_list = nn.ModuleList([\r\n                    nn.Sequential(\r\n                        nn.Conv2d(input_channels, output_channels, kernel_size=1),\r\n                        nn.BatchNorm2d(output_channels),\r\n                        nn.ReLU()\r\n                    ) for i in range(num_frames)\r\n                ])\r\n\r\n            self.apply(self._initialize_weights)\r\n        \r\n        def _initialize_weights(self, m):\r\n            if hasattr(m, 'weight') or hasattr(m, 'bias'):\r\n                try:\r\n                    torch.nn.init.xavier_normal_(m.weight)\r\n                except ValueError:\r\n                    # Prevent ValueError(\"Fan in and fan out can not be computed for tensor with fewer than 2 dimensions\")\r\n                    m.weight.data.uniform_(-0.2, 0.2)\r\n                    # print(\"Bypassing ValueError...\")\r\n                if m.bias is not None:\r\n                    m.bias.data.zero_()\r\n\r\n        def forward(self, input):\r\n            return [module(input) for module in self.module_list]\r\n\r\n    def get_color(class_label):\r\n        if class_label == 1: return np.array([143, 225,255], dtype=np.uint8)\r\n        elif class_label == 2: return np.array([0, 0, 255], dtype=np.uint8)\r\n        elif class_label == 3: return np.array([255, 0,255], dtype=np.uint8)\r\n        return None\r\n\r\n\r\n    CUDA_DEVICE = 'cpu' # 0, 1 or 'cpu'\r\n    MODE = 'density_class'# implemented: grayscale, evac, evac_only, class_movie, density_reg, density_class, denseClass_wEvac\r\n    BATCH_SIZE = 2\r\n    ARCH = 'MyModel' # MyModel, DeepLab, BeIT, SegFormer\r\n    ADD_INFO = True\r\n\r\n    test_run = True # limit_batches -> 2 \r\n    save_model = False # create folder and save the model\r\n\r\n    # example input coming from the outside\r\n    num_origins = torch.LongTensor([4])\r\n    num_destinations = torch.LongTensor([1])\r\n    num_agents_id = torch.LongTensor([2])\r\n    site_dimensions = torch.FloatTensor([0.55, 0.3])\r\n    velocity_id = torch.LongTensor([2])\r\n\r\n    add_info = [num_origins, num_destinations, num_agents_id, site_dimensions, velocity_id]\r\n\r\n    config = {\r\n        'decoder_mode': 'fpn',\r\n        'settings': {'final_conv_batch': True, 'marriage_mode': 2, 'hidden_size': 768, 'num_hidden_ca_layers': 3, 'use_pe': False, 'attn_pooling': False},\r\n        'num_hidden_img_layers': 6\r\n    }\r\n    model = MyModel('density_class', output_channels=4, num_heads=8, additional_info=True, config=config)\r\n\r\n    model.eval()\r\n\r\n    # image = np.array(PIL.Image.open('C:\\\\Users\\\\ga78jem\\\\Downloads\\\\test_image.png')) \r\n    # image = np.array(PIL.Image.open(r\"C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies/PlaceholderScripts/ForwardPass/test_image.png\")) \r\n    image = np.array(PIL.Image.open(IN[2]))\r\n    image_t = image.transpose(2,0,1).astype(np.float32) / 255.\r\n    image_t = torch.tensor(image_t).unsqueeze(0)\r\n    image_t = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_t)\r\n\r\n    # prediction_raw = model(image_t, add_info)\r\n\r\n    # load checkpoint\r\n    # ckpt = 'C:\\\\Users\\\\ga78jem\\\\Downloads\\\\model_epoch=45-step=230000.pth'\r\n    # ckpt = r\"C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies/PlaceholderScripts/ForwardPass/model_epoch=45-step=230000.pth\"\r\n    ckpt = fr\"{IN[1]}\\model_epoch=45-step=230000.pth\"\r\n    # state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt).items()])\r\n    state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt , map_location=torch.device('cpu')).items()])\r\n    module_state_dict = model.state_dict()\r\n\r\n    mkeys_missing_in_loaded = [module_key for module_key in list(module_state_dict.keys()) if module_key not in list(state_dict.keys())]\r\n    lkeys_missing_in_module = [loaded_key for loaded_key in list(state_dict.keys()) if loaded_key not in list(module_state_dict.keys())]\r\n\r\n    load_dict = OrderedDict()\r\n    for key, tensor in module_state_dict.items():\r\n        if key in state_dict.keys():\r\n            load_dict[key] = state_dict[key]\r\n        else:\r\n            load_dict[key] = tensor\r\n\r\n    model.load_state_dict(load_dict)\r\n\r\n    # evac time prediction is still missing\r\n    # FORWARD PASS & VISUALIZATION\r\n    if MODE == 'denseClass_wEvac':\r\n        dense_pred, evac_time_pred = model(image_t, add_info)\r\n        MODE = 'density_class'\r\n    else:\r\n        dense_pred = model(image_t, add_info)\r\n\r\n    predicted_frames = []\r\n\r\n    dense_pred = dense_pred.squeeze().cpu().detach().numpy()\r\n    dense_pred = np.argmax(dense_pred, axis=0)\r\n    dense_pred = dense_pred.transpose(1,2,0)\r\n    num_frames = dense_pred.shape[-1]\r\n\r\n    cell_size = 4\r\n    add_vector_template = np.zeros((cell_size**2,2), dtype=np.int32)\r\n    for x in range(cell_size):\r\n        for y in range(cell_size):\r\n            add_vector_template[cell_size*x + y] = np.array([x, y], dtype=np.int32)\r\n\r\n    for frame_id in range(num_frames):\r\n\r\n        frame_pred_np = dense_pred[:,:,frame_id]\r\n        nnz_coords = np.argwhere(frame_pred_np > 0).squeeze()\r\n        pred_counts = frame_pred_np[nnz_coords[:,0], nnz_coords[:,1]]\r\n        # scale up\r\n        nnz_coords = np.repeat(nnz_coords, cell_size**2, axis=0) * cell_size\r\n        add_vector = np.tile(add_vector_template.transpose(1,0), np.argwhere(frame_pred_np > 0).squeeze().shape[0]).transpose(1,0)\r\n        nnz_coords += add_vector\r\n        pred_counts = np.repeat(pred_counts, cell_size**2, axis=0)\r\n        pred_counts_colored = [get_color(count) for count in pred_counts]\r\n        binned_pred_img = image.copy()\r\n        if len(pred_counts_colored) > 0: binned_pred_img[nnz_coords[:,0], nnz_coords[:,1]] = pred_counts_colored\r\n\r\n        plt.imshow(binned_pred_img)\r\n        plt.close('all')\r\n\r\n        predicted_frames.append(binned_pred_img)\r\n\r\n    last_frame = PilImage.fromarray(predicted_frames[-1])\r\n    temp_inference_image_path = tempfile.mktemp(suffix=\".png\")\r\n    last_frame.save(temp_inference_image_path)\r\n\r\n    OUT = temp_inference_image_path",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e01c08f46121474586ad26a1c358cb43",
+      "Inputs": [
+        {
+          "Id": "178c784dab4e4425a83ddc681cdc71cc",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "41ba99cba4e64f519e08c9c1e860ea69",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "901128fb59ea4db998c544516c3b4a8d",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5349b6b40d504375afc9a0c833d17dab",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "InputValue": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "NodeType": "ExtensionNode",
+      "Id": "721ea26c9fba420f8c990a8c967292cc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\n\r\nif IN[0] : \r\n    result = Image.FromFile(IN[0])\r\n    \r\n    OUT = result\r\n    ",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c63a417cdb8f45e598828bb131c39a9e",
+      "Inputs": [
+        {
+          "Id": "3ecf34d17d5b4ba5ac67e5c62bb0ef75",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e2a140ed706d4a1cafa57c293606868a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "9018f2fb616449e8ac575f9a429dbd31",
+      "Inputs": [
+        {
+          "Id": "aa27d230562c48938f3dcd5e00d7cd3f",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "77266d262fb54f728859e6bb08a3a925",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
     }
   ],
   "Connectors": [
@@ -1844,6 +1985,11 @@
       "Id": "7571f2eaa1c04ee1bf084c85b0027925"
     },
     {
+      "Start": "416de6a731e2479f952ca375196fb4f1",
+      "End": "178c784dab4e4425a83ddc681cdc71cc",
+      "Id": "53826470b456476f864c509827936de3"
+    },
+    {
       "Start": "c80520e02a5243f9925ddb9aeed5ad68",
       "End": "c6a3a74970274941bec7166c8aa5a1d6",
       "Id": "6da8ea5a9b854e9cb3f6814d92375d82"
@@ -1877,6 +2023,31 @@
       "Start": "b8f5cd8986714c41afed88f4e87d4e09",
       "End": "8d015dc0f5224b04b0ac58a185ae5bac",
       "Id": "4d2136a670774e0ab140d556f1748e09"
+    },
+    {
+      "Start": "b8f5cd8986714c41afed88f4e87d4e09",
+      "End": "901128fb59ea4db998c544516c3b4a8d",
+      "Id": "40377c187b8d46aab239137d9631cf76"
+    },
+    {
+      "Start": "5349b6b40d504375afc9a0c833d17dab",
+      "End": "3ecf34d17d5b4ba5ac67e5c62bb0ef75",
+      "Id": "dfa8bfe8538b4d8bb9f6b4bbf23a08c5"
+    },
+    {
+      "Start": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+      "End": "41ba99cba4e64f519e08c9c1e860ea69",
+      "Id": "3a8bd7f0fdf5488d904327beffaf1e57"
+    },
+    {
+      "Start": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+      "End": "1b3e6de00acf4699a43fefa197101759",
+      "Id": "8c67022efc4e4e929d9202a9b673317b"
+    },
+    {
+      "Start": "e2a140ed706d4a1cafa57c293606868a",
+      "End": "aa27d230562c48938f3dcd5e00d7cd3f",
+      "Id": "73151f6355384b77bdb944cdc42c03d5"
     }
   ],
   "Dependencies": [],
@@ -2356,7 +2527,7 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "CheckVEnvExists",
+        "Name": "CheckVEnvAndCheckpointExist",
         "Id": "8bfa90b9112e4e23a68fc39756efa4e1",
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
@@ -2373,6 +2544,46 @@
         "Excluded": false,
         "X": 242.18316170830735,
         "Y": 1492.8063681824253
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NN + ForwardPass",
+        "Id": "e01c08f46121474586ad26a1c358cb43",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 445.66959809115917,
+        "Y": 1328.1491442735933
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NN Checkpoint Path",
+        "Id": "721ea26c9fba420f8c990a8c967292cc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1933.1505644512215,
+        "Y": 1879.2541447056751
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetResultAsBitmap",
+        "Id": "c63a417cdb8f45e598828bb131c39a9e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 646.3842491625029,
+        "Y": 1328.3674781509562
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch Image",
+        "Id": "9018f2fb616449e8ac575f9a429dbd31",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1078.7011765212869,
+        "Y": 1475.4772690702066
       }
     ],
     "Annotations": [
@@ -2472,8 +2683,8 @@
         "Background": "#FFFFAA45"
       }
     ],
-    "X": -156.39646298412504,
-    "Y": -1570.3595694706407,
-    "Zoom": 1.1103948139516613
+    "X": -25.339924551569993,
+    "Y": -862.22448118355055,
+    "Zoom": 0.73412829578704386
   }
 }
