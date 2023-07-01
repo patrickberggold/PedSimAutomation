@@ -2,7 +2,7 @@
   "Uuid": "fbc6d016-0cd7-4b3c-8fff-4142e5e2550b",
   "IsCustomNode": false,
   "Description": null,
-  "Name": "20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
+  "Name": "Mohab_Edits_20230323_CORR_E2E_2_script_with_export_switch_ADVANCED",
   "ElementResolver": {
     "ResolutionMap": {
       "Point": {
@@ -17,14 +17,14 @@
       "Name": "Create Folder Structure",
       "Type": "boolean",
       "Value": "false",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "2d96f25030c54fbebaa59cd1ce4c3394",
       "Name": "True== Create Building // False==Export Floorplan",
       "Type": "boolean",
       "Value": "true",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "Id": "ac1bad5b4a9e4b1cabcdfd715b9e5da5",
@@ -35,7 +35,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "6eda79a2c2e040078d1fd66754c14bd9",
@@ -46,7 +46,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "d441a2d6f0c14ff48dd4597348011063",
@@ -57,7 +57,7 @@
       "MinimumValue": 2.0,
       "StepValue": 1.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "7e346971f5c24f37a17e4b6625f1dfd8",
@@ -68,7 +68,7 @@
       "MinimumValue": 20.0,
       "StepValue": 5.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "584bef6044484045b318ed18b4ef189a",
@@ -79,14 +79,14 @@
       "MinimumValue": 10.0,
       "StepValue": 5.0,
       "NumberType": "Double",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "Id": "a4e31f61d6e142a69577153b5065a6bf",
       "Name": "INCLUDE_BOTTLENECK",
       "Type": "boolean",
       "Value": "false",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     }
   ],
   "Outputs": [
@@ -95,7 +95,7 @@
       "Name": "Create Folder (py)",
       "Type": "unknown",
       "InitialValue": "",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Nodes": [
@@ -183,7 +183,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -251,7 +251,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
@@ -272,7 +272,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die Auswahl einen Verzeichnisses auf dem System, um seinen Pfad abzurufen."
+      "Description": "Allows you to select a directory on the system to get its path"
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -292,7 +292,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -312,7 +312,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -353,7 +353,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -382,7 +382,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
@@ -412,7 +412,7 @@
         }
       ],
       "Replication": "Auto",
-      "Description": "Ruft die Element-ID für dieses Element ab.\n\nElement.Id: int"
+      "Description": "Get the Element Id for this element\n\nElement.Id: int"
     },
     {
       "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
@@ -442,7 +442,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ermöglicht die direkte Erstellung von DesignScript-Code."
+      "Description": "Allows for DesignScript code to be authored directly"
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -471,7 +471,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -512,7 +512,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "DSRevitNodesUI.ElementsOfType, DSRevitNodesUI",
@@ -541,7 +541,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle Elemente eines angegebenen Typs im aktiven Dokument"
+      "Description": "All elements in the active document of a given type."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -570,7 +570,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "DSRevitNodesUI.ElementTypes, DSRevitNodesUI",
@@ -591,12 +591,12 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle Untertypen des Elements"
+      "Description": "All element subtypes."
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 14,
-      "SelectedString": "Generic - 200mm",
+      "SelectedIndex": 23,
+      "SelectedString": "Wall-Ret_300Con",
       "NodeType": "ExtensionNode",
       "Id": "f30b125359f14000a76fa5c133fb3543",
       "Inputs": [],
@@ -612,12 +612,12 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Wandtypen."
+      "Description": "All wall types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 17,
-      "SelectedString": "Generic - 300mm",
+      "SelectedIndex": 23,
+      "SelectedString": "Wall-Ret_300Con",
       "NodeType": "ExtensionNode",
       "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
       "Inputs": [],
@@ -633,11 +633,11 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Wandtypen."
+      "Description": "All wall types available in the document."
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
-      "SelectedIndex": 6,
+      "SelectedIndex": -1,
       "SelectedString": "Generic 150mm - Filled",
       "NodeType": "ExtensionNode",
       "Id": "40bb13f55e2f49fa852ce792d05d6883",
@@ -654,7 +654,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Alle im Dokument verfügbaren Geschossdeckentypen."
+      "Description": "All floor types available in the document."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -678,7 +678,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -702,7 +702,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -726,7 +726,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -750,7 +750,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
@@ -774,7 +774,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Ein Schieberegler zur Erzeugung numerischer Werte"
+      "Description": "A slider that produces numeric values."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -851,7 +851,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
@@ -892,7 +892,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Führt ein eingebettetes Python-Skript aus."
+      "Description": "Runs an embedded Python script."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -921,7 +921,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -950,7 +950,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
@@ -979,7 +979,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Visualisierung der Ausgabe des Blocks"
+      "Description": "Visualize the output of node."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
@@ -999,7 +999,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zeichenfolge."
+      "Description": "Creates a string."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
@@ -1019,7 +1019,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Auswahl zwischen True und False"
+      "Description": "Selection between a true and false."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -1040,7 +1040,7 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
     },
     {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
@@ -1061,7 +1061,763 @@
         }
       ],
       "Replication": "Disabled",
-      "Description": "Erstellt eine Zahl."
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "642c0dc4c5f945a291c5b48263a7912e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6550584e1d7b49e6800bd273ec1a7e76",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 0.75,
+      "Id": "c3cc8d657a1f4769badd627185de87df",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "540b9bec0e7742ec984de8403f52514d",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "69961faf99e747c196644069ed5d4ea7",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "6798c119db7c40e7b7ef37d1151cacc3",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
+      "NodeType": "NumberInputNode",
+      "NumberType": "Double",
+      "InputValue": 640.0,
+      "Id": "aab17e32e15a4b76b21eb0e8944b4307",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "69cb8e815f734e1898163a8e2879faab",
+          "Name": "",
+          "Description": "Double",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 1\r\n        \r\n    else :\r\n        OUT = 0",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "f35e214806394a3a9dc0d4619796ee1b",
+      "Inputs": [
+        {
+          "Id": "f7de0eede8344f88b73eb2add8251f9a",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8bccc8c595f14beeab1c6fcb9b2cc0df",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "64fcd170427f4369ba17b544d0b19a80",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 1\r\n    else : \r\n        OUT = 0\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "3106a787001843e7ae1586390c237861",
+      "Inputs": [
+        {
+          "Id": "42e5f23ca5324b429d30e4ded770669a",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1bb32dbd1bae4c55917622bced4e8e34",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "2abd18bf03094fbc8a22cea686c7cfe9",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv",
+      "InputValue": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv",
+      "NodeType": "ExtensionNode",
+      "Id": "9a614a417e0c42f8921b57863f782f06",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "416de6a731e2479f952ca375196fb4f1",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[1]: view element id\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    view.CropBoxActive = False\r\n    view.CropBoxVisible = False\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "9ec485d6907a401aa15548f440cdd5e8",
+      "Inputs": [
+        {
+          "Id": "db261a26c419451ebfe326438fc6c733",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d484e6a1fa164544a54da47873d19694",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c80520e02a5243f9925ddb9aeed5ad68",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]):\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    \r\n    floorCategoryId = BuiltInCategory.OST_Floors\r\n    \r\n    \r\n    activeView = doc.ActiveView\r\n    \r\n    \r\n    floorCategory = Category.GetCategory(doc, floorCategoryId)\r\n    \r\n    \r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    activeView.SetCategoryHidden(floorCategory.Id, False)\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "571a00e1551644fa8f42a276b217a31e",
+      "Inputs": [
+        {
+          "Id": "c6a3a74970274941bec7166c8aa5a1d6",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "88b94ac8d9044268b5d2e918a278f7e9",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "#IN[0]: room dict.\r\n\r\nimport clr\r\nfrom System.Drawing import *\r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom Autodesk.Revit.DB import *\r\n\r\ndef extract_lists_with_string(room_dict, type):\r\n    extracted_lists = []\r\n    for key in room_dict:\r\n        if type in key:\r\n            extracted_lists.append(room_dict[key])\r\n    return extracted_lists\r\n    \r\nif UnwrapElement(IN[1]) :  \r\n    dict = IN[0]\r\n    \r\n    origins = extract_lists_with_string(dict , \"ORIGIN\")\r\n    destinations = extract_lists_with_string(dict , \"DESTINATION\")\r\n    obstacles = extract_lists_with_string(dict , \"OBSTACLE\")\r\n\r\n    OUT = origins , destinations , obstacles",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "3f38ec1bd27245e4b91b612f2938f245",
+      "Inputs": [
+        {
+          "Id": "a2cce34ef3104ac1b25c06a447470323",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "376e458f9414424f9ab71a715bcc02ea",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e869cae4f4594e51a8039056990a8811",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n    zz = level.Elevation + delta_z\r\n    xx = x + start_x\r\n    yy = y + start_y\r\n    line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n    line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n    line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n    line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n    slab_geometry = CurveArray()\r\n    slab_geometry.Append(line_1)\r\n    slab_geometry.Append(line_2)\r\n    slab_geometry.Append(line_3)\r\n    slab_geometry.Append(line_4)\r\n    return slab_geometry\r\n\r\ndef override_color_pattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetProjectionLineColor(color)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\ndef convert_meter_to_unit(pre_value):\r\n    tempo_list = []\r\n    tempo_value = 0\r\n    if isinstance(pre_value, list):\r\n        len_list = len(pre_value)\r\n        for ii in range(len_list):\r\n            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n        pre_value = tempo_list\r\n    else:\r\n        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n        pre_value = tempo_value\r\n    return pre_value\r\n\r\ndef create_colored_floor(length , width , start_x , start_y , level , doc , color) : \r\n    floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n    floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n    override_color_pattern(floor, color, solidPattern, view)\r\n\r\n\r\nif IN[0] : \r\n    view_id = IN[1]\r\n    element_id = ElementId(view_id)\r\n    view = doc.GetElement(element_id)\r\n\r\n    origins, destinations , obstacles = IN[0]\r\n\r\n    level = view.GenLevel\r\n\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n\r\n    if solidPattern : \r\n        red = Color(255 , 0 , 0)\r\n        green = Color(0 , 255 , 0)\r\n        black = Color(0 , 0 , 0)\r\n\r\n        for origin in origins : \r\n            origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])\r\n\r\n            start_x , start_y = origin_bbox[0] , origin_bbox[1]\r\n\r\n            size_x = origin_bbox[2] - origin_bbox[0]\r\n            size_y = origin_bbox[3] - origin_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , red)\r\n        for destination in destinations : \r\n            destination_bbox = convert_meter_to_unit([*destination[0], *destination[1]])\r\n\r\n            start_x , start_y = destination_bbox[0] , destination_bbox[1]\r\n\r\n            size_x = destination_bbox[2] - destination_bbox[0]\r\n            size_y = destination_bbox[3] - destination_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , green)\r\n        \r\n        for obstacle in obstacles : \r\n            obstacle_bbox = convert_meter_to_unit([*obstacle[0], *obstacle[1]])\r\n\r\n            start_x , start_y = obstacle_bbox[0] , obstacle_bbox[1]\r\n\r\n            size_x = obstacle_bbox[2] - obstacle_bbox[0]\r\n            size_y = obstacle_bbox[3] - obstacle_bbox[1]\r\n\r\n            create_colored_floor(size_x , size_y , start_x , start_y , level , doc , black)\r\n\r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 1\r\n    else : \r\n        OUT = 0\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "4eb3e210df8c436c8fe01423c9f8db75",
+      "Inputs": [
+        {
+          "Id": "d7b8da2a76d246deb09224f37bc5dbf5",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b503e4d4fc0a4383bf8453c8b7e5eef4",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "60080b7de4334cf380c535ae11014aaa",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif UnwrapElement(IN[1]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    viewId = IN[0]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    screenshot_of_view_path = tempfile.mktemp(suffix=\".png\")\r\n    \r\n    options = ImageExportOptions()\r\n    options.ExportRange = ExportRange.CurrentView\r\n    options.ViewName = view.Name\r\n    options.FilePath = screenshot_of_view_path\r\n    options.ZoomType = ZoomFitType.Zoom\r\n    options.PixelSize = 2048\r\n    \r\n    doc.ExportImage(options)\r\n    \r\n    saved_image_path = f\"{screenshot_of_view_path[:-3]}jpg\" # Saving as JPG format (unusual behavior)\r\n    \r\n    \r\n    OUT = saved_image_path\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "443e7cb5b46144bca29d334d28a2fe57",
+      "Inputs": [
+        {
+          "Id": "8b6d42444a5845c5802641540cf4f96f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "c644a32e194e4a259337968ba3c43306",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "db1c9a1dd7a240b99e8b04cc633a7611",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\n\r\nif IN[0] : \r\n    result = Image.FromFile(IN[0])\r\n    \r\n    OUT = result\r\n    ",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "1d68dd79e8f54706a8b4ba34bbdaf906",
+      "Inputs": [
+        {
+          "Id": "8d015dc0f5224b04b0ac58a185ae5bac",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "bf400ed61b9742d584bfd4cf010ef802",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "637092e3c50f402983872170eb45d477",
+      "Inputs": [
+        {
+          "Id": "876f159b324c4ccab952897115883839",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d6ec5fce68214bf3b1a5346262ce2ccb",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import sys\r\nimport os\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nif IN[0] and IN[1] and IN[2] : \r\n    # sys.path.append(r'D:\\Work\\TUM_Research\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\DynamoVEnv\\lib\\site-packages')\r\n    # sys.path.\r\n    package_path = fr\"{IN[1]}\\lib\\site-packages\"\r\n    checkpoint_path = fr\"{IN[2]}\\model_epoch=45-step=230000.pth\"\r\n\r\n    if os.path.isdir(package_path) and os.path.exists(checkpoint_path):\r\n        OUT = 1\r\n    else : \r\n        raise ImportError(\"VEnv not found. Make sure the venv path is correct and the venv contains opencv-python and numpy. The venv should also use the same python version as dynamo.\")",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "8bfa90b9112e4e23a68fc39756efa4e1",
+      "Inputs": [
+        {
+          "Id": "ae17fb0ac8b443959615d41e1d05fc4c",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "95775af539bb4fe7894be58765b6ea9d",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1b3e6de00acf4699a43fefa197101759",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "c56e9e53a1014cb6a9a3a416fbc2d7c0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nimport sys\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\nimport tempfile\r\n\r\nif UnwrapElement(IN[0]) and IN[1] : \r\n    package_path = fr\"{IN[1]}\\lib\\site-packages\"\r\n    sys.path.append(package_path)\r\n    import cv2\r\n    import numpy as np\r\n\r\n    image_path = UnwrapElement(IN[0])\r\n    image = cv2.imread(image_path)\r\n    image_height , image_width , _ = image.shape\r\n\r\n    padded_image_width = int(IN[2])\r\n    padded_image_height = int(IN[3])\r\n\r\n    site_x = 25\r\n    site_y = 20\r\n    new_image_dimensions = [site_x * 10 , site_y * 10]\r\n    \r\n    padded_image = np.zeros((padded_image_height, padded_image_width , 3), dtype=np.uint8)\r\n    padded_image_centers = [\r\n        int(dim / 2) for dim in [padded_image_width , padded_image_height]\r\n    ]\r\n\r\n    # using different interpolation order for upsizing and downsizing\r\n    if site_x * 10 > image_width and site_y * 10 > image_height : \r\n        scaled_image = cv2.resize(image, tuple(new_image_dimensions), interpolation=cv2.INTER_CUBIC)\r\n    else : \r\n        scaled_image = cv2.resize(image, tuple(new_image_dimensions), interpolation=cv2.INTER_AREA)\r\n\r\n    origin_in_padded_image = [\r\n        int(padded_image_centers[i] - new_image_dimensions[i] / 2) for i in range(2)\r\n    ]\r\n\r\n    padded_image[\r\n        origin_in_padded_image[1] : origin_in_padded_image[1] + new_image_dimensions[1] , origin_in_padded_image[0] : origin_in_padded_image[0] + new_image_dimensions[0]\r\n    ] = scaled_image\r\n\r\n    padded_image_path = tempfile.mktemp(suffix=\".png\")\r\n    cv2.imwrite(padded_image_path , padded_image)\r\n\r\n    OUT = padded_image_path\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "24b0032991f94b51aebdd285c0820000",
+      "Inputs": [
+        {
+          "Id": "885a14315f0940dead09c89188cf8326",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "db03b9ae409345eab215ed70827d8ab6",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "78e77e68f8514c088e93a90194e4577e",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "edfc38076a79441eb201fd4f83041922",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b8f5cd8986714c41afed88f4e87d4e09",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import sys\r\npackage_path = fr\"{IN[0]}\\lib\\site-packages\"\r\nsys.path.append(package_path)\r\n\r\nimport torch\r\nimport torch.nn as nn\r\nimport torch.nn.functional as F\r\nfrom torch import einsum, nn\r\nfrom torchvision import transforms\r\nfrom transformers.models.beit.modeling_beit import BeitEncoder, BeitLayer, BeitModelOutputWithPooling, BeitEmbeddings, BeitRelativePositionBias, BeitConfig\r\nfrom transformers.activations import ACT2FN\r\nfrom transformers.modeling_outputs import BaseModelOutput\r\nimport numpy as np\r\nfrom einops import rearrange, repeat\r\nimport PIL\r\nfrom PIL import Image as PilImage\r\nimport matplotlib.pyplot as plt\r\nfrom collections import OrderedDict\r\nimport math\r\nimport tempfile\r\n\r\nif UnwrapElement(IN[0]) and UnwrapElement(IN[1]) and UnwrapElement(IN[2]) : \r\n# if 1 : \r\n    class MyModel(nn.Module):\r\n        def __init__(self, mode, output_channels, num_heads, additional_info, config) -> None:\r\n            super().__init__()\r\n\r\n            assert mode in ['denseClass_wEvac', 'density_class']\r\n            # assert additional_info == True\r\n            self.mode = mode\r\n            self.additional_info = additional_info\r\n\r\n            # Sequence? TF or visual TF\r\n            # TODO last layer --> BN,  so far 68472 samples, with corr_edge it is 130356\r\n            # --[CHECK]-- positional embedding yes/no? if yes, self.position_embeddings + emb or like CoCa?\r\n            # --[CHECK]-- attention pooling for image tokens (CoCa)\r\n            # loss functions (wCE vs Tversky)\r\n            # img reading (padded vs raw)\r\n            # network: self.attention_key/val/qu  VS.  q, k, v, ff = self.fused_attn_ff_proj(x).split(self.fused_dims, dim=-1) (CoCa)\r\n            # --[CHECK]-- marriage: how (cross attention vs concatenation) and where (before/after)\r\n\r\n            # contrastive loss?\r\n            self.decoder_mode = config['decoder_mode']\r\n            self.settings = config['settings']\r\n            self.output_channels = output_channels\r\n            self.num_frames = num_heads\r\n            self.add_info_length = 5 \r\n            self.final_conv_batch = self.settings['final_conv_batch'] if 'final_conv_batch' in self.settings else False\r\n\r\n            self.output_hidden_states = False\r\n            self.marriage_mode = self.settings['marriage_mode'] # 0=before, 1=during, 2=after\r\n            if self.marriage_mode == 1: raise NotImplementedError('During attention requires as many CrossAttention layers as TF layers')\r\n            \r\n            # EMBEDDING IMAGE\r\n            self.patch_size = 16\r\n            self.num_channels = 3\r\n            self.hidden_size = self.settings['hidden_size'] # 768 as default\r\n\r\n            self.image_size = (640, 640) # None\r\n            self.window = (self.image_size[0] // self.patch_size, self.image_size[1] // self.patch_size) if self.image_size is not None else None\r\n\r\n            # BEIT LAYERS\r\n            # beit_model_config = BeitForSemanticSegmentation.from_pretrained('microsoft/beit-base-finetuned-ade-640-640').config\r\n            from transformers.models.beit.modeling_beit import BeitConfig\r\n            beit_model_config = BeitConfig.from_pretrained('microsoft/beit-base-finetuned-ade-640-640')\r\n            beit_model_config.num_hidden_layers = config['num_hidden_img_layers']\r\n            \"\"\"config_pretrained = beit_model.config\r\n            config_pretrained.hidden_size = self.hidden_size\r\n            config_pretrained.use_mask_token = False\r\n            config_pretrained.use_absolute_position_embeddings = False\r\n            config_pretrained.hidden_dropout_prob = 0.0\r\n            config_pretrained.image_size = 640\r\n            config_pretrained.patch_size = 16\r\n            config_pretrained.num_channels = 3\r\n            config_pretrained.layer_norm_eps = 1e-12\r\n            config_pretrained.use_mean_pooling = True\r\n            config_pretrained.use_shared_relative_position_bias = True \"\"\"\r\n            # self.beit = BeitModel(beit_model_config)\r\n\r\n            self.beit_embeddings = BeitEmbeddings(beit_model_config)\r\n            self.encoder = BeitEncoder(beit_model_config)\r\n            \r\n            dpr = [x.item() for x in torch.linspace(0, beit_model_config.drop_path_rate, beit_model_config.num_hidden_layers)]\r\n            self.encoder.layer = nn.ModuleList([\r\n                nn.ModuleList([\r\n                    BeitLayer(beit_model_config,\r\n                        window_size=self.beit_embeddings.patch_embeddings.patch_shape if beit_model_config.use_relative_position_bias else None,\r\n                        drop_path_rate=dpr[i],\r\n                    ),\r\n                    CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True)\r\n                ]) for i in range(beit_model_config.num_hidden_layers)\r\n            ])\r\n\r\n            self.encoder.forward = self.forward_encoder  \r\n\r\n            # EMBEDDING SIMULATION PARAMETERS\r\n            if self.additional_info:\r\n                # distr\r\n                # assert (self.hidden_size / self.add_info_length).is_integer()\r\n                # self.od_distances_embedding = nn.Linear(16, self.hidden_size) # //self.add_info_length)\r\n                self.origin_embedding = nn.Embedding(8, self.hidden_size) # nn.Linear(1, self.hidden_size) \r\n                self.destination_embedding = nn.Embedding(2, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.num_agents_embedding = nn.Embedding(3, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.fp_size_embedding = nn.Linear(2, self.hidden_size)\r\n                self.vel_embedding = nn.Embedding(3, self.hidden_size) # nn.Linear(1, self.hidden_size)\r\n                self.input_emb_scale = 8\r\n\r\n                self.input_embedding = nn.Linear(self.add_info_length * self.hidden_size, self.add_info_length * self.hidden_size)\r\n                # self.input_embedding = nn.Linear(self.add_info_length * self.hidden_size, self.input_emb_scale * self.hidden_size)\r\n            if mode=='denseClass_wEvac':\r\n                self.evac_preprocess = nn.Linear(self.add_info_length * self.hidden_size,self.add_info_length * self.hidden_size) \r\n                self.evac_predictor = nn.Linear(self.add_info_length * self.hidden_size, 1)\r\n\r\n                # several layers?\r\n                self.num_hidden_ca_layers = self.settings['num_hidden_ca_layers']\r\n                # self.marriage_att = CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True)\r\n                self.marriage_att = nn.ModuleList([\r\n                    CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True, ff_mult=True) for i in range(self.num_hidden_ca_layers)\r\n                ])\r\n                # also cross attention here?\r\n\r\n\r\n            if self.settings['use_pe']:\r\n                # self.positional_embedding = nn.Parameter(torch.zeros(1, num_patches + 1, config.hidden_size))\r\n                max_len = 10000\r\n                self.positional_encoding = torch.zeros(max_len, self.hidden_size)\r\n                position = torch.arange(0, max_len).unsqueeze(1).float()\r\n                div_term = torch.exp(torch.arange(0, self.hidden_size, 2).float() * -(math.log(10000.0) / self.hidden_size))\r\n                self.positional_encoding[:, 0::2] = torch.sin(position * div_term)\r\n                self.positional_encoding[:, 1::2] = torch.cos(position * div_term)\r\n                self.positional_encoding = self.positional_encoding.unsqueeze(0)\r\n\r\n            if self.settings['attn_pooling']:\r\n                # attention pooling for image tokens\r\n                self.img_queries = nn.Parameter(torch.randn(self.hidden_size, self.hidden_size)) # 256, self.hidden_size))\r\n                self.img_attn_pool = CrossAttention(dim=self.hidden_size, context_dim=self.hidden_size, dim_head=64, heads=12, norm_context=True)\r\n                self.img_attn_pool_norm = nn.LayerNorm(self.hidden_size)\r\n                \r\n\r\n            # HOW TO DECODE FROM hidden_states\r\n            if self.decoder_mode == 'fpn':\r\n                from transformers.models.beit.modeling_beit import BeitUperHead, BeitConfig\r\n                self.output_hidden_states = True\r\n                # FPN\r\n                self.out_indices = [3, 5, 7, 11]\r\n\r\n                self.fpn1 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                    nn.BatchNorm2d(self.hidden_size),\r\n                    nn.GELU(),\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.fpn2 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.fpn3 = nn.Identity()\r\n                self.fpn4 = nn.MaxPool2d(kernel_size=2, stride=2)\r\n\r\n                # Semantic segmentation head(s)           \r\n                self.decode_head = BeitUperHead(beit_model_config)\r\n                self.decode_head.classifier = ClassMovieClassifier(self.hidden_size, self.output_channels, self.num_frames, self.final_conv_batch)\r\n                # nn.ModuleList(\r\n                #     [nn.Sequential(\r\n                #         nn.Conv2d(self.hidden_size, self.output_channels, kernel_size=1), \r\n                #         nn.ReLU()) for i in range(self.num_frames)]\r\n                # )\r\n\r\n            elif self.decoder_mode == 'trans_conv':\r\n                self.tc1 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                    nn.BatchNorm2d(self.hidden_size),\r\n                    nn.GELU(),\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.tc2 = nn.Sequential(\r\n                    nn.ConvTranspose2d(self.hidden_size, self.hidden_size, kernel_size=2, stride=2),\r\n                )\r\n                self.tc3 = nn.MaxPool2d(kernel_size=2, stride=2)\r\n\r\n                self.decode_head = ClassMovieClassifier(self.hidden_size, self.output_channels, self.num_frames, self.final_conv_batch) \r\n\r\n            self.apply(self._initialize_weights)\r\n\r\n        \r\n        def _initialize_weights(self, m):\r\n            if hasattr(m, 'weight'):\r\n                try:\r\n                    torch.nn.init.xavier_normal_(m.weight)\r\n                    # torch.nn.init.normal_(m.weight, mean=0, std=0.1)\r\n                    # m.weight.data.uniform_(-0.1, 0.1)\r\n                except ValueError:\r\n                    # Prevent ValueError(\"Fan in and fan out can not be computed for tensor with fewer than 2 dimensions\")\r\n                    m.weight.data.uniform_(-0.2, 0.2)\r\n                    # print(\"Bypassing ValueError...\")\r\n            elif hasattr(m, 'bias'):\r\n                m.bias.data.zero_()\r\n\r\n\r\n        def forward(self, pixel_values: torch.Tensor, add_info = None) -> torch.Tensor:\r\n            batch_size, num_channels, height, width = pixel_values.shape\r\n            assert height % self.patch_size == 0 and width % self.patch_size == 0, 'Image size not patchable!'\r\n\r\n            if add_info is not None:\r\n                # distances = add_info[0]\r\n                num_origins_id = add_info[0]-1\r\n                num_destinations_id = add_info[1]-1\r\n                num_agents_id= add_info[2]\r\n                fp_size = add_info[3]\r\n                velocity_id = add_info[4]\r\n\r\n                if fp_size.ndim == 1:\r\n                    fp_size = fp_size.unsqueeze(0)\r\n\r\n                or_emb = self.origin_embedding(num_origins_id)\r\n                dest_emb = self.destination_embedding(num_destinations_id)\r\n                num_ag_emb = self.num_agents_embedding(num_agents_id)\r\n                fp_size_emb = self.fp_size_embedding(fp_size)\r\n                vel_emb = self.vel_embedding(velocity_id)\r\n\r\n                info_emb = torch.cat((or_emb, dest_emb, num_ag_emb, fp_size_emb, vel_emb), dim=-1)\r\n                info_emb = self.input_embedding(info_emb).view(batch_size, self.add_info_length, self.hidden_size)\r\n\r\n            # if self.settings['use_pe']:\r\n            #     add_me = self.positional_encoding[:, :hidden_states.size(1), :].repeat(batch_size, 1, 1).to(hidden_states.device)\r\n            #     hidden_states = hidden_states + add_me\r\n            \r\n            embedding_output = self.beit_embeddings(pixel_values, None)\r\n\r\n            encoder_outputs = self.encoder(\r\n                embedding_output,\r\n                info_emb,\r\n                bool_masked_pos = None,\r\n                head_mask = None,\r\n                output_attentions = None,\r\n                output_hidden_states = True,\r\n                return_dict = True,\r\n            )\r\n            sequence_output = encoder_outputs[0]\r\n\r\n            beit_model_output = BeitModelOutputWithPooling(\r\n                last_hidden_state=sequence_output,\r\n                pooler_output=None,\r\n                hidden_states=encoder_outputs.hidden_states,\r\n                attentions=encoder_outputs.attentions,\r\n            )\r\n\r\n            hidden_states = beit_model_output.last_hidden_state\r\n            all_hidden_states = beit_model_output.hidden_states\r\n            \r\n            if self.settings['attn_pooling']:\r\n                img_queries = repeat(self.img_queries, 'n d -> b n d', b=hidden_states.shape[0])\r\n                img_queries = self.img_attn_pool(img_queries, hidden_states)\r\n                img_queries = self.img_attn_pool_norm(img_queries)\r\n        \r\n            # patch_resolution * 4\r\n            if self.decoder_mode == 'fpn':\r\n                # FPNs: input: (640, 640), hidden_states: (2, 1600, 768) --> (2, 5, 160, 160)  //  input: (768, 256), hidden_states: (2, 768, 768) --> (2, 5, 192, 64)\r\n                features = [feature for idx, feature in enumerate(all_hidden_states) if idx + 1 in self.out_indices]\r\n                batch_size = hidden_states.size()[0] # pixel_values.shape[0]\r\n                patch_resolution_h, patch_resolution_w = height // self.patch_size, width // self.patch_size\r\n                # reshape hidden states\r\n                features = [\r\n                    x[:,1:,:].permute(0, 2, 1).reshape(batch_size, -1, patch_resolution_h, patch_resolution_w) for x in features\r\n                ]\r\n                \r\n                ops = [self.fpn1, self.fpn2, self.fpn3, self.fpn4]\r\n                for i in range(len(features)):\r\n                    features[i] = ops[i](features[i])\r\n                \r\n                logits = self.decode_head(features)\r\n                logits = torch.stack(logits, dim=2).squeeze()\r\n\r\n            # patch_resolution * 4\r\n            elif self.decoder_mode == 'trans_conv':\r\n                patch_resolution_h, patch_resolution_w = height // self.patch_size, width // self.patch_size\r\n                features = hidden_states.permute(0, 2, 1).reshape(batch_size, -1, patch_resolution_h, patch_resolution_w)\r\n\r\n                for tc in [self.tc1, self.tc2, self.tc3]:\r\n                    features = tc(features)\r\n                \r\n                logits = self.decode_head(features)\r\n                logits = torch.stack(logits, dim=2).squeeze()\r\n\r\n                \r\n            # MARRIAGE AFTER\r\n            if self.mode=='denseClass_wEvac' and add_info is not None:\r\n                info_emb_2 = torch.cat((or_emb, dest_emb, num_ag_emb, fp_size_emb, vel_emb), dim=-1)\r\n                info_emb_2 = self.evac_preprocess(info_emb_2)\r\n\r\n                # info_emb = self.marriage_att(info_emb, img_queries) if self.settings['attn_pooling'] else self.marriage_att(info_emb, hidden_states)\r\n                for marr_layer in self.marriage_att:\r\n                    info_emb = marr_layer(info_emb, hidden_states) # if self.settings['attn_pooling'] else marr_layer(info_emb, hidden_states)\r\n\r\n                info_emb = info_emb.flatten(start_dim=1)\r\n                info_emb = info_emb + info_emb_2\r\n                evac_prediction = self.evac_predictor(info_emb)\r\n                evac_prediction = nn.ReLU()(evac_prediction) # + upper theshold ReLU()?\r\n                evac_prediction = torch.multiply(evac_prediction, 100.)\r\n\r\n                return logits, evac_prediction\r\n            \r\n            return logits\r\n        \r\n\r\n        def forward_encoder(\r\n            self,\r\n            hidden_states,\r\n            vector_embeddings,\r\n            bool_masked_pos = None,\r\n            head_mask = None,\r\n            output_attentions = False,\r\n            output_hidden_states = True,\r\n            return_dict = True,\r\n        ):\r\n            # assuming relative_position_bias = None and gradient_checkpointing = False\r\n            all_hidden_states = () if output_hidden_states else None\r\n            all_self_attentions = () if output_attentions else None\r\n\r\n            for i, layer_modules in enumerate(self.encoder.layer):\r\n                if output_hidden_states:\r\n                    all_hidden_states = all_hidden_states + (hidden_states,)\r\n\r\n                beit_layer = layer_modules[0]\r\n                ca_layer = layer_modules[1]\r\n\r\n                layer_outputs = beit_layer(hidden_states, None, output_attentions, None)\r\n                layer_outputs = (ca_layer(layer_outputs[0], vector_embeddings), )\r\n\r\n                hidden_states = layer_outputs[0]\r\n\r\n                if output_attentions:\r\n                    all_self_attentions = all_self_attentions + (layer_outputs[1],)\r\n\r\n            if output_hidden_states:\r\n                all_hidden_states = all_hidden_states + (hidden_states,)\r\n\r\n            if not return_dict:\r\n                return tuple(v for v in [hidden_states, all_hidden_states, all_self_attentions] if v is not None)\r\n            return BaseModelOutput(\r\n                last_hidden_state=hidden_states,\r\n                hidden_states=all_hidden_states,\r\n                attentions=all_self_attentions,\r\n            )\r\n\r\n\r\n    class Layer(nn.Module):\r\n        def __init__(self, drop_path_rate=0.0, num_attention_heads=12, hidden_size=768, window=None) -> None:\r\n            super().__init__()\r\n            self.intermediate_size = 3072\r\n            self.dropout_rate = drop_path_rate\r\n            self.layer_scale_init_value = 0.1\r\n            self.window = window\r\n\r\n            # BeitSelfAttention (BeitAttention)\r\n            self.num_attention_heads = num_attention_heads\r\n            self.hidden_size = hidden_size\r\n            assert self.hidden_size % self.num_attention_heads == 0, f'The hidden size {self.hidden_size,} is not a multiple of num_attention_heads!'\r\n            self.attention_head_size = int(self.hidden_size / self.num_attention_heads)\r\n            self.all_head_size = self.num_attention_heads * self.attention_head_size\r\n\r\n            self.attention_query = nn.Linear(self.hidden_size, self.all_head_size)\r\n            self.attention_key = nn.Linear(self.hidden_size, self.all_head_size, bias=False)\r\n            self.attention_value = nn.Linear(self.hidden_size, self.all_head_size)\r\n            if self.window is not None:\r\n                config_pretrained = BeitConfig()\r\n                config_pretrained.num_attention_heads = self.num_attention_heads\r\n                self.attention_rel_pos_bias = BeitRelativePositionBias(config_pretrained, window_size=self.window)\r\n\r\n            # BeitSelfOutput (BeitAttention)\r\n            self.attention_output = nn.Linear(self.hidden_size, self.hidden_size)\r\n\r\n            # BeitIntermediate\r\n            self.intermediate = nn.Linear(self.hidden_size, self.intermediate_size)\r\n            self.intermediate_act_fn = ACT2FN['gelu']\r\n\r\n            # BeitOutput\r\n            self.output = nn.Linear(self.intermediate_size, self.hidden_size)\r\n\r\n            self.layernorm_before = nn.LayerNorm(self.hidden_size, eps=1e-12)\r\n            self.drop_path = BeitDropPath(self.dropout_rate) if self.dropout_rate > 0.0 else nn.Identity()\r\n            self.layernorm_after = nn.LayerNorm(self.hidden_size, eps=1e-12)\r\n            init_values = self.layer_scale_init_value\r\n            if init_values > 0:\r\n                self.lambda_1 = nn.Parameter(init_values * torch.ones((self.hidden_size)), requires_grad=True)\r\n                self.lambda_2 = nn.Parameter(init_values * torch.ones((self.hidden_size)), requires_grad=True)\r\n\r\n        \r\n        def transpose_for_scores(self, x):\r\n            new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)\r\n            x = x.view(*new_x_shape)\r\n            return x.permute(0, 2, 1, 3)\r\n\r\n            \r\n        def forward(self, hidden_states):\r\n\r\n            mixed_query_layer = self.attention_query(self.layernorm_before(hidden_states))\r\n\r\n            key_layer = self.transpose_for_scores(self.attention_key(hidden_states))\r\n            value_layer = self.transpose_for_scores(self.attention_value(hidden_states))\r\n            query_layer = self.transpose_for_scores(mixed_query_layer)\r\n\r\n            # Take the dot product between \"query\" and \"key\" to get the raw attention scores.\r\n            attention_scores = torch.matmul(query_layer, key_layer.transpose(-1, -2))\r\n            attention_scores = attention_scores / math.sqrt(self.attention_head_size)\r\n\r\n            # Add relative position bias if present.\r\n            if self.window is not None:\r\n                attention_scores = attention_scores + self.attention_rel_pos_bias()[:,1:,1:].unsqueeze(0) # cls token not included, thats why [:,1:,1:]\r\n\r\n            # Normalize the attention scores to probabilities.\r\n            attention_probs = nn.functional.softmax(attention_scores, dim=-1)\r\n\r\n            context_layer = torch.matmul(attention_probs, value_layer)\r\n\r\n            context_layer = context_layer.permute(0, 2, 1, 3).contiguous()\r\n            new_context_layer_shape = context_layer.size()[:-2] + (self.all_head_size,)\r\n            context_layer = context_layer.view(*new_context_layer_shape)\r\n\r\n            attention_output = self.attention_output(context_layer)\r\n\r\n            if self.lambda_1 is not None:\r\n                attention_output = self.lambda_1 * attention_output\r\n            \r\n            # first residual connection\r\n            hidden_states = self.drop_path(attention_output) + hidden_states\r\n\r\n            layer_output = self.layernorm_after(hidden_states)\r\n\r\n            layer_output = self.intermediate(layer_output)\r\n            layer_output = self.output(layer_output)\r\n\r\n            if self.lambda_2 is not None:\r\n                layer_output = self.lambda_2 * layer_output\r\n\r\n            # second residual connection\r\n            outputs = self.drop_path(layer_output) + hidden_states\r\n\r\n            return outputs\r\n\r\n\r\n    class CrossAttention(nn.Module):\r\n        def __init__(\r\n            self,\r\n            dim,\r\n            context_dim=None,\r\n            dim_head=64,\r\n            heads=8,\r\n            parallel_ff=False,\r\n            ff_mult=4,\r\n            norm_context=False\r\n        ):\r\n            super().__init__()\r\n            self.heads = heads\r\n            self.scale = dim_head ** -0.5\r\n            inner_dim = heads * dim_head\r\n\r\n            def default(val, d):\r\n                def exists(val):\r\n                    return val is not None\r\n                return val if exists(val) else d\r\n            \r\n            context_dim = default(context_dim, dim)\r\n\r\n            self.norm = nn.LayerNorm(dim)\r\n            self.context_norm = nn.LayerNorm(context_dim) if norm_context else nn.Identity()\r\n\r\n            self.to_q = nn.Linear(dim, inner_dim, bias=False)\r\n            self.to_kv = nn.Linear(context_dim, dim_head * 2, bias=False)\r\n            self.to_out = nn.Linear(inner_dim, dim, bias=False)\r\n\r\n            # whether to have parallel feedforward\r\n\r\n            ff_inner_dim = ff_mult * dim\r\n\r\n            self.ff = nn.Sequential(\r\n                nn.Linear(dim, ff_inner_dim * 2, bias=False),\r\n                SwiGLU(),\r\n                nn.Linear(ff_inner_dim, dim, bias=False)\r\n            ) if parallel_ff else None\r\n\r\n        def forward(self, x, context):\r\n            \"\"\"\r\n            einstein notation\r\n            b - batch\r\n            h - heads\r\n            n, i, j - sequence length (base sequence length, source, target)\r\n            d - feature dimension\r\n            \"\"\"\r\n\r\n            # pre-layernorm, for queries and context\r\n\r\n            x = self.norm(x)\r\n            context = self.context_norm(context)\r\n\r\n            # get queries\r\n\r\n            q = self.to_q(x)\r\n            q = rearrange(q, 'b n (h d) -> b h n d', h = self.heads)\r\n\r\n            # scale\r\n\r\n            q = q * self.scale\r\n\r\n            # get key / values\r\n\r\n            k, v = self.to_kv(context).chunk(2, dim=-1)\r\n\r\n            # query / key similarity\r\n\r\n            sim = einsum('b h i d, b j d -> b h i j', q, k)\r\n\r\n            # attention\r\n\r\n            sim = sim - sim.amax(dim=-1, keepdim=True)\r\n            attn = sim.softmax(dim=-1)\r\n\r\n            # aggregate\r\n\r\n            out = einsum('b h i j, b j d -> b h i d', attn, v)\r\n\r\n            # merge and combine heads\r\n\r\n            out = rearrange(out, 'b h n d -> b n (h d)')\r\n            out = self.to_out(out)\r\n\r\n            # add parallel feedforward (for multimodal layers)\r\n            if self.ff:\r\n                out = out + self.ff(x)\r\n\r\n            return out\r\n\r\n\r\n    class BeitDropPath(nn.Module):\r\n        \"\"\"Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).\"\"\"\r\n\r\n        def __init__(self, drop_prob: float = None) -> None:\r\n            super().__init__()\r\n            self.drop_prob = drop_prob\r\n\r\n        def forward(self, x: torch.Tensor) -> torch.Tensor:\r\n            \"\"\"\r\n                Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).\r\n\r\n                Comment by Ross Wightman: This is the same as the DropConnect impl I created for EfficientNet, etc networks,\r\n                however, the original name is misleading as 'Drop Connect' is a different form of dropout in a separate paper...\r\n                See discussion: https://github.com/tensorflow/tpu/issues/494#issuecomment-532968956 ... I've opted for changing the\r\n                layer and argument names to 'drop path' rather than mix DropConnect as a layer name and use 'survival rate' as the\r\n                argument.\r\n            \"\"\"\r\n\r\n            if self.drop_prob == 0.0 or not self.training:\r\n                return x\r\n            keep_prob = 1 - self.drop_prob\r\n            shape = (x.shape[0],) + (1,) * (x.ndim - 1)  # work with diff dim tensors, not just 2D ConvNets\r\n            random_tensor = keep_prob + torch.rand(shape, dtype=x.dtype, device=x.device)\r\n            random_tensor.floor_()  # binarize\r\n            output = x.div(keep_prob) * random_tensor\r\n            return output\r\n\r\n\r\n\r\n    class SwiGLU(nn.Module):\r\n        def forward(self, x):\r\n            x, gate = x.chunk(2, dim=-1)\r\n            return F.silu(gate) * x\r\n\r\n\r\n    class ClassMovieClassifier(nn.Module):\r\n        def __init__(self, input_channels, output_channels, num_frames, final_batch=False) -> None:\r\n            super().__init__()\r\n\r\n            if not final_batch:\r\n                self.module_list = nn.ModuleList([\r\n                    nn.Sequential(\r\n                        nn.Conv2d(input_channels, output_channels, kernel_size=1),\r\n                        nn.ReLU()\r\n                    ) for i in range(num_frames)\r\n                ])\r\n\r\n            else:\r\n                self.module_list = nn.ModuleList([\r\n                    nn.Sequential(\r\n                        nn.Conv2d(input_channels, output_channels, kernel_size=1),\r\n                        nn.BatchNorm2d(output_channels),\r\n                        nn.ReLU()\r\n                    ) for i in range(num_frames)\r\n                ])\r\n\r\n            self.apply(self._initialize_weights)\r\n        \r\n        def _initialize_weights(self, m):\r\n            if hasattr(m, 'weight') or hasattr(m, 'bias'):\r\n                try:\r\n                    torch.nn.init.xavier_normal_(m.weight)\r\n                except ValueError:\r\n                    # Prevent ValueError(\"Fan in and fan out can not be computed for tensor with fewer than 2 dimensions\")\r\n                    m.weight.data.uniform_(-0.2, 0.2)\r\n                    # print(\"Bypassing ValueError...\")\r\n                if m.bias is not None:\r\n                    m.bias.data.zero_()\r\n\r\n        def forward(self, input):\r\n            return [module(input) for module in self.module_list]\r\n\r\n    def get_color(class_label):\r\n        if class_label == 1: return np.array([143, 225,255], dtype=np.uint8)\r\n        elif class_label == 2: return np.array([0, 0, 255], dtype=np.uint8)\r\n        elif class_label == 3: return np.array([255, 0,255], dtype=np.uint8)\r\n        return None\r\n\r\n\r\n    CUDA_DEVICE = 'cpu' # 0, 1 or 'cpu'\r\n    MODE = 'density_class'# implemented: grayscale, evac, evac_only, class_movie, density_reg, density_class, denseClass_wEvac\r\n    BATCH_SIZE = 2\r\n    ARCH = 'MyModel' # MyModel, DeepLab, BeIT, SegFormer\r\n    ADD_INFO = True\r\n\r\n    test_run = True # limit_batches -> 2 \r\n    save_model = False # create folder and save the model\r\n\r\n    # example input coming from the outside\r\n    num_origins = torch.LongTensor([4])\r\n    num_destinations = torch.LongTensor([1])\r\n    num_agents_id = torch.LongTensor([2])\r\n    site_dimensions = torch.FloatTensor([0.55, 0.3])\r\n    velocity_id = torch.LongTensor([2])\r\n\r\n    add_info = [num_origins, num_destinations, num_agents_id, site_dimensions, velocity_id]\r\n\r\n    config = {\r\n        'decoder_mode': 'fpn',\r\n        'settings': {'final_conv_batch': True, 'marriage_mode': 2, 'hidden_size': 768, 'num_hidden_ca_layers': 3, 'use_pe': False, 'attn_pooling': False},\r\n        'num_hidden_img_layers': 6\r\n    }\r\n    model = MyModel('density_class', output_channels=4, num_heads=8, additional_info=True, config=config)\r\n\r\n    model.eval()\r\n\r\n    # image = np.array(PIL.Image.open('C:\\\\Users\\\\ga78jem\\\\Downloads\\\\test_image.png')) \r\n    # image = np.array(PIL.Image.open(r\"C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies/PlaceholderScripts/ForwardPass/tmpn98l4445.png\")) \r\n    image = np.array(PIL.Image.open(IN[2]))\r\n    image_t = image.transpose(2,0,1).astype(np.float32) / 255.\r\n    image_t = torch.tensor(image_t).unsqueeze(0)\r\n    image_t = transforms.Normalize(mean=[0.5,0.5,0.5], std=[0.5,0.5,0.5])(image_t)\r\n\r\n    # prediction_raw = model(image_t, add_info)\r\n\r\n    # load checkpoint\r\n    # ckpt = 'C:\\\\Users\\\\ga78jem\\\\Downloads\\\\model_epoch=45-step=230000.pth'\r\n    # ckpt = r\"C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies/PlaceholderScripts/ForwardPass/model_epoch=45-step=230000.pth\"\r\n    ckpt = fr\"{IN[1]}\\model_epoch=45-step=230000.pth\"\r\n    # ckpt = \"./model_epoch=45-step=230000.pth\"\r\n    # state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt).items()])\r\n    state_dict = OrderedDict([(key.replace('model.', ''), tensor.cpu()) if key.startswith('model.') else (key, tensor) for key, tensor in torch.load(ckpt , map_location=torch.device('cpu')).items()])\r\n    module_state_dict = model.state_dict()\r\n\r\n    mkeys_missing_in_loaded = [module_key for module_key in list(module_state_dict.keys()) if module_key not in list(state_dict.keys())]\r\n    lkeys_missing_in_module = [loaded_key for loaded_key in list(state_dict.keys()) if loaded_key not in list(module_state_dict.keys())]\r\n\r\n    load_dict = OrderedDict()\r\n    for key, tensor in module_state_dict.items():\r\n        if key in state_dict.keys():\r\n            load_dict[key] = state_dict[key]\r\n        else:\r\n            load_dict[key] = tensor\r\n\r\n    model.load_state_dict(load_dict)\r\n\r\n    # evac time prediction is still missing\r\n    # FORWARD PASS & VISUALIZATION\r\n    if MODE == 'denseClass_wEvac':\r\n        dense_pred, evac_time_pred = model(image_t, add_info)\r\n        MODE = 'density_class'\r\n    else:\r\n        dense_pred = model(image_t, add_info)\r\n\r\n    predicted_frames = []\r\n\r\n    dense_pred = dense_pred.squeeze().cpu().detach().numpy()\r\n    dense_pred = np.argmax(dense_pred, axis=0)\r\n    dense_pred = dense_pred.transpose(1,2,0)\r\n    num_frames = dense_pred.shape[-1]\r\n\r\n    cell_size = 4\r\n    add_vector_template = np.zeros((cell_size**2,2), dtype=np.int32)\r\n    for x in range(cell_size):\r\n        for y in range(cell_size):\r\n            add_vector_template[cell_size*x + y] = np.array([x, y], dtype=np.int32)\r\n\r\n    for frame_id in range(num_frames):\r\n\r\n        frame_pred_np = dense_pred[:,:,frame_id]\r\n        nnz_coords = np.argwhere(frame_pred_np > 0).squeeze()\r\n        pred_counts = frame_pred_np[nnz_coords[:,0], nnz_coords[:,1]]\r\n        # scale up\r\n        nnz_coords = np.repeat(nnz_coords, cell_size**2, axis=0) * cell_size\r\n        add_vector = np.tile(add_vector_template.transpose(1,0), np.argwhere(frame_pred_np > 0).squeeze().shape[0]).transpose(1,0)\r\n        nnz_coords += add_vector\r\n        pred_counts = np.repeat(pred_counts, cell_size**2, axis=0)\r\n        pred_counts_colored = [get_color(count) for count in pred_counts]\r\n        binned_pred_img = image.copy()\r\n        if len(pred_counts_colored) > 0: binned_pred_img[nnz_coords[:,0], nnz_coords[:,1]] = pred_counts_colored\r\n\r\n        plt.imshow(binned_pred_img)\r\n        plt.close('all')\r\n\r\n        predicted_frames.append(binned_pred_img)\r\n\r\n    # last_frame = PilImage.fromarray(predicted_frames[-1])\r\n    temp_images_paths = []\r\n    for f , frame in enumerate(predicted_frames) : \r\n        frame_as_image = PilImage.fromarray(frame)\r\n        temp_inference_image_path = tempfile.mktemp(suffix=\".png\")\r\n        # frame_as_image.save(f\"C:/Users/mohab/Documents/TUM/HiWiPatrick/PedSimAutomation/DynamoDependencies/PlaceholderScripts/ForwardPass/{f}.png\")\r\n        frame_as_image.save(temp_inference_image_path)\r\n        temp_images_paths.append(temp_inference_image_path)\r\n        # last_frame.save(temp_inference_image_path)\r\n\r\n    # OUT = temp_inference_image_path\r\n    OUT = temp_images_paths",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "e01c08f46121474586ad26a1c358cb43",
+      "Inputs": [
+        {
+          "Id": "178c784dab4e4425a83ddc681cdc71cc",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "41ba99cba4e64f519e08c9c1e860ea69",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "901128fb59ea4db998c544516c3b4a8d",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5349b6b40d504375afc9a0c833d17dab",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "InputValue": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "NodeType": "ExtensionNode",
+      "Id": "721ea26c9fba420f8c990a8c967292cc",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "# IN[0] Element id of view\r\n\r\nimport clr\r\nimport System\r\nfrom System.IO import *\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference('System.Drawing')\r\nimport System.Drawing\r\nfrom System.Drawing import *\r\n\r\nif IN[0] : \r\n    result = Image.FromFile(IN[0][0])\r\n    \r\n    OUT = result\r\n    ",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c63a417cdb8f45e598828bb131c39a9e",
+      "Inputs": [
+        {
+          "Id": "3ecf34d17d5b4ba5ac67e5c62bb0ef75",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e2a140ed706d4a1cafa57c293606868a",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.WatchImageCore, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "9018f2fb616449e8ac575f9a429dbd31",
+      "Inputs": [
+        {
+          "Id": "aa27d230562c48938f3dcd5e00d7cd3f",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "77266d262fb54f728859e6bb08a3a925",
+          "Name": "image",
+          "Description": "Image for visualization",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Previews an image"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "",
+      "Id": "51d530a6b72747d0a27ae5024e525341",
+      "Inputs": [],
+      "Outputs": [],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "InputValue": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\DynamoDependencies\\PlaceholderScripts\\forwardPass",
+      "NodeType": "ExtensionNode",
+      "Id": "5c93081669324210be810a4e4a7ec04e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ad00d2e87abe43e0aa26b638d356cc87",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "from PIL import Image\r\n\r\n\r\nif IN[0] : \r\n    paths = IN[0]\r\n    save_path = IN[1]\r\n    frames = [\r\n            Image.open(path).convert('RGB') for path in paths\r\n    ]\r\n\r\n    frames[0].save(f'{save_path}/prediction.gif', format='GIF', append_images=frames[1:], save_all=True, duration=100 * len(frames), loop=0)\r\n\r\n    OUT = \"DONE\"",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c3d50dcd6f8e4499944ec38f97e14415",
+      "Inputs": [
+        {
+          "Id": "54b6225dd99c477f9947071d319c648f",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "502835758b364069ad45466f2cbc890a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "e38126397ce64da8bccfdef07c1e16d0",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -1074,6 +1830,11 @@
       "Start": "d2d109a0acb841e2ad567236db560e7c",
       "End": "f3e6d1d6bf9e4f1c9fd212e298848c48",
       "Id": "d485a78e64ba4370ba11881b07ebaf4b"
+    },
+    {
+      "Start": "d2d109a0acb841e2ad567236db560e7c",
+      "End": "a2cce34ef3104ac1b25c06a447470323",
+      "Id": "92d950605dbc4cec8354c9b5029b72b0"
     },
     {
       "Start": "057be26b8fd3456eb6929db48710712f",
@@ -1129,6 +1890,31 @@
       "Start": "0e203426adb24fc3b09a639f203677fd",
       "End": "c93dcaa3ac65436a9e5f8de7d943839b",
       "Id": "94bb7e1e78f84c58aafc711d1d31c9c8"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "8bccc8c595f14beeab1c6fcb9b2cc0df",
+      "Id": "6b6c55b10ea14fbea051beadb7be6575"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "1bb32dbd1bae4c55917622bced4e8e34",
+      "Id": "e12cde3e85aa4e9bacab1e95d096348b"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "d484e6a1fa164544a54da47873d19694",
+      "Id": "e7c80989bed946c9896bf58ade8109b2"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "b503e4d4fc0a4383bf8453c8b7e5eef4",
+      "Id": "fecf3f3fccd442b99184d68daaff5b56"
+    },
+    {
+      "Start": "0e203426adb24fc3b09a639f203677fd",
+      "End": "8b6d42444a5845c5802641540cf4f96f",
+      "Id": "98225b1b01f24513bf787067b227ff5a"
     },
     {
       "Start": "552bddf97e8d4af78eb2532e8db2d70a",
@@ -1229,6 +2015,121 @@
       "Start": "a89419cf1b51448eb515ea3a35dce344",
       "End": "e785c04dc86a4eafa6c6fc278d4fe1bc",
       "Id": "3641550bda8c47e1b78e6fe326df8f0a"
+    },
+    {
+      "Start": "6550584e1d7b49e6800bd273ec1a7e76",
+      "End": "f7de0eede8344f88b73eb2add8251f9a",
+      "Id": "0c1aa73d72cb47678bda4b36d1797cdc"
+    },
+    {
+      "Start": "6550584e1d7b49e6800bd273ec1a7e76",
+      "End": "ae17fb0ac8b443959615d41e1d05fc4c",
+      "Id": "6d056cc45c9b4c9880fcf66ecf97ed94"
+    },
+    {
+      "Start": "6798c119db7c40e7b7ef37d1151cacc3",
+      "End": "78e77e68f8514c088e93a90194e4577e",
+      "Id": "bbeaf9452ab541398994b3920f6d967d"
+    },
+    {
+      "Start": "69cb8e815f734e1898163a8e2879faab",
+      "End": "edfc38076a79441eb201fd4f83041922",
+      "Id": "24da7811253b44d68ec92aca291e5865"
+    },
+    {
+      "Start": "64fcd170427f4369ba17b544d0b19a80",
+      "End": "42e5f23ca5324b429d30e4ded770669a",
+      "Id": "7879d9956a0d43b5a8429baefee436e1"
+    },
+    {
+      "Start": "2abd18bf03094fbc8a22cea686c7cfe9",
+      "End": "db261a26c419451ebfe326438fc6c733",
+      "Id": "f6f59f020caa41bab62ab41ecdd71163"
+    },
+    {
+      "Start": "416de6a731e2479f952ca375196fb4f1",
+      "End": "95775af539bb4fe7894be58765b6ea9d",
+      "Id": "db0a6b7d74694b9398c49283ce2b5c86"
+    },
+    {
+      "Start": "416de6a731e2479f952ca375196fb4f1",
+      "End": "db03b9ae409345eab215ed70827d8ab6",
+      "Id": "7571f2eaa1c04ee1bf084c85b0027925"
+    },
+    {
+      "Start": "416de6a731e2479f952ca375196fb4f1",
+      "End": "178c784dab4e4425a83ddc681cdc71cc",
+      "Id": "53826470b456476f864c509827936de3"
+    },
+    {
+      "Start": "c80520e02a5243f9925ddb9aeed5ad68",
+      "End": "c6a3a74970274941bec7166c8aa5a1d6",
+      "Id": "6da8ea5a9b854e9cb3f6814d92375d82"
+    },
+    {
+      "Start": "88b94ac8d9044268b5d2e918a278f7e9",
+      "End": "376e458f9414424f9ab71a715bcc02ea",
+      "Id": "3986864bca2f472fa0cd866a0d3f5985"
+    },
+    {
+      "Start": "e869cae4f4594e51a8039056990a8811",
+      "End": "d7b8da2a76d246deb09224f37bc5dbf5",
+      "Id": "86015c898e504592a8dcd21287e4ce47"
+    },
+    {
+      "Start": "60080b7de4334cf380c535ae11014aaa",
+      "End": "c644a32e194e4a259337968ba3c43306",
+      "Id": "990417938a3e45ef99ac4168f221b491"
+    },
+    {
+      "Start": "db1c9a1dd7a240b99e8b04cc633a7611",
+      "End": "885a14315f0940dead09c89188cf8326",
+      "Id": "4ea13cfc6d694ea8ac87f0dedbf12603"
+    },
+    {
+      "Start": "bf400ed61b9742d584bfd4cf010ef802",
+      "End": "876f159b324c4ccab952897115883839",
+      "Id": "029323ce98b94d36ac0d50dca94411a0"
+    },
+    {
+      "Start": "b8f5cd8986714c41afed88f4e87d4e09",
+      "End": "8d015dc0f5224b04b0ac58a185ae5bac",
+      "Id": "4d2136a670774e0ab140d556f1748e09"
+    },
+    {
+      "Start": "b8f5cd8986714c41afed88f4e87d4e09",
+      "End": "901128fb59ea4db998c544516c3b4a8d",
+      "Id": "40377c187b8d46aab239137d9631cf76"
+    },
+    {
+      "Start": "5349b6b40d504375afc9a0c833d17dab",
+      "End": "3ecf34d17d5b4ba5ac67e5c62bb0ef75",
+      "Id": "dfa8bfe8538b4d8bb9f6b4bbf23a08c5"
+    },
+    {
+      "Start": "5349b6b40d504375afc9a0c833d17dab",
+      "End": "54b6225dd99c477f9947071d319c648f",
+      "Id": "819a4119abb04ebc9ffec76bde7ed56c"
+    },
+    {
+      "Start": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+      "End": "41ba99cba4e64f519e08c9c1e860ea69",
+      "Id": "3a8bd7f0fdf5488d904327beffaf1e57"
+    },
+    {
+      "Start": "2e1c74af0f224c04b84ab0f0b6dfdf62",
+      "End": "1b3e6de00acf4699a43fefa197101759",
+      "Id": "8c67022efc4e4e929d9202a9b673317b"
+    },
+    {
+      "Start": "e2a140ed706d4a1cafa57c293606868a",
+      "End": "aa27d230562c48938f3dcd5e00d7cd3f",
+      "Id": "73151f6355384b77bdb944cdc42c03d5"
+    },
+    {
+      "Start": "ad00d2e87abe43e0aa26b638d356cc87",
+      "End": "502835758b364069ad45466f2cbc890a",
+      "Id": "a5018022418e446c9003b01c127bcf47"
     }
   ],
   "Dependencies": [],
@@ -1244,16 +2145,16 @@
       "RunPeriod": "1000"
     },
     "Camera": {
-      "Name": "Hintergrundvorschau",
-      "EyeX": -6.7137899398803711,
-      "EyeY": 19.17303466796875,
-      "EyeZ": 20.845033645629883,
-      "LookX": 20.300876617431641,
-      "LookY": -15.531648635864258,
-      "LookZ": -23.898988723754883,
-      "UpX": 0.15629346668720245,
-      "UpY": 0.97042179107666016,
-      "UpZ": -0.18399426341056824
+      "Name": "Background Preview",
+      "EyeX": -84.242538452148438,
+      "EyeY": 205.51405334472656,
+      "EyeZ": 30.885639190673828,
+      "LookX": 97.796066284179688,
+      "LookY": -201.87266540527344,
+      "LookZ": -33.968097686767578,
+      "UpX": 0.72859406471252441,
+      "UpY": 0.63648122549057007,
+      "UpZ": -0.25306591391563416
     },
     "NodeViews": [
       {
@@ -1273,8 +2174,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": true,
         "Excluded": false,
-        "X": -2045.5947240660817,
-        "Y": 756.95856037154056
+        "X": -2045.59472406608,
+        "Y": 756.958560371541
       },
       {
         "ShowGeometry": true,
@@ -1333,7 +2234,7 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1638.3261607916222,
+        "X": -1633.0441089385943,
         "Y": 1129.628330198698
       },
       {
@@ -1565,6 +2466,236 @@
         "Excluded": false,
         "X": -2081.0406749172475,
         "Y": 522.557490718079
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CreateFloorPlanWithOverlaidZones",
+        "Id": "642c0dc4c5f945a291c5b48263a7912e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1841.9298545386687,
+        "Y": 1520.4331536184136
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "WallThickness",
+        "Id": "c3cc8d657a1f4769badd627185de87df",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1709.6364931336586,
+        "Y": 1589.7746251427334
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageWidth(INT)",
+        "Id": "69961faf99e747c196644069ed5d4ea7",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1772.4564242036686,
+        "Y": 1658.1239179578533
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "PaddedImageHeight(INT)",
+        "Id": "aab17e32e15a4b76b21eb0e8944b4307",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1776.5054338584587,
+        "Y": 1721.2895483372436
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Hide Elevation Arrows",
+        "Id": "f35e214806394a3a9dc0d4619796ee1b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1431.5949926682486,
+        "Y": 1551.9761166397134
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Color Walls Black",
+        "Id": "3106a787001843e7ae1586390c237861",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1160.3980041344885,
+        "Y": 1548.1075759371934
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Virtual Environment Path",
+        "Id": "9a614a417e0c42f8921b57863f782f06",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1934.3198162202386,
+        "Y": 1787.9865429169035
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Get rid of cropbox",
+        "Id": "9ec485d6907a401aa15548f440cdd5e8",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -931.98339484442363,
+        "Y": 1546.2295742450833
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Show Floors in Plan",
+        "Id": "571a00e1551644fa8f42a276b217a31e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -719.06330184845956,
+        "Y": 1548.2389398285736
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetScaledOriginsAndDestinations",
+        "Id": "3f38ec1bd27245e4b91b612f2938f245",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -514.0402607140926,
+        "Y": 1497.1900690598836
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "OverlayPlanWithColors",
+        "Id": "4eb3e210df8c436c8fe01423c9f8db75",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -220.71553295086471,
+        "Y": 1493.9775249806435
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportFloorPlanImage",
+        "Id": "443e7cb5b46144bca29d334d28a2fe57",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 3.1212421296469017,
+        "Y": 1493.4501150532442
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetImageAsBitmap",
+        "Id": "1d68dd79e8f54706a8b4ba34bbdaf906",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 446.70207142426261,
+        "Y": 1479.26229008247
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch Image",
+        "Id": "637092e3c50f402983872170eb45d477",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 654.4353919680558,
+        "Y": 1476.9149431291603
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "CheckVEnvAndCheckpointExist",
+        "Id": "8bfa90b9112e4e23a68fc39756efa4e1",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1427.3188090979188,
+        "Y": 1719.5048402562734
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetPaddedImage",
+        "Id": "24b0032991f94b51aebdd285c0820000",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 242.18316170830735,
+        "Y": 1492.8063681824253
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NN + ForwardPass",
+        "Id": "e01c08f46121474586ad26a1c358cb43",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 445.66959809115917,
+        "Y": 1328.1491442735933
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NN Checkpoint Path",
+        "Id": "721ea26c9fba420f8c990a8c967292cc",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1933.1505644512215,
+        "Y": 1879.2541447056751
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetResultAsBitmap",
+        "Id": "c63a417cdb8f45e598828bb131c39a9e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 646.3842491625029,
+        "Y": 1328.3674781509562
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Watch Image",
+        "Id": "9018f2fb616449e8ac575f9a429dbd31",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1078.7011765212869,
+        "Y": 1475.4772690702066
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "51d530a6b72747d0a27ae5024e525341",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 19.0,
+        "Y": 1650.0
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GIF Export Path",
+        "Id": "5c93081669324210be810a4e4a7ec04e",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1933.5591713843,
+        "Y": 1967.6426656575284
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "GetResultAsBitmap",
+        "Id": "c3d50dcd6f8e4499944ec38f97e14415",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 644.65019497113963,
+        "Y": 1195.147073267432
       }
     ],
     "Annotations": [
@@ -1577,13 +2708,13 @@
           "40bb13f55e2f49fa852ce792d05d6883"
         ],
         "Left": -2509.6418451570776,
-        "Top": -221.03918529105482,
-        "Width": 254.13942232782983,
-        "Height": 409.44229510039224,
+        "Top": -220.77251862438814,
+        "Width": 249.01812678575016,
+        "Height": 407.44229510039224,
         "FontSize": 36.0,
         "InitialTop": -124.37251862438814,
         "InitialHeight": 363.44229510039224,
-        "TextblockHeight": 86.666666666666671,
+        "TextblockHeight": 86.4,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1597,13 +2728,13 @@
           "5cf7b4a5da5a4f08be1428ffddc92ea7"
         ],
         "Left": -2524.0621692211462,
-        "Top": 1076.2949968653647,
-        "Width": 1081.0693417628572,
-        "Height": 150.82066761144029,
+        "Top": 1076.4283301986979,
+        "Width": 1085.0180602825519,
+        "Height": 397.7948562648694,
         "FontSize": 36.0,
         "InitialTop": 1129.628330198698,
         "InitialHeight": 148.19485626486949,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1615,13 +2746,13 @@
           "0cdde517e1d14ae98acd0f9839922297"
         ],
         "Left": -1127.1150067308231,
-        "Top": 302.08050551619209,
-        "Width": 181.20996620619064,
-        "Height": 643.60535840172861,
+        "Top": 302.21383884952542,
+        "Width": 181.34329953952397,
+        "Height": 643.338691735062,
         "FontSize": 36.0,
         "InitialTop": 355.4138388495254,
         "InitialHeight": 604.938691735062,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.2,
         "Background": "#FFD4B6DB"
       },
       {
@@ -1633,13 +2764,13 @@
           "2d96f25030c54fbebaa59cd1ce4c3394"
         ],
         "Left": -2983.9365178556354,
-        "Top": 606.63372808264546,
-        "Width": 387.33333333333348,
-        "Height": 364.67973922757562,
+        "Top": 606.76706141597879,
+        "Width": 388.80000000000018,
+        "Height": 363.34640589424225,
         "FontSize": 36.0,
         "InitialTop": 659.96706141597883,
         "InitialHeight": 387.34640589424225,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       },
       {
@@ -1654,18 +2785,18 @@
           "a4e31f61d6e142a69577153b5065a6bf"
         ],
         "Left": -3074.2095325197274,
-        "Top": -36.220572647085071,
-        "Width": 329.13724568397538,
-        "Height": 560.13072161211687,
+        "Top": -36.087239313751738,
+        "Width": 329.00391235064171,
+        "Height": 558.7973882787835,
         "FontSize": 36.0,
         "InitialTop": 17.112760686248265,
         "InitialHeight": 582.7973882787835,
-        "TextblockHeight": 43.333333333333336,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFAA45"
       }
     ],
-    "X": 1903.8051959376226,
-    "Y": -71.507026039518337,
-    "Zoom": 0.53111351607745527
+    "X": 48.322136787566023,
+    "Y": -848.06281962427079,
+    "Zoom": 0.81890851017781729
   }
 }
