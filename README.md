@@ -152,7 +152,10 @@ Once you select your geometry type, fill in the rest of the input parameters - i
 
 The output of the script should be a floor plan of the geometry.
 You can now switch the node "CreateFloorPlanWithOverlaidZones" to True and rerun the script.
-This will generate the floor plan image and overlay it with the colors of the sources and destinations, then use it as an input to the transformer.
+This will generate the floor plan image and overlay it with the colors of the sources and destinations.
+This image is then fed as an input to the transformer.
+
+Once the execution is complete, you should see a .gif, showing the predicted frames of the transformer, in your chosen export path.
 
 ## Documentation
 
