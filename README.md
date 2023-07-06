@@ -11,8 +11,8 @@
     <br />
     Berggold, P., and Hassaan, M.
     <br />
-    <!-- <a href=#docs><strong>Explore the docs »</strong></a> -->
-    <strong>[Explore the docs »](#documentation)</strong>
+    <a href=#docs><strong>Explore the docs »</strong></a>
+    <!-- <strong>[Explore the docs »](#documentation)</strong> -->
     <br />
     <br />
     <a href="mailto:patrick.berggold@tum.de">Report Bug</a>
@@ -157,6 +157,8 @@ You can now switch the node "CreateFloorPlanWithOverlaidZones" to True and rerun
 This will generate the floor plan image and overlay it with the colors of the sources and destinations, then use it as an input to the transformer.
 
 ## Documentation
+
+<div id = "docs"></div>
 
 _Details of all scripts and classes can be found in
 [Documentation Link Placeholder](https://github.com/patrickberggold/PedSimAutomation)._
