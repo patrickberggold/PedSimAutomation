@@ -93,7 +93,7 @@ Once you clone the repository, make sure the folder structure matches the direct
 Make sure you have Revit installed on your machine.
 Details on how to install Revit can be found [here](https://www.autodesk.com/products/revit/).
 
-### Initial Setup
+## Initial Setup
 
 #### Python version
 
