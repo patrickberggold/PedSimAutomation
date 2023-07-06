@@ -140,8 +140,6 @@ conda install --file python_environment_packages.txt
 
 ## Usage
 
-In this section, we have provided a step-by-step process describing how to use this script.
-
 Start by creating a new Revit file, and opening Dynamo (Manage -> Dynamo).
 Then navigate to the directory /DynamoScripts/ and open the file MainWithInferenceWithoutTraining.dyn.
 
