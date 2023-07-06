@@ -11,8 +11,8 @@
     <br />
     Berggold, P., and Hassaan, M.
     <br />
-    <a href=#docs><strong>Explore the docs »</strong></a>
-    <!-- <strong>[Explore the docs »](#documentation)</strong> -->
+    <!-- <a href=#docs><strong>Explore the docs »</strong></a> -->
+    <strong>[Explore the docs »](#documentation)</strong>
     <br />
     <br />
     <a href="mailto:patrick.berggold@tum.de">Report Bug</a>
