@@ -4,3 +4,5 @@ __pycache__
 */*.pt*
 */*.png
 DynamoDependencies/DynamoVEnv/
+checkpoints
+lightning_logs
