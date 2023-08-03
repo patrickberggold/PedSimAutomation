@@ -43,7 +43,8 @@
 
 Project title: Towards predicting Pedestrian Evacuation Time and Density from Floorplans using a Vision Transformer
 
-_Placeholder for a brief description of the project_
+In this work, we propose a deep learning-based approach to realistically and instantly predict pedstrian densities over time and total evacuation time from office building layouts and simulation input parameters.
+The aim of our approach is to integrate the neural network into the BIM-driven building design process to get a good estimate of how safely a building is designed with respect to pedestrian safety. Since pedestrian simulations entail long runtimes and laborious export and conversion steps, our approach delivers such predictions much faster, such that it can be used to interrogate the many design variants that come up particularly during the early stages of the project.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -78,6 +79,16 @@ Once you clone the repository, make sure the folder structure matches the direct
 ┃ ┣ 📜python_environment_packages.txt  
 ┣ 📂DynamoScripts  
 ┃ ┣ 📜MainWithInferenceWithoutTraining.dyn  
+┣ 📂TrainingScripts
+┃ ┣ 📜datamodule.py
+┃ ┣ 📜dataset.py
+┃ ┣ 📜helper.py
+┃ ┣ 📜image_module.py
+┃ ┣ 📜main.py
+┃ ┣ 📜model.py 
+┣ 📂ExampleDataset 
+┃ ┣ 📂inputs
+┃ ┣ 📂targets
 ┣ 📜.gitignore  
 ┗ 📜README.md
 
@@ -162,6 +173,8 @@ _Details of all scripts and classes can be found in
 <!-- CONTACT -->
 
 ## Contact
+
+If you have any questions with regards to our research or the usage of this project, please don't hesitate to contact us via an email. We will update more information regarding the usage and training of the network in the next few days.
 
 Patrick Berggold - patrick.berggold@tum.de
 
