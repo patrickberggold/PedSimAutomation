@@ -78,7 +78,7 @@
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge",
       "Type": "number",
-      "Value": "3",
+      "Value": "2",
       "MaximumValue": 3.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
@@ -143,7 +143,7 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
-      "SelectedIndex": 76,
+      "SelectedIndex": 5,
       "SelectedString": "Generic 300mm",
       "NodeType": "ExtensionNode",
       "Id": "40bb13f55e2f49fa852ce792d05d6883",
@@ -460,7 +460,7 @@
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
-      "InputValue": false,
+      "InputValue": true,
       "Id": "642c0dc4c5f945a291c5b48263a7912e",
       "Inputs": [],
       "Outputs": [
@@ -522,7 +522,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n    viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n    \r\n    if elevationArrows and viewers :\r\n        view.HideElements(List[ElementId](elevationArrows))\r\n        view.HideElements(List[ElementId](viewers))\r\n        \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        \r\n        OUT = 1\r\n        \r\n    else :\r\n        OUT = 0",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nfrom System.Collections.Generic import List\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    results = []\r\n    viewIds = IN[1]\r\n\r\n    for viewId in viewIds:\r\n        elementId = viewId\r\n        view = doc.GetElement(elementId)\r\n\r\n        elevationArrows = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Elev).ToElementIds()\r\n        viewers = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Viewers).ToElementIds()\r\n\r\n        if elevationArrows and viewers:\r\n            view.HideElements(List[ElementId](elevationArrows))\r\n            view.HideElements(List[ElementId](viewers))\r\n\r\n            TransactionManager.Instance.TransactionTaskDone()\r\n\r\n            results.append(1)  \r\n        else:\r\n            results.append(0) \r\n\r\n    OUT = 1 if all(results) == 1 else 0\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "f35e214806394a3a9dc0d4619796ee1b",
@@ -563,7 +563,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n\r\n    black = Color(0, 0, 0)\r\n    \r\n    walls = FilteredElementCollector(doc).OfClass(Wall)\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n    solidPattern = None\r\n    for pattern in fillPatterns:\r\n        if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n            solidPattern = pattern\r\n            break\r\n    \r\n    if solidPattern : \r\n        for wall in walls:\r\n            OverrideColorPattern(wall, black, solidPattern, view)\r\n    \r\n        TransactionManager.Instance.TransactionTaskDone()\r\n        OUT = 1\r\n    else : \r\n        OUT = 0\r\n",
+      "Code": "#IN[0]: Create Floor plan or not (boolean)\r\n\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ndef OverrideColorPattern(element, color, pattern, view):\r\n    graphicSettings = OverrideGraphicSettings()\r\n    graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n    graphicSettings.SetCutForegroundPatternColor(color)\r\n    graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n    graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n    UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\nif UnwrapElement(IN[0]) : \r\n    viewIds = IN[1]\r\n    results = []\r\n    # elementId = ElementId(viewId)\r\n    for elementId in viewIds : \r\n        view = doc.GetElement(elementId)\r\n\r\n        black = Color(0, 0, 0)\r\n        \r\n        walls = FilteredElementCollector(doc).OfClass(Wall)\r\n        TransactionManager.Instance.EnsureInTransaction(doc)\r\n        \r\n        fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n        solidPattern = None\r\n        for pattern in fillPatterns:\r\n            if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n                solidPattern = pattern\r\n                break\r\n        \r\n        if solidPattern : \r\n            for wall in walls:\r\n                OverrideColorPattern(wall, black, solidPattern, view)\r\n        \r\n            TransactionManager.Instance.TransactionTaskDone()\r\n            results.append(1)\r\n        else : \r\n            results.append(0)\r\n\r\n    OUT = 1 if all(results) == 1 else 0",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "3106a787001843e7ae1586390c237861",
@@ -625,7 +625,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "#IN[1]: view element id\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    viewId = IN[1]\r\n    elementId = ElementId(viewId)\r\n    view = doc.GetElement(elementId)\r\n    \r\n    view.CropBoxActive = False\r\n    view.CropBoxVisible = False\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1",
+      "Code": "#IN[1]: view element id\r\n\r\nimport clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]) : \r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    \r\n    viewIds = IN[1]\r\n    results = []\r\n    for elementId in viewIds : \r\n        view = doc.GetElement(elementId)\r\n        \r\n        view.CropBoxActive = False\r\n        view.CropBoxVisible = False\r\n\r\n        results.append(1)\r\n    \r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1 if all(results) == 1 else 0",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "9ec485d6907a401aa15548f440cdd5e8",
@@ -666,7 +666,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]):\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    \r\n    floorCategoryId = BuiltInCategory.OST_Floors\r\n    \r\n    \r\n    activeView = doc.ActiveView\r\n    \r\n    \r\n    floorCategory = Category.GetCategory(doc, floorCategoryId)\r\n    \r\n    \r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n    activeView.SetCategoryHidden(floorCategory.Id, False)\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1",
+      "Code": "import clr\r\nclr.AddReference(\"RevitAPI\")\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitServices\")\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\n\r\nif UnwrapElement(IN[0]):\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    \r\n    floorCategoryId = BuiltInCategory.OST_Floors\r\n    floorCategory = Category.GetCategory(doc, floorCategoryId)\r\n\r\n    viewIds = IN[1]\r\n    \r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    for elementId in viewIds : \r\n        view = doc.GetElement(elementId)    \r\n        view.SetCategoryHidden(floorCategory.Id, False)\r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n    \r\n    OUT = 1",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "571a00e1551644fa8f42a276b217a31e",
@@ -675,6 +675,15 @@
           "Id": "c6a3a74970274941bec7166c8aa5a1d6",
           "Name": "IN[0]",
           "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "cadfa0d3e30b47a9bee987ccf4e4f5fd",
+          "Name": "IN[1]",
+          "Description": "Input #1",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1131,116 +1140,6 @@
       "Description": "Runs an embedded Python script."
     },
     {
-      "ConcreteType": "DSRevitNodesUI.ElementTypes, DSRevitNodesUI",
-      "SelectedIndex": 354,
-      "SelectedString": "ViewSheet",
-      "NodeType": "ExtensionNode",
-      "Id": "5cf7b4a5da5a4f08be1428ffddc92ea7",
-      "Inputs": [],
-      "Outputs": [
-        {
-          "Id": "564d7612b1ed4c90ba99f49243b272f5",
-          "Name": "Types",
-          "Description": "The selected Types",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "All element subtypes."
-    },
-    {
-      "ConcreteType": "DSRevitNodesUI.ElementsOfType, DSRevitNodesUI",
-      "NodeType": "ExtensionNode",
-      "Id": "5c1fb66a83cb4d55a51126b23a19e6e3",
-      "Inputs": [
-        {
-          "Id": "e2d87c0b05a041bf9bf07403fc7aed14",
-          "Name": "element type",
-          "Description": "An element type.",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "87e6ad3927b24a17b0cd7df7c50ecb56",
-          "Name": "elements",
-          "Description": "All elements in the active document of a given type.",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "All elements in the active document of a given type."
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
-      "NodeType": "CodeBlockNode",
-      "Code": "OUT=IN[0];",
-      "Id": "958fc39c09054177afcc4d52bea0d278",
-      "Inputs": [
-        {
-          "Id": "45fa907b28f946ae85ae6a6d9f156f16",
-          "Name": "IN",
-          "Description": "IN",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "41486586813d46989a9303484f1828db",
-          "Name": "",
-          "Description": "OUT",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Disabled",
-      "Description": "Allows for DesignScript code to be authored directly"
-    },
-    {
-      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
-      "NodeType": "FunctionNode",
-      "FunctionSignature": "Revit.Elements.Element.Id",
-      "Id": "7220f621ce7e434793244ca8152628d2",
-      "Inputs": [
-        {
-          "Id": "b717d725fd174d5285bf360cd3af90da",
-          "Name": "element",
-          "Description": "Revit.Elements.Element",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Outputs": [
-        {
-          "Id": "5e9c833514ac40b4b8701ff61b6bf2a4",
-          "Name": "int",
-          "Description": "int",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        }
-      ],
-      "Replication": "Auto",
-      "Description": "Get the Element Id for this element\n\nElement.Id: int"
-    },
-    {
       "ConcreteType": "CoreNodeModels.Input.DoubleInput, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Double",
@@ -1268,7 +1167,7 @@
       "MaximumValue": 3.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
-      "InputValue": 3.0,
+      "InputValue": 2.0,
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Inputs": [],
       "Outputs": [
@@ -1451,7 +1350,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\nfloor_list = IN[0][0]\r\nall_levels = IN[0][1]\r\nsite_x = IN[1][1][0]\r\nsite_y = IN[1][1][1]\r\ngeometry_picker = IN[2]\r\n\r\ncreate_edge_geometry = UnwrapElement(IN[3])\r\ncreate_cross_geometry = UnwrapElement(IN[4])\r\ncreate_e2e_geometry = UnwrapElement(IN[5])\r\n\r\nconvert_meter_to_unit = IN[6][0]\r\n\r\ncreate_slab_geometry = IN[6][3]\r\ncreate_staircase = IN[6][6]\r\ncreate_one_stair = IN[6][4]\r\n\r\ndefault_floor_type = UnwrapElement(IN[7])\r\n\r\nif any(geometry_picker) : \r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n    else : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        \r\n        if i < (len(all_levels) - 2) :\r\n            doc = DocumentManager.Instance.CurrentDBDocument\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if i % 2 == 0 : \r\n                start_x = start_x_even\r\n                end_x = end_x_even\r\n                start_y = start_y_even\r\n                end_y = end_y_even\r\n                in_x = in_x_even\r\n            else : \r\n                start_x = start_x_odd\r\n                end_x = end_x_odd\r\n                start_y = start_y_odd\r\n                end_y = end_y_odd\r\n                in_x = in_x_odd\r\n\r\n            stairs = create_staircase(\r\n                start_x = start_x , \r\n                start_y = start_y , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x , \r\n                end_y = end_y , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x\r\n            )\r\n\r\n            floor_cutting_curve = create_slab_geometry(start_x , end_x , start_y , end_y , 0.)\r\n            floor_cutting = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n    OUT = room_dict",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ngeometry_picker = IN[2]\r\n\r\nif any(geometry_picker) : \r\n    floor_list = IN[0][0]\r\n    all_levels = IN[0][1]\r\n    site_x = IN[1][1][0]\r\n    site_y = IN[1][1][1]\r\n    \r\n    create_edge_geometry = UnwrapElement(IN[3])\r\n    create_cross_geometry = UnwrapElement(IN[4])\r\n    create_e2e_geometry = UnwrapElement(IN[5])\r\n    \r\n    convert_meter_to_unit = IN[6][0]\r\n    \r\n    create_slab_geometry = IN[6][3]\r\n    create_staircase = IN[6][6]\r\n    create_one_stair = IN[6][4]\r\n    \r\n    default_floor_type = UnwrapElement(IN[7])\r\n\r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n    else : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        \r\n        if i < (len(all_levels) - 2) :\r\n            doc = DocumentManager.Instance.CurrentDBDocument\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if i % 2 == 0 : \r\n                start_x = start_x_even\r\n                end_x = end_x_even\r\n                start_y = start_y_even\r\n                end_y = end_y_even\r\n                in_x = in_x_even\r\n            else : \r\n                start_x = start_x_odd\r\n                end_x = end_x_odd\r\n                start_y = start_y_odd\r\n                end_y = end_y_odd\r\n                in_x = in_x_odd\r\n\r\n            stairs = create_staircase(\r\n                start_x = start_x , \r\n                start_y = start_y , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x , \r\n                end_y = end_y , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x\r\n            )\r\n\r\n            floor_cutting_curve = create_slab_geometry(start_x , end_x , start_y , end_y , 0.)\r\n            floor_cutting = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n    OUT = room_dict",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "29f76c199c904727a014a5a01d1ad538",
@@ -1853,6 +1752,38 @@
       ],
       "Replication": "Disabled",
       "Description": "A slider that produces numeric values."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\ncollector = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Views).OfClass(ViewPlan)\r\n\r\nfloor_plan_view_ids = []\r\nfloor_plan_view_names = []\r\n\r\nfor view in collector:\r\n    if \"Story Level\" in view.Name:\r\n        floor_plan_view_ids.append(view.Id)\r\n        floor_plan_view_names.append(view.Name)\r\n\r\nOUT = floor_plan_view_ids",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "569aaa73606542299413545e02cc85e2",
+      "Inputs": [
+        {
+          "Id": "07d9c86de7c14b55a0445cb8117d3a20",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "f9e6aaed9cdd43b598093277d00fbd60",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -2112,46 +2043,6 @@
       "Id": "37dad017bc034dadaba4cb1dd796df4e"
     },
     {
-      "Start": "564d7612b1ed4c90ba99f49243b272f5",
-      "End": "e2d87c0b05a041bf9bf07403fc7aed14",
-      "Id": "83d2ac43283b44d9a64262083c5b674e"
-    },
-    {
-      "Start": "87e6ad3927b24a17b0cd7df7c50ecb56",
-      "End": "45fa907b28f946ae85ae6a6d9f156f16",
-      "Id": "e64ef7377e8643368499b418f2a6c802"
-    },
-    {
-      "Start": "41486586813d46989a9303484f1828db",
-      "End": "b717d725fd174d5285bf360cd3af90da",
-      "Id": "5720f12ac5894638b29d477e1972adbd"
-    },
-    {
-      "Start": "5e9c833514ac40b4b8701ff61b6bf2a4",
-      "End": "8b6d42444a5845c5802641540cf4f96f",
-      "Id": "98225b1b01f24513bf787067b227ff5a"
-    },
-    {
-      "Start": "5e9c833514ac40b4b8701ff61b6bf2a4",
-      "End": "b503e4d4fc0a4383bf8453c8b7e5eef4",
-      "Id": "fecf3f3fccd442b99184d68daaff5b56"
-    },
-    {
-      "Start": "5e9c833514ac40b4b8701ff61b6bf2a4",
-      "End": "d484e6a1fa164544a54da47873d19694",
-      "Id": "e7c80989bed946c9896bf58ade8109b2"
-    },
-    {
-      "Start": "5e9c833514ac40b4b8701ff61b6bf2a4",
-      "End": "1bb32dbd1bae4c55917622bced4e8e34",
-      "Id": "e12cde3e85aa4e9bacab1e95d096348b"
-    },
-    {
-      "Start": "5e9c833514ac40b4b8701ff61b6bf2a4",
-      "End": "8bccc8c595f14beeab1c6fcb9b2cc0df",
-      "Id": "6b6c55b10ea14fbea051beadb7be6575"
-    },
-    {
       "Start": "46145a704d184e48ae7f13d166bfbc4d",
       "End": "1567a629ac364a50bf2121b3ac6119d7",
       "Id": "44cc7729c17b4a8284b87df0ac9292ce"
@@ -2255,6 +2146,36 @@
       "Start": "4a697312c3814732bfb27a2e4e327ec1",
       "End": "8fd88d70889147439e86e47877d2867c",
       "Id": "fdf78c9dd602444ab5d21a74154f679d"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "8b6d42444a5845c5802641540cf4f96f",
+      "Id": "36f39471829b49749e8a64afdc89bf66"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "b503e4d4fc0a4383bf8453c8b7e5eef4",
+      "Id": "338a6a7cfa23406f869401e573ee89fc"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "d484e6a1fa164544a54da47873d19694",
+      "Id": "15e1ea1d7f27460a8162ead140ebf6e9"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "1bb32dbd1bae4c55917622bced4e8e34",
+      "Id": "8730ee11f6e2444d999365e8dc3d6a94"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "8bccc8c595f14beeab1c6fcb9b2cc0df",
+      "Id": "83dc46de43114a4f92d8e2346e455ab3"
+    },
+    {
+      "Start": "f9e6aaed9cdd43b598093277d00fbd60",
+      "End": "cadfa0d3e30b47a9bee987ccf4e4f5fd",
+      "Id": "85aca11ffb24483297ac9568646965ac"
     }
   ],
   "Dependencies": [],
@@ -2409,8 +2330,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3079.2678203440969,
-        "Y": 864.74438905213333
+        "X": -3115.1378121077878,
+        "Y": 952.404902255106
       },
       {
         "ShowGeometry": true,
@@ -2419,8 +2340,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3009.7943900090968,
-        "Y": 928.42060597652744
+        "X": -3045.6643817727877,
+        "Y": 1016.0811191794999
       },
       {
         "ShowGeometry": true,
@@ -2429,8 +2350,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3010.6713476318137,
-        "Y": 991.58623635591766
+        "X": -3046.5413393954977,
+        "Y": 1079.2467495588908
       },
       {
         "ShowGeometry": true,
@@ -2439,8 +2360,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2745.1173428296856,
-        "Y": 870.63031822240714
+        "X": -2780.9873345933734,
+        "Y": 958.29083142538
       },
       {
         "ShowGeometry": true,
@@ -2449,8 +2370,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2473.9203542959258,
-        "Y": 866.76177751988712
+        "X": -2509.7903460596135,
+        "Y": 954.42229072286
       },
       {
         "ShowGeometry": true,
@@ -2459,8 +2380,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3166.3710286388782,
-        "Y": 1058.2832309355776
+        "X": -3202.2410204025678,
+        "Y": 1145.9437441385528
       },
       {
         "ShowGeometry": true,
@@ -2469,8 +2390,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2245.5057450058607,
-        "Y": 864.88377582777707
+        "X": -2281.3757367695484,
+        "Y": 952.54428903075
       },
       {
         "ShowGeometry": true,
@@ -2479,8 +2400,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2032.5856520098969,
-        "Y": 866.89314141126738
+        "X": -2068.4556437735846,
+        "Y": 954.55365461424026
       },
       {
         "ShowGeometry": true,
@@ -2489,8 +2410,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1813.5317790737215,
-        "Y": 873.98482279906557
+        "X": -1849.4017708374092,
+        "Y": 961.64533600203845
       },
       {
         "ShowGeometry": true,
@@ -2499,8 +2420,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1527.3500083399952,
-        "Y": 871.79270115261124
+        "X": -1563.2200001036829,
+        "Y": 959.45321435558412
       },
       {
         "ShowGeometry": true,
@@ -2509,8 +2430,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1300.451965961126,
-        "Y": 870.2448687924259
+        "X": -1336.3219577248137,
+        "Y": 957.90538199539878
       },
       {
         "ShowGeometry": true,
@@ -2519,8 +2440,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -870.53518680111074,
-        "Y": 866.12053443396826
+        "X": -906.40517856479846,
+        "Y": 953.78104763694114
       },
       {
         "ShowGeometry": true,
@@ -2529,8 +2450,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -658.26699068078278,
-        "Y": 866.5440021219506
+        "X": -694.1369824444705,
+        "Y": 954.20451532492348
       },
       {
         "ShowGeometry": true,
@@ -2539,8 +2460,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2741.423543962489,
-        "Y": 1144.7716279239357
+        "X": -2777.2935357261767,
+        "Y": 1232.4321411269086
       },
       {
         "ShowGeometry": true,
@@ -2549,8 +2470,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1077.71680530704,
-        "Y": 868.58069948882144
+        "X": -1113.5867970707277,
+        "Y": 956.24121269179432
       },
       {
         "ShowGeometry": true,
@@ -2559,8 +2480,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -894.59390178009528,
-        "Y": 647.75025089822429
+        "X": -930.46389354378289,
+        "Y": 735.41076410119717
       },
       {
         "ShowGeometry": true,
@@ -2569,8 +2490,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3156.7429714509985,
-        "Y": 1146.378780692276
+        "X": -3192.6129632146876,
+        "Y": 1234.039293895253
       },
       {
         "ShowGeometry": true,
@@ -2579,8 +2500,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3158.2089290614349,
-        "Y": 1233.709950966771
+        "X": -3194.0789208251176,
+        "Y": 1321.3704641697429
       },
       {
         "ShowGeometry": true,
@@ -2589,48 +2510,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -692.022691461085,
-        "Y": 646.40400598982728
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Element Types",
-        "Id": "5cf7b4a5da5a4f08be1428ffddc92ea7",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": -3164.6641545787897,
-        "Y": 706.86658146840682
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "All Elements of Type",
-        "Id": "5c1fb66a83cb4d55a51126b23a19e6e3",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": -2998.5980890316591,
-        "Y": 706.42553762787
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "ViewPlan Selector",
-        "Id": "958fc39c09054177afcc4d52bea0d278",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": -2779.08866059053,
-        "Y": 709.08007945760187
-      },
-      {
-        "ShowGeometry": true,
-        "Name": "Element.Id",
-        "Id": "7220f621ce7e434793244ca8152628d2",
-        "IsSetAsInput": false,
-        "IsSetAsOutput": false,
-        "Excluded": false,
-        "X": -2589.2199611904812,
-        "Y": 704.4058105183301
+        "X": -727.89268322477255,
+        "Y": 734.06451919280016
       },
       {
         "ShowGeometry": true,
@@ -2670,7 +2551,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -2190.31376527294,
-        "Y": 102.58426340981077
+        "Y": 102.584263409811
       },
       {
         "ShowGeometry": true,
@@ -2679,8 +2560,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1946.6003310295921,
-        "Y": 102.44415728425452
+        "X": -1948.29712867174,
+        "Y": 103.83172419025
       },
       {
         "ShowGeometry": true,
@@ -2741,28 +2622,19 @@
         "Excluded": false,
         "X": -3126.59010948744,
         "Y": 165.30548892041531
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ViewCollector",
+        "Id": "569aaa73606542299413545e02cc85e2",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -2972.9591225111935,
+        "Y": 788.69242352854008
       }
     ],
     "Annotations": [
-      {
-        "Id": "b9df4177ffdb46eeaa5d58600a52bb86",
-        "Title": "GetFloorPlanElementID",
-        "Nodes": [
-          "7220f621ce7e434793244ca8152628d2",
-          "958fc39c09054177afcc4d52bea0d278",
-          "5c1fb66a83cb4d55a51126b23a19e6e3",
-          "5cf7b4a5da5a4f08be1428ffddc92ea7"
-        ],
-        "Left": -3174.6641545787897,
-        "Top": 651.4058105183301,
-        "Width": 780.44419338830858,
-        "Height": 150.67426893927177,
-        "FontSize": 36.0,
-        "InitialTop": 704.4058105183301,
-        "InitialHeight": 149.67426893927177,
-        "TextblockHeight": 43.0,
-        "Background": "#FFFFC999"
-      },
       {
         "Id": "c6ed7b514b084161ab568646da65a9d5",
         "Title": "Preprocessor Scripts",
@@ -2791,13 +2663,13 @@
           "721ea26c9fba420f8c990a8c967292cc",
           "5c93081669324210be810a4e4a7ec04e"
         ],
-        "Left": -3176.3710286388782,
-        "Top": 811.74438905213333,
+        "Left": -3212.2410204025678,
+        "Top": 899.404902255106,
         "Width": 392.0,
-        "Height": 515.96556191463765,
+        "Height": 515.965561914637,
         "FontSize": 36.0,
-        "InitialTop": 864.74438905213333,
-        "InitialHeight": 513.96556191463765,
+        "InitialTop": 952.404902255106,
+        "InitialHeight": 513.965561914638,
         "TextblockHeight": 43.0,
         "Background": "#FF48B9FF"
       },
@@ -2810,12 +2682,12 @@
           "9ec485d6907a401aa15548f440cdd5e8",
           "571a00e1551644fa8f42a276b217a31e"
         ],
-        "Left": -2755.1173428296856,
-        "Top": 811.88377582777707,
+        "Left": -2790.9873345933734,
+        "Top": 899.54428903075,
         "Width": 911.53169081978876,
         "Height": 188.74654239463007,
         "FontSize": 36.0,
-        "InitialTop": 864.88377582777707,
+        "InitialTop": 952.54428903075,
         "InitialHeight": 150.74654239463007,
         "TextblockHeight": 43.0,
         "Background": "#FFA4E1FF"
@@ -2831,12 +2703,12 @@
           "637092e3c50f402983872170eb45d477",
           "24b0032991f94b51aebdd285c0820000"
         ],
-        "Left": -1823.5317790737215,
-        "Top": 813.12053443396826,
+        "Left": -1859.4017708374092,
+        "Top": 900.78104763694114,
         "Width": 1313.2647883929387,
         "Height": 237.46016505485318,
         "FontSize": 36.0,
-        "InitialTop": 866.12053443396826,
+        "InitialTop": 953.78104763694114,
         "InitialHeight": 152.86428836509731,
         "TextblockHeight": 43.0,
         "Background": "#FFB9F9E1"
@@ -2848,12 +2720,12 @@
           "e01c08f46121474586ad26a1c358cb43",
           "c3d50dcd6f8e4499944ec38f97e14415"
         ],
-        "Left": -904.59390178009528,
-        "Top": 593.40400598982728,
+        "Left": -940.46389354378289,
+        "Top": 681.06451919280016,
         "Width": 392.57121031901033,
         "Height": 210.346244908397,
         "FontSize": 36.0,
-        "InitialTop": 646.40400598982728,
+        "InitialTop": 734.06451919280016,
         "InitialHeight": 146.346244908397,
         "TextblockHeight": 43.0,
         "Background": "#FFFF7BAC"
@@ -2864,12 +2736,12 @@
         "Nodes": [
           "8bfa90b9112e4e23a68fc39756efa4e1"
         ],
-        "Left": -2751.423543962489,
-        "Top": 1091.7716279239357,
+        "Left": -2787.2935357261767,
+        "Top": 1179.4321411269086,
         "Width": 207.17666666666668,
         "Height": 235.0,
         "FontSize": 36.0,
-        "InitialTop": 1144.7716279239357,
+        "InitialTop": 1232.4321411269086,
         "InitialHeight": 145.0,
         "TextblockHeight": 43.0,
         "Background": "#FFFF7BAC"
@@ -2887,8 +2759,8 @@
         ],
         "Left": -2399.1390967142675,
         "Top": -226.43121947436782,
-        "Width": 603.53876568467535,
-        "Height": 693.0154828841786,
+        "Width": 602.23047370130985,
+        "Height": 693.01548288417882,
         "FontSize": 36.0,
         "InitialTop": -130.43121947436782,
         "InitialHeight": 637.21940108074591,
@@ -2924,10 +2796,26 @@
         "InitialHeight": 1050.3751088365739,
         "TextblockHeight": 43.0,
         "Background": "#FFBB87C6"
+      },
+      {
+        "Id": "a88e413bf65143ba888537109ae3c233",
+        "Title": "View Collector\r\n",
+        "Nodes": [
+          "569aaa73606542299413545e02cc85e2"
+        ],
+        "Left": -2982.9591225111935,
+        "Top": 648.69242352854008,
+        "Width": 163.0,
+        "Height": 244.0,
+        "FontSize": 36.0,
+        "InitialTop": 788.69242352854008,
+        "InitialHeight": 134.0,
+        "TextblockHeight": 130.0,
+        "Background": "#FFC1D676"
       }
     ],
-    "X": 2862.7467639619717,
-    "Y": 185.6609799660462,
-    "Zoom": 0.87778653161690012
+    "X": 2181.5284299254745,
+    "Y": -42.027005487541487,
+    "Zoom": 0.64692151242659979
   }
 }
