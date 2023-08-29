@@ -36,6 +36,8 @@ from Autodesk.Revit.DB.Architecture import StairsRun
 from Autodesk.Revit.DB.Architecture import *
 from Autodesk.Revit.DB import IFailuresPreprocessor
 
+doc = DocumentManager.Instance.CurrentDBDocument
+
 def convert_meter_to_unit(pre_value):
     tempo_list = []
     tempo_value = 0
