@@ -1,10 +1,5 @@
-import os
 import clr
-import sys
-import math
-import System
 
-from System import Array
 from System.Collections.Generic import *
 
 clr.AddReference("RevitNodes")
@@ -25,30 +20,11 @@ clr.AddReference('ProtoGeometry')
 import Autodesk 
 from Autodesk.DesignScript.Geometry import *
 from Autodesk.Revit.DB import *
-#from Autodesk.Revit.UI import *
-from Autodesk.Revit.DB import StairsEditScope
-from Autodesk.Revit.DB import Parameter
-from Autodesk.Revit.DB.Architecture import StairsRun
 from Autodesk.Revit.DB.Architecture import *
-from Autodesk.Revit.DB import IFailuresPreprocessor
 
-def convert_to_meter(internal_value):
-	if isinstance(internal_value, list):
-		return [UnitUtils.ConvertFromInternalUnits(value, UnitTypeId.Meters) for value in internal_value]
-	return float(UnitUtils.ConvertFromInternalUnits(internal_value, UnitTypeId.Meters))
 
-def convert_meter_to_unit(pre_value):
-    tempo_list = []
-    tempo_value = 0
-    if isinstance(pre_value, list):
-        len_list = len(pre_value)
-        for ii in range(len_list):
-            tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))
-        pre_value = tempo_list
-    else:
-        tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))
-        pre_value = tempo_value
-    return pre_value
+convert_meter_to_unit = IN[5][0]
+convert_to_meter = IN[5][1]
 
 default_interior_wall_type = UnwrapElement(IN[0])
 
@@ -61,8 +37,6 @@ INCLUDE_BOTTLENECK = IN[1][1][5]
 DOOR_WIDTH_H = convert_meter_to_unit(float(IN[2]) / 2.)
 OBSTACLE_WIDTH  = convert_meter_to_unit(float(IN[3]))
 ROOM_WIDTH = convert_meter_to_unit(float(IN[4]))
-# start_level = UnwrapElement(IN[5][0])
-# end_level = UnwrapElement(IN[5][1])
 
 DOOR_THICKNESS_H = convert_meter_to_unit(0.25)
 DOOR_HEIGHT = convert_meter_to_unit(2.2)
