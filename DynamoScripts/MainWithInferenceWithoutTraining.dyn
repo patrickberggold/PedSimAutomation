@@ -78,7 +78,7 @@
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge; 4 = NewEdge; 5 = NewCross",
       "Type": "number",
-      "Value": "5",
+      "Value": "4",
       "MaximumValue": 5.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
@@ -460,7 +460,7 @@
     {
       "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
       "NodeType": "BooleanInputNode",
-      "InputValue": true,
+      "InputValue": false,
       "Id": "642c0dc4c5f945a291c5b48263a7912e",
       "Inputs": [],
       "Outputs": [
@@ -1167,7 +1167,7 @@
       "MaximumValue": 5.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
-      "InputValue": 5.0,
+      "InputValue": 4.0,
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Inputs": [],
       "Outputs": [
@@ -3098,8 +3098,8 @@
         "Background": "#FFBB87C6"
       }
     ],
-    "X": 1592.4133296575387,
-    "Y": 177.87987986627348,
-    "Zoom": 0.47242240621677634
+    "X": 1886.399481820134,
+    "Y": 260.984881614949,
+    "Zoom": 0.54202783505520569
   }
 }
