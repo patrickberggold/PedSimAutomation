@@ -76,10 +76,10 @@
     },
     {
       "Id": "5b350cebac314cb9a325306ec845d417",
-      "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge",
+      "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge; 4 = NewEdge; 5 = NewCross",
       "Type": "number",
-      "Value": "2",
-      "MaximumValue": 3.0,
+      "Value": "5",
+      "MaximumValue": 5.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
       "NumberType": "Double",
@@ -89,7 +89,7 @@
       "Id": "5f9f5ed8fd884bc185c8b287fbaab736",
       "Name": "SITE_Z",
       "Type": "number",
-      "Value": "10",
+      "Value": "20",
       "MaximumValue": 50.0,
       "MinimumValue": 5.0,
       "StepValue": 5.0,
@@ -1164,10 +1164,10 @@
       "ConcreteType": "CoreNodeModels.Input.DoubleSlider, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Double",
-      "MaximumValue": 3.0,
+      "MaximumValue": 5.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
-      "InputValue": 2.0,
+      "InputValue": 5.0,
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Inputs": [],
       "Outputs": [
@@ -1187,7 +1187,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nis_geometry = [False for _ in range(4)]\r\n\r\nif not IN[1] : \r\n    is_geometry[int(IN[0]) - 1] = True\r\n    \r\nOUT = is_geometry\r\n",
+      "Code": "# Load the Python Standard and DesignScript Libraries\r\nimport sys\r\nimport clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nis_geometry = [False for _ in range(5)]\r\n\r\nif not IN[1] : \r\n    is_geometry[int(IN[0]) - 1] = True\r\n    \r\nOUT = is_geometry\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "07c3d956cc9249a49cb3b8fc87db942b",
@@ -1350,7 +1350,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ngeometry_picker = IN[2]\r\n\r\nif any(geometry_picker) : \r\n    floor_list = IN[0][0]\r\n    all_levels = IN[0][1]\r\n    site_x = IN[1][1][0]\r\n    site_y = IN[1][1][1]\r\n    \r\n    create_edge_geometry = UnwrapElement(IN[3])\r\n    create_cross_geometry = UnwrapElement(IN[4])\r\n    create_e2e_geometry = UnwrapElement(IN[5])\r\n    \r\n    convert_meter_to_unit = IN[6][0]\r\n    \r\n    create_slab_geometry = IN[6][3]\r\n    create_staircase = IN[6][6]\r\n    create_one_stair = IN[6][4]\r\n    \r\n    default_floor_type = UnwrapElement(IN[7])\r\n\r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n    else : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        \r\n        if i < (len(all_levels) - 2) :\r\n            doc = DocumentManager.Instance.CurrentDBDocument\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if i % 2 == 0 : \r\n                start_x = start_x_even\r\n                end_x = end_x_even\r\n                start_y = start_y_even\r\n                end_y = end_y_even\r\n                in_x = in_x_even\r\n            else : \r\n                start_x = start_x_odd\r\n                end_x = end_x_odd\r\n                start_y = start_y_odd\r\n                end_y = end_y_odd\r\n                in_x = in_x_odd\r\n\r\n            stairs = create_staircase(\r\n                start_x = start_x , \r\n                start_y = start_y , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x , \r\n                end_y = end_y , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x\r\n            )\r\n\r\n            floor_cutting_curve = create_slab_geometry(start_x , end_x , start_y , end_y , 0.)\r\n            floor_cutting = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n    OUT = room_dict",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ngeometry_picker = IN[2]\r\n\r\nif any(geometry_picker) : \r\n    floor_list = IN[0][0]\r\n    all_levels = IN[0][1]\r\n    site_x = IN[1][1][0]\r\n    site_y = IN[1][1][1]\r\n    \r\n    create_edge_geometry = UnwrapElement(IN[3])\r\n    create_cross_geometry = UnwrapElement(IN[4])\r\n    create_e2e_geometry = UnwrapElement(IN[5])\r\n    create_new_cross_geometry = UnwrapElement(IN[8])\r\n    create_new_edge_geometry = UnwrapElement(IN[9])\r\n    \r\n    convert_meter_to_unit = IN[6][0]\r\n    \r\n    create_slab_geometry = IN[6][3]\r\n    create_staircase = IN[6][6]\r\n    create_one_stair = IN[6][4]\r\n    \r\n    default_floor_type = UnwrapElement(IN[7])\r\n\r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n    elif geometry_picker[2] : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n    elif geometry_picker[3] : \r\n        creation_function = create_new_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n    else : \r\n        creation_function = create_new_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        \r\n        if i < (len(all_levels) - 2) :\r\n            doc = DocumentManager.Instance.CurrentDBDocument\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if i % 2 == 0 : \r\n                start_x = start_x_even\r\n                end_x = end_x_even\r\n                start_y = start_y_even\r\n                end_y = end_y_even\r\n                in_x = in_x_even\r\n            else : \r\n                start_x = start_x_odd\r\n                end_x = end_x_odd\r\n                start_y = start_y_odd\r\n                end_y = end_y_odd\r\n                in_x = in_x_odd\r\n\r\n            stairs = create_staircase(\r\n                start_x = start_x , \r\n                start_y = start_y , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x , \r\n                end_y = end_y , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x\r\n            )\r\n\r\n            floor_cutting_curve = create_slab_geometry(start_x , end_x , start_y , end_y , 0.)\r\n            floor_cutting = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n    OUT = room_dict",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "29f76c199c904727a014a5a01d1ad538",
@@ -1422,6 +1422,24 @@
           "Id": "cd823258f6394effa5ce8c0632c03829",
           "Name": "IN[7]",
           "Description": "Input #7",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "e7f572beed004f31ab7fed4237385e4d",
+          "Name": "IN[8]",
+          "Description": "Input #8",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "87205ff015a44cd688151d34ff0c9a35",
+          "Name": "IN[9]",
+          "Description": "Input #9",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1709,7 +1727,7 @@
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Integer",
-      "InputValue": 3,
+      "InputValue": 7,
       "MaximumValue": 10,
       "MinimumValue": 1,
       "StepValue": 1,
@@ -1736,7 +1754,7 @@
       "MaximumValue": 50.0,
       "MinimumValue": 5.0,
       "StepValue": 5.0,
-      "InputValue": 10.0,
+      "InputValue": 20.0,
       "Id": "5f9f5ed8fd884bc185c8b287fbaab736",
       "Inputs": [],
       "Outputs": [
@@ -1784,6 +1802,160 @@
       ],
       "Replication": "Disabled",
       "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n\r\nconvert_meter_to_unit = IN[5][0]\r\nconvert_to_meter = IN[5][1]\r\n\r\ndefault_interior_wall_type = UnwrapElement(IN[0])\r\n\r\nLENGTH = convert_meter_to_unit(IN[1][1][0])\r\nWIDTH = convert_meter_to_unit(IN[1][1][1])\r\nCORR_WIDTH = convert_meter_to_unit(IN[1][1][2])\r\nNUM_ROOMS_PER_SIDE = IN[1][1][3]\r\nINCLUDE_BOTTLENECK = IN[1][1][5]\r\n\r\nDOOR_WIDTH_H = convert_meter_to_unit(float(IN[2]) / 2.)\r\nOBSTACLE_WIDTH  = convert_meter_to_unit(float(IN[3]))\r\nROOM_WIDTH = convert_meter_to_unit(float(IN[4]))\r\n\r\nDOOR_THICKNESS_H = convert_meter_to_unit(0.25)\r\nDOOR_HEIGHT = convert_meter_to_unit(2.2)\r\nMIN_ROOM_WIDTH = convert_meter_to_unit(4.)\r\n\r\n\r\ndef create_cross_geometry(start_level , end_level) : \r\n    z_level = start_level.Elevation\r\n\r\n    room_dict = {}\r\n    ceiling = start_level.Elevation\r\n    obstacle_counter = 0\r\n\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n\r\n    y_main_corridor = 0.5*WIDTH\r\n    x_main_corridor_start = CORR_WIDTH\r\n    x_main_corridor_end = LENGTH-CORR_WIDTH\r\n    \r\n    x_cross_start = x_main_corridor_start + 2*CORR_WIDTH\r\n    x_cross_end = x_main_corridor_end - 2*CORR_WIDTH\r\n\r\n    fractions_partitions = [1./NUM_ROOMS_PER_SIDE*i for i in range(NUM_ROOMS_PER_SIDE+1)] # if NUM_ROOMS_PER_SIDE > 1 else [0.5]\r\n    x_pos_partitions = [x_cross_start + fr * (x_cross_end - x_cross_start) for fr in fractions_partitions]\r\n\r\n    middle_lines_left = []\r\n    middle_lines_right = []\r\n\r\n    p2_l = XYZ(x_main_corridor_start, y_main_corridor+CORR_WIDTH/2., ceiling)\r\n    p3_l = XYZ(x_main_corridor_end, y_main_corridor+CORR_WIDTH/2., ceiling)\r\n    p2_r = XYZ(x_main_corridor_start, y_main_corridor-CORR_WIDTH/2., ceiling)\r\n    p3_r = XYZ(x_main_corridor_end, y_main_corridor-CORR_WIDTH/2., ceiling)\r\n\r\n    corridor_lines_left = [\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(0, y_main_corridor+CORR_WIDTH, ceiling), XYZ(x_main_corridor_start, y_main_corridor+CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_main_corridor_start, y_main_corridor+CORR_WIDTH, ceiling), p2_l),\r\n        Autodesk.Revit.DB.Line.CreateBound(p2_l, p3_l),\r\n        Autodesk.Revit.DB.Line.CreateBound(p3_l, XYZ(x_main_corridor_end, y_main_corridor+CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_main_corridor_end, y_main_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_main_corridor+CORR_WIDTH, ceiling)),\r\n    ]\r\n\r\n    corridor_lines_right = [\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(0, y_main_corridor-CORR_WIDTH, ceiling), XYZ(x_main_corridor_start, y_main_corridor-CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_main_corridor_start, y_main_corridor-CORR_WIDTH, ceiling), p2_r),\r\n        Autodesk.Revit.DB.Line.CreateBound(p2_r, p3_r),\r\n        Autodesk.Revit.DB.Line.CreateBound(p3_r, XYZ(x_main_corridor_end, y_main_corridor-CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_main_corridor_end, y_main_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_main_corridor-CORR_WIDTH, ceiling)),\r\n    ]\r\n    \r\n    corridor_walls_left = [Wall.Create(doc, wall_l, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_l in corridor_lines_left]\r\n    corridor_walls_right = [Wall.Create(doc, wall_r, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_r in corridor_lines_right]\r\n\r\n    if INCLUDE_BOTTLENECK:\r\n        bottleneck_lines = [\r\n            Autodesk.Revit.DB.Line.CreateBound(p2_l, p2_r),\r\n            Autodesk.Revit.DB.Line.CreateBound(p3_l, p3_r)\r\n        ]\r\n        bottleneck_walls = [Wall.Create(doc, b_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n            for b_wall in bottleneck_lines]\r\n\r\n        # some doors\r\n        x_door_1 = x_main_corridor_start\r\n        x_door_2 = x_main_corridor_end\r\n        \r\n        start_point_1 = XYZ(x_door_1-DOOR_THICKNESS_H, y_main_corridor-DOOR_WIDTH_H, z_level)\r\n        end_point_1 = XYZ(x_door_1+DOOR_THICKNESS_H, y_main_corridor+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)\r\n        opening_1 = doc.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)\r\n\r\n        start_point_2 = XYZ(x_door_2-DOOR_THICKNESS_H, y_main_corridor-DOOR_WIDTH_H, z_level)\r\n        end_point_2 = XYZ(x_door_2+DOOR_THICKNESS_H, y_main_corridor+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)\r\n        opening_2 = doc.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)\r\n    \r\n    # destination areas\r\n    room_x_min, room_x_max = 0, x_main_corridor_start\r\n    room_y_min, room_y_max = y_main_corridor-CORR_WIDTH, y_main_corridor+CORR_WIDTH\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_0': [\r\n                (convert_to_meter(room_x_min)+0.5, convert_to_meter(room_y_min)+0.5),\r\n                (convert_to_meter(room_x_max)-0.5, convert_to_meter(room_y_max)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    room_x_min, room_x_max = x_main_corridor_end, LENGTH\r\n    room_y_min, room_y_max = y_main_corridor-CORR_WIDTH, y_main_corridor+CORR_WIDTH\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_1': [\r\n                (convert_to_meter(room_x_min)+0.5, convert_to_meter(room_y_min)+0.5),\r\n                (convert_to_meter(room_x_max)-0.5, convert_to_meter(room_y_max)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    for idx, x_pos_part in enumerate(x_pos_partitions):\r\n\r\n        middle_lines_left.append(\r\n                Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_main_corridor+CORR_WIDTH/2., ceiling), XYZ(x_pos_part, WIDTH, ceiling))\r\n        )\r\n        middle_lines_right.append(\r\n            Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_main_corridor-CORR_WIDTH/2., ceiling), XYZ(x_pos_part, 0, ceiling))\r\n        )\r\n\r\n        # some doors\r\n        if idx < len(x_pos_partitions)-1:\r\n            x_opening = (x_pos_partitions[idx]+x_pos_partitions[idx+1]) / 2.\r\n            y_opening_l = y_main_corridor+CORR_WIDTH/2.\r\n            y_opening_r = y_main_corridor-CORR_WIDTH/2.\r\n            z_opening = z_level\r\n\r\n            # left door\r\n            start_point_l = XYZ(x_opening-DOOR_WIDTH_H, y_opening_l-DOOR_THICKNESS_H, z_opening)\r\n            end_point_l = XYZ(x_opening+DOOR_WIDTH_H, y_opening_l+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)\r\n            opening_l = doc.Create.NewOpening(corridor_walls_left[2], start_point_l, end_point_l)\r\n\r\n            # right door\r\n            start_point_r = XYZ(x_opening-DOOR_WIDTH_H, y_opening_r-DOOR_THICKNESS_H, z_opening)\r\n            end_point_r = XYZ(x_opening+DOOR_WIDTH_H, y_opening_r+DOOR_THICKNESS_H, z_opening+DOOR_HEIGHT)\r\n            opening_r = doc.Create.NewOpening(corridor_walls_right[2], start_point_r, end_point_r)\r\n\r\n            # assign areas\r\n            room_x_min, room_x_max = min(x_pos_partitions[idx], x_pos_partitions[idx+1]), max(x_pos_partitions[idx], x_pos_partitions[idx+1])\r\n            room_y_min1, room_y_max1 = 0, y_main_corridor-CORR_WIDTH/2.\r\n            room_y_min2, room_y_max2 = y_main_corridor+CORR_WIDTH/2., WIDTH\r\n\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(2*idx): [\r\n                        (convert_to_meter(room_x_min)+0.5, convert_to_meter(room_y_min1)+0.5),\r\n                        (convert_to_meter(room_x_max)-0.5, convert_to_meter(room_y_max1)-0.5)\r\n                    ]\r\n                }\r\n            )\r\n\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(1+2*idx): [\r\n                        (convert_to_meter(room_x_min)+0.5, convert_to_meter(room_y_min2)+0.5),\r\n                        (convert_to_meter(room_x_max)-0.5, convert_to_meter(room_y_max2)-0.5)\r\n                    ]\r\n                }\r\n            )\r\n        \r\n        # obstacles\r\n        obstacle_length = 2.\r\n\r\n        x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.\r\n        y_obst_min = convert_to_meter(y_main_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH if idx%2 == 0 else convert_to_meter(y_main_corridor-CORR_WIDTH/2.)+0.1\r\n        y_obst_max = convert_to_meter(y_main_corridor+CORR_WIDTH/2.)-0.1 if idx%2 == 0 else convert_to_meter(y_main_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH\r\n\r\n        room_dict.update({\r\n            'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                    (x_obst_min, y_obst_min),\r\n                    (x_obst_max, y_obst_max)\r\n                ]\r\n            }\r\n        )\r\n        obstacle_counter += 1\r\n\r\n    middle_walls_left = [Wall.Create(doc, wall_l, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_l in middle_lines_left\r\n    ]\r\n    middle_walls_right = [Wall.Create(doc, wall_r, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_r in middle_lines_right\r\n    ]\r\n    \r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n\r\n    return room_dict\r\n\r\nOUT = create_cross_geometry    \r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "f270abb3336b429f9b1a2b56e1e3fb47",
+      "Inputs": [
+        {
+          "Id": "dbf3430bb3014562adbc23954d15e97e",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4fbf8ae931424b45818b2e806f289cd9",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b95c2b06f22e4b5a99e4c9a105c3bc06",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3590afebf3024af589615a6a7e8f5e08",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d66c745ae4544e35b6f34808d53c73c2",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "2d680bddff9c4b3a93442ba339c5de11",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "143b48dcee304de885347c73eb820f1c",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\n\r\nconvert_meter_to_unit = IN[5][0]\r\nconvert_to_meter = IN[5][1]\r\n\r\ndefault_interior_wall_type = UnwrapElement(IN[0])\r\n\r\nLENGTH = convert_meter_to_unit(IN[1][1][0])\r\nWIDTH = convert_meter_to_unit(IN[1][1][1])\r\nCORR_WIDTH = convert_meter_to_unit(IN[1][1][2])\r\nMIN_ROOM_LENGTH = convert_meter_to_unit(IN[1][1][3])\r\nINCLUDE_BOTTLENECK = IN[1][1][5]\r\n\r\nDOOR_WIDTH_H = convert_meter_to_unit(float(IN[2]) / 2.)\r\nOBSTACLE_WIDTH  = convert_meter_to_unit(float(IN[3]))\r\nROOM_WIDTH = convert_meter_to_unit(float(IN[4]))\r\n\r\nDOOR_THICKNESS_H = convert_meter_to_unit(0.25)\r\nDOOR_HEIGHT = convert_meter_to_unit(2.2)\r\n\r\ndef create_edge_geometry(start_level , end_level) : \r\n    z_level = start_level.Elevation\r\n\r\n    room_dict = {}\r\n    ceiling = start_level.Elevation\r\n    obstacle_counter = 0\r\n\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n\r\n    x_corridor = ROOM_WIDTH + CORR_WIDTH/2.\r\n    y_corridor = WIDTH - ROOM_WIDTH - CORR_WIDTH/2.\r\n\r\n    y_main_corridor = 0.5*WIDTH\r\n    x_main_corridor_start = CORR_WIDTH\r\n    x_main_corridor_end = LENGTH-CORR_WIDTH\r\n\r\n    p2_l = XYZ(x_corridor-CORR_WIDTH/2., CORR_WIDTH, ceiling)\r\n    p4_l = XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH/2., ceiling)\r\n    p2_r = XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling)\r\n    p4_r = XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH/2., ceiling)\r\n\r\n    corridor_lines_left = [\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, 0, ceiling), XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling), p2_l),\r\n        Autodesk.Revit.DB.Line.CreateBound(p2_l, XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l),\r\n        Autodesk.Revit.DB.Line.CreateBound(p4_l, XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor+CORR_WIDTH, ceiling)),\r\n    ]\r\n\r\n    corridor_lines_right = [\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r),\r\n        Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),\r\n    ]\r\n\r\n    # assign room\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_'+str(0): [\r\n                (convert_to_meter(x_corridor-CORR_WIDTH)+0.5, convert_to_meter(0)+0.5),\r\n                (convert_to_meter(x_corridor+CORR_WIDTH)-0.5, convert_to_meter(CORR_WIDTH)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    room_dict.update({\r\n        'CROWDIT_DESTINATION_'+str(1): [\r\n                (convert_to_meter(LENGTH-CORR_WIDTH)+0.5, convert_to_meter(y_corridor-CORR_WIDTH)+0.5),\r\n                (convert_to_meter(LENGTH)-0.5, convert_to_meter(y_corridor+CORR_WIDTH)-0.5)\r\n            ]\r\n        }\r\n    )\r\n\r\n    corridor_walls_left = [Wall.Create(doc, wall_l, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_l in corridor_lines_left]\r\n    corridor_walls_right = [Wall.Create(doc, wall_r, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n        for wall_r in corridor_lines_right]\r\n\r\n    partition_openings = []\r\n\r\n    if INCLUDE_BOTTLENECK:\r\n        bottleneck_lines = [\r\n            Autodesk.Revit.DB.Line.CreateBound(p2_l, p2_r),\r\n            Autodesk.Revit.DB.Line.CreateBound(p4_l, p4_r)\r\n        ]\r\n        bottleneck_walls = [Wall.Create(doc, b_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n            for b_wall in bottleneck_lines]\r\n\r\n        # some doors\r\n        x_door_1 = (p2_l.X + p2_r.X) / 2.\r\n        y_door_1 = (p2_l.Y + p2_r.Y) / 2.\r\n        x_door_2 = (p4_l.X + p4_r.X) / 2.\r\n        y_door_2 = (p4_l.Y + p4_r.Y) / 2.\r\n        \r\n        start_point_1 = XYZ(x_door_1-DOOR_WIDTH_H, y_door_1-DOOR_THICKNESS_H, z_level)\r\n        end_point_1 = XYZ(x_door_1+DOOR_WIDTH_H, y_door_1+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)\r\n        opening_1 = doc.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)\r\n\r\n        start_point_2 = XYZ(x_door_2-DOOR_THICKNESS_H, y_door_2-DOOR_WIDTH_H, z_level)\r\n        end_point_2 = XYZ(x_door_2+DOOR_THICKNESS_H, y_door_2+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)\r\n        opening_2 = doc.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)\r\n\r\n    outter_office_lines = [\r\n        Autodesk.Revit.DB.Line.CreateBound(\r\n            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), \r\n            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling)),\r\n        Autodesk.Revit.DB.Line.CreateBound(\r\n            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),\r\n            XYZ(LENGTH, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling))\r\n    ]\r\n    outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n            for o_wall in outter_office_lines]\r\n\r\n    edge_room_x = ROOM_WIDTH # + CORR_WIDTH\r\n    # edge room door\r\n    \"\"\" start_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)\r\n    end_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)\r\n    partition_openings.append(doc.Create.NewOpening(corridor_walls_left[3], start_point_edge, end_point_edge))\r\n\r\n    # assign room\r\n    room_dict.update({\r\n        'CROWDIT_ORIGIN_'+str(0): [\r\n                (convert_to_meter(0)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),\r\n                (convert_to_meter(edge_room_x)-0.5, convert_to_meter(WIDTH)-0.5)\r\n            ]\r\n        }\r\n    ) \"\"\"\r\n\r\n    # side rooms along y\r\n    y_start_rooms = 2*CORR_WIDTH\r\n    y_end_rooms_long = y_corridor + CORR_WIDTH/2.\r\n    y_end_rooms_short = y_corridor - CORR_WIDTH/2.\r\n\r\n    NUM_ROOMS_LONG_Y = int((y_end_rooms_long-y_start_rooms) / MIN_ROOM_LENGTH)\r\n    NUM_ROOMS_SHORT_Y = int((y_end_rooms_short-y_start_rooms) / MIN_ROOM_LENGTH)\r\n    fractions_partitions = [1./NUM_ROOMS_LONG_Y*i for i in range(NUM_ROOMS_LONG_Y+1)] if NUM_ROOMS_LONG_Y > 0 else []\r\n    y_pos_partitions_long = [y_start_rooms + fr * (y_end_rooms_long - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_long]\r\n    fractions_partitions = [1./NUM_ROOMS_SHORT_Y*i for i in range(NUM_ROOMS_SHORT_Y+1)] if NUM_ROOMS_SHORT_Y > 0 else []\r\n    y_pos_partitions_short = [y_start_rooms + fr * (y_end_rooms_short - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_short]\r\n\r\n    partition_lines = []\r\n\r\n    for idy, y_pos_part in enumerate(y_pos_partitions_long):\r\n\r\n        partition_lines.append(\r\n            Autodesk.Revit.DB.Line.CreateBound(XYZ(0, y_pos_part, ceiling), XYZ(x_corridor-CORR_WIDTH/2., y_pos_part, ceiling))\r\n        )\r\n        if idy < len(y_pos_partitions_long)-1:\r\n            # assign room\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(idy): [\r\n                        (convert_to_meter(0)+0.5, convert_to_meter(y_pos_part)+0.5),\r\n                        (convert_to_meter(x_corridor-CORR_WIDTH/2.)-0.5, convert_to_meter(y_pos_partitions_long[idy+1])-0.5)\r\n                    ]\r\n                }\r\n            )\r\n            # a door\r\n            start_point_part = XYZ(x_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)\r\n            end_point_part = XYZ(x_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)\r\n            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[2], start_point_part, end_point_part))\r\n\r\n            # obstacles\r\n            if idy % 2 == 0:\r\n                obstacle_length = 2.\r\n                x_obst_min, x_obst_max = convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH\r\n                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.\r\n\r\n                room_dict.update({\r\n                    'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                            (x_obst_min, y_obst_min),\r\n                            (x_obst_max, y_obst_max)\r\n                        ]\r\n                    }\r\n                )\r\n                obstacle_counter += 1\r\n\r\n    for idy, y_pos_part in enumerate(y_pos_partitions_short[:-1]):\r\n\r\n        partition_lines.append(\r\n            Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_pos_part, ceiling), XYZ(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH, y_pos_part, ceiling))\r\n        )\r\n        if idy < len(y_pos_partitions_short)-1:\r\n            # assign room\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(idy+len(y_pos_partitions_long)-1): [\r\n                        (convert_to_meter(x_corridor+CORR_WIDTH/2.)+0.5, convert_to_meter(y_pos_part)+0.5),\r\n                        (convert_to_meter(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH)-0.5, convert_to_meter(y_pos_partitions_short[idy+1])-0.5)\r\n                    ]\r\n                }\r\n            )\r\n            # a door\r\n            start_point_part = XYZ(x_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)\r\n            end_point_part = XYZ(x_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)\r\n            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[2], start_point_part, end_point_part))\r\n\r\n            # obstacles\r\n            if idy % 2 != 0:\r\n                obstacle_length = 2.\r\n                x_obst_min, x_obst_max = convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1\r\n                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.\r\n\r\n                room_dict.update({\r\n                    'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                            (x_obst_min, y_obst_min),\r\n                            (x_obst_max, y_obst_max)\r\n                        ]\r\n                    }\r\n                )\r\n                obstacle_counter += 1\r\n\r\n    # side rooms along x\r\n    x_end_rooms = LENGTH - 2*CORR_WIDTH\r\n    x_start_rooms_long = edge_room_x\r\n    x_start_rooms_short = x_corridor+CORR_WIDTH/2.+ROOM_WIDTH\r\n\r\n    NUM_ROOMS_LONG_X = int((x_end_rooms-x_start_rooms_long) / MIN_ROOM_LENGTH)\r\n    NUM_ROOMS_SHORT_X = int((x_end_rooms-x_start_rooms_short) / MIN_ROOM_LENGTH)\r\n\r\n    fractions_partitions = [1./NUM_ROOMS_LONG_X*i for i in range(NUM_ROOMS_LONG_X+1)] if NUM_ROOMS_LONG_X > 0 else []\r\n    x_pos_partitions_long = [x_start_rooms_long + fr * (x_end_rooms - x_start_rooms_long) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_long, x_end_rooms]\r\n    fractions_partitions = [1./NUM_ROOMS_SHORT_X*i for i in range(NUM_ROOMS_SHORT_X+1)] if NUM_ROOMS_SHORT_X > 0 else []\r\n    x_pos_partitions_short = [x_start_rooms_short + fr * (x_end_rooms - x_start_rooms_short) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_short, x_end_rooms]\r\n\r\n    for idx, x_pos_part in enumerate(x_pos_partitions_long):\r\n\r\n        if idx > 0:\r\n            # Do not create a wall at x = edge_room_x\r\n            partition_lines.append(\r\n                Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor+CORR_WIDTH/2., ceiling), XYZ(x_pos_part, WIDTH, ceiling))\r\n            )\r\n        if idx < len(x_pos_partitions_long)-1:\r\n            # assign room\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(idx+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [\r\n                        (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),\r\n                        (convert_to_meter(x_pos_partitions_long[idx+1])-0.5, convert_to_meter(WIDTH)-0.5)\r\n                    ]\r\n                }\r\n            )\r\n            # a door\r\n            start_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)\r\n            end_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)\r\n            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[3], start_point_part, end_point_part))\r\n\r\n    \r\n    for idx, x_pos_part in enumerate(x_pos_partitions_short):\r\n\r\n        partition_lines.append(\r\n            Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor-CORR_WIDTH/2.-ROOM_WIDTH, ceiling), XYZ(x_pos_part, y_corridor-CORR_WIDTH/2., ceiling))\r\n        )\r\n        if idx < len(x_pos_partitions_short)-1:\r\n            # assign room\r\n            room_dict.update({\r\n                'CROWDIT_ORIGIN_'+str(idx+len(x_pos_partitions_long)-1+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [\r\n                        (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.-ROOM_WIDTH)+0.5),\r\n                        (convert_to_meter(x_pos_partitions_short[idx+1])-0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.)-0.5)\r\n                    ]\r\n                }\r\n            )\r\n            # a door\r\n            start_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)\r\n            end_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)\r\n            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[3], start_point_part, end_point_part))\r\n\r\n    # obstacles\r\n    # iterate through partition walls in reverse order to generate obstacles\r\n    for idx, x_pos_part in enumerate(x_pos_partitions_long[::-1]):\r\n        if idx % 2 == 0 and idx < len(x_pos_partitions_long)-1:\r\n            obstacle_length = 2.\r\n            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.\r\n            y_obst_min, y_obst_max = convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1\r\n\r\n            room_dict.update({\r\n                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                        (x_obst_min, y_obst_min),\r\n                        (x_obst_max, y_obst_max)\r\n                    ]\r\n                }\r\n            )\r\n            obstacle_counter += 1\r\n\r\n    for idx, x_pos_part in enumerate(x_pos_partitions_short[::-1]):\r\n        if idx % 2 != 0:\r\n            obstacle_length = 2.\r\n            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.\r\n            y_obst_min, y_obst_max = convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH\r\n\r\n            room_dict.update({\r\n                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [\r\n                        (x_obst_min, y_obst_min),\r\n                        (x_obst_max, y_obst_max)\r\n                    ]\r\n                }\r\n            )\r\n            obstacle_counter += 1\r\n\r\n\r\n    # check if as many origin areas as room doors \r\n    assert len(partition_openings) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN')])\r\n\r\n    partition_walls = [Wall.Create(doc, p_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) \r\n            for p_wall in partition_lines]\r\n    \r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n\r\n    return room_dict\r\n\r\nOUT = create_edge_geometry    \r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "c9eca4f695e34c18b42dd18e7fdbe052",
+      "Inputs": [
+        {
+          "Id": "e0ccf6e9ad984bab83c1db3a6189e939",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f6ab5117575742479e3f9ffd54641f22",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "10822cf5be69419f9b412ead403331a3",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "71b8b75bd23642a9bc4c9f976233ab71",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "fb44cdeb5b404c11b4244edd22709eb6",
+          "Name": "IN[4]",
+          "Description": "Input #4",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "1ca6719fc2ce4a7fb190881fd0390557",
+          "Name": "IN[5]",
+          "Description": "Input #5",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "9acfb94428c243a8a1f341c03dda7468",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
     }
   ],
   "Connectors": [
@@ -1806,6 +1978,16 @@
       "Start": "da786ad9c2324f788dc3112e82b677d7",
       "End": "b81412d97aed4ccba2647eb76cbf6eee",
       "Id": "68c13b1fc3b44db5941772133648107f"
+    },
+    {
+      "Start": "da786ad9c2324f788dc3112e82b677d7",
+      "End": "dbf3430bb3014562adbc23954d15e97e",
+      "Id": "ea56baa172d845c1b7f8dd76e82dcca4"
+    },
+    {
+      "Start": "da786ad9c2324f788dc3112e82b677d7",
+      "End": "e0ccf6e9ad984bab83c1db3a6189e939",
+      "Id": "47d55b3e8dc6462eb42a6236b2bbf807"
     },
     {
       "Start": "9c01fa3cad20409dbdcd375612fa4c8e",
@@ -1873,6 +2055,16 @@
       "Id": "dc93b408e8c242b7b7fd712bfa71321f"
     },
     {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "4fbf8ae931424b45818b2e806f289cd9",
+      "Id": "66de8010d75842539df9b7e3c4f1037d"
+    },
+    {
+      "Start": "eb90d5b34b1b4d5f82f76b475484ba71",
+      "End": "f6ab5117575742479e3f9ffd54641f22",
+      "Id": "640e8644041a4450be4e4a9c1bd4545a"
+    },
+    {
       "Start": "df8d276d2094405fae1bd75149a31f04",
       "End": "6d16b8090d0346c293f5ef6dcf388afb",
       "Id": "c8d57859a9fe40768055a32b239c2f86"
@@ -1903,6 +2095,16 @@
       "Id": "64d79a649c214cc39130b82cb81dca7c"
     },
     {
+      "Start": "8d3bf1da095642f599a8d81544fe2b93",
+      "End": "b95c2b06f22e4b5a99e4c9a105c3bc06",
+      "Id": "50e87c8fb1eb435da4b8a3a8f31ba11f"
+    },
+    {
+      "Start": "8d3bf1da095642f599a8d81544fe2b93",
+      "End": "10822cf5be69419f9b412ead403331a3",
+      "Id": "0881127af7c8405da3efc15b291d04b0"
+    },
+    {
       "Start": "a89419cf1b51448eb515ea3a35dce344",
       "End": "c993e4a2442349f99bfede4c0f5e6730",
       "Id": "c1131c0523894ba18f5ea0acf65302e0"
@@ -1926,6 +2128,16 @@
       "Start": "a89419cf1b51448eb515ea3a35dce344",
       "End": "28f37f9896b3490699af8942b7a3681f",
       "Id": "31f6eaf30c234bcf96f266647a45a8a3"
+    },
+    {
+      "Start": "a89419cf1b51448eb515ea3a35dce344",
+      "End": "3590afebf3024af589615a6a7e8f5e08",
+      "Id": "b4c579a3358b46a29d66784e9a441cd5"
+    },
+    {
+      "Start": "a89419cf1b51448eb515ea3a35dce344",
+      "End": "71b8b75bd23642a9bc4c9f976233ab71",
+      "Id": "f8f8cfcbccdb43a981db6af676ce2d2b"
     },
     {
       "Start": "6550584e1d7b49e6800bd273ec1a7e76",
@@ -2073,6 +2285,16 @@
       "Id": "c555edb5e868461a96971411c4eb00e3"
     },
     {
+      "Start": "46145a704d184e48ae7f13d166bfbc4d",
+      "End": "d66c745ae4544e35b6f34808d53c73c2",
+      "Id": "f950fa4881ab455995ec32dfd348190b"
+    },
+    {
+      "Start": "46145a704d184e48ae7f13d166bfbc4d",
+      "End": "fb44cdeb5b404c11b4244edd22709eb6",
+      "Id": "4cf7d68c3bd1405a82a9d2e541ad1641"
+    },
+    {
       "Start": "953e2fa38e81426b9b4cfa25bd9720e5",
       "End": "32b4fbba0e5a46e38ed494c056314cda",
       "Id": "95f1d74eb6f14d8eb9ca15e591dd6504"
@@ -2138,6 +2360,16 @@
       "Id": "d96d55e79e4b41ebae18584bf91868eb"
     },
     {
+      "Start": "497cd6bb0a0b4b80812d7d7078b0062b",
+      "End": "2d680bddff9c4b3a93442ba339c5de11",
+      "Id": "a25c9f532a2a45e4be106cc472076500"
+    },
+    {
+      "Start": "497cd6bb0a0b4b80812d7d7078b0062b",
+      "End": "1ca6719fc2ce4a7fb190881fd0390557",
+      "Id": "d9913d8c11224fea95eb9a00ccd940c8"
+    },
+    {
       "Start": "6a74b5b31f1f4ea9b92c42482bc3b71e",
       "End": "f940652d529940e887960b5a1cdfa9e7",
       "Id": "c0597efb11824d98800df81f61f009a4"
@@ -2181,6 +2413,16 @@
       "Start": "f9e6aaed9cdd43b598093277d00fbd60",
       "End": "cadfa0d3e30b47a9bee987ccf4e4f5fd",
       "Id": "85aca11ffb24483297ac9568646965ac"
+    },
+    {
+      "Start": "143b48dcee304de885347c73eb820f1c",
+      "End": "87205ff015a44cd688151d34ff0c9a35",
+      "Id": "8cf8d7aa3ac84c56b8ae69971269e8e5"
+    },
+    {
+      "Start": "9acfb94428c243a8a1f341c03dda7468",
+      "End": "e7f572beed004f31ab7fed4237385e4d",
+      "Id": "d31af7083cce498c96e4304fb9734dbf"
     }
   ],
   "Dependencies": [],
@@ -2235,7 +2477,7 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3021.839777496989,
+        "X": -3172.8257128337655,
         "Y": -245.50650701298969
       },
       {
@@ -2530,13 +2772,13 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge",
+        "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge; 4 = NewEdge; 5 = NewCross",
         "Id": "5b350cebac314cb9a325306ec845d417",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3164.1535463960931,
-        "Y": -73.288489478773272
+        "X": -3342.7370554944414,
+        "Y": -75.4272141386337
       },
       {
         "ShowGeometry": true,
@@ -2555,8 +2797,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2190.31376527294,
-        "Y": 102.584263409811
+        "X": -2230.5213860743038,
+        "Y": 117.40883078229717
       },
       {
         "ShowGeometry": true,
@@ -2565,8 +2807,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1948.29712867174,
-        "Y": 103.83172419025
+        "X": -1982.051613990878,
+        "Y": 118.01703359387324
       },
       {
         "ShowGeometry": true,
@@ -2575,8 +2817,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2389.1390967142675,
-        "Y": -130.43121947436782
+        "X": -2417.6893673746758,
+        "Y": -191.42497952160414
       },
       {
         "ShowGeometry": true,
@@ -2585,8 +2827,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2190.2803947498778,
-        "Y": -130.35602889229574
+        "X": -2204.33089356628,
+        "Y": -190.49686118400228
       },
       {
         "ShowGeometry": true,
@@ -2595,8 +2837,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -1987.9086230129576,
-        "Y": -129.9196712905848
+        "X": -1983.6391860858741,
+        "Y": -191.504038507198
       },
       {
         "ShowGeometry": true,
@@ -2605,8 +2847,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2359.9356510440202,
-        "Y": 361.78818160637809
+        "X": -2399.1071401175714,
+        "Y": 118.44788817143211
       },
       {
         "ShowGeometry": true,
@@ -2637,6 +2879,26 @@
         "Excluded": false,
         "X": -2972.9591225111935,
         "Y": 788.69242352854008
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NewCrossCreationByLevel",
+        "Id": "f270abb3336b429f9b1a2b56e1e3fb47",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1544.4336953749339,
+        "Y": -197.8209334256741
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "NewEdgeCreationByLevel",
+        "Id": "c9eca4f695e34c18b42dd18e7fdbe052",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1786.1328125155287,
+        "Y": -195.00614315008841
       }
     ],
     "Annotations": [
@@ -2752,27 +3014,6 @@
         "Background": "#FFFF7BAC"
       },
       {
-        "Id": "74ab33fa8c6f46d38133d7f7213d5b69",
-        "Title": "Geoemtry Creator\r\n",
-        "Nodes": [
-          "a1df25350f6a4ad3b24a84ba237b2d2b",
-          "29f76c199c904727a014a5a01d1ad538",
-          "1356c9d2df674d71bfd9e40973f15c7c",
-          "ca57d7bcbf5241babca1330675aafe54",
-          "3e0f8587bf234fc69653ecc0e2cc2639",
-          "67594af3ca884ddf986a5e02900d468d"
-        ],
-        "Left": -2399.1390967142675,
-        "Top": -226.83121947436783,
-        "Width": 603.24196804252756,
-        "Height": 693.21940108074591,
-        "FontSize": 36.0,
-        "InitialTop": -130.43121947436782,
-        "InitialHeight": 637.21940108074591,
-        "TextblockHeight": 86.4,
-        "Background": "#FFFFB8D8"
-      },
-      {
         "Id": "823ce1b6534e45eb803d6841c706e305",
         "Title": "Settings: Geometry",
         "Nodes": [
@@ -2792,9 +3033,9 @@
           "941354fccc744f8cbc4b8ac84b0d0fe5",
           "5f9f5ed8fd884bc185c8b287fbaab736"
         ],
-        "Left": -3174.1535463960931,
+        "Left": -3352.7370554944414,
         "Top": -386.40572324440478,
-        "Width": 507.11376889910434,
+        "Width": 543.21094469497484,
         "Height": 1026.3751088365736,
         "FontSize": 36.0,
         "InitialTop": -333.20572324440479,
@@ -2817,10 +3058,48 @@
         "InitialHeight": 145.0,
         "TextblockHeight": 129.6,
         "Background": "#FFC1D676"
+      },
+      {
+        "Id": "88f5cf42aa6f496cb7c0a09baa80d56e",
+        "Title": "Geometry Creation Functions",
+        "Nodes": [
+          "1356c9d2df674d71bfd9e40973f15c7c",
+          "ca57d7bcbf5241babca1330675aafe54",
+          "3e0f8587bf234fc69653ecc0e2cc2639",
+          "f270abb3336b429f9b1a2b56e1e3fb47",
+          "c9eca4f695e34c18b42dd18e7fdbe052"
+        ],
+        "Left": -2427.6893673746758,
+        "Top": -251.02093342567412,
+        "Width": 1115.655671999742,
+        "Height": 293.1240722416718,
+        "FontSize": 36.0,
+        "InitialTop": -197.8209334256741,
+        "InitialHeight": 267.21411869607516,
+        "TextblockHeight": 43.2,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "a09a8ab094854ac5b433b93cfaa3554a",
+        "Title": "Geometry Creation",
+        "Nodes": [
+          "a1df25350f6a4ad3b24a84ba237b2d2b",
+          "29f76c199c904727a014a5a01d1ad538",
+          "67594af3ca884ddf986a5e02900d468d"
+        ],
+        "Left": -2409.1071401175714,
+        "Top": 64.20883078229717,
+        "Width": 579.45552612669348,
+        "Height": 413.8,
+        "FontSize": 36.0,
+        "InitialTop": 117.40883078229717,
+        "InitialHeight": 390.6,
+        "TextblockHeight": 43.2,
+        "Background": "#FFBB87C6"
       }
     ],
-    "X": 1861.5393151419066,
-    "Y": -108.84711593893979,
-    "Zoom": 0.49331944452502552
+    "X": 1592.4133296575387,
+    "Y": 177.87987986627348,
+    "Zoom": 0.47242240621677634
   }
 }
