@@ -1,3 +1,8 @@
+# site_x , site_y = [square or max 1.2/1.3 ar (y / x)]
+# corr_width = [1/20 site_x/y , 1/5 site_x/y]
+# num_rooms_short_side (room length) = [1.5*corr_width , 5*corr_width]
+# room_width = [1.5*corr_width , 5*corr_width]
+
 import clr
 
 from System.Collections.Generic import *
@@ -54,10 +59,6 @@ def create_edge_geometry(start_level , end_level) :
 
     x_corridor = ROOM_WIDTH + CORR_WIDTH/2.
     y_corridor = WIDTH - ROOM_WIDTH - CORR_WIDTH/2.
-
-    y_main_corridor = 0.5*WIDTH
-    x_main_corridor_start = CORR_WIDTH
-    x_main_corridor_end = LENGTH-CORR_WIDTH
 
     p2_l = XYZ(x_corridor-CORR_WIDTH/2., CORR_WIDTH, ceiling)
     p4_l = XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH/2., ceiling)

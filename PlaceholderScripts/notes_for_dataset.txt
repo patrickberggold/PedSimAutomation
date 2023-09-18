@@ -1,0 +1,15 @@
+dataset : 
+    - variable room sizes (can be handled by difference in size of rooms in dataset)
+    - different aspect ratio of rooms (can also be handled by varying size of rooms in dataset)
+    - different room shapes -> L shape and diagonal
+    - room within room 
+    - curved room (curvature of one of the walls) (optional)
+    - stairs :
+        - stairs with break in between
+            - right angle
+            - curved 
+            - hybrid (right angle and curved)
+            - no change in direction
+        - stairs with no break 
+            - curved
+            - straight
