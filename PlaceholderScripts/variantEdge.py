@@ -66,27 +66,27 @@ def create_edge_geometry(start_level , end_level) :
     x_main_corridor_start = CORR_WIDTH
     x_main_corridor_end = LENGTH-CORR_WIDTH
 
-    p2_l = XYZ(x_corridor-CORR_WIDTH/2., CORR_WIDTH, ceiling)
-    p4_l = XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH/2., ceiling)
+    p2_l = XYZ(x_corridor-CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling)
+    p4_l = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor+CORR_WIDTH/2., ceiling)
     p2_r = XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling)
-    p4_r = XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH/2., ceiling)
+    p4_r = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor-CORR_WIDTH/2., ceiling)
 
     corridor_lines_left = [
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, 0, ceiling), XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling), p2_l),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, 0, ceiling), XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling), p2_l),
         Autodesk.Revit.DB.Line.CreateBound(p2_l, XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling)),
         Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l),
-        Autodesk.Revit.DB.Line.CreateBound(p4_l, XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor+CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(p4_l, XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor+CORR_WIDTH, ceiling)),
     ]
 
     corridor_lines_right = [
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
         Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r),
-        Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),
+        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),
     ]
 
     # assign room
@@ -194,7 +194,8 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ(x_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
             end_point_part = XYZ(x_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[2], start_point_part, end_point_part))
+            # partition_openings.append(doc.Create.NewOpening(corridor_walls_left[2], start_point_part, end_point_part))
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[0], start_point_part, end_point_part))
 
             # obstacles
             if idy % 2 == 0:
@@ -230,7 +231,8 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ(x_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
             end_point_part = XYZ(x_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[2], start_point_part, end_point_part))
+            # partition_openings.append(doc.Create.NewOpening(corridor_walls_right[2], start_point_part, end_point_part))
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[0], start_point_part, end_point_part))
 
             # obstacles
             if idy % 2 != 0:
@@ -283,7 +285,7 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
             end_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[3], start_point_part, end_point_part))
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[1], start_point_part, end_point_part))
 
     partition_lines_x_short = []
     for idx, x_pos_part in enumerate(x_pos_partitions_short):
@@ -304,7 +306,7 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
             end_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[3], start_point_part, end_point_part))
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[1], start_point_part, end_point_part))
 
     # obstacles
     # iterate through partition walls in reverse order to generate obstacles
@@ -421,13 +423,13 @@ def create_edge_geometry(start_level , end_level) :
                 mid_point_x - DOOR_THICKNESS_H , mid_point_y - DOOR_WIDTH_H , z_level
             )
             opening_start_point = XYZ(
-                mid_point_x + DOOR_THICKNESS_H , mid_point_y + DOOR_WIDTH_H , z_level + DOOR_HEIGHT
+                mid_point_x + DOOR_WIDTH_H , mid_point_y + DOOR_THICKNESS_H , z_level + DOOR_HEIGHT
             )
 
         return doc.Create.NewOpening(partition_wall, opening_start_point, opening_end_point)
 
     openings_y_long = [create_opening(partition_walls_y_long[i] , True) for i in range(len(partition_walls_y_long)) if partition_walls_y_long[i] is not None]
-    openings_y_short = [create_opening(partition_walls_y_short[i] , False) for i in range(len(partition_walls_y_short)) ]
+    openings_y_short = [create_opening(partition_walls_y_short[i] , False) for i in range(len(partition_walls_y_short)) if partition_walls_y_short[i] is not None]
     openings_x_long = [create_opening(partition_walls_x_long[i] , False) for i in range(len(partition_walls_x_long)) if partition_walls_x_long[i] is not None]
     openings_x_short = [create_opening(partition_walls_x_short[i] , False) for i in range(len(partition_walls_x_short)) if partition_walls_x_short[i] is not None]
 
