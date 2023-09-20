@@ -113,28 +113,6 @@ def create_edge_geometry(start_level , end_level) :
 
     partition_openings = []
 
-    if INCLUDE_BOTTLENECK:
-        bottleneck_lines = [
-            Autodesk.Revit.DB.Line.CreateBound(p2_l, p2_r),
-            Autodesk.Revit.DB.Line.CreateBound(p4_l, p4_r)
-        ]
-        bottleneck_walls = [Wall.Create(doc, b_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
-            for b_wall in bottleneck_lines]
-
-        # some doors
-        x_door_1 = (p2_l.X + p2_r.X) / 2.
-        y_door_1 = (p2_l.Y + p2_r.Y) / 2.
-        x_door_2 = (p4_l.X + p4_r.X) / 2.
-        y_door_2 = (p4_l.Y + p4_r.Y) / 2.
-        
-        start_point_1 = XYZ(x_door_1-DOOR_WIDTH_H, y_door_1-DOOR_THICKNESS_H, z_level)
-        end_point_1 = XYZ(x_door_1+DOOR_WIDTH_H, y_door_1+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-        opening_1 = doc.Create.NewOpening(bottleneck_walls[0], start_point_1, end_point_1)
-
-        start_point_2 = XYZ(x_door_2-DOOR_THICKNESS_H, y_door_2-DOOR_WIDTH_H, z_level)
-        end_point_2 = XYZ(x_door_2+DOOR_THICKNESS_H, y_door_2+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-        opening_2 = doc.Create.NewOpening(bottleneck_walls[1], start_point_2, end_point_2)
-
     outter_office_lines = [
         Autodesk.Revit.DB.Line.CreateBound(
             XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), 
@@ -432,6 +410,32 @@ def create_edge_geometry(start_level , end_level) :
     openings_y_short = [create_opening(partition_walls_y_short[i] , False) for i in range(len(partition_walls_y_short)) if partition_walls_y_short[i] is not None]
     openings_x_long = [create_opening(partition_walls_x_long[i] , False) for i in range(len(partition_walls_x_long)) if partition_walls_x_long[i] is not None]
     openings_x_short = [create_opening(partition_walls_x_short[i] , False) for i in range(len(partition_walls_x_short)) if partition_walls_x_short[i] is not None]
+
+
+    if INCLUDE_BOTTLENECK and len(partition_lines_y_short) > 2 and len(partition_lines_x_short) > 2 : 
+        first_index = len(partition_lines_y_short) - 3
+        mid_index = 2
+        end_index = len(partition_lines_x_short) - 3
+
+        bottleneck_line_bottom = Autodesk.Revit.DB.Line.CreateBound(
+            partition_lines_y_long[first_index].GetEndPoint(1) , 
+            partition_lines_y_short[first_index].GetEndPoint(0)
+        )
+        bottleneck_line_mid = Autodesk.Revit.DB.Line.CreateBound(
+            partition_lines_x_short[1].GetEndPoint(1),
+            partition_lines_x_long[-(len(partition_lines_x_short) - 1)].GetEndPoint(0)
+        )
+        bottleneck_line_top = Autodesk.Revit.DB.Line.CreateBound(
+            partition_lines_x_short[-3].GetEndPoint(1),
+            partition_lines_x_long[-3].GetEndPoint(0)
+        )
+
+
+
+
+        Wall.Create(doc, bottleneck_line_bottom, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        Wall.Create(doc, bottleneck_line_mid, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
     
 
