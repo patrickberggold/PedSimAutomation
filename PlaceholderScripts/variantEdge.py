@@ -444,3 +444,28 @@ def create_edge_geometry(start_level , end_level) :
     return room_dict
 
 OUT = create_edge_geometry    
+
+
+
+#--------------------------------------------------------------------------------------------------------#
+#Notes: 
+    # add cross model - resemble cutout of edge model
+    # figure out which stairs are important for evacuation scenarios (tum arch building)
+        # define exits and stairs
+    # replace random with all combinations to set up different dataset
+    # remove diagonal walls have only normal/invis/L shape
+    # focus on geometric variations
+
+    # map and find coordinates of floor plan in 
+        # parse through the image and xml 
+        # get mappings/scale in meter
+        # export ifc and floor plan as images
+        # 255,255,0 ascend/descend
+        # 0,255,0 exit
+
+    # export edge as ifc
+
+
+
+    #Reinforcement learning
+    # LSTM/transformer
