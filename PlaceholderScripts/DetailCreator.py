@@ -124,23 +124,23 @@ if any(geometry_picker) :
     elif geometry_picker[3] : 
         creation_function = create_new_cross_geometry
 
-        start_x_odd = convert_meter_to_unit(site_x * 0.99)
-        end_x_odd = convert_meter_to_unit(0.9 * site_x)
+        start_x_odd = convert_meter_to_unit(site_x * 0.98)
+        end_x_odd = convert_meter_to_unit(0.89 * site_x)
 
         start_x_even = convert_meter_to_unit(0.01 * site_x)
         end_x_even = convert_meter_to_unit(0.19 * site_x)
 
-        start_y_odd = convert_meter_to_unit(site_y * 0.90)
-        end_y_odd = convert_meter_to_unit(site_y * 0.99)
+        start_y_odd = convert_meter_to_unit(site_y * 0.82)
+        end_y_odd = convert_meter_to_unit(site_y * 0.97)
 
         start_y_even = convert_meter_to_unit(site_y * 0.01)
         end_y_even = convert_meter_to_unit(site_y * 0.1)
 
-        start_y_single = convert_meter_to_unit(site_y * 0.945)
-        start_x_single = convert_meter_to_unit(site_x * 0.02)
-        end_y_single = convert_meter_to_unit(site_y * 0.985)
-        end_x_single = convert_meter_to_unit(site_x * 0.1)
-        in_x_single = True
+        start_y_single = convert_meter_to_unit(site_y * 0.97)
+        start_x_single = convert_meter_to_unit(site_x * 0.01)
+        end_y_single = convert_meter_to_unit(site_y * 0.885)
+        end_x_single = convert_meter_to_unit(site_x * 0.05)
+        in_x_single = False
 
 
         in_x_even = True
@@ -215,10 +215,10 @@ if any(geometry_picker) :
                 end_y = end_y_odd
                 in_x = in_x_odd
 
-
-            stairs_even = create_staircase_variant_2(
-                doc , end_x_even , end_y_even , UnwrapElement(all_levels[i]) , start_x_even , start_y_even , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_even
-            )
+            if not geometry_picker[3] : 
+                stairs_even = create_staircase_variant_2(
+                    doc , end_x_even , end_y_even , UnwrapElement(all_levels[i]) , start_x_even , start_y_even , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_even
+                )
             stairs_odd = create_staircase_variant_3(
                 doc , end_x_odd , end_y_odd , UnwrapElement(all_levels[i]) , start_x_odd , start_y_odd , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_odd
             )
@@ -235,8 +235,9 @@ if any(geometry_picker) :
                 inXDirection = in_x_single
             )
 
-            floor_cutting_curve_even = create_slab_geometry(start_x_even , end_x_even , start_y_even , end_y_even , 0.)
-            floor_cutting_even = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_even, False)
+            if not geometry_picker[3] : 
+                floor_cutting_curve_even = create_slab_geometry(start_x_even , end_x_even , start_y_even , end_y_even , 0.)
+                floor_cutting_even = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_even, False)
 
             floor_cutting_curve_odd = create_slab_geometry(start_x_odd , end_x_odd , start_y_odd , end_y_odd , 0.)
             floor_cutting_odd = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_odd, False)
