@@ -66,7 +66,7 @@ def create_edge_geometry(start_level , end_level) :
     x_main_corridor_start = CORR_WIDTH
     x_main_corridor_end = LENGTH-CORR_WIDTH
 
-    p2_l = XYZ(x_corridor-CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling)
+    p2_l = XYZ(x_corridor-CORR_WIDTH/2., y_corridor - 4 * CORR_WIDTH, ceiling)
     p4_l = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor+CORR_WIDTH/2., ceiling)
     p2_r = XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling)
     p4_r = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor-CORR_WIDTH/2., ceiling)
@@ -83,7 +83,7 @@ def create_edge_geometry(start_level , end_level) :
     corridor_lines_right = [
         # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),
         # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor - 4 * CORR_WIDTH , ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
         Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r),
         # Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),
         # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),
@@ -141,6 +141,7 @@ def create_edge_geometry(start_level , end_level) :
 
     # side rooms along y
     y_start_rooms = 2*CORR_WIDTH
+    y_start_rooms = y_corridor - 4. * CORR_WIDTH
     y_end_rooms_long = y_corridor + CORR_WIDTH/2.
     y_end_rooms_short = y_corridor - CORR_WIDTH/2.
 
@@ -445,9 +446,15 @@ def create_edge_geometry(start_level , end_level) :
 
 
 
-        Wall.Create(doc, bottleneck_line_bottom, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        # Wall.Create(doc, bottleneck_line_bottom, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
         Wall.Create(doc, bottleneck_line_mid, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-        Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        # Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+
+    #start_wall
+    start_wall_start_point = XYZ(0. , y_corridor - 6 * CORR_WIDTH , ceiling)
+    start_wall_end_point = XYZ(x_corridor+CORR_WIDTH/2. + ROOM_WIDTH , y_corridor - 6 * CORR_WIDTH , ceiling)
+    start_wall_line = Autodesk.Revit.DB.Line.CreateBound(start_wall_start_point , start_wall_end_point)
+    Wall.Create(doc, start_wall_line, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
     
 

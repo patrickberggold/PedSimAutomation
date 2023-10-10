@@ -35,6 +35,7 @@ if any(geometry_picker) :
     create_e2e_geometry = UnwrapElement(IN[5])
     create_new_cross_geometry = UnwrapElement(IN[8])
     create_new_edge_geometry = UnwrapElement(IN[9])
+    create_new_asym_edge_geometry = UnwrapElement(IN[10])
     
     convert_meter_to_unit = IN[6][0]
     
@@ -123,28 +124,28 @@ if any(geometry_picker) :
     elif geometry_picker[3] : 
         creation_function = create_new_cross_geometry
 
-        start_x_even = convert_meter_to_unit(site_x * 0.8)
-        end_x_even = convert_meter_to_unit(0.97 * site_x)
+        start_x_odd = convert_meter_to_unit(site_x * 0.99)
+        end_x_odd = convert_meter_to_unit(0.9 * site_x)
 
-        start_x_odd = convert_meter_to_unit(0.046 * site_x)
-        end_x_odd = convert_meter_to_unit(0.096 * site_x)
+        start_x_even = convert_meter_to_unit(0.01 * site_x)
+        end_x_even = convert_meter_to_unit(0.19 * site_x)
 
-        start_y_even = convert_meter_to_unit(site_y * 0.88)
-        end_y_even = convert_meter_to_unit(site_y * 0.94)
+        start_y_odd = convert_meter_to_unit(site_y * 0.90)
+        end_y_odd = convert_meter_to_unit(site_y * 0.99)
 
-        start_y_odd = convert_meter_to_unit(0.03 * site_y)
-        end_y_odd = convert_meter_to_unit(0.2 * site_y)
+        start_y_even = convert_meter_to_unit(site_y * 0.01)
+        end_y_even = convert_meter_to_unit(site_y * 0.1)
 
-        start_y_single = convert_meter_to_unit(site_y * 0.01)
-        start_x_single = convert_meter_to_unit(site_x * 0.01)
-        end_y_single = convert_meter_to_unit(site_y * 0.01)
-        end_x_single = convert_meter_to_unit(site_x * 0.01)
+        start_y_single = convert_meter_to_unit(site_y * 0.945)
+        start_x_single = convert_meter_to_unit(site_x * 0.02)
+        end_y_single = convert_meter_to_unit(site_y * 0.985)
+        end_x_single = convert_meter_to_unit(site_x * 0.1)
         in_x_single = True
 
 
         in_x_even = True
         in_x_odd = False
-    else : 
+    elif geometry_picker[4] : 
         creation_function = create_new_edge_geometry
 
         start_x_even = convert_meter_to_unit(site_x * 0.99)
@@ -158,6 +159,30 @@ if any(geometry_picker) :
 
         start_y_odd = convert_meter_to_unit(site_y * 0.01)
         end_y_odd = convert_meter_to_unit(site_y * 0.1)
+
+        start_y_single = convert_meter_to_unit(site_y * 0.945)
+        start_x_single = convert_meter_to_unit(site_x * 0.02)
+        end_y_single = convert_meter_to_unit(site_y * 0.985)
+        end_x_single = convert_meter_to_unit(site_x * 0.1)
+
+        in_x_even = True
+        in_x_odd = False
+        in_x_single = True
+
+    else : 
+        creation_function = create_new_asym_edge_geometry
+
+        start_x_even = convert_meter_to_unit(site_x * 0.99)
+        end_x_even = convert_meter_to_unit(0.9 * site_x)
+
+        start_x_odd = convert_meter_to_unit(0.01 * site_x)
+        end_x_odd = convert_meter_to_unit(0.19 * site_x)
+
+        start_y_even = convert_meter_to_unit(site_y * 0.90)
+        end_y_even = convert_meter_to_unit(site_y * 0.99)
+
+        start_y_odd = convert_meter_to_unit(site_y * 0.52)
+        end_y_odd = convert_meter_to_unit(site_y * 0.61)
 
         start_y_single = convert_meter_to_unit(site_y * 0.945)
         start_x_single = convert_meter_to_unit(site_x * 0.02)
