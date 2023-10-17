@@ -101,8 +101,8 @@
   "Nodes": [
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 23,
-      "SelectedString": "Wall-Ret_300Con",
+      "SelectedIndex": 18,
+      "SelectedString": "Generic - 300mm",
       "NodeType": "ExtensionNode",
       "Id": "f30b125359f14000a76fa5c133fb3543",
       "Inputs": [],
@@ -122,8 +122,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 23,
-      "SelectedString": "Wall-Ret_300Con",
+      "SelectedIndex": 18,
+      "SelectedString": "Generic - 300mm",
       "NodeType": "ExtensionNode",
       "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
       "Inputs": [],
@@ -143,8 +143,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
-      "SelectedIndex": 102,
-      "SelectedString": "Floor-Upper_160mmConc-CorusComFlor51",
+      "SelectedIndex": 5,
+      "SelectedString": "Generic 300mm",
       "NodeType": "ExtensionNode",
       "Id": "40bb13f55e2f49fa852ce792d05d6883",
       "Inputs": [],
@@ -285,7 +285,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nsite_x = int(IN[0])\r\nsite_y = int(IN[1]) \r\nCORR_WIDTH = int(IN[2]) \r\nNUM_ROOMS_SHORT_SIDE = int(IN[3])\r\nNUM_ROOMS_LONG_SIDE = int(IN[4])\r\nINCLUDE_BOTTLENECK = bool(IN[5])\r\nsite_z = int(IN[6])\r\ndoor_width = IN[7]\r\nobstacle_width = IN[8]\r\nroom_width = IN[9]\r\n\r\ntxt_filename = \\\r\n    'floorplan_siteX_'+str(int(site_x))+'_siteY_'+str(int(site_y))+'_CORRWIDTH_'+str(CORR_WIDTH)+ '_NUMROOMS_'+str(NUM_ROOMS_SHORT_SIDE)+'_'+str(NUM_ROOMS_LONG_SIDE)+'_INCBNECK_'+str(INCLUDE_BOTTLENECK)+'.txt'\r\n\r\nOUT = txt_filename, [site_x, site_y, CORR_WIDTH, NUM_ROOMS_SHORT_SIDE, NUM_ROOMS_LONG_SIDE, INCLUDE_BOTTLENECK , site_z , door_width , obstacle_width , room_width]",
+      "Code": "import clr\r\nclr.AddReference('ProtoGeometry')\r\nfrom Autodesk.DesignScript.Geometry import *\r\n\r\nsite_x = int(IN[0])\r\nsite_y = int(IN[1]) \r\nCORR_WIDTH = int(IN[2]) \r\nNUM_ROOMS_SHORT_SIDE = int(IN[3])\r\nNUM_ROOMS_LONG_SIDE = int(IN[4])\r\nINCLUDE_BOTTLENECK = bool(IN[5])\r\n# site_z = int(IN[6])\r\nroom_width = IN[6]\r\ndoor_width = IN[7]\r\nobstacle_width = IN[8]\r\n\r\ntxt_filename = \\\r\n    'floorplan_siteX_'+str(int(site_x))+'_siteY_'+str(int(site_y))+'_CORRWIDTH_'+str(CORR_WIDTH)+ '_NUMROOMS_'+str(NUM_ROOMS_SHORT_SIDE)+'_'+str(NUM_ROOMS_LONG_SIDE)+'_INCBNECK_'+str(INCLUDE_BOTTLENECK)+'.txt'\r\n\r\nOUT = txt_filename, [site_x, site_y, CORR_WIDTH, NUM_ROOMS_SHORT_SIDE, NUM_ROOMS_LONG_SIDE, INCLUDE_BOTTLENECK , door_width , obstacle_width , room_width]",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "a296cde849384991a7ca241cbc98f5fb",
@@ -366,15 +366,6 @@
           "Id": "28f37f9896b3490699af8942b7a3681f",
           "Name": "IN[8]",
           "Description": "Input #8",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "87b0e14b648740aabe63db3bd50ea5ff",
-          "Name": "IN[9]",
-          "Description": "Input #9",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1228,7 +1219,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "###############################################################\r\n# Load the Libraries\r\n###############################################################\r\nimport os\r\nimport clr\r\nimport sys\r\nimport math\r\nimport System\r\nimport time\r\n\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\n#from Autodesk.Revit.UI import *\r\nfrom Autodesk.Revit.DB import StairsEditScope\r\nfrom Autodesk.Revit.DB import Parameter\r\nfrom Autodesk.Revit.DB.Architecture import StairsRun\r\nfrom Autodesk.Revit.DB.Architecture import *\r\nfrom Autodesk.Revit.DB import IFailuresPreprocessor\r\n\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nconvert_meter_to_unit = UnwrapElement(IN[8][0])\r\nconvert_to_meter = UnwrapElement(IN[8][1])\r\nfind_perimeter_lines = UnwrapElement(IN[8][2])\r\ncreate_slab_geometry = UnwrapElement(IN[8][3])\r\ncreate_one_stair = UnwrapElement(IN[8][4])\r\nslab_geometry_by_level = UnwrapElement(IN[8][5])\r\ncreate_staircase = UnwrapElement(IN[8][6])\r\n\r\ndefault_exterior_wall_type = UnwrapElement(IN[0])                   # Default exterior wall type\r\ndefault_floor_type = UnwrapElement(IN[1])                           # Default Floor type\r\ndefault_interior_wall_type = UnwrapElement(IN[2])\t\t\t\t# Default interior wall type\r\n### INPUT PARAMETERS ###\r\nparameter_list = IN[3][1]\r\nsite_x = parameter_list[0]                                # the overall length of the site\r\nsite_y = parameter_list[1]                                # the overall widthness of the site\r\nCORR_WIDTH = parameter_list[2]\r\nMIN_ROOM_LENGTH = parameter_list[3]\r\nINCLUDE_BOTTLENECK = parameter_list[4]\r\ncreate_mode = IN[7]\r\nDOOR_WIDTH_H = convert_meter_to_unit(float(IN[4])/2.)\r\nOBSTACLE_WIDTH  = float(IN[5])\r\nROOM_WIDTH = convert_meter_to_unit(float(IN[6]))\r\nnumber_story = IN[9]\r\nsite_z = float(IN[10])\r\nstory_z = [\r\n    site_z / number_story * i for i in range(number_story)\r\n]\r\n\r\nref_level_z = 0                                         # the z-position of the reference level (default level = level 0, created in the prepared .rvt)\r\n###############################################################\r\n# Transaction in Revit\r\n###############################################################\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n###############################################################\r\n# Define the output\r\n###############################################################\r\n\r\n# Create room dict\r\nroom_dict = {}\r\n\r\nif any(create_mode):\r\n    geo_site = []                                                       # archive all the input data\r\n    ref_level = []                                                      # the reference level\r\n    bbox_site = []                                                      # bounding box of the site\r\n\r\n    site_x -= 0.3\r\n    site_y -= 0.3\r\n    site_x = convert_meter_to_unit(site_x)\r\n    site_y = convert_meter_to_unit(site_y)\r\n    site_z = convert_meter_to_unit(site_z)\r\n    ref_level_z = convert_meter_to_unit(ref_level_z)\r\n    CORR_WIDTH = convert_meter_to_unit(CORR_WIDTH)\r\n    MIN_ROOM_LENGTH = convert_meter_to_unit(MIN_ROOM_LENGTH)\r\n    \r\n    # print \"site x after conversion:\" + str(site_x)\r\n\r\n    ###############################################################\r\n    # Delete all levels apart from the reference level (when there are multiple levels)\r\n    ###############################################################\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    def clear_model(bool_value):\r\n        if bool_value:\r\n            del_grid = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Grids).WhereElementIsNotElementType().ToElements()\r\n            del_door = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Doors).WhereElementIsNotElementType().ToElements()\r\n            del_floor = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElements()\r\n            del_wall = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElements()\r\n            del_roof = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Roofs).WhereElementIsNotElementType().ToElements()\r\n            del_all = [del_grid, del_door, del_floor, del_wall, del_roof]\r\n            for element_type in del_all:\r\n                for element in element_type:\r\n                    doc.Delete(element.Id)\r\n\r\n    clear_model(True)\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 01_Site\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level_z:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != ref_level_z:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, ref_level_z)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    #--------------------------------------------------------------\r\n    #------------------ OK NOW YOU CAN CODE -----------------------\r\n    #--------------------------------------------------------------\r\n\r\n    # Create Bounding Box\r\n    bb = BoundingBoxXYZ()\r\n    bb.Min = XYZ(0, 0, 0)\r\n    bb.Max = XYZ(0, 0, site_z)\r\n    bbox_site.append(bb.ToProtoType())                  # the bounding box of the entire site\r\n    # Close and save the recording file\r\n    # geo_site.append(site_x)\r\n    # geo_site.append(site_y)\r\n    # geo_site.append(site_z)\r\n\r\n    ###############################################################\r\n    # END OF SCRIPT 1\r\n    # START OF SCRIPT 2\r\n    ###############################################################\r\n\r\n    archive_data = []                                                   # archive all the input data\r\n    bbox_story = []\r\n    exterior_wall_list = []\r\n    floor_list = []\r\n    roof_list = []\r\n    entrance_door_list = []\r\n\r\n    ###############################################################\r\n    # Convert the Units | b = UnitUtils.ConvertToInternalUnits(a, UnitTypeId.Meters)  b = a*3 | c = UnitUtils.ConvertFromInternalUnits(a, UnitTypeId.Meters)  c = a*3\r\n    ###############################################################\r\n    story_z = convert_meter_to_unit(story_z)\r\n\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 02_Story\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level.Elevation:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != 0:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, 0)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    ###############################################################\r\n    # Check the consistence with the bouning box of the side \r\n    ###############################################################\r\n    # Check the z-position of the highest story against the site box\r\n\r\n    check_site_story = True if max(story_z) < site_z else False\r\n    #print \"The stories are consistent with the overal site:\" + str(check_site_story)\r\n\r\n    # Create new story levels\r\n    for ii in range(number_story):\r\n        if ref_level.Elevation == story_z[ii]:\r\n            continue\r\n        new_level = Autodesk.Revit.DB.Level.Create(doc, story_z[ii])\r\n        new_level.Name = \"Story Level \" + str(ii)\r\n\r\n    # Create the roof level\r\n    roof_level = Autodesk.Revit.DB.Level.Create(doc, site_z)\r\n    roof_level.Name = \"Roof Level\"\r\n\r\n    # all levels\r\n    allLevels = FilteredElementCollector(doc).OfClass(Level).ToElements()\r\n\r\n    # Create Bounding Box for each story level\r\n    for ii in range(number_story):\r\n        level_bbox_end_z = story_z[ii+1] if ii < (number_story-1) else site_z\r\n        #print \"Story\"+str(ii)\r\n        #print str(level_bbox_end_z)\r\n        bb = BoundingBoxXYZ()\r\n        bb.Min = XYZ(0, 0, story_z[ii])\r\n        bb.Max = XYZ(site_x, site_y, level_bbox_end_z)\r\n        bbox_story.append(bb.ToProtoType())\r\n\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n    # Create floorplan complexity\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n\r\n    LENGTH = site_x\r\n    WIDTH = site_y\r\n    print('x_length: ' + str(convert_to_meter(LENGTH)))\r\n    print('y_width: ' + str(convert_to_meter(WIDTH)))\r\n    z_level = ref_level.Elevation\r\n    ceiling = allLevels[0].Elevation\r\n\r\n    DOOR_HEIGHT = convert_meter_to_unit(2.2)\r\n    DOOR_THICKNESS_H = convert_meter_to_unit(0.25)\r\n\r\n    obstacle_counter = 0\r\n\r\n    # Create the exterior walls\r\n    perimeter_lines = find_perimeter_lines(LENGTH, WIDTH, z_level)\r\n    for ww in range(4):\r\n        wall = Wall.Create(doc, perimeter_lines[ww], default_exterior_wall_type.Id, ref_level.Id, site_z, 0, False, True)\r\n        exterior_wall_list.append(wall)\r\n\r\n    # Create floor for each story level\r\n    for ii in range(number_story):\r\n        ll = allLevels[ii]\r\n        floor_geometry = slab_geometry_by_level(LENGTH, WIDTH, ll, 0.0)\r\n        floor = doc.Create.NewFloor(floor_geometry, default_floor_type, ll, True)\r\n        floor_list.append(floor)\r\n\r\n    floor_plan_family_type = None\r\n    for view_type in FilteredElementCollector(doc).OfClass(ViewFamilyType):\r\n        if view_type.ViewFamily == ViewFamily.FloorPlan:\r\n            floor_plan_family_type = view_type\r\n            break\r\n    \r\n    floor_plan_views = []\r\n    for level in allLevels[1:]:\r\n        floor_plan_view = ViewPlan.Create(doc, floor_plan_family_type.Id, level.Id)\r\n        floor_plan_view.Name = level.Name\r\n        floor_plan_views.append(floor_plan_view)\r\n\r\n    stair_thickness = (allLevels[-1].Elevation - allLevels[-2].Elevation) / 4\r\n\r\n    # stairs = create_staircase(\r\n    #     start_x = site_x / 8. , \r\n    #     start_y = site_y / 4. , \r\n    #     start_level = allLevels[1] , \r\n    #     end_x = site_x / 2. , \r\n    #     end_y = site_y / 2. , \r\n    #     end_level = allLevels[2] , \r\n    #     thickness = stair_thickness , \r\n    #     floor_type = default_floor_type , \r\n    #     inXDirection = False\r\n    # )\r\n    # stairs = create_staircase(\r\n    #     start_x = site_x / 8. , \r\n    #     start_y = site_y / 4. , \r\n    #     start_level = allLevels[0] , \r\n    #     end_x = site_x / 2. , \r\n    #     end_y = site_y / 2. , \r\n    #     end_level = allLevels[1] , \r\n    #     thickness = stair_thickness , \r\n    #     floor_type = default_floor_type , \r\n    #     inXDirection = False\r\n    # )\r\n\r\n    # floor_cutting_curve = create_slab_geometry(site_x / 2. , 3 * site_x / 4. , site_y / 2. , 3 * site_y / 4. , 0.)\r\n    # floor_cutting = doc.Create.NewOpening(doc.GetElement(floor_list[1].Id), floor_cutting_curve, False)\r\n\r\n\r\n    \r\n#--------------------------------------------------------------\r\n#------------------ OK NOW END THE CODE -----------------------\r\n#--------------------------------------------------------------\r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n\r\n###############################################################\r\n# Prepare the output \r\n###############################################################\r\n    OUT = floor_list , allLevels\r\n",
+      "Code": "###############################################################\r\n# Load the Libraries\r\n###############################################################\r\nimport os\r\nimport clr\r\nimport sys\r\nimport math\r\nimport System\r\nimport time\r\n\r\nfrom System import Array\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\n#from Autodesk.Revit.UI import *\r\nfrom Autodesk.Revit.DB import StairsEditScope\r\nfrom Autodesk.Revit.DB import Parameter\r\nfrom Autodesk.Revit.DB.Architecture import StairsRun\r\nfrom Autodesk.Revit.DB.Architecture import *\r\nfrom Autodesk.Revit.DB import IFailuresPreprocessor\r\n\r\n\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nconvert_meter_to_unit = UnwrapElement(IN[8][0])\r\nconvert_to_meter = UnwrapElement(IN[8][1])\r\nfind_perimeter_lines = UnwrapElement(IN[8][2])\r\ncreate_slab_geometry = UnwrapElement(IN[8][3])\r\ncreate_one_stair = UnwrapElement(IN[8][4])\r\nslab_geometry_by_level = UnwrapElement(IN[8][5])\r\ncreate_staircase = UnwrapElement(IN[8][6])\r\n\r\ndefault_exterior_wall_type = UnwrapElement(IN[0])                   # Default exterior wall type\r\ndefault_floor_type = UnwrapElement(IN[1])                           # Default Floor type\r\ndefault_interior_wall_type = UnwrapElement(IN[2])\t\t\t\t# Default interior wall type\r\n### INPUT PARAMETERS ###\r\nparameter_list = IN[3][1]\r\nsite_x = parameter_list[0]                                # the overall length of the site\r\nsite_y = parameter_list[1]                                # the overall widthness of the site\r\nCORR_WIDTH = parameter_list[2]\r\nMIN_ROOM_LENGTH = parameter_list[3]\r\nINCLUDE_BOTTLENECK = parameter_list[4]\r\ncreate_mode = IN[7]\r\nDOOR_WIDTH_H = convert_meter_to_unit(float(IN[4])/2.)\r\nOBSTACLE_WIDTH  = float(IN[5])\r\nROOM_WIDTH = convert_meter_to_unit(float(IN[6]))\r\nnumber_story = IN[9]\r\n# site_z = float(IN[10])\r\n# story_z = [\r\n#     site_z / number_story * i for i in range(number_story)\r\n# ]\r\n\r\nstory_z = [\r\n    2.5 * i for i in range(number_story)\r\n]\r\nsite_z = 2.5 * number_story\r\n\r\nref_level_z = 0                                         # the z-position of the reference level (default level = level 0, created in the prepared .rvt)\r\n###############################################################\r\n# Transaction in Revit\r\n###############################################################\r\nTransactionManager.Instance.EnsureInTransaction(doc)\r\n###############################################################\r\n# Define the output\r\n###############################################################\r\n\r\n# Create room dict\r\nroom_dict = {}\r\n\r\nif any(create_mode):\r\n    geo_site = []                                                       # archive all the input data\r\n    ref_level = []                                                      # the reference level\r\n    bbox_site = []                                                      # bounding box of the site\r\n\r\n    site_x -= 0.3\r\n    site_y -= 0.3\r\n    site_x = convert_meter_to_unit(site_x)\r\n    site_y = convert_meter_to_unit(site_y)\r\n    site_z = convert_meter_to_unit(site_z)\r\n    ref_level_z = convert_meter_to_unit(ref_level_z)\r\n    CORR_WIDTH = convert_meter_to_unit(CORR_WIDTH)\r\n    MIN_ROOM_LENGTH = convert_meter_to_unit(MIN_ROOM_LENGTH)\r\n    \r\n    # print \"site x after conversion:\" + str(site_x)\r\n\r\n    ###############################################################\r\n    # Delete all levels apart from the reference level (when there are multiple levels)\r\n    ###############################################################\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    def clear_model(bool_value):\r\n        if bool_value:\r\n            del_grid = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Grids).WhereElementIsNotElementType().ToElements()\r\n            del_door = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Doors).WhereElementIsNotElementType().ToElements()\r\n            del_floor = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Floors).WhereElementIsNotElementType().ToElements()\r\n            del_wall = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Walls).WhereElementIsNotElementType().ToElements()\r\n            del_roof = FilteredElementCollector(doc).OfCategory(BuiltInCategory.OST_Roofs).WhereElementIsNotElementType().ToElements()\r\n            del_all = [del_grid, del_door, del_floor, del_wall, del_roof]\r\n            for element_type in del_all:\r\n                for element in element_type:\r\n                    doc.Delete(element.Id)\r\n\r\n    clear_model(True)\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 01_Site\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level_z:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != ref_level_z:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, ref_level_z)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    #--------------------------------------------------------------\r\n    #------------------ OK NOW YOU CAN CODE -----------------------\r\n    #--------------------------------------------------------------\r\n\r\n    # Create Bounding Box\r\n    bb = BoundingBoxXYZ()\r\n    bb.Min = XYZ(0, 0, 0)\r\n    bb.Max = XYZ(0, 0, site_z)\r\n    bbox_site.append(bb.ToProtoType())                  # the bounding box of the entire site\r\n    # Close and save the recording file\r\n    # geo_site.append(site_x)\r\n    # geo_site.append(site_y)\r\n    # geo_site.append(site_z)\r\n\r\n    ###############################################################\r\n    # END OF SCRIPT 1\r\n    # START OF SCRIPT 2\r\n    ###############################################################\r\n\r\n    archive_data = []                                                   # archive all the input data\r\n    bbox_story = []\r\n    exterior_wall_list = []\r\n    floor_list = []\r\n    roof_list = []\r\n    entrance_door_list = []\r\n\r\n    ###############################################################\r\n    # Convert the Units | b = UnitUtils.ConvertToInternalUnits(a, UnitTypeId.Meters)  b = a*3 | c = UnitUtils.ConvertFromInternalUnits(a, UnitTypeId.Meters)  c = a*3\r\n    ###############################################################\r\n    story_z = convert_meter_to_unit(story_z)\r\n\r\n    # Collect all levels\r\n    levelArray = (FilteredElementCollector(doc)\r\n        .OfCategory(BuiltInCategory.OST_Levels)\r\n        .WhereElementIsNotElementType()\r\n        .ToElements())\r\n\r\n    # Check the number of the existing levels, if multiple, delete and save only one\r\n    if len(levelArray) > 1:\r\n        #print \"levelArray.Count > 1, from 02_Story\"\r\n        for levelElement in levelArray:\r\n            if levelElement.Elevation != ref_level.Elevation:\r\n                doc.Delete(levelElement.Id)\r\n    ref_level = levelArray[0]\r\n    ref_level.Name = \"Story Level 0\"\r\n\r\n    # Check the if the saved one is the reference level, correct it if not\r\n    if ref_level.Elevation != 0:\r\n        ref_level_new = Autodesk.Revit.DB.Level.Create(doc, 0)\r\n        doc.Delete(ref_level.Id)\r\n        ref_level = ref_level_new\r\n        ref_level.Name = \"Story Level 0\"\r\n\r\n    ###############################################################\r\n    # Check the consistence with the bouning box of the side \r\n    ###############################################################\r\n    # Check the z-position of the highest story against the site box\r\n\r\n    check_site_story = True if max(story_z) < site_z else False\r\n    #print \"The stories are consistent with the overal site:\" + str(check_site_story)\r\n\r\n    # Create new story levels\r\n    for ii in range(number_story):\r\n        if ref_level.Elevation == story_z[ii]:\r\n            continue\r\n        new_level = Autodesk.Revit.DB.Level.Create(doc, story_z[ii])\r\n        new_level.Name = \"Story Level \" + str(ii)\r\n\r\n    # Create the roof level\r\n    roof_level = Autodesk.Revit.DB.Level.Create(doc, site_z)\r\n    roof_level.Name = \"Roof Level\"\r\n\r\n    # all levels\r\n    allLevels = FilteredElementCollector(doc).OfClass(Level).ToElements()\r\n\r\n    # Create Bounding Box for each story level\r\n    for ii in range(number_story):\r\n        level_bbox_end_z = story_z[ii+1] if ii < (number_story-1) else site_z\r\n        #print \"Story\"+str(ii)\r\n        #print str(level_bbox_end_z)\r\n        bb = BoundingBoxXYZ()\r\n        bb.Min = XYZ(0, 0, story_z[ii])\r\n        bb.Max = XYZ(site_x, site_y, level_bbox_end_z)\r\n        bbox_story.append(bb.ToProtoType())\r\n\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n    # Create floorplan complexity\r\n    ##############################################################################################################################\r\n    ##############################################################################################################################\r\n\r\n    LENGTH = site_x\r\n    WIDTH = site_y\r\n    print('x_length: ' + str(convert_to_meter(LENGTH)))\r\n    print('y_width: ' + str(convert_to_meter(WIDTH)))\r\n    z_level = ref_level.Elevation\r\n    ceiling = allLevels[0].Elevation\r\n\r\n    DOOR_HEIGHT = convert_meter_to_unit(2.2)\r\n    DOOR_THICKNESS_H = convert_meter_to_unit(0.25)\r\n\r\n    obstacle_counter = 0\r\n\r\n    # Create the exterior walls\r\n    perimeter_lines = find_perimeter_lines(LENGTH, WIDTH, z_level)\r\n    for ww in range(4):\r\n        wall = Wall.Create(doc, perimeter_lines[ww], default_exterior_wall_type.Id, ref_level.Id, site_z, 0, False, True)\r\n        exterior_wall_list.append(wall)\r\n\r\n    # Create floor for each story level\r\n    for ii in range(number_story):\r\n        ll = allLevels[ii]\r\n        floor_geometry = slab_geometry_by_level(LENGTH, WIDTH, ll, 0.0)\r\n        floor = doc.Create.NewFloor(floor_geometry, default_floor_type, ll, True)\r\n        floor_list.append(floor)\r\n\r\n    floor_plan_family_type = None\r\n    for view_type in FilteredElementCollector(doc).OfClass(ViewFamilyType):\r\n        if view_type.ViewFamily == ViewFamily.FloorPlan:\r\n            floor_plan_family_type = view_type\r\n            break\r\n    \r\n    floor_plan_views = []\r\n    for level in allLevels[1:]:\r\n        floor_plan_view = ViewPlan.Create(doc, floor_plan_family_type.Id, level.Id)\r\n        floor_plan_view.Name = level.Name\r\n        floor_plan_views.append(floor_plan_view)\r\n\r\n    stair_thickness = (allLevels[-1].Elevation - allLevels[-2].Elevation) / 4\r\n\r\n    # stairs = create_staircase(\r\n    #     start_x = site_x / 8. , \r\n    #     start_y = site_y / 4. , \r\n    #     start_level = allLevels[1] , \r\n    #     end_x = site_x / 2. , \r\n    #     end_y = site_y / 2. , \r\n    #     end_level = allLevels[2] , \r\n    #     thickness = stair_thickness , \r\n    #     floor_type = default_floor_type , \r\n    #     inXDirection = False\r\n    # )\r\n    # stairs = create_staircase(\r\n    #     start_x = site_x / 8. , \r\n    #     start_y = site_y / 4. , \r\n    #     start_level = allLevels[0] , \r\n    #     end_x = site_x / 2. , \r\n    #     end_y = site_y / 2. , \r\n    #     end_level = allLevels[1] , \r\n    #     thickness = stair_thickness , \r\n    #     floor_type = default_floor_type , \r\n    #     inXDirection = False\r\n    # )\r\n\r\n    # floor_cutting_curve = create_slab_geometry(site_x / 2. , 3 * site_x / 4. , site_y / 2. , 3 * site_y / 4. , 0.)\r\n    # floor_cutting = doc.Create.NewOpening(doc.GetElement(floor_list[1].Id), floor_cutting_curve, False)\r\n\r\n\r\n    \r\n#--------------------------------------------------------------\r\n#------------------ OK NOW END THE CODE -----------------------\r\n#--------------------------------------------------------------\r\n\r\n    TransactionManager.Instance.TransactionTaskDone()\r\n\r\n###############################################################\r\n# Prepare the output \r\n###############################################################\r\n    OUT = floor_list , allLevels\r\n",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "a1df25350f6a4ad3b24a84ba237b2d2b",
@@ -1318,15 +1309,6 @@
           "Id": "f940652d529940e887960b5a1cdfa9e7",
           "Name": "IN[9]",
           "Description": "Input #9",
-          "UsingDefaultValue": false,
-          "Level": 2,
-          "UseLevels": false,
-          "KeepListStructure": false
-        },
-        {
-          "Id": "24d44bc3bbae4284b01ef5d46d440a12",
-          "Name": "IN[10]",
-          "Description": "Input #10",
           "UsingDefaultValue": false,
           "Level": 2,
           "UseLevels": false,
@@ -1736,7 +1718,7 @@
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Integer",
-      "InputValue": 2,
+      "InputValue": 4,
       "MaximumValue": 10,
       "MinimumValue": 1,
       "StepValue": 1,
@@ -2531,11 +2513,6 @@
     },
     {
       "Start": "46145a704d184e48ae7f13d166bfbc4d",
-      "End": "87b0e14b648740aabe63db3bd50ea5ff",
-      "Id": "c555edb5e868461a96971411c4eb00e3"
-    },
-    {
-      "Start": "46145a704d184e48ae7f13d166bfbc4d",
       "End": "d66c745ae4544e35b6f34808d53c73c2",
       "Id": "f950fa4881ab455995ec32dfd348190b"
     },
@@ -2548,6 +2525,11 @@
       "Start": "46145a704d184e48ae7f13d166bfbc4d",
       "End": "60b0c159226d4d5f8abaecbbedc0416b",
       "Id": "c241b77573854e83992c5c3d0c4d7bf8"
+    },
+    {
+      "Start": "46145a704d184e48ae7f13d166bfbc4d",
+      "End": "8fd88d70889147439e86e47877d2867c",
+      "Id": "156e50b5dd5e4e1386d7c599b0a9e710"
     },
     {
       "Start": "953e2fa38e81426b9b4cfa25bd9720e5",
@@ -2633,16 +2615,6 @@
       "Start": "6a74b5b31f1f4ea9b92c42482bc3b71e",
       "End": "f940652d529940e887960b5a1cdfa9e7",
       "Id": "c0597efb11824d98800df81f61f009a4"
-    },
-    {
-      "Start": "4a697312c3814732bfb27a2e4e327ec1",
-      "End": "24d44bc3bbae4284b01ef5d46d440a12",
-      "Id": "940d4e851c42417e8057dfc205ed4a87"
-    },
-    {
-      "Start": "4a697312c3814732bfb27a2e4e327ec1",
-      "End": "8fd88d70889147439e86e47877d2867c",
-      "Id": "fdf78c9dd602444ab5d21a74154f679d"
     },
     {
       "Start": "f9e6aaed9cdd43b598093277d00fbd60",
@@ -2767,8 +2739,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3057.2534630718592,
-        "Y": -163.76485341096776
+        "X": -3051.4517459457065,
+        "Y": -165.21528269250581
       },
       {
         "ShowGeometry": true,
@@ -2777,8 +2749,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -3058.5026872681315,
-        "Y": -335.125681442191
+        "X": -3054.151399423517,
+        "Y": -338.02654000526718
       },
       {
         "ShowGeometry": true,
@@ -3108,7 +3080,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -2227.0541233693543,
-        "Y": 150.9257035968094
+        "Y": 149.47527431527124
       },
       {
         "ShowGeometry": true,
@@ -3260,13 +3232,13 @@
           "07c3d956cc9249a49cb3b8fc87db942b"
         ],
         "Left": -2716.1757868203581,
-        "Top": -170.91736060174802,
-        "Width": 228.0,
-        "Height": 563.795641737878,
+        "Top": -170.517360601748,
+        "Width": 227.0,
+        "Height": 540.395641737878,
         "FontSize": 36.0,
         "InitialTop": -74.51736060174801,
         "InitialHeight": 277.395641737878,
-        "TextblockHeight": 86.4,
+        "TextblockHeight": 86.0,
         "Background": "#FFD4B6DB"
       },
       {
@@ -3281,13 +3253,13 @@
           "5c93081669324210be810a4e4a7ec04e"
         ],
         "Left": -3212.2410204025678,
-        "Top": 899.20490225510594,
+        "Top": 899.404902255106,
         "Width": 392.0,
-        "Height": 515.5655619146371,
+        "Height": 515.965561914637,
         "FontSize": 36.0,
         "InitialTop": 952.404902255106,
         "InitialHeight": 513.965561914637,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FF48B9FF"
       },
       {
@@ -3300,13 +3272,13 @@
           "571a00e1551644fa8f42a276b217a31e"
         ],
         "Left": -2790.9873345933734,
-        "Top": 899.34428903074991,
-        "Width": 911.73169081978881,
-        "Height": 189.14654239463016,
+        "Top": 899.54428903075,
+        "Width": 911.53169081978876,
+        "Height": 188.74654239463007,
         "FontSize": 36.0,
         "InitialTop": 952.54428903075,
         "InitialHeight": 150.74654239463007,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFA4E1FF"
       },
       {
@@ -3321,13 +3293,13 @@
           "24b0032991f94b51aebdd285c0820000"
         ],
         "Left": -1859.4017708374092,
-        "Top": 900.58104763694109,
-        "Width": 1312.8647883929389,
-        "Height": 237.06016505485331,
+        "Top": 900.78104763694114,
+        "Width": 1313.2647883929387,
+        "Height": 237.46016505485318,
         "FontSize": 36.0,
         "InitialTop": 953.78104763694114,
         "InitialHeight": 152.86428836509731,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFB9F9E1"
       },
       {
@@ -3338,13 +3310,13 @@
           "c3d50dcd6f8e4499944ec38f97e14415"
         ],
         "Left": -940.46389354378289,
-        "Top": 680.86451919280012,
-        "Width": 393.77121031901038,
+        "Top": 681.06451919280016,
+        "Width": 392.57121031901033,
         "Height": 210.346244908397,
         "FontSize": 36.0,
         "InitialTop": 734.06451919280016,
         "InitialHeight": 146.346244908397,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFFF7BAC"
       },
       {
@@ -3354,13 +3326,13 @@
           "8bfa90b9112e4e23a68fc39756efa4e1"
         ],
         "Left": -2787.2935357261767,
-        "Top": 1179.2321411269086,
+        "Top": 1179.4321411269086,
         "Width": 207.17666666666668,
-        "Height": 234.60000000000014,
+        "Height": 235.0,
         "FontSize": 36.0,
         "InitialTop": 1232.4321411269086,
         "InitialHeight": 145.0,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFFF7BAC"
       },
       {
@@ -3384,13 +3356,13 @@
           "5f9f5ed8fd884bc185c8b287fbaab736"
         ],
         "Left": -3439.3026228132221,
-        "Top": -388.325681442191,
-        "Width": 774.38612474912134,
-        "Height": 1028.917789137867,
+        "Top": -391.02654000526718,
+        "Width": 627.32616909013632,
+        "Height": 1031.8186477009431,
         "FontSize": 36.0,
-        "InitialTop": -335.125681442191,
+        "InitialTop": -338.02654000526718,
         "InitialHeight": 1052.917789137867,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFBB87C6"
       },
       {
@@ -3400,13 +3372,13 @@
           "569aaa73606542299413545e02cc85e2"
         ],
         "Left": -2982.9591225111935,
-        "Top": 649.09242352854,
-        "Width": 164.0,
-        "Height": 244.20000000000005,
+        "Top": 648.69242352854008,
+        "Width": 163.0,
+        "Height": 244.0,
         "FontSize": 36.0,
         "InitialTop": 788.69242352854008,
         "InitialHeight": 145.0,
-        "TextblockHeight": 129.6,
+        "TextblockHeight": 130.0,
         "Background": "#FFC1D676"
       },
       {
@@ -3418,13 +3390,13 @@
           "67594af3ca884ddf986a5e02900d468d"
         ],
         "Left": -2404.7487216632094,
-        "Top": 97.4280273618255,
-        "Width": 579.29107628045745,
-        "Height": 414.86836570405512,
+        "Top": 96.475274315271236,
+        "Width": 577.89107628045736,
+        "Height": 419.22111875060938,
         "FontSize": 36.0,
-        "InitialTop": 150.6280273618255,
+        "InitialTop": 149.47527431527124,
         "InitialHeight": 146.06836570405511,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFBB87C6"
       },
       {
@@ -3439,18 +3411,18 @@
           "bf1f1b817825413baa0c32c33db8f636"
         ],
         "Left": -2409.1972996149489,
-        "Top": -264.82836419409693,
-        "Width": 1355.9819235932457,
-        "Height": 363.40357622969719,
+        "Top": -264.62836419409695,
+        "Width": 1355.1819235932458,
+        "Height": 365.80357622969723,
         "FontSize": 36.0,
         "InitialTop": -211.62836419409695,
         "InitialHeight": 148.795189485347,
-        "TextblockHeight": 43.2,
+        "TextblockHeight": 43.0,
         "Background": "#FFFFB8D8"
       }
     ],
-    "X": 2713.5301557509765,
-    "Y": 588.79968378646163,
-    "Zoom": 0.8204704470746732
+    "X": 2433.7888448795029,
+    "Y": 255.15595752925708,
+    "Zoom": 0.68945105613115887
   }
 }

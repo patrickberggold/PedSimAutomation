@@ -62,10 +62,15 @@ DOOR_WIDTH_H = convert_meter_to_unit(float(IN[4])/2.)
 OBSTACLE_WIDTH  = float(IN[5])
 ROOM_WIDTH = convert_meter_to_unit(float(IN[6]))
 number_story = IN[9]
-site_z = float(IN[10])
+# site_z = float(IN[10])
+# story_z = [
+#     site_z / number_story * i for i in range(number_story)
+# ]
+
 story_z = [
-    site_z / number_story * i for i in range(number_story)
+    2.5 * i for i in range(number_story)
 ]
+site_z = 2.5 * number_story
 
 ref_level_z = 0                                         # the z-position of the reference level (default level = level 0, created in the prepared .rvt)
 ###############################################################
