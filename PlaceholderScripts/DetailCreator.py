@@ -125,20 +125,13 @@ if any(geometry_picker) :
         creation_function = create_new_cross_geometry
 
         start_x_odd = convert_meter_to_unit(site_x * 0.98)
-        end_x_odd = convert_meter_to_unit(0.89 * site_x)
+        end_x_odd = convert_meter_to_unit(0.92 * site_x)
+        start_y_odd = convert_meter_to_unit(site_y * 0.275)
+        end_y_odd = convert_meter_to_unit(site_y * 0.725)
 
-        start_x_even = convert_meter_to_unit(0.01 * site_x)
-        end_x_even = convert_meter_to_unit(0.19 * site_x)
-
-        start_y_odd = convert_meter_to_unit(site_y * 0.82)
-        end_y_odd = convert_meter_to_unit(site_y * 0.97)
-
-        start_y_even = convert_meter_to_unit(site_y * 0.01)
-        end_y_even = convert_meter_to_unit(site_y * 0.1)
-
-        start_y_single = convert_meter_to_unit(site_y * 0.97)
+        start_y_single = convert_meter_to_unit(site_y * 0.85)
         start_x_single = convert_meter_to_unit(site_x * 0.01)
-        end_y_single = convert_meter_to_unit(site_y * 0.885)
+        end_y_single = convert_meter_to_unit(site_y * 0.45)
         end_x_single = convert_meter_to_unit(site_x * 0.05)
         in_x_single = False
 
@@ -202,23 +195,11 @@ if any(geometry_picker) :
             doc = DocumentManager.Instance.CurrentDBDocument
             TransactionManager.Instance.EnsureInTransaction(doc)
 
-            if i % 2 == 0 : 
-                start_x = start_x_even
-                end_x = end_x_even
-                start_y = start_y_even
-                end_y = end_y_even
-                in_x = in_x_even
-            else : 
-                start_x = start_x_odd
-                end_x = end_x_odd
-                start_y = start_y_odd
-                end_y = end_y_odd
-                in_x = in_x_odd
-
             if not geometry_picker[3] : 
                 stairs_even = create_staircase_variant_2(
                     doc , end_x_even , end_y_even , UnwrapElement(all_levels[i]) , start_x_even , start_y_even , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_even
                 )
+                
             stairs_odd = create_staircase_variant_3(
                 doc , end_x_odd , end_y_odd , UnwrapElement(all_levels[i]) , start_x_odd , start_y_odd , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_odd
             )

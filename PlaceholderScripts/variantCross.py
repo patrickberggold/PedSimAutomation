@@ -34,9 +34,11 @@ convert_meter_to_unit = IN[5][0]
 convert_to_meter = IN[5][1]
 
 default_interior_wall_type = UnwrapElement(IN[0])
+default_exterior_wall_type = UnwrapElement(IN[9])
+exterior_wall_width = default_exterior_wall_type.Width
 
 LENGTH = convert_meter_to_unit(IN[1][1][0])
-WIDTH = convert_meter_to_unit(IN[1][1][1])
+WIDTH = convert_meter_to_unit(IN[1][1][1]) - exterior_wall_width * 1.5
 CORR_WIDTH = convert_meter_to_unit(IN[1][1][2])
 MIN_ROOM_LENGTH = convert_meter_to_unit(IN[1][1][3])
 INCLUDE_BOTTLENECK = IN[1][1][5]
@@ -113,17 +115,17 @@ def create_cross_geometry(start_level , end_level) :
 
     partition_openings = []
 
-    outter_office_lines = [
-        # Autodesk.Revit.DB.Line.CreateBound(
-        #     XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), 
-        #     XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(
-            # XYZ(x_corridor + ROOM_WIDTH + CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
-            XYZ(0 , y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
-            XYZ(LENGTH, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling))
-    ]
-    outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
-            for o_wall in outter_office_lines]
+    # outter_office_lines = [
+    #     # Autodesk.Revit.DB.Line.CreateBound(
+    #     #     XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), 
+    #     #     XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling)),
+    #     Autodesk.Revit.DB.Line.CreateBound(
+    #         # XYZ(x_corridor + ROOM_WIDTH + CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
+    #         XYZ(0 , y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
+    #         XYZ(LENGTH, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling))
+    # ]
+    # outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
+    #         for o_wall in outter_office_lines]
 
     edge_room_x = ROOM_WIDTH # + CORR_WIDTH
     # edge room door
