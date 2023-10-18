@@ -323,7 +323,14 @@ def create_edge_geometry(start_level , end_level) :
     # check if as many origin areas as room doors 
     assert len(partition_openings) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN')])
 
-    def create_diagonal_wall(partition_lines , first_random , second_random , p) : 
+    def create_diagonal_wall(partition_lines , random_list , p) : 
+        random_number = random_list[p]
+
+        if random_number : 
+            return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        return None
+
+    def create_diagonal_wall_old(partition_lines , first_random , second_random , p) : 
         # random_number = random.randint(0 , 2)
         random_number = first_random[p]
 
@@ -374,55 +381,48 @@ def create_edge_geometry(start_level , end_level) :
         return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
 
-    # partition_walls = [Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) for p in range(len(partition_lines))]
-    # partition_walls = [create_diagonal_wall(partition_lines , p) for p in range(len(partition_lines))]
+    first_random_list_x_long = []
+    for i in range(len(partition_lines_x_long)) : 
+        random_number = random.randint(0 , 1)
+        if i > 1 :
+            if first_random_list_x_long[i - 1] == 0 and first_random_list_x_long[i - 2] == 0 : 
+                random_number = 1
 
-    first_random_list_y_long = [random.randint(0, 2) for _ in range(len(partition_lines_y_long))]
-    first_random_list_y_short = [random.randint(0, 2) for _ in range(len(partition_lines_y_short))]
-    first_random_list_x_long = [random.randint(0, 2) for _ in range(len(partition_lines_x_long))]
-    first_random_list_x_short = [random.randint(0, 2) for _ in range(len(partition_lines_x_short))]
+        first_random_list_x_long.append(random_number)
 
-    second_random_list_y_long = [random.randint(0, 2) for _ in range(len(partition_lines_y_long))]
-    second_random_list_y_short = [random.randint(0, 2) for _ in range(len(partition_lines_y_short))]
-    second_random_list_x_long = [random.randint(0, 2) for _ in range(len(partition_lines_x_long))]
-    second_random_list_x_short = [random.randint(0, 2) for _ in range(len(partition_lines_x_short))]
+    first_random_list_x_short = []
+    for i in range(len(partition_lines_x_short)) : 
+        random_number = random.randint(0 , 1)
+        if i > 1 :
+            if first_random_list_x_short[i - 1] == 0 and first_random_list_x_short[i - 2] == 0 : 
+                random_number = 1
 
-    partition_walls_y_long = [create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , second_random_list_y_long , p) for p in range(len(partition_lines_y_long))]
-    partition_walls_y_short = [create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , second_random_list_y_short , p) for p in range(len(partition_lines_y_short))]
-    partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , second_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
-    partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , second_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
+        first_random_list_x_short.append(random_number)
 
-    def create_opening(partition_wall , for_y = True) :
+    first_random_list_y_long = []
+    for i in range(len(partition_lines_y_long)) : 
+        random_number = random.randint(0 , 1)
+        if i > 1 :
+            if first_random_list_y_long[i - 1] == 0 and first_random_list_y_long[i - 2] == 0 : 
+                random_number = 1
+        elif i == 0 : random_number = 1
 
-        partition_line = partition_wall.Location.Curve
+        first_random_list_y_long.append(random_number)
 
-        start_point = partition_line.GetEndPoint(0)
-        end_point = partition_line.GetEndPoint(1)
+    first_random_list_y_short = []
+    for i in range(len(partition_lines_y_short)) : 
+        random_number = random.randint(0 , 1)
+        if i > 1 :
+            if first_random_list_y_short[i - 1] == 0 and first_random_list_y_short[i - 2] == 0: 
+                random_number = 1
+        elif i == 0 : random_number = 1
 
-        mid_point_x = (end_point[0] - start_point[0]) / 2.
-        mid_point_y = (end_point[1] - start_point[1]) / 2.
+        first_random_list_y_short.append(random_number)
 
-        if for_y :
-            opening_start_point = XYZ(
-                mid_point_x - DOOR_WIDTH_H , mid_point_y - DOOR_THICKNESS_H , z_level
-            )
-            opening_end_point = XYZ(
-                mid_point_x + DOOR_WIDTH_H , mid_point_y + DOOR_THICKNESS_H , z_level + DOOR_HEIGHT
-            )
-        else : 
-            opening_end_point = XYZ(
-                mid_point_x - DOOR_THICKNESS_H , mid_point_y - DOOR_WIDTH_H , z_level
-            )
-            opening_start_point = XYZ(
-                mid_point_x + DOOR_WIDTH_H , mid_point_y + DOOR_THICKNESS_H , z_level + DOOR_HEIGHT
-            )
-
-        return doc.Create.NewOpening(partition_wall, opening_start_point, opening_end_point)
-
-    openings_y_long = [create_opening(partition_walls_y_long[i] , True) for i in range(len(partition_walls_y_long)) if partition_walls_y_long[i] is not None]
-    openings_y_short = [create_opening(partition_walls_y_short[i] , False) for i in range(len(partition_walls_y_short)) if partition_walls_y_short[i] is not None]
-    openings_x_long = [create_opening(partition_walls_x_long[i] , False) for i in range(len(partition_walls_x_long)) if partition_walls_x_long[i] is not None]
-    openings_x_short = [create_opening(partition_walls_x_short[i] , False) for i in range(len(partition_walls_x_short)) if partition_walls_x_short[i] is not None]
+    partition_walls_y_long = [create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , p) for p in range(len(partition_lines_y_long))]
+    partition_walls_y_short = [create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p) for p in range(len(partition_lines_y_short))]
+    partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
+    partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
 
 
     if INCLUDE_BOTTLENECK and len(partition_lines_y_short) > 2 and len(partition_lines_x_short) > 2 : 

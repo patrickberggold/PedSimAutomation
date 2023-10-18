@@ -18,6 +18,8 @@ convert_to_meter = UnwrapElement(IN[11][1])
 
 if model_selector_list[3] : 
     site_y = 2 * room_width + CORR_WIDTH + convert_to_meter(wall_thickness) * 2
+# elif model_selector_list[5] : 
+#     site_y = room_width - CORR_WIDTH/2. - 6 * CORR_WIDTH
 
 txt_filename = \
     'floorplan_siteX_'+str(int(site_x))+'_siteY_'+str(int(site_y))+'_CORRWIDTH_'+str(CORR_WIDTH)+ '_NUMROOMS_'+str(NUM_ROOMS_SHORT_SIDE)+'_'+str(NUM_ROOMS_LONG_SIDE)+'_INCBNECK_'+str(INCLUDE_BOTTLENECK)+'.txt'
