@@ -459,6 +459,23 @@ def create_edge_geometry(start_level , end_level) :
     
 
     TransactionManager.Instance.TransactionTaskDone()
+
+    file_name = f"{IN[9]}/partition_walls.txt"
+
+    with open(file_name, "w") as file:
+        file.write("x_long: ")
+        for num in first_random_list_x_long:
+            file.write(str(num))
+        file.write("\nx_short: ")
+        for num in first_random_list_x_short:
+            file.write(str(num))
+        file.write("\ny_long: ")
+        for num in first_random_list_y_long:
+            file.write(str(num))
+        file.write("\ny_short: ")
+        for num in first_random_list_y_short:
+            file.write(str(num))
+
     # return len(partition_walls_y_long) , len(partition_walls_y_short) , len(partition_lines_x_long) , len(partition_lines_x_short)
     return room_dict
 
