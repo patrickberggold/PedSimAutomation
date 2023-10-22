@@ -33,7 +33,7 @@ default_exterior_wall_type = UnwrapElement(IN[11])
 exterior_wall_width = default_exterior_wall_type.Width
 
 LENGTH = convert_meter_to_unit(IN[1][1][0])
-WIDTH = convert_meter_to_unit(IN[1][1][1])
+WIDTH = convert_meter_to_unit(IN[1][1][1]) - exterior_wall_width
 CORR_WIDTH = convert_meter_to_unit(IN[1][1][2])
 MIN_ROOM_LENGTH = convert_meter_to_unit(IN[1][1][3])
 INCLUDE_BOTTLENECK = IN[1][1][5]
@@ -312,26 +312,26 @@ def create_edge_geometry(start_level , end_level) :
             end_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
             partition_openings.append(doc.Create.NewOpening(corridor_walls_right[1], start_point_part, end_point_part))
 
-    for idx, x_pos_part in enumerate(x_pos_partitions_long[::-1]):
-        if idx % 2 == 0 and idx < len(x_pos_partitions_long)-1:
-            obstacle_length = 2.
-            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
-            y_obst_min, y_obst_max = convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1
+    # for idx, x_pos_part in enumerate(x_pos_partitions_long[::-1]):
+    #     if idx % 2 == 0 and idx < len(x_pos_partitions_long)-1:
+    #         obstacle_length = 2.
+    #         x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
+    #         y_obst_min, y_obst_max = convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1
 
-            # room_dict.update({
-            #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
-            #             (x_obst_min, y_obst_min),
-            #             (x_obst_max, y_obst_max)
-            #         ]
-            #     }
-            # )
-            # obstacle_counter += 1
+    #         # room_dict.update({
+    #         #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
+    #         #             (x_obst_min, y_obst_min),
+    #         #             (x_obst_max, y_obst_max)
+    #         #         ]
+    #         #     }
+    #         # )
+    #         # obstacle_counter += 1
 
-    for idx, x_pos_part in enumerate(x_pos_partitions_short[::-1]):
-        if idx % 2 != 0:
-            obstacle_length = 2.
-            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
-            y_obst_min, y_obst_max = convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
+    # for idx, x_pos_part in enumerate(x_pos_partitions_short[::-1]):
+    #     if idx % 2 != 0:
+    #         obstacle_length = 2.
+    #         x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
+    #         y_obst_min, y_obst_max = convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
 
             # room_dict.update({
             #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
@@ -350,6 +350,7 @@ def create_edge_geometry(start_level , end_level) :
         if i > 1 :
             if first_random_list_x_long[i - 1] == 0 and first_random_list_x_long[i - 2] == 0 : 
                 random_number = 1
+        elif i == 0 or i == len(partition_lines_x_long) - 1 : random_number = 1
 
         first_random_list_x_long.append(random_number)
 
@@ -359,6 +360,7 @@ def create_edge_geometry(start_level , end_level) :
         if i > 1 :
             if first_random_list_x_short[i - 1] == 0 and first_random_list_x_short[i - 2] == 0 : 
                 random_number = 1
+        elif i == 0 or i == len(partition_lines_x_short) - 1 : random_number = 1
 
         first_random_list_x_short.append(random_number)
 
@@ -368,7 +370,7 @@ def create_edge_geometry(start_level , end_level) :
         if i > 1 :
             if first_random_list_y_long[i - 1] == 0 and first_random_list_y_long[i - 2] == 0 : 
                 random_number = 1
-        elif i == 0 : random_number = 1
+        elif i == 0 or i == len(partition_lines_y_long) - 1 : random_number = 1
 
         first_random_list_y_long.append(random_number)
 
@@ -378,18 +380,9 @@ def create_edge_geometry(start_level , end_level) :
         if i > 1 :
             if first_random_list_y_short[i - 1] == 0 and first_random_list_y_short[i - 2] == 0: 
                 random_number = 1
-        elif i == 0 : random_number = 1
+        elif i == 0 or i == len(partition_lines_y_short) - 1 : random_number = 1
 
         first_random_list_y_short.append(random_number)
-
-    # partition_walls_y_long = [create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , p) for p in range(len(partition_lines_y_long))]
-
-    # partition_walls_y_short = [create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p) for p in range(len(partition_lines_y_short))]
-
-    # partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
-
-    # partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
-
 
     spatial_buffer = IN[10]
     source_counter = 0
@@ -408,7 +401,7 @@ def create_edge_geometry(start_level , end_level) :
                 x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] + exterior_wall_width / 2.)
                 y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] + exterior_wall_width / 2.)
                 x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] -  exterior_wall_width / 2.)
-                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1])
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] -  exterior_wall_width / 2.)
 
                 source_bbox = [
                     (x_i + spatial_buffer , y_i + spatial_buffer) , 
@@ -420,32 +413,26 @@ def create_edge_geometry(start_level , end_level) :
                 })
                 source_counter += 1
 
-    partition_walls_y_short = []
-    wall_counter = 0
-    for p in range(len(partition_lines_y_short)) : 
-        wall = create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p)
-        if wall != None : 
-            partition_walls_y_short.append(wall)
-            wall_counter = len(partition_walls_y_short)
+            # if wall_counter == len(partition_lines_y_long) - 1 : 
+            #     curve_iplus1 = partition_walls_x_long[0].Location.Curve
+            #     curve_i = partition_walls_y_long[wall_counter - 1].Location.Curve
 
-            if wall_counter > 1 : 
-                curve_iplus1 = partition_walls_y_short[wall_counter - 1].Location.Curve
-                curve_i = partition_walls_y_short[wall_counter - 2].Location.Curve
-                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
-                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1])
-                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
-                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
+            #     x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] + exterior_wall_width / 2.)
+            #     y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] + exterior_wall_width / 2.)
+            #     x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] -  exterior_wall_width / 2.)
+            #     y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1])
 
-                source_bbox = [
-                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
-                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
-                ]
+            #     source_bbox = [
+            #         (x_i + spatial_buffer , y_i + spatial_buffer) , 
+            #         (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+            #     ]
 
-                room_dict.update({
-                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
-                })
-                source_counter += 1
+            #     room_dict.update({
+            #         f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+            #     })
+            #     source_counter += 1
 
+    
     partition_walls_x_long = []
     wall_counter = 0
     for p in range(len(partition_lines_x_long)) : 
@@ -460,7 +447,7 @@ def create_edge_geometry(start_level , end_level) :
                 x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] + exterior_wall_width / 2.)
                 y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] + exterior_wall_width / 2.)
                 x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] -  exterior_wall_width / 2.)
-                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1])
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] -  exterior_wall_width / 2.)
 
                 source_bbox = [
                     (x_i + spatial_buffer , y_i + spatial_buffer) , 
@@ -484,7 +471,7 @@ def create_edge_geometry(start_level , end_level) :
                 curve_iplus1 = partition_walls_x_short[wall_counter - 1].Location.Curve
                 curve_i = partition_walls_x_short[wall_counter - 2].Location.Curve
                 x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
-                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1])
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] +  exterior_wall_width / 2.)
                 x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
                 y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
 
@@ -497,6 +484,52 @@ def create_edge_geometry(start_level , end_level) :
                     f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
                 })
                 source_counter += 1
+
+    partition_walls_y_short = []
+    wall_counter = 0
+    for p in range(len(partition_lines_y_short)) : 
+        wall = create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p)
+        if wall != None : 
+            partition_walls_y_short.append(wall)
+            wall_counter = len(partition_walls_y_short)
+
+            if wall_counter > 1 : 
+                curve_iplus1 = partition_walls_y_short[wall_counter - 1].Location.Curve
+                curve_i = partition_walls_y_short[wall_counter - 2].Location.Curve
+                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] +  exterior_wall_width / 2.)
+                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
+
+                source_bbox = [
+                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+                ]
+
+                room_dict.update({
+                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+                })
+                source_counter += 1
+
+        if p == len(partition_lines_y_short) - 1 : 
+            curve_iplus1 = partition_walls_x_short[0].Location.Curve
+            curve_i = partition_walls_y_short[wall_counter - 1].Location.Curve
+
+            x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
+            y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] +  exterior_wall_width / 2.)
+            x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
+            y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
+
+            source_bbox = [
+                (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+            ]
+
+            room_dict.update({
+                f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+            })
+            source_counter += 1
+
 
     if INCLUDE_BOTTLENECK and len(partition_lines_y_short) > 2 and len(partition_lines_x_short) > 2 : 
         first_index = len(partition_lines_y_short) - 3
