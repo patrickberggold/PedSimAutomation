@@ -1,8 +1,3 @@
-# site_x , site_y = [square or max 1.2/1.3 ar (y / x)]
-# corr_width = [1/20 site_x/y , 1/5 site_x/y]
-# num_rooms_short_side (room length) = [1.5*corr_width , 5*corr_width]
-# room_width = [1.5*corr_width , 5*corr_width]
-
 import clr
 
 from System.Collections.Generic import *
@@ -58,6 +53,62 @@ def create_edge_geometry(start_level , end_level) :
     doc = DocumentManager.Instance.CurrentDBDocument
     TransactionManager.Instance.EnsureInTransaction(doc)
 
+    def create_diagonal_wall(partition_lines , random_list , p) : 
+        random_number = random_list[p]
+
+        if random_number : 
+            return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        return None
+
+    def create_diagonal_wall_old(partition_lines , first_random , second_random , p) : 
+        # random_number = random.randint(0 , 2)
+        random_number = first_random[p]
+
+        if random_number == 1 and p + 2 < len(partition_lines) and p > 0 :
+            start_diag_point = partition_lines[p].GetEndPoint(0)
+            old_end_point = partition_lines[p].GetEndPoint(1)
+            end_diag_point = partition_lines[p + 1].GetEndPoint(1)
+
+            in_y = old_end_point[1] - start_diag_point[1] < 1E-10
+
+            # random_number_diag = random.randint(0 , 2)
+            random_number_diag = second_random[p]
+            if random_number_diag > 0 : #create L shape
+                mid_x = (old_end_point[0] + start_diag_point[0]) / 2.
+                mid_y = (old_end_point[1] + start_diag_point[1]) / 2.
+                mid_z = (old_end_point[2] + start_diag_point[2]) / 2.
+
+                if in_y : mid_x += DOOR_WIDTH_H + convert_meter_to_unit(IN[8]) / 2.
+                else : mid_y += DOOR_WIDTH_H + convert_meter_to_unit(IN[8]) / 2.
+
+                mid_point = XYZ(
+                    mid_x , mid_y , mid_z
+                )
+
+                line1 = Autodesk.Revit.DB.Line.CreateBound(start_diag_point , mid_point)
+                Wall.Create(doc, line1, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+
+                if random_number_diag == 2 : #w/out diagonal
+                    end_x , end_y , end_z = mid_x , mid_y , mid_z
+                    if in_y : 
+                        end_y = end_diag_point[1]
+                    else : 
+                        end_x = end_diag_point[0]
+
+                    end_l_point = XYZ(
+                        end_x , end_y , end_z
+                    )
+                    line = Autodesk.Revit.DB.Line.CreateBound(mid_point , end_l_point)
+                else : 
+                    line = Autodesk.Revit.DB.Line.CreateBound(mid_point , end_diag_point)
+            else : 
+                line = Autodesk.Revit.DB.Line.CreateBound(start_diag_point , end_diag_point)
+
+            return Wall.Create(doc, line, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
+        elif random_number == 2 and p + 2 < len(partition_lines) and p > 0 :
+            return None
+        
+        return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
     x_corridor = ROOM_WIDTH + CORR_WIDTH/2.
     y_corridor = WIDTH - ROOM_WIDTH - CORR_WIDTH/2.
@@ -72,21 +123,13 @@ def create_edge_geometry(start_level , end_level) :
     p4_r = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor-CORR_WIDTH/2., ceiling)
 
     corridor_lines_left = [
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, 0, ceiling), XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling), p2_l),
         Autodesk.Revit.DB.Line.CreateBound(p2_l, XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l),
-        # Autodesk.Revit.DB.Line.CreateBound(p4_l, XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor+CORR_WIDTH, ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l)
     ]
 
     corridor_lines_right = [
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),
         Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor - 4 * CORR_WIDTH , ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r),
-        # Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r)
     ]
 
     # assign room
@@ -124,20 +167,7 @@ def create_edge_geometry(start_level , end_level) :
     outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
             for o_wall in outter_office_lines]
 
-    edge_room_x = ROOM_WIDTH # + CORR_WIDTH
-    # edge room door
-    """ start_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
-    end_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-    partition_openings.append(doc.Create.NewOpening(corridor_walls_left[3], start_point_edge, end_point_edge))
-
-    # assign room
-    room_dict.update({
-        'CROWDIT_ORIGIN_'+str(0): [
-                (convert_to_meter(0)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),
-                (convert_to_meter(edge_room_x)-0.5, convert_to_meter(WIDTH)-0.5)
-            ]
-        }
-    ) """
+    edge_room_x = ROOM_WIDTH
 
     # side rooms along y
     y_start_rooms = 2*CORR_WIDTH
@@ -173,7 +203,6 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ(x_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
             end_point_part = XYZ(x_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            # partition_openings.append(doc.Create.NewOpening(corridor_walls_left[2], start_point_part, end_point_part))
             partition_openings.append(doc.Create.NewOpening(corridor_walls_left[0], start_point_part, end_point_part))
 
             # obstacles
@@ -210,7 +239,6 @@ def create_edge_geometry(start_level , end_level) :
             # a door
             start_point_part = XYZ(x_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
             end_point_part = XYZ(x_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            # partition_openings.append(doc.Create.NewOpening(corridor_walls_right[2], start_point_part, end_point_part))
             partition_openings.append(doc.Create.NewOpening(corridor_walls_right[0], start_point_part, end_point_part))
 
             # obstacles
@@ -319,67 +347,8 @@ def create_edge_geometry(start_level , end_level) :
             )
             obstacle_counter += 1
 
-
     # check if as many origin areas as room doors 
     assert len(partition_openings) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN')])
-
-    def create_diagonal_wall(partition_lines , random_list , p) : 
-        random_number = random_list[p]
-
-        if random_number : 
-            return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-        return None
-
-    def create_diagonal_wall_old(partition_lines , first_random , second_random , p) : 
-        # random_number = random.randint(0 , 2)
-        random_number = first_random[p]
-
-        if random_number == 1 and p + 2 < len(partition_lines) and p > 0 :
-            start_diag_point = partition_lines[p].GetEndPoint(0)
-            old_end_point = partition_lines[p].GetEndPoint(1)
-            end_diag_point = partition_lines[p + 1].GetEndPoint(1)
-
-            in_y = old_end_point[1] - start_diag_point[1] < 1E-10
-
-            # random_number_diag = random.randint(0 , 2)
-            random_number_diag = second_random[p]
-            if random_number_diag > 0 : #create L shape
-                mid_x = (old_end_point[0] + start_diag_point[0]) / 2.
-                mid_y = (old_end_point[1] + start_diag_point[1]) / 2.
-                mid_z = (old_end_point[2] + start_diag_point[2]) / 2.
-
-                if in_y : mid_x += DOOR_WIDTH_H + convert_meter_to_unit(IN[8]) / 2.
-                else : mid_y += DOOR_WIDTH_H + convert_meter_to_unit(IN[8]) / 2.
-
-                mid_point = XYZ(
-                    mid_x , mid_y , mid_z
-                )
-
-                line1 = Autodesk.Revit.DB.Line.CreateBound(start_diag_point , mid_point)
-                Wall.Create(doc, line1, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-
-                if random_number_diag == 2 : #w/out diagonal
-                    end_x , end_y , end_z = mid_x , mid_y , mid_z
-                    if in_y : 
-                        end_y = end_diag_point[1]
-                    else : 
-                        end_x = end_diag_point[0]
-
-                    end_l_point = XYZ(
-                        end_x , end_y , end_z
-                    )
-                    line = Autodesk.Revit.DB.Line.CreateBound(mid_point , end_l_point)
-                else : 
-                    line = Autodesk.Revit.DB.Line.CreateBound(mid_point , end_diag_point)
-            else : 
-                line = Autodesk.Revit.DB.Line.CreateBound(start_diag_point , end_diag_point)
-
-            return Wall.Create(doc, line, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-        elif random_number == 2 and p + 2 < len(partition_lines) and p > 0 :
-            return None
-        
-        return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-
 
     first_random_list_x_long = []
     for i in range(len(partition_lines_x_long)) : 
@@ -424,31 +393,23 @@ def create_edge_geometry(start_level , end_level) :
     partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
     partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
 
-
     if INCLUDE_BOTTLENECK and len(partition_lines_y_short) > 2 and len(partition_lines_x_short) > 2 : 
-        first_index = len(partition_lines_y_short) - 3
-        mid_index = 2
-        end_index = len(partition_lines_x_short) - 3
+        # first_index = len(partition_lines_y_short) - 3
 
-        bottleneck_line_bottom = Autodesk.Revit.DB.Line.CreateBound(
-            partition_lines_y_long[first_index].GetEndPoint(1) , 
-            partition_lines_y_short[first_index].GetEndPoint(0)
-        )
+        # bottleneck_line_bottom = Autodesk.Revit.DB.Line.CreateBound(
+        #     partition_lines_y_long[first_index].GetEndPoint(1) , 
+        #     partition_lines_y_short[first_index].GetEndPoint(0)
+        # )
         bottleneck_line_mid = Autodesk.Revit.DB.Line.CreateBound(
             partition_lines_x_short[1].GetEndPoint(1),
             partition_lines_x_long[-(len(partition_lines_x_short) - 1)].GetEndPoint(0)
         )
-        bottleneck_line_top = Autodesk.Revit.DB.Line.CreateBound(
-            partition_lines_x_short[-3].GetEndPoint(1),
-            partition_lines_x_long[-3].GetEndPoint(0)
-        )
+        # bottleneck_line_top = Autodesk.Revit.DB.Line.CreateBound(
+        #     partition_lines_x_short[-3].GetEndPoint(1),
+        #     partition_lines_x_long[-3].GetEndPoint(0)
+        # )
 
-
-
-
-        # Wall.Create(doc, bottleneck_line_bottom, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
         Wall.Create(doc, bottleneck_line_mid, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-        # Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
     #start_wall
     start_wall_start_point = XYZ(0. , y_corridor - 6 * CORR_WIDTH , ceiling)
@@ -456,11 +417,9 @@ def create_edge_geometry(start_level , end_level) :
     start_wall_line = Autodesk.Revit.DB.Line.CreateBound(start_wall_start_point , start_wall_end_point)
     Wall.Create(doc, start_wall_line, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
-    
-
     TransactionManager.Instance.TransactionTaskDone()
 
-    file_name = f"{IN[9]}/partition_walls.txt"
+    file_name = f"{IN[9]}/partition_walls_asymm_edge_{start_level.Name}.txt"
 
     with open(file_name, "w") as file:
         file.write("x_long: ")
@@ -476,7 +435,6 @@ def create_edge_geometry(start_level , end_level) :
         for num in first_random_list_y_short:
             file.write(str(num))
 
-    # return len(partition_walls_y_long) , len(partition_walls_y_short) , len(partition_lines_x_long) , len(partition_lines_x_short)
     return room_dict
 
 OUT = create_edge_geometry    

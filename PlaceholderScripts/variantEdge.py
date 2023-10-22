@@ -1,8 +1,3 @@
-# site_x , site_y = [square or max 1.2/1.3 ar (y / x)]
-# corr_width = [1/20 site_x/y , 1/5 site_x/y]
-# num_rooms_short_side (room length) = [1.5*corr_width , 5*corr_width]
-# room_width = [1.5*corr_width , 5*corr_width]
-
 import clr
 
 from System.Collections.Generic import *
@@ -34,6 +29,8 @@ convert_meter_to_unit = IN[5][0]
 convert_to_meter = IN[5][1]
 
 default_interior_wall_type = UnwrapElement(IN[0])
+default_exterior_wall_type = UnwrapElement(IN[11])
+exterior_wall_width = default_exterior_wall_type.Width
 
 LENGTH = convert_meter_to_unit(IN[1][1][0])
 WIDTH = convert_meter_to_unit(IN[1][1][1])
@@ -57,270 +54,6 @@ def create_edge_geometry(start_level , end_level) :
 
     doc = DocumentManager.Instance.CurrentDBDocument
     TransactionManager.Instance.EnsureInTransaction(doc)
-
-
-    x_corridor = ROOM_WIDTH + CORR_WIDTH/2.
-    y_corridor = WIDTH - ROOM_WIDTH - CORR_WIDTH/2.
-
-    y_main_corridor = 0.5*WIDTH
-    x_main_corridor_start = CORR_WIDTH
-    x_main_corridor_end = LENGTH-CORR_WIDTH
-
-    p2_l = XYZ(x_corridor-CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling)
-    p4_l = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor+CORR_WIDTH/2., ceiling)
-    p2_r = XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling)
-    p4_r = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor-CORR_WIDTH/2., ceiling)
-
-    corridor_lines_left = [
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, 0, ceiling), XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH, CORR_WIDTH, ceiling), p2_l),
-        Autodesk.Revit.DB.Line.CreateBound(p2_l, XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l),
-        # Autodesk.Revit.DB.Line.CreateBound(p4_l, XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor+CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor+CORR_WIDTH, ceiling)),
-    ]
-
-    corridor_lines_right = [
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, 0, ceiling), XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH, CORR_WIDTH, ceiling), p2_r),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r),
-        # Autodesk.Revit.DB.Line.CreateBound(p4_r, XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling)),
-        # Autodesk.Revit.DB.Line.CreateBound(XYZ(LENGTH-CORR_WIDTH, y_corridor-CORR_WIDTH, ceiling), XYZ(LENGTH, y_corridor-CORR_WIDTH, ceiling)),
-    ]
-
-    # assign room
-    room_dict.update({
-        'CROWDIT_DESTINATION_'+str(0): [
-                (convert_to_meter(x_corridor-CORR_WIDTH)+0.5, convert_to_meter(0)+0.5),
-                (convert_to_meter(x_corridor+CORR_WIDTH)-0.5, convert_to_meter(CORR_WIDTH)-0.5)
-            ]
-        }
-    )
-
-    room_dict.update({
-        'CROWDIT_DESTINATION_'+str(1): [
-                (convert_to_meter(LENGTH-CORR_WIDTH)+0.5, convert_to_meter(y_corridor-CORR_WIDTH)+0.5),
-                (convert_to_meter(LENGTH)-0.5, convert_to_meter(y_corridor+CORR_WIDTH)-0.5)
-            ]
-        }
-    )
-
-    corridor_walls_left = [Wall.Create(doc, wall_l, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
-        for wall_l in corridor_lines_left]
-    corridor_walls_right = [Wall.Create(doc, wall_r, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
-        for wall_r in corridor_lines_right]
-
-    partition_openings = []
-
-    outter_office_lines = [
-        Autodesk.Revit.DB.Line.CreateBound(
-            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), 
-            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling)),
-        Autodesk.Revit.DB.Line.CreateBound(
-            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
-            XYZ(LENGTH, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling))
-    ]
-    outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
-            for o_wall in outter_office_lines]
-
-    edge_room_x = ROOM_WIDTH # + CORR_WIDTH
-    # edge room door
-    """ start_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
-    end_point_edge = XYZ((edge_room_x+ROOM_WIDTH)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-    partition_openings.append(doc.Create.NewOpening(corridor_walls_left[3], start_point_edge, end_point_edge))
-
-    # assign room
-    room_dict.update({
-        'CROWDIT_ORIGIN_'+str(0): [
-                (convert_to_meter(0)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),
-                (convert_to_meter(edge_room_x)-0.5, convert_to_meter(WIDTH)-0.5)
-            ]
-        }
-    ) """
-
-    # side rooms along y
-    y_start_rooms = 2*CORR_WIDTH
-    y_end_rooms_long = y_corridor + CORR_WIDTH/2.
-    y_end_rooms_short = y_corridor - CORR_WIDTH/2.
-
-    NUM_ROOMS_LONG_Y = int((y_end_rooms_long-y_start_rooms) / MIN_ROOM_LENGTH)
-    NUM_ROOMS_SHORT_Y = int((y_end_rooms_short-y_start_rooms) / MIN_ROOM_LENGTH)
-    fractions_partitions = [1./NUM_ROOMS_LONG_Y*i for i in range(NUM_ROOMS_LONG_Y+1)] if NUM_ROOMS_LONG_Y > 0 else []
-    y_pos_partitions_long = [y_start_rooms + fr * (y_end_rooms_long - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_long]
-    fractions_partitions = [1./NUM_ROOMS_SHORT_Y*i for i in range(NUM_ROOMS_SHORT_Y+1)] if NUM_ROOMS_SHORT_Y > 0 else []
-    y_pos_partitions_short = [y_start_rooms + fr * (y_end_rooms_short - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_short]
-
-    partition_lines = []
-
-    partition_lines_y_long = []
-    for idy, y_pos_part in enumerate(y_pos_partitions_long):
-        line_y_long = Autodesk.Revit.DB.Line.CreateBound(XYZ(0, y_pos_part, ceiling), XYZ(x_corridor-CORR_WIDTH/2., y_pos_part, ceiling))
-        partition_lines.append(
-            line_y_long
-        )
-        partition_lines_y_long.append(line_y_long)
-        if idy < len(y_pos_partitions_long)-1:
-            # assign room
-            room_dict.update({
-                'CROWDIT_ORIGIN_'+str(idy): [
-                        (convert_to_meter(0)+0.5, convert_to_meter(y_pos_part)+0.5),
-                        (convert_to_meter(x_corridor-CORR_WIDTH/2.)-0.5, convert_to_meter(y_pos_partitions_long[idy+1])-0.5)
-                    ]
-                }
-            )
-            # a door
-            start_point_part = XYZ(x_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
-            end_point_part = XYZ(x_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            # partition_openings.append(doc.Create.NewOpening(corridor_walls_left[2], start_point_part, end_point_part))
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[0], start_point_part, end_point_part))
-
-            # obstacles
-            if idy % 2 == 0:
-                obstacle_length = 2.
-                x_obst_min, x_obst_max = convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
-                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.
-
-                room_dict.update({
-                    'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
-                            (x_obst_min, y_obst_min),
-                            (x_obst_max, y_obst_max)
-                        ]
-                    }
-                )
-                obstacle_counter += 1
-
-    partition_lines_y_short = []
-    for idy, y_pos_part in enumerate(y_pos_partitions_short[:-1]):
-        line_y_short = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_pos_part, ceiling), XYZ(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH, y_pos_part, ceiling))
-        partition_lines.append(
-            line_y_short
-        )
-        partition_lines_y_short.append(line_y_short)
-        if idy < len(y_pos_partitions_short)-1:
-            # assign room
-            room_dict.update({
-                'CROWDIT_ORIGIN_'+str(idy+len(y_pos_partitions_long)-1): [
-                        (convert_to_meter(x_corridor+CORR_WIDTH/2.)+0.5, convert_to_meter(y_pos_part)+0.5),
-                        (convert_to_meter(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH)-0.5, convert_to_meter(y_pos_partitions_short[idy+1])-0.5)
-                    ]
-                }
-            )
-            # a door
-            start_point_part = XYZ(x_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
-            end_point_part = XYZ(x_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
-            # partition_openings.append(doc.Create.NewOpening(corridor_walls_right[2], start_point_part, end_point_part))
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[0], start_point_part, end_point_part))
-
-            # obstacles
-            if idy % 2 != 0:
-                obstacle_length = 2.
-                x_obst_min, x_obst_max = convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1
-                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.
-
-                room_dict.update({
-                    'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
-                            (x_obst_min, y_obst_min),
-                            (x_obst_max, y_obst_max)
-                        ]
-                    }
-                )
-                obstacle_counter += 1
-
-    # side rooms along x
-    x_end_rooms = LENGTH - 2*CORR_WIDTH
-    x_start_rooms_long = edge_room_x
-    x_start_rooms_short = x_corridor+CORR_WIDTH/2.+ROOM_WIDTH
-
-    NUM_ROOMS_LONG_X = int((x_end_rooms-x_start_rooms_long) / MIN_ROOM_LENGTH)
-    NUM_ROOMS_SHORT_X = int((x_end_rooms-x_start_rooms_short) / MIN_ROOM_LENGTH)
-
-    fractions_partitions = [1./NUM_ROOMS_LONG_X*i for i in range(NUM_ROOMS_LONG_X+1)] if NUM_ROOMS_LONG_X > 0 else []
-    x_pos_partitions_long = [x_start_rooms_long + fr * (x_end_rooms - x_start_rooms_long) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_long, x_end_rooms]
-    fractions_partitions = [1./NUM_ROOMS_SHORT_X*i for i in range(NUM_ROOMS_SHORT_X+1)] if NUM_ROOMS_SHORT_X > 0 else []
-    x_pos_partitions_short = [x_start_rooms_short + fr * (x_end_rooms - x_start_rooms_short) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_short, x_end_rooms]
-
-    partition_lines_x_long = []
-    for idx, x_pos_part in enumerate(x_pos_partitions_long):
-
-        if idx > 0:
-            # Do not create a wall at x = edge_room_x
-            line_x_long = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor+CORR_WIDTH/2., ceiling), XYZ(x_pos_part, WIDTH, ceiling))
-            partition_lines.append(
-                line_x_long
-            )
-            partition_lines_x_long.append(line_x_long)
-
-        if idx < len(x_pos_partitions_long)-1:
-            # assign room
-            room_dict.update({
-                'CROWDIT_ORIGIN_'+str(idx+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [
-                        (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),
-                        (convert_to_meter(x_pos_partitions_long[idx+1])-0.5, convert_to_meter(WIDTH)-0.5)
-                    ]
-                }
-            )
-            # a door
-            start_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
-            end_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[1], start_point_part, end_point_part))
-
-    partition_lines_x_short = []
-    for idx, x_pos_part in enumerate(x_pos_partitions_short):
-        line_x_short = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor-CORR_WIDTH/2.-ROOM_WIDTH, ceiling), XYZ(x_pos_part, y_corridor-CORR_WIDTH/2., ceiling))
-        partition_lines.append(
-            line_x_short
-        )
-        partition_lines_x_short.append(line_x_short)
-        if idx < len(x_pos_partitions_short)-1:
-            # assign room
-            room_dict.update({
-                'CROWDIT_ORIGIN_'+str(idx+len(x_pos_partitions_long)-1+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [
-                        (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.-ROOM_WIDTH)+0.5),
-                        (convert_to_meter(x_pos_partitions_short[idx+1])-0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.)-0.5)
-                    ]
-                }
-            )
-            # a door
-            start_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
-            end_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
-            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[1], start_point_part, end_point_part))
-
-    # obstacles
-    # iterate through partition walls in reverse order to generate obstacles
-    for idx, x_pos_part in enumerate(x_pos_partitions_long[::-1]):
-        if idx % 2 == 0 and idx < len(x_pos_partitions_long)-1:
-            obstacle_length = 2.
-            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
-            y_obst_min, y_obst_max = convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1
-
-            room_dict.update({
-                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
-                        (x_obst_min, y_obst_min),
-                        (x_obst_max, y_obst_max)
-                    ]
-                }
-            )
-            obstacle_counter += 1
-
-    for idx, x_pos_part in enumerate(x_pos_partitions_short[::-1]):
-        if idx % 2 != 0:
-            obstacle_length = 2.
-            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
-            y_obst_min, y_obst_max = convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
-
-            room_dict.update({
-                'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
-                        (x_obst_min, y_obst_min),
-                        (x_obst_max, y_obst_max)
-                    ]
-                }
-            )
-            obstacle_counter += 1
-
-
-    # check if as many origin areas as room doors 
-    assert len(partition_openings) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN')])
 
     def create_diagonal_wall(partition_lines , random_list , p) : 
         random_number = random_list[p]
@@ -379,19 +112,237 @@ def create_edge_geometry(start_level , end_level) :
         
         return Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
+    x_corridor = ROOM_WIDTH + CORR_WIDTH/2.
+    y_corridor = WIDTH - ROOM_WIDTH - CORR_WIDTH/2.
 
-    # partition_walls = [Wall.Create(doc, partition_lines[p], default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) for p in range(len(partition_lines))]
-    # partition_walls = [create_diagonal_wall(partition_lines , p) for p in range(len(partition_lines))]
+    p2_l = XYZ(x_corridor-CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling)
+    p4_l = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor+CORR_WIDTH/2., ceiling)
+    p2_r = XYZ(x_corridor+CORR_WIDTH/2., CORR_WIDTH, ceiling)
+    p4_r = XYZ(LENGTH-(CORR_WIDTH * 2), y_corridor-CORR_WIDTH/2., ceiling)
 
-    # first_random_list_y_long = [random.randint(0, 2) for _ in range(len(partition_lines_y_long))]
-    # first_random_list_y_short = [random.randint(0, 2) for _ in range(len(partition_lines_y_short))]
-    # first_random_list_x_long = [random.randint(0, 2) for _ in range(len(partition_lines_x_long))]
-    # first_random_list_x_short = [random.randint(0, 2) for _ in range(len(partition_lines_x_short))]
+    corridor_lines_left = [
+        Autodesk.Revit.DB.Line.CreateBound(p2_l, XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor-CORR_WIDTH/2., y_corridor+CORR_WIDTH/2., ceiling), p4_l)
+    ]
 
-    # second_random_list_y_long = [random.randint(0, 2) for _ in range(len(partition_lines_y_long))]
-    # second_random_list_y_short = [random.randint(0, 2) for _ in range(len(partition_lines_y_short))]
-    # second_random_list_x_long = [random.randint(0, 2) for _ in range(len(partition_lines_x_long))]
-    # second_random_list_x_short = [random.randint(0, 2) for _ in range(len(partition_lines_x_short))]
+    corridor_lines_right = [
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., 2 * CORR_WIDTH, ceiling), XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_corridor-CORR_WIDTH/2., ceiling), p4_r)
+    ]
+
+    # assign room
+    # room_dict.update({
+    #     'CROWDIT_DESTINATION_'+str(0): [
+    #             (convert_to_meter(x_corridor-CORR_WIDTH)+0.5, convert_to_meter(0)+0.5),
+    #             (convert_to_meter(x_corridor+CORR_WIDTH)-0.5, convert_to_meter(CORR_WIDTH)-0.5)
+    #         ]
+    #     }
+    # )
+
+    # room_dict.update({
+    #     'CROWDIT_DESTINATION_'+str(1): [
+    #             (convert_to_meter(LENGTH-CORR_WIDTH)+0.5, convert_to_meter(y_corridor-CORR_WIDTH)+0.5),
+    #             (convert_to_meter(LENGTH)-0.5, convert_to_meter(y_corridor+CORR_WIDTH)-0.5)
+    #         ]
+    #     }
+    # )
+
+    corridor_walls_left = [Wall.Create(doc, wall_l, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
+        for wall_l in corridor_lines_left]
+    corridor_walls_right = [Wall.Create(doc, wall_r, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
+        for wall_r in corridor_lines_right]
+
+    partition_openings = []
+
+    outter_office_lines = [
+        Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, 0, ceiling), 
+            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling)),
+        Autodesk.Revit.DB.Line.CreateBound(
+            XYZ(x_corridor+ROOM_WIDTH+CORR_WIDTH/2, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling),
+            XYZ(LENGTH, y_corridor - ROOM_WIDTH - CORR_WIDTH/2., ceiling))
+    ]
+    outter_office_walls = [Wall.Create(doc, o_wall, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True) 
+            for o_wall in outter_office_lines]
+
+    edge_room_x = ROOM_WIDTH
+
+    # side rooms along y
+    y_start_rooms = 2*CORR_WIDTH
+    y_end_rooms_long = y_corridor + CORR_WIDTH/2.
+    y_end_rooms_short = y_corridor - CORR_WIDTH/2.
+
+    NUM_ROOMS_LONG_Y = int((y_end_rooms_long-y_start_rooms) / MIN_ROOM_LENGTH)
+    NUM_ROOMS_SHORT_Y = int((y_end_rooms_short-y_start_rooms) / MIN_ROOM_LENGTH)
+    fractions_partitions = [1./NUM_ROOMS_LONG_Y*i for i in range(NUM_ROOMS_LONG_Y+1)] if NUM_ROOMS_LONG_Y > 0 else []
+    y_pos_partitions_long = [y_start_rooms + fr * (y_end_rooms_long - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_long]
+    fractions_partitions = [1./NUM_ROOMS_SHORT_Y*i for i in range(NUM_ROOMS_SHORT_Y+1)] if NUM_ROOMS_SHORT_Y > 0 else []
+    y_pos_partitions_short = [y_start_rooms + fr * (y_end_rooms_short - y_start_rooms) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [y_start_rooms, y_end_rooms_short]
+
+    partition_lines = []
+
+    partition_lines_y_long = []
+    for idy, y_pos_part in enumerate(y_pos_partitions_long):
+        line_y_long = Autodesk.Revit.DB.Line.CreateBound(XYZ(0, y_pos_part, ceiling), XYZ(x_corridor-CORR_WIDTH/2., y_pos_part, ceiling))
+        partition_lines.append(
+            line_y_long
+        )
+        partition_lines_y_long.append(line_y_long)
+        if idy < len(y_pos_partitions_long)-1:
+            # assign room
+            # room_dict.update({
+            #     'CROWDIT_ORIGIN_'+str(idy): [
+            #             (convert_to_meter(0)+0.5, convert_to_meter(y_pos_part)+0.5),
+            #             (convert_to_meter(x_corridor-CORR_WIDTH/2.)-0.5, convert_to_meter(y_pos_partitions_long[idy+1])-0.5)
+            #         ]
+            #     }
+            # )
+            # a door
+            start_point_part = XYZ(x_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
+            end_point_part = XYZ(x_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_long[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[0], start_point_part, end_point_part))
+
+            # obstacles
+            if idy % 2 == 0:
+                obstacle_length = 2.
+                x_obst_min, x_obst_max = convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(x_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
+                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.
+
+                # room_dict.update({
+                #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
+                #             (x_obst_min, y_obst_min),
+                #             (x_obst_max, y_obst_max)
+                #         ]
+                #     }
+                # )
+                # obstacle_counter += 1
+
+    partition_lines_y_short = []
+    for idy, y_pos_part in enumerate(y_pos_partitions_short[:-1]):
+        line_y_short = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_corridor+CORR_WIDTH/2., y_pos_part, ceiling), XYZ(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH, y_pos_part, ceiling))
+        partition_lines.append(
+            line_y_short
+        )
+        partition_lines_y_short.append(line_y_short)
+        if idy < len(y_pos_partitions_short)-1:
+            # assign room
+            # room_dict.update({
+            #     'CROWDIT_ORIGIN_'+str(idy+len(y_pos_partitions_long)-1): [
+            #             (convert_to_meter(x_corridor+CORR_WIDTH/2.)+0.5, convert_to_meter(y_pos_part)+0.5),
+            #             (convert_to_meter(x_corridor+CORR_WIDTH/2.+ROOM_WIDTH)-0.5, convert_to_meter(y_pos_partitions_short[idy+1])-0.5)
+            #         ]
+            #     }
+            # )
+            # a door
+            start_point_part = XYZ(x_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.-DOOR_WIDTH_H, z_level)
+            end_point_part = XYZ(x_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, (y_pos_partitions_short[idy+1]+y_pos_part)/2.+DOOR_WIDTH_H, z_level+DOOR_HEIGHT)
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[0], start_point_part, end_point_part))
+
+            # obstacles
+            if idy % 2 != 0:
+                obstacle_length = 2.
+                x_obst_min, x_obst_max = convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(x_corridor+CORR_WIDTH/2.)-0.1
+                y_obst_min, y_obst_max = convert_to_meter(y_pos_part)-obstacle_length/2., convert_to_meter(y_pos_part)+obstacle_length/2.
+
+                # room_dict.update({
+                #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
+                #             (x_obst_min, y_obst_min),
+                #             (x_obst_max, y_obst_max)
+                #         ]
+                #     }
+                # )
+                # obstacle_counter += 1
+
+    # side rooms along x
+    x_end_rooms = LENGTH - 2*CORR_WIDTH
+    x_start_rooms_long = edge_room_x
+    x_start_rooms_short = x_corridor+CORR_WIDTH/2.+ROOM_WIDTH
+
+    NUM_ROOMS_LONG_X = int((x_end_rooms-x_start_rooms_long) / MIN_ROOM_LENGTH)
+    NUM_ROOMS_SHORT_X = int((x_end_rooms-x_start_rooms_short) / MIN_ROOM_LENGTH)
+
+    fractions_partitions = [1./NUM_ROOMS_LONG_X*i for i in range(NUM_ROOMS_LONG_X+1)] if NUM_ROOMS_LONG_X > 0 else []
+    x_pos_partitions_long = [x_start_rooms_long + fr * (x_end_rooms - x_start_rooms_long) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_long, x_end_rooms]
+    fractions_partitions = [1./NUM_ROOMS_SHORT_X*i for i in range(NUM_ROOMS_SHORT_X+1)] if NUM_ROOMS_SHORT_X > 0 else []
+    x_pos_partitions_short = [x_start_rooms_short + fr * (x_end_rooms - x_start_rooms_short) for fr in fractions_partitions] if len(fractions_partitions) > 0 else [x_start_rooms_short, x_end_rooms]
+
+    partition_lines_x_long = []
+    for idx, x_pos_part in enumerate(x_pos_partitions_long):
+
+        if idx > 0:
+            # Do not create a wall at x = edge_room_x
+            line_x_long = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor+CORR_WIDTH/2., ceiling), XYZ(x_pos_part, WIDTH, ceiling))
+            partition_lines.append(
+                line_x_long
+            )
+            partition_lines_x_long.append(line_x_long)
+
+        if idx < len(x_pos_partitions_long)-1:
+            # assign room
+            # room_dict.update({
+            #     'CROWDIT_ORIGIN_'+str(idx+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [
+            #             (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor+CORR_WIDTH/2.)+0.5),
+            #             (convert_to_meter(x_pos_partitions_long[idx+1])-0.5, convert_to_meter(WIDTH)-0.5)
+            #         ]
+            #     }
+            # )
+            # a door
+            start_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
+            end_point_part = XYZ((x_pos_partitions_long[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor+CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_left[1], start_point_part, end_point_part))
+
+    partition_lines_x_short = []
+    for idx, x_pos_part in enumerate(x_pos_partitions_short):
+        line_x_short = Autodesk.Revit.DB.Line.CreateBound(XYZ(x_pos_part, y_corridor-CORR_WIDTH/2.-ROOM_WIDTH, ceiling), XYZ(x_pos_part, y_corridor-CORR_WIDTH/2., ceiling))
+        partition_lines.append(
+            line_x_short
+        )
+        partition_lines_x_short.append(line_x_short)
+        if idx < len(x_pos_partitions_short)-1:
+            # assign room
+            # room_dict.update({
+            #     'CROWDIT_ORIGIN_'+str(idx+len(x_pos_partitions_long)-1+len(y_pos_partitions_short)-1+len(y_pos_partitions_long)-1): [
+            #             (convert_to_meter(x_pos_part)+0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.-ROOM_WIDTH)+0.5),
+            #             (convert_to_meter(x_pos_partitions_short[idx+1])-0.5, convert_to_meter(y_corridor-CORR_WIDTH/2.)-0.5)
+            #         ]
+            #     }
+            # )
+            # a door
+            start_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.-DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.-DOOR_THICKNESS_H, z_level)
+            end_point_part = XYZ((x_pos_partitions_short[idx+1]+x_pos_part)/2.+DOOR_WIDTH_H, y_corridor-CORR_WIDTH/2.+DOOR_THICKNESS_H, z_level+DOOR_HEIGHT)
+            partition_openings.append(doc.Create.NewOpening(corridor_walls_right[1], start_point_part, end_point_part))
+
+    for idx, x_pos_part in enumerate(x_pos_partitions_long[::-1]):
+        if idx % 2 == 0 and idx < len(x_pos_partitions_long)-1:
+            obstacle_length = 2.
+            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
+            y_obst_min, y_obst_max = convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1-OBSTACLE_WIDTH, convert_to_meter(y_corridor+CORR_WIDTH/2.)-0.1
+
+            # room_dict.update({
+            #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
+            #             (x_obst_min, y_obst_min),
+            #             (x_obst_max, y_obst_max)
+            #         ]
+            #     }
+            # )
+            # obstacle_counter += 1
+
+    for idx, x_pos_part in enumerate(x_pos_partitions_short[::-1]):
+        if idx % 2 != 0:
+            obstacle_length = 2.
+            x_obst_min, x_obst_max = convert_to_meter(x_pos_part)-obstacle_length/2., convert_to_meter(x_pos_part)+obstacle_length/2.
+            y_obst_min, y_obst_max = convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1, convert_to_meter(y_corridor-CORR_WIDTH/2.)+0.1+OBSTACLE_WIDTH
+
+            # room_dict.update({
+            #     'CROWDIT_OBSTACLE_'+str(obstacle_counter)+'_2_1_': [
+            #             (x_obst_min, y_obst_min),
+            #             (x_obst_max, y_obst_max)
+            #         ]
+            #     }
+            # )
+            # obstacle_counter += 1
+
+    # assert len(partition_openings) == len([key for key in room_dict if key.startswith('CROWDIT_ORIGIN')])
 
     first_random_list_x_long = []
     for i in range(len(partition_lines_x_long)) : 
@@ -431,18 +382,124 @@ def create_edge_geometry(start_level , end_level) :
 
         first_random_list_y_short.append(random_number)
 
-    partition_walls_y_long = [create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , p) for p in range(len(partition_lines_y_long))]
-    partition_walls_y_short = [create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p) for p in range(len(partition_lines_y_short))]
-    partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
-    partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
+    # partition_walls_y_long = [create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , p) for p in range(len(partition_lines_y_long))]
+
+    # partition_walls_y_short = [create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p) for p in range(len(partition_lines_y_short))]
+
+    # partition_walls_x_long = [create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p) for p in range(len(partition_lines_x_long))]
+
+    # partition_walls_x_short = [create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p) for p in range(len(partition_lines_x_short))]
 
 
+    spatial_buffer = IN[10]
+    source_counter = 0
 
+    partition_walls_y_long = []
+    wall_counter = 0
+    for p in range(len(partition_lines_y_long)) : 
+        wall = create_diagonal_wall(partition_lines_y_long , first_random_list_y_long , p)
+        if wall != None : 
+            partition_walls_y_long.append(wall)
+            wall_counter = len(partition_walls_y_long)
+
+            if wall_counter > 1 : 
+                curve_iplus1 = partition_walls_y_long[wall_counter - 1].Location.Curve
+                curve_i = partition_walls_y_long[wall_counter - 2].Location.Curve
+                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] + exterior_wall_width / 2.)
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] + exterior_wall_width / 2.)
+                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] -  exterior_wall_width / 2.)
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1])
+
+                source_bbox = [
+                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+                ]
+
+                room_dict.update({
+                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+                })
+                source_counter += 1
+
+    partition_walls_y_short = []
+    wall_counter = 0
+    for p in range(len(partition_lines_y_short)) : 
+        wall = create_diagonal_wall(partition_lines_y_short , first_random_list_y_short , p)
+        if wall != None : 
+            partition_walls_y_short.append(wall)
+            wall_counter = len(partition_walls_y_short)
+
+            if wall_counter > 1 : 
+                curve_iplus1 = partition_walls_y_short[wall_counter - 1].Location.Curve
+                curve_i = partition_walls_y_short[wall_counter - 2].Location.Curve
+                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1])
+                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
+
+                source_bbox = [
+                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+                ]
+
+                room_dict.update({
+                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+                })
+                source_counter += 1
+
+    partition_walls_x_long = []
+    wall_counter = 0
+    for p in range(len(partition_lines_x_long)) : 
+        wall = create_diagonal_wall(partition_lines_x_long , first_random_list_x_long , p)
+        if wall != None : 
+            partition_walls_x_long.append(wall)
+            wall_counter = len(partition_walls_x_long)
+
+            if wall_counter > 1 : 
+                curve_iplus1 = partition_walls_x_long[wall_counter - 1].Location.Curve
+                curve_i = partition_walls_x_long[wall_counter - 2].Location.Curve
+                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] + exterior_wall_width / 2.)
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1] + exterior_wall_width / 2.)
+                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] -  exterior_wall_width / 2.)
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1])
+
+                source_bbox = [
+                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+                ]
+
+                room_dict.update({
+                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+                })
+                source_counter += 1
+
+    partition_walls_x_short = []
+    wall_counter = 0
+    for p in range(len(partition_lines_x_short)) : 
+        wall = create_diagonal_wall(partition_lines_x_short , first_random_list_x_short , p)
+        if wall != None : 
+            partition_walls_x_short.append(wall)
+            wall_counter = len(partition_walls_x_short)
+
+            if wall_counter > 1 : 
+                curve_iplus1 = partition_walls_x_short[wall_counter - 1].Location.Curve
+                curve_i = partition_walls_x_short[wall_counter - 2].Location.Curve
+                x_i = convert_to_meter(curve_i.GetEndPoint(0)[0] +  exterior_wall_width / 2.)
+                y_i = convert_to_meter(curve_i.GetEndPoint(0)[1])
+                x_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[0] - exterior_wall_width / 2.)
+                y_iplus1 = convert_to_meter(curve_iplus1.GetEndPoint(1)[1] - exterior_wall_width / 2.)
+
+                source_bbox = [
+                    (x_i + spatial_buffer , y_i + spatial_buffer) , 
+                    (x_iplus1 - spatial_buffer , y_iplus1 - spatial_buffer)
+                ]
+
+                room_dict.update({
+                    f"CROWDIT_ORIGIN_{source_counter}" : source_bbox
+                })
+                source_counter += 1
 
     if INCLUDE_BOTTLENECK and len(partition_lines_y_short) > 2 and len(partition_lines_x_short) > 2 : 
         first_index = len(partition_lines_y_short) - 3
-        mid_index = 2
-        end_index = len(partition_lines_x_short) - 3
 
         bottleneck_line_bottom = Autodesk.Revit.DB.Line.CreateBound(
             partition_lines_y_long[first_index].GetEndPoint(1) , 
@@ -452,23 +509,18 @@ def create_edge_geometry(start_level , end_level) :
             partition_lines_x_short[1].GetEndPoint(1),
             partition_lines_x_long[-(len(partition_lines_x_short) - 1)].GetEndPoint(0)
         )
-        bottleneck_line_top = Autodesk.Revit.DB.Line.CreateBound(
-            partition_lines_x_short[-3].GetEndPoint(1),
-            partition_lines_x_long[-3].GetEndPoint(0)
-        )
-
-
-
+        # bottleneck_line_top = Autodesk.Revit.DB.Line.CreateBound(
+        #     partition_lines_x_short[-3].GetEndPoint(1),
+        #     partition_lines_x_long[-3].GetEndPoint(0)
+        # )
 
         Wall.Create(doc, bottleneck_line_bottom, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
         Wall.Create(doc, bottleneck_line_mid, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-        Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
-
-    
+        # Wall.Create(doc, bottleneck_line_top, default_interior_wall_type.Id, start_level.Id, end_level.Elevation - start_level.Elevation, 0, False, True)
 
     TransactionManager.Instance.TransactionTaskDone()
 
-    file_name = f"{IN[9]}/partition_walls.txt"
+    file_name = f"{IN[9]}/partition_walls_edge_{start_level.Name}.txt"
 
     with open(file_name, "w") as file:
         file.write("x_long: ")
@@ -484,8 +536,6 @@ def create_edge_geometry(start_level , end_level) :
         for num in first_random_list_y_short:
             file.write(str(num))
 
-
-    # return len(partition_walls_y_long) , len(partition_walls_y_short) , len(partition_lines_x_long) , len(partition_lines_x_short)
     return room_dict
 
 OUT = create_edge_geometry    
