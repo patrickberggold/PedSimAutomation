@@ -78,7 +78,7 @@
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Name": "Geometry Shape: 1 = Cross; 2 = E2E; 3 = Edge; 4 = NewCross; 5 = NewEdge; 6 = AsymEdge",
       "Type": "number",
-      "Value": "6",
+      "Value": "4",
       "MaximumValue": 6.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
@@ -101,8 +101,8 @@
   "Nodes": [
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 18,
-      "SelectedString": "Generic - 300mm",
+      "SelectedIndex": 15,
+      "SelectedString": "Wall-Fnd_300Con_Footing",
       "NodeType": "ExtensionNode",
       "Id": "f30b125359f14000a76fa5c133fb3543",
       "Inputs": [],
@@ -122,8 +122,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.WallTypes, DSRevitNodesUI",
-      "SelectedIndex": 18,
-      "SelectedString": "Generic - 300mm",
+      "SelectedIndex": 23,
+      "SelectedString": "Wall-Ret_300Con",
       "NodeType": "ExtensionNode",
       "Id": "9abbe9e09e324c899a59bdff2eca4aa8",
       "Inputs": [],
@@ -143,8 +143,8 @@
     },
     {
       "ConcreteType": "DSRevitNodesUI.FloorTypes, DSRevitNodesUI",
-      "SelectedIndex": 5,
-      "SelectedString": "Generic 300mm",
+      "SelectedIndex": 3,
+      "SelectedString": "Floor-Upper_160mmConc-CorusComFlor51",
       "NodeType": "ExtensionNode",
       "Id": "40bb13f55e2f49fa852ce792d05d6883",
       "Inputs": [],
@@ -1185,7 +1185,7 @@
       "MaximumValue": 6.0,
       "MinimumValue": 1.0,
       "StepValue": 1.0,
-      "InputValue": 6.0,
+      "InputValue": 4.0,
       "Id": "5b350cebac314cb9a325306ec845d417",
       "Inputs": [],
       "Outputs": [
@@ -1359,7 +1359,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ngeometry_picker = IN[2]\r\n\r\nif any(geometry_picker) : \r\n    floor_list = IN[0][0]\r\n    all_levels = IN[0][1]\r\n    site_x = IN[1][1][0]\r\n    site_y = IN[1][1][1]\r\n    \r\n    create_edge_geometry = UnwrapElement(IN[3])\r\n    create_cross_geometry = UnwrapElement(IN[4])\r\n    create_e2e_geometry = UnwrapElement(IN[5])\r\n    create_new_cross_geometry = UnwrapElement(IN[8])\r\n    create_new_edge_geometry = UnwrapElement(IN[9])\r\n    create_new_asym_edge_geometry = UnwrapElement(IN[10])\r\n    \r\n    convert_meter_to_unit = IN[6][0]\r\n    \r\n    create_slab_geometry = IN[6][3]\r\n    create_staircase_variant_1 = IN[6][6]\r\n    create_staircase_variant_2 = IN[6][7]\r\n    create_staircase_variant_3 = IN[6][8]\r\n    create_one_stair = IN[6][4]\r\n    \r\n    default_floor_type = UnwrapElement(IN[7])\r\n\r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[2] : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[3] : \r\n        creation_function = create_new_cross_geometry\r\n\r\n        start_x_odd = convert_meter_to_unit(site_x * 0.98)\r\n        end_x_odd = convert_meter_to_unit(0.92 * site_x)\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.275)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.725)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.85)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.45)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.05)\r\n        in_x_single = False\r\n\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n    elif geometry_picker[4] : \r\n        creation_function = create_new_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.99)\r\n        end_x_even = convert_meter_to_unit(0.9 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.01 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.19 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.90)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.99)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.01)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.1)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.945)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.02)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.985)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.1)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n        in_x_single = True\r\n\r\n    else : \r\n        creation_function = create_new_asym_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.99)\r\n        end_x_even = convert_meter_to_unit(0.9 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.01 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.19 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.90)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.99)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.52)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.61)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.945)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.02)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.985)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.1)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n        in_x_single = True\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        doc = DocumentManager.Instance.CurrentDBDocument   \r\n        \r\n        if i < (len(all_levels) - 2) :\r\n           \r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if not geometry_picker[3] : \r\n                stairs_even = create_staircase_variant_2(\r\n                    doc , end_x_even , end_y_even , UnwrapElement(all_levels[i]) , start_x_even , start_y_even , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_even\r\n                )\r\n                \r\n            stairs_odd = create_staircase_variant_3(\r\n                doc , end_x_odd , end_y_odd , UnwrapElement(all_levels[i]) , start_x_odd , start_y_odd , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_odd\r\n            )\r\n\r\n            stairs = create_staircase_variant_1(\r\n                start_x = start_x_single , \r\n                start_y = start_y_single , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x_single , \r\n                end_y = end_y_single , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x_single\r\n            )\r\n\r\n            if not geometry_picker[3] : \r\n                floor_cutting_curve_even = create_slab_geometry(start_x_even , end_x_even , start_y_even , end_y_even , 0.)\r\n                floor_cutting_even = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_even, False)\r\n\r\n            floor_cutting_curve_odd = create_slab_geometry(start_x_odd , end_x_odd , start_y_odd , end_y_odd , 0.)\r\n            floor_cutting_odd = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_odd, False)\r\n\r\n            floor_cutting_curve_single = create_slab_geometry(start_x_single , end_x_single , start_y_single , end_y_single , 0.)\r\n            floor_cutting_single = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_single, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n        if 1 :\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n            view = doc.ActiveView\r\n\r\n            fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n            solidPattern = None\r\n            for pattern in fillPatterns:\r\n                if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n                    solidPattern = pattern\r\n                    break\r\n\r\n            def slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n                zz = level.Elevation + delta_z\r\n                xx = x + start_x\r\n                yy = y + start_y\r\n                line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n                line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n                line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n                line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n                slab_geometry = CurveArray()\r\n                slab_geometry.Append(line_1)\r\n                slab_geometry.Append(line_2)\r\n                slab_geometry.Append(line_3)\r\n                slab_geometry.Append(line_4)\r\n                return slab_geometry\r\n\r\n            def override_color_pattern(element, color, pattern, view):\r\n                graphicSettings = OverrideGraphicSettings()\r\n                graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n                graphicSettings.SetCutForegroundPatternColor(color)\r\n                graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetProjectionLineColor(color)\r\n                UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\n            def convert_meter_to_unit(pre_value):\r\n                tempo_list = []\r\n                tempo_value = 0\r\n                if isinstance(pre_value, list):\r\n                    len_list = len(pre_value)\r\n                    for ii in range(len_list):\r\n                        tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n                    pre_value = tempo_list\r\n                else:\r\n                    tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n                    pre_value = tempo_value\r\n                return pre_value\r\n\r\n            def create_colored_floor(length , width , start_x , start_y , level , doc , color) : \r\n                floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n                floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n                override_color_pattern(floor, color, solidPattern, view)\r\n            origins = [\r\n                value for _ , value in room_dict[f\"level_{i}\"].items()\r\n            ]\r\n\r\n            x = 0\r\n            y = 255\r\n\r\n            for origin in origins : \r\n                origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])\r\n\r\n                start_x , start_y = origin_bbox[0] , origin_bbox[1]\r\n\r\n                size_x = origin_bbox[2] - origin_bbox[0]\r\n                size_y = origin_bbox[3] - origin_bbox[1]\r\n\r\n                create_colored_floor(size_x , size_y , start_x , start_y , all_levels[i] , doc , Color(x , y , 0))\r\n                z = x\r\n                x = y\r\n                y = z\r\n\r\n    OUT = room_dict",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\ngeometry_picker = IN[2]\r\n\r\nif any(geometry_picker) : \r\n    floor_list = IN[0][0]\r\n    all_levels = IN[0][1]\r\n    site_x = IN[1][1][0]\r\n    site_y = IN[1][1][1]\r\n    \r\n    create_edge_geometry = UnwrapElement(IN[3])\r\n    create_cross_geometry = UnwrapElement(IN[4])\r\n    create_e2e_geometry = UnwrapElement(IN[5])\r\n    create_new_cross_geometry = UnwrapElement(IN[8])\r\n    create_new_edge_geometry = UnwrapElement(IN[9])\r\n    create_new_asym_edge_geometry = UnwrapElement(IN[10])\r\n    \r\n    convert_meter_to_unit = IN[6][0]\r\n    \r\n    create_slab_geometry = IN[6][3]\r\n    create_staircase_variant_1 = IN[6][6]\r\n    create_staircase_variant_2 = IN[6][7]\r\n    create_staircase_variant_3 = IN[6][8]\r\n    create_one_stair = IN[6][4]\r\n    \r\n    default_floor_type = UnwrapElement(IN[7])\r\n\r\n    room_dict = {}\r\n\r\n    if geometry_picker[0] : \r\n        creation_function = create_cross_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.8 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.2 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_even = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y / 2. - site_y / 40.)\r\n        end_y_odd = convert_meter_to_unit(site_y / 2. + site_y / 40.)\r\n\r\n        in_x_even = True\r\n        in_x_odd = True\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[1] : \r\n        creation_function = create_e2e_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.97)\r\n        end_x_even = convert_meter_to_unit(0.91 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.03 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.09 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.96)\r\n        end_y_even = convert_meter_to_unit(3. * site_y / 4.)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.04)\r\n        end_y_odd = convert_meter_to_unit(site_y / 4.)\r\n\r\n        in_x_even = False\r\n        in_x_odd = False\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[2] : \r\n        creation_function = create_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.8)\r\n        end_x_even = convert_meter_to_unit(0.97 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.046 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.096 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.88)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.94)\r\n\r\n        start_y_odd = convert_meter_to_unit(0.03 * site_y)\r\n        end_y_odd = convert_meter_to_unit(0.2 * site_y)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.01)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        in_x_single = True\r\n\r\n    elif geometry_picker[3] : \r\n        creation_function = create_new_cross_geometry\r\n\r\n        start_x_odd = convert_meter_to_unit(site_x * 0.98)\r\n        end_x_odd = convert_meter_to_unit(0.92 * site_x)\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.275)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.725)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.85)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.01)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.45)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.05)\r\n        in_x_single = False\r\n\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n    elif geometry_picker[4] : \r\n        creation_function = create_new_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.99)\r\n        end_x_even = convert_meter_to_unit(0.9 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.01 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.19 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.90)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.99)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.01)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.1)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.945)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.02)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.985)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.1)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n        in_x_single = True\r\n\r\n    else : \r\n        creation_function = create_new_asym_edge_geometry\r\n\r\n        start_x_even = convert_meter_to_unit(site_x * 0.99)\r\n        end_x_even = convert_meter_to_unit(0.9 * site_x)\r\n\r\n        start_x_odd = convert_meter_to_unit(0.01 * site_x)\r\n        end_x_odd = convert_meter_to_unit(0.19 * site_x)\r\n\r\n        start_y_even = convert_meter_to_unit(site_y * 0.90)\r\n        end_y_even = convert_meter_to_unit(site_y * 0.99)\r\n\r\n        start_y_odd = convert_meter_to_unit(site_y * 0.52)\r\n        end_y_odd = convert_meter_to_unit(site_y * 0.61)\r\n\r\n        start_y_single = convert_meter_to_unit(site_y * 0.945)\r\n        start_x_single = convert_meter_to_unit(site_x * 0.02)\r\n        end_y_single = convert_meter_to_unit(site_y * 0.985)\r\n        end_x_single = convert_meter_to_unit(site_x * 0.1)\r\n\r\n        in_x_even = True\r\n        in_x_odd = False\r\n        in_x_single = True\r\n\r\n    for i in range(len(all_levels) - 1) : \r\n        room_dict[f\"level_{i}\"] = creation_function(UnwrapElement(all_levels[i]) , UnwrapElement(all_levels[i + 1]))\r\n\r\n        stair_thickness = (UnwrapElement(all_levels[i + 1]).Elevation - UnwrapElement(all_levels[i]).Elevation) / 15.\r\n        doc = DocumentManager.Instance.CurrentDBDocument   \r\n        \r\n        if i < (len(all_levels) - 2) :\r\n           \r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n            if not geometry_picker[3] : \r\n                stairs_even = create_staircase_variant_2(\r\n                    doc , end_x_even , end_y_even , UnwrapElement(all_levels[i]) , start_x_even , start_y_even , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_even\r\n                )\r\n                \r\n            stairs_odd = create_staircase_variant_3(\r\n                doc , end_x_odd , end_y_odd , UnwrapElement(all_levels[i]) , start_x_odd , start_y_odd , UnwrapElement(all_levels[i + 1]) , stair_thickness , default_floor_type , in_x_odd\r\n            )\r\n\r\n            stairs = create_staircase_variant_1(\r\n                start_x = start_x_single , \r\n                start_y = start_y_single , \r\n                start_level = UnwrapElement(all_levels[i]) , \r\n                end_x = end_x_single , \r\n                end_y = end_y_single , \r\n                end_level = UnwrapElement(all_levels[i + 1]) , \r\n                thickness = stair_thickness , \r\n                floor_type = default_floor_type , \r\n                inXDirection = in_x_single\r\n            )\r\n\r\n            if not geometry_picker[3] : \r\n                floor_cutting_curve_even = create_slab_geometry(start_x_even , end_x_even , start_y_even , end_y_even , 0.)\r\n                floor_cutting_even = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_even, False)\r\n\r\n            floor_cutting_curve_odd = create_slab_geometry(start_x_odd , end_x_odd , start_y_odd , end_y_odd , 0.)\r\n            floor_cutting_odd = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_odd, False)\r\n\r\n            floor_cutting_curve_single = create_slab_geometry(start_x_single , end_x_single , start_y_single , end_y_single , 0.)\r\n            floor_cutting_single = doc.Create.NewOpening(doc.GetElement(ElementId(floor_list[i + 1].Id)), floor_cutting_curve_single, False)\r\n\r\n            TransactionManager.Instance.TransactionTaskDone() \r\n\r\n        if 0 :\r\n            TransactionManager.Instance.EnsureInTransaction(doc)\r\n            view = doc.ActiveView\r\n\r\n            fillPatterns = FilteredElementCollector(doc).OfClass(FillPatternElement)\r\n            solidPattern = None\r\n            for pattern in fillPatterns:\r\n                if UnwrapElement(pattern).GetFillPattern().IsSolidFill:\r\n                    solidPattern = pattern\r\n                    break\r\n\r\n            def slab_geometry_by_level(x, y, level, delta_z , start_x , start_y):\r\n                zz = level.Elevation + delta_z\r\n                xx = x + start_x\r\n                yy = y + start_y\r\n                line_1 = Line.CreateBound(XYZ(start_x, start_y, zz), XYZ(xx, start_y, zz))\r\n                line_2 = Line.CreateBound(XYZ(xx, start_y, zz), XYZ(xx, yy, zz))\r\n                line_3 = Line.CreateBound(XYZ(xx, yy, zz), XYZ(start_x, yy, zz))\r\n                line_4 = Line.CreateBound(XYZ(start_x, yy, zz), XYZ(start_x, start_y, zz))\r\n\r\n                slab_geometry = CurveArray()\r\n                slab_geometry.Append(line_1)\r\n                slab_geometry.Append(line_2)\r\n                slab_geometry.Append(line_3)\r\n                slab_geometry.Append(line_4)\r\n                return slab_geometry\r\n\r\n            def override_color_pattern(element, color, pattern, view):\r\n                graphicSettings = OverrideGraphicSettings()\r\n                graphicSettings.SetSurfaceForegroundPatternColor(color)\r\n                graphicSettings.SetCutForegroundPatternColor(color)\r\n                graphicSettings.SetSurfaceForegroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetCutForegroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetSurfaceBackgroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetCutBackgroundPatternId(UnwrapElement(pattern).Id)\r\n                graphicSettings.SetProjectionLineColor(color)\r\n                UnwrapElement(view).SetElementOverrides(element.Id, graphicSettings)\r\n\r\n            def convert_meter_to_unit(pre_value):\r\n                tempo_list = []\r\n                tempo_value = 0\r\n                if isinstance(pre_value, list):\r\n                    len_list = len(pre_value)\r\n                    for ii in range(len_list):\r\n                        tempo_list.append (float(UnitUtils.ConvertToInternalUnits(pre_value[ii], UnitTypeId.Meters)))\r\n                    pre_value = tempo_list\r\n                else:\r\n                    tempo_value = float(UnitUtils.ConvertToInternalUnits(pre_value, UnitTypeId.Meters))\r\n                    pre_value = tempo_value\r\n                return pre_value\r\n\r\n            def create_colored_floor(length , width , start_x , start_y , level , doc , color) : \r\n                floor_geometry = slab_geometry_by_level(length, width, level, 1. , start_x , start_y)\r\n\r\n                floor = doc.Create.NewFloor(floor_geometry, True)\r\n\r\n                override_color_pattern(floor, color, solidPattern, view)\r\n            origins = [\r\n                value for _ , value in room_dict[f\"level_{i}\"].items()\r\n            ]\r\n\r\n            x = 0\r\n            y = 255\r\n\r\n            for origin in origins : \r\n                origin_bbox = convert_meter_to_unit([*origin[0], *origin[1]])\r\n\r\n                start_x , start_y = origin_bbox[0] , origin_bbox[1]\r\n\r\n                size_x = origin_bbox[2] - origin_bbox[0]\r\n                size_y = origin_bbox[3] - origin_bbox[1]\r\n\r\n                create_colored_floor(size_x , size_y , start_x , start_y , all_levels[i] , doc , Color(x , y , 0))\r\n                z = x\r\n                x = y\r\n                y = z\r\n\r\n    OUT = room_dict",
       "Engine": "CPython3",
       "VariableInputPorts": true,
       "Id": "29f76c199c904727a014a5a01d1ad538",
@@ -1745,7 +1745,7 @@
       "ConcreteType": "CoreNodeModels.Input.IntegerSlider, CoreNodeModels",
       "NodeType": "NumberInputNode",
       "NumberType": "Integer",
-      "InputValue": 1,
+      "InputValue": 2,
       "MaximumValue": 10,
       "MinimumValue": 1,
       "StepValue": 1,
@@ -2318,6 +2318,127 @@
       ],
       "Replication": "Disabled",
       "Description": "Creates a number."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\n\r\nfrom System.Collections.Generic import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\n\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager \r\nfrom RevitServices.Transactions import TransactionManager \r\n\r\nclr.AddReference(\"RevitAPI\")\r\nclr.AddReference(\"RevitAPIUI\")\r\n\r\nclr.AddReference('ProtoGeometry')\r\nimport Autodesk \r\nfrom Autodesk.DesignScript.Geometry import *\r\nfrom Autodesk.Revit.DB import *\r\nfrom Autodesk.Revit.DB.Architecture import *\r\n\r\nimport os\r\n\r\n\r\nshould_export_ifc = IN[1]\r\nifc_file_export_dir = IN[3]\r\nifc_mapping_file_path = IN[2]\r\n\r\nif IN[0] != None and should_export_ifc : \r\n    file_name = \"geometry_as_ifc\"\r\n    doc = DocumentManager.Instance.CurrentDBDocument\r\n    # TransactionManager.Instance.EnsureInTransaction(doc)\r\n\r\n    options=IFCExportOptions()\r\n    options.FileVersion = IFCVersion.IFC2x3CV2\r\n    options.AddOption(\"ExportUserDefinedPsets\",\"true\")\r\n    options.AddOption(\"ExportInternalRevitPropertySets\",\"false\")\r\n    options.AddOption(\"ExportBaseQuantitiesPsets\",\"false\")\r\n    options.AddOption(\"ExportExportIFCCommonPropertySets\",\"false\")\r\n\r\n    if os.path.exists(ifc_mapping_file_path) : \r\n        options.AddOption(\"ExportUserDefinedPsetsFileName\",str(IN[2]))\r\n\r\n    try : \r\n        export_return = doc.Export(ifc_file_export_dir , file_name , options)\r\n\r\n        OUT = \"Exported IFC file successfully.\"\r\n    except Exception as e :\r\n        OUT = f\"Unexpected error: {str(e)}\"\r\n\r\n    \r\n\r\n\r\n\r\n",
+      "Engine": "CPython3",
+      "VariableInputPorts": true,
+      "Id": "7f0ee17ba67d4d2faed866bdfa81b072",
+      "Inputs": [
+        {
+          "Id": "0364c568a62644628edb6bc3d3d7fcaa",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d7e187863b0849b098148a810055dd5a",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "04f03c67814f46a3a7b0be8c2357e62e",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d0c67dad754f48babc73c30a7dbf543c",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "10d3a94eb8d04ec8ba54f3e8be4911a4",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded Python script."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": true,
+      "Id": "9e8cda91160241d7967da2d9ae93f076",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e882d577202142f18a781a685fe5f40a",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Selection between a true and false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Directory, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Desktop",
+      "InputValue": "C:\\Users\\mohab\\Desktop",
+      "NodeType": "ExtensionNode",
+      "Id": "c84ccf368f7641c6a193b769a8afb920",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "36474f2cd05244889ebc7c9371a5f1d8",
+          "Name": "",
+          "Description": "Directory",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a directory on the system to get its path"
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.Filename, CoreNodeModels",
+      "HintPath": "C:\\Users\\mohab\\Documents\\TUM\\HiWiPatrick\\PedSimAutomation\\MappingIFC.txt",
+      "InputValue": "..\\MappingIFC.txt",
+      "NodeType": "ExtensionNode",
+      "Id": "7b4e5bfdbec043d6bc68c02d58cdf709",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "c986ecc857264ab0819a5fa80cd7a9a6",
+          "Name": "",
+          "Description": "Filename",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows you to select a file on the system to get its filename"
     }
   ],
   "Connectors": [
@@ -2732,6 +2853,11 @@
       "Id": "d4dd1af57e8042f19ae46a4045945448"
     },
     {
+      "Start": "9c6944eb05d84e0db8fcd5ca205a7318",
+      "End": "0364c568a62644628edb6bc3d3d7fcaa",
+      "Id": "063fd61250634489a80a95e87f8ce377"
+    },
+    {
       "Start": "7421801f407d4c91a4ffeabfe533aecb",
       "End": "a47b86be862246358086fa8dff60a518",
       "Id": "790f7dd336364676af741713db0e7e09"
@@ -2915,6 +3041,21 @@
       "Start": "89441f168c9e4f26910ff51fc8ced1a6",
       "End": "7eecf6f4f9d343d494612b490d3cb281",
       "Id": "c1d866148e384b1b894c343a3bb4bcdf"
+    },
+    {
+      "Start": "e882d577202142f18a781a685fe5f40a",
+      "End": "d7e187863b0849b098148a810055dd5a",
+      "Id": "219e2a79b8b94ca6998fccd943efb456"
+    },
+    {
+      "Start": "36474f2cd05244889ebc7c9371a5f1d8",
+      "End": "d0c67dad754f48babc73c30a7dbf543c",
+      "Id": "19bbb40be38b41dcbb100287c01055ad"
+    },
+    {
+      "Start": "c986ecc857264ab0819a5fa80cd7a9a6",
+      "End": "04f03c67814f46a3a7b0be8c2357e62e",
+      "Id": "32d6372eb57141bcb4d4376db4cd0670"
     }
   ],
   "Dependencies": [],
@@ -3029,8 +3170,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2702.6278770832587,
-        "Y": 56.342789837042233
+        "X": -2634.5718372993133,
+        "Y": 111.01075622086722
       },
       {
         "ShowGeometry": true,
@@ -3279,8 +3420,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": -2705.08335596179,
-        "Y": -74.51736060174801
+        "X": -2637.0273161778446,
+        "Y": -19.84939421792302
       },
       {
         "ShowGeometry": true,
@@ -3290,7 +3431,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -2227.0541233693543,
-        "Y": 149.47527431527124
+        "Y": 244.18573557083863
       },
       {
         "ShowGeometry": true,
@@ -3300,7 +3441,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -1986.3074592213839,
-        "Y": 148.04662891338774
+        "Y": 242.75709016895513
       },
       {
         "ShowGeometry": true,
@@ -3340,7 +3481,7 @@
         "IsSetAsOutput": false,
         "Excluded": false,
         "X": -2394.7487216632094,
-        "Y": 150.6280273618255
+        "Y": 245.3384886173929
       },
       {
         "ShowGeometry": true,
@@ -3451,6 +3592,46 @@
         "Excluded": false,
         "X": -2154.2712049987131,
         "Y": -611.0043493837602
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "IFCExporter",
+        "Id": "7f0ee17ba67d4d2faed866bdfa81b072",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1585.2212399891387,
+        "Y": 242.80057840928055
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportToIFC",
+        "Id": "9e8cda91160241d7967da2d9ae93f076",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1765.8923977266581,
+        "Y": 357.85632317702022
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "ExportDirectoryPath",
+        "Id": "c84ccf368f7641c6a193b769a8afb920",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1805.4561634626589,
+        "Y": 511.17113686599339
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "IFCMappingPath",
+        "Id": "7b4e5bfdbec043d6bc68c02d58cdf709",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -1783.8644965695689,
+        "Y": 423.55584333174505
       }
     ],
     "Annotations": [
@@ -3461,14 +3642,14 @@
           "a296cde849384991a7ca241cbc98f5fb",
           "07c3d956cc9249a49cb3b8fc87db942b"
         ],
-        "Left": -2715.08335596179,
-        "Top": -170.517360601748,
-        "Width": 229.45547887853127,
-        "Height": 616.86015043879024,
+        "Left": -2647.0273161778446,
+        "Top": -116.24939421792303,
+        "Width": 230.45547887853127,
+        "Height": 613.46015043879027,
         "FontSize": 36.0,
-        "InitialTop": -74.51736060174801,
+        "InitialTop": -19.84939421792302,
         "InitialHeight": 275.86015043879024,
-        "TextblockHeight": 86.0,
+        "TextblockHeight": 86.4,
         "Background": "#FFD4B6DB"
       },
       {
@@ -3483,13 +3664,13 @@
           "5c93081669324210be810a4e4a7ec04e"
         ],
         "Left": -3212.2410204025678,
-        "Top": 899.404902255106,
+        "Top": 899.20490225510594,
         "Width": 392.0,
-        "Height": 515.965561914637,
+        "Height": 515.5655619146371,
         "FontSize": 36.0,
         "InitialTop": 952.404902255106,
         "InitialHeight": 513.965561914637,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FF48B9FF"
       },
       {
@@ -3502,13 +3683,13 @@
           "571a00e1551644fa8f42a276b217a31e"
         ],
         "Left": -2790.9873345933734,
-        "Top": 899.54428903075,
-        "Width": 911.53169081978876,
-        "Height": 188.74654239463007,
+        "Top": 899.34428903074991,
+        "Width": 911.73169081978881,
+        "Height": 189.14654239463016,
         "FontSize": 36.0,
         "InitialTop": 952.54428903075,
         "InitialHeight": 150.74654239463007,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFA4E1FF"
       },
       {
@@ -3523,13 +3704,13 @@
           "24b0032991f94b51aebdd285c0820000"
         ],
         "Left": -1859.4017708374092,
-        "Top": 900.78104763694114,
-        "Width": 1313.2647883929387,
-        "Height": 237.46016505485318,
+        "Top": 900.58104763694109,
+        "Width": 1312.8647883929389,
+        "Height": 237.06016505485331,
         "FontSize": 36.0,
         "InitialTop": 953.78104763694114,
         "InitialHeight": 152.86428836509731,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFB9F9E1"
       },
       {
@@ -3540,13 +3721,13 @@
           "c3d50dcd6f8e4499944ec38f97e14415"
         ],
         "Left": -940.46389354378289,
-        "Top": 681.06451919280016,
-        "Width": 392.57121031901033,
+        "Top": 680.86451919280012,
+        "Width": 393.77121031901038,
         "Height": 210.346244908397,
         "FontSize": 36.0,
         "InitialTop": 734.06451919280016,
         "InitialHeight": 146.346244908397,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFF7BAC"
       },
       {
@@ -3556,13 +3737,13 @@
           "8bfa90b9112e4e23a68fc39756efa4e1"
         ],
         "Left": -2787.2935357261767,
-        "Top": 1179.4321411269086,
+        "Top": 1179.2321411269086,
         "Width": 207.17666666666668,
-        "Height": 235.0,
+        "Height": 234.60000000000014,
         "FontSize": 36.0,
         "InitialTop": 1232.4321411269086,
         "InitialHeight": 145.0,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFF7BAC"
       },
       {
@@ -3586,13 +3767,13 @@
           "5f9f5ed8fd884bc185c8b287fbaab736"
         ],
         "Left": -3439.3026228132221,
-        "Top": -391.02654000526718,
-        "Width": 627.32616909013632,
+        "Top": -391.22654000526717,
+        "Width": 774.38612474912134,
         "Height": 1031.8186477009431,
         "FontSize": 36.0,
         "InitialTop": -338.02654000526718,
         "InitialHeight": 1055.8186477009431,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFBB87C6"
       },
       {
@@ -3602,13 +3783,13 @@
           "569aaa73606542299413545e02cc85e2"
         ],
         "Left": -2982.9591225111935,
-        "Top": 648.69242352854008,
-        "Width": 163.0,
-        "Height": 244.0,
+        "Top": 649.09242352854,
+        "Width": 164.0,
+        "Height": 244.20000000000005,
         "FontSize": 36.0,
         "InitialTop": 788.69242352854008,
         "InitialHeight": 145.0,
-        "TextblockHeight": 130.0,
+        "TextblockHeight": 129.6,
         "Background": "#FFC1D676"
       },
       {
@@ -3620,13 +3801,13 @@
           "67594af3ca884ddf986a5e02900d468d"
         ],
         "Left": -2404.7487216632094,
-        "Top": 95.046628913387735,
-        "Width": 569.44126244182553,
-        "Height": 417.0,
+        "Top": 189.55709016895514,
+        "Width": 570.84126244182562,
+        "Height": 413.80000000000007,
         "FontSize": 36.0,
-        "InitialTop": 148.04662891338774,
+        "InitialTop": 242.75709016895513,
         "InitialHeight": 147.58139844843777,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFBB87C6"
       },
       {
@@ -3641,18 +3822,37 @@
           "bf1f1b817825413baa0c32c33db8f636"
         ],
         "Left": -2409.1972996149489,
-        "Top": -266.05158819031737,
-        "Width": 1355.1819235932458,
-        "Height": 443.85633690782487,
+        "Top": -266.25158819031736,
+        "Width": 1355.9819235932457,
+        "Height": 440.25633690782485,
         "FontSize": 36.0,
         "InitialTop": -213.05158819031737,
         "InitialHeight": 150.21841348156744,
-        "TextblockHeight": 43.0,
+        "TextblockHeight": 43.2,
         "Background": "#FFFFB8D8"
+      },
+      {
+        "Id": "3932757caa06470e87680fc97d354a0e",
+        "Title": "Export to IFC",
+        "Nodes": [
+          "7f0ee17ba67d4d2faed866bdfa81b072",
+          "9e8cda91160241d7967da2d9ae93f076",
+          "c84ccf368f7641c6a193b769a8afb920",
+          "7b4e5bfdbec043d6bc68c02d58cdf709"
+        ],
+        "Left": -1815.4561634626589,
+        "Top": 189.60057840928056,
+        "Width": 371.43492347352026,
+        "Height": 414.97055845671281,
+        "FontSize": 36.0,
+        "InitialTop": 242.80057840928055,
+        "InitialHeight": 413.37055845671284,
+        "TextblockHeight": 43.2,
+        "Background": "#FF48B9FF"
       }
     ],
-    "X": 2235.1661559431282,
-    "Y": 345.88797786906878,
-    "Zoom": 0.64293581819229773
+    "X": 2170.2921250880863,
+    "Y": 194.47007210778716,
+    "Zoom": 0.71705612249733164
   }
 }
