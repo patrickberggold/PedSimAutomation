@@ -22,7 +22,7 @@ The input parameters for this section can be found in the group _Settings: Geome
 | Geometry Shape              | Switch between the numbers to generate different geometries. Refer to the script for the geometry types. Note: Geometries 1, 2, and 3 can only be generated when the _Number of Levels_ is set to 1. |
 | Number of Levels            | Number of levels in the geometry. Increasing the value of this variable beyond 1 will result in the generation of stairs for geometries 4, 5, and 6.                                                 |
 | Length of Site              | Size of geometry in the x-direction (in meters)                                                                                                                                                      |
-| Width of Site               | Size of geometry in the y-direction                                                                                                                                                                  |
+| Width of Site               | Size of geometry in the y-direction (in meters)                                                                                                                                                      |
 | Height of Site              | **Deprecated:** **Height of each level is now a constant, equal to 2.5 meters.** Total height of geometry.                                                                                           |
 | Corridor Width              | Width of corridor (in meters)                                                                                                                                                                        |
 | Num. Rooms Short Side       | **Non-edge variants**: Number of rooms in the lower side. **Edge variants**: Length of room (in meters).                                                                                             |
@@ -30,7 +30,7 @@ The input parameters for this section can be found in the group _Settings: Geome
 | Door Width                  | Width of door (in meters)                                                                                                                                                                            |
 | Obstacle Width              | Width of obstacles (in meters)                                                                                                                                                                       |
 | Room Width                  | Width of room (in meters)                                                                                                                                                                            |
-| Include Bottleneck          | **Boolean**: Includes a bottleneck, i.e. an obstruction (either by a wall blocking a specific path or reducing the available space for agents to pass through ) if set to _True_.                    |
+| Include Bottleneck          | **Boolean**: Includes a bottleneck, i.e. an obstruction (either by a wall blocking a specific path or by reducing the available space for agents to pass through ) if set to _True_.                 |
 
 ### Preprocessor Scripts
 
@@ -91,18 +91,19 @@ Six scripts, containing six distinct geometry creation functions, can be found i
 Notes to keep in mind:
 
 - The first three cannot be used when creating multilevel geometries, as the staircase creation code did not take their dimensions into account; some staircases may be out of bounds, leading to null exceptions.
-- Geometries 4 and 5 are multilevel versions of geometries 1 and 2, respectively. Moreover, additional features have been added to the multilevel geometries (geometries 4, 5, and 6), as they were implemented to generate a dataset that is similar to the TUM Gebaeude 3 model. These features include:
-  - Randomly generated walls between rooms, allowing for a randomly varying room size
+- Geometries 4 and 5 are multilevel versions of geometries 1 and 2, respectively. Moreover, additional features have been added to all multilevel geometries (geometries 4, 5, and 6), as they were implemented to generate a dataset that is similar to the TUM Gebaeude 3 model. These features include:
+  - Randomly generated walls between rooms, allowing for a randomly varying room size. The layout is then exported as .txt file containing a binary list, where each $1$ denotes to a created wall, and each $0$ denotes to a skipped wall. This .txt file is generated for each level in the geometry, and can be used to later recreate the layout if needed.
+  - A dictionary named _room_dict_, where all rooms are set as agent sources. This dictionary is a dictionary of dictionaries, where each level's sources are contained in a sub-dictionary named _Level{num}_, where {num} is the level's number, e.g., _Level_1_ is the first level's sub-dictionary.
   - Three types of staircases, resembling the staircases found in the TUM building (refer to the script)
   - Separation walls (instead of bottlenecks), which are more representative of the TUM building. Activation (or deactivation) of the walls can be done using the input parameter _Include Bottleneck_.
 
 ### Export to IFC
 
-This group contains a script that can be used to export the Revit geometry as an .ifc file. Before using the script, make sure the _ExportDirectoryPath_ is a path on your machine.
+This group contains a script that can be used to export the Revit geometry as an .ifc file. Before using the script, make sure the _ExportDirectoryPath_ variable is set to a valid path on your machine.
 
 It should be noted that this script does not work as intended. While the geometry is generated, $n-1$ additional levels - where $n$ is the original number of levels - are generated. The additional levels contain only the floor geometry separating each original level.
 
-### Dimensions of TUM Gebaeude 3
+# Dimensions of TUM Gebaeude 3
 
 This building has an L-shaped layout and overlooks two streets: Gabelsbergerstr. and Luisenstr. The dimensions of the building are as follows (in meters):
 
