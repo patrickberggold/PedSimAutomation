@@ -11,13 +11,13 @@
     <br />
     Berggold, P., and Hassaan, M.
     <br />
-    <a href=#docs><strong>Explore the docs »</strong></a>
+    <a href="#docs"><strong>Explore the docs »</strong></a>
     <!-- <strong>[Explore the docs »](#documentation)</strong> -->
     <br />
     <br />
-    <a href="mailto:patrick.berggold@tum.de">Report Bug</a>
+    <a href="https://github.com/patrickberggold/PedSimAutomation/issues">Report Bug</a>
     ·
-    <a href="mailto:patrick.berggold@tum.de">Request Feature</a>
+    <a href="https://github.com/patrickberggold/PedSimAutomation/issues">Request Feature</a>
   </p>
 </div>
 
@@ -31,6 +31,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
     </li>
+    <li><a href="#initial-setup">Initial Setup</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#docs">Documentation</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -43,7 +44,7 @@
 
 Project title: Towards predicting Pedestrian Evacuation Time and Density from Floorplans using a Vision Transformer
 
-In this work, we propose a deep learning-based approach to realistically and instantly predict pedstrian densities over time and total evacuation time from office building layouts and simulation input parameters.
+In this work, we propose a deep learning-based approach to realistically and instantly predict pedestrian densities over time and total evacuation time from office building layouts and simulation input parameters.
 The aim of our approach is to integrate the neural network into the BIM-driven building design process to get a good estimate of how safely a building is designed with respect to pedestrian safety. Since pedestrian simulations entail long runtimes and laborious export and conversion steps, our approach delivers such predictions much faster, such that it can be used to interrogate the many design variants that come up particularly during the early stages of the project.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -70,27 +71,30 @@ Next clone the repository:
 git clone https://github.com/patrickberggold/PedSimAutomation
 ```
 
-### Folder Strcture
+### Folder Structure
 
 Once you clone the repository, make sure the folder structure matches the directory tree shown below.
 
-📦PedSimAutomation  
-┣ 📂DynamoDependencies  
-┃ ┣ 📜python_environment_packages.txt  
-┣ 📂DynamoScripts  
-┃ ┣ 📜MainWithInferenceWithoutTraining.dyn  
-┣ 📂TrainingScripts
-┃ ┣ 📜datamodule.py
-┃ ┣ 📜dataset.py
-┃ ┣ 📜helper.py
-┃ ┣ 📜image_module.py
-┃ ┣ 📜main.py
-┃ ┣ 📜model.py 
-┣ 📂ExampleDataset 
-┃ ┣ 📂inputs
-┃ ┣ 📂targets
-┣ 📜.gitignore  
-┗ 📜README.md
+```
+📦PedSimAutomation
+ ┣ 📂DynamoDependencies
+ ┃ ┗ 📜python_environment_packages.txt
+ ┣ 📂DynamoScripts
+ ┃ ┗ 📜MainWithInferenceWithoutTraining.dyn
+ ┣ 📂TrainingScripts
+ ┃ ┣ 📜datamodule.py
+ ┃ ┣ 📜dataset.py
+ ┃ ┣ 📜helper.py
+ ┃ ┣ 📜image_module.py
+ ┃ ┣ 📜main.py
+ ┃ ┗ 📜model.py
+ ┣ 📂ExampleDataset
+ ┃ ┣ 📂inputs
+ ┃ ┣ 📂targets
+ ┃ ┗ 📜floorplan_info.txt
+ ┣ 📜.gitignore
+ ┗ 📜README.md
+```
 
 ### Revit
 
@@ -99,7 +103,7 @@ Details on how to install Revit can be found [here](https://www.autodesk.com/pro
 
 ## Initial Setup
 
-#### Python version
+### Python version
 
 Before using this script, in Revit, open Dynamo (Manage -> Dynamo), and create a temporary script with one python node.
 Include the code below in the python node to find Revit's python version.
@@ -116,7 +120,7 @@ The output of this node is the Revit's python version. It should look something 
 1.23.45
 ```
 
-**Warning**: This code does not support Python 2.0. If you are using an older version of Revit, the default may be python 2.0. Make sure you select Python 3.0 before running the python node.
+**Warning**: This code does not support Python 2. If you are using an older version of Revit, the default may be Python 2. Make sure you select Python 3 before running the python node.
 
 Install this python version and use it to create a virtual environment using the command shown below.
 You can find information on how to download python [here](https://wiki.python.org/moin/BeginnersGuide/Download), and some useful information on virtual environments [here](https://docs.python.org/3/library/venv.html#creating-virtual-environments).
@@ -174,11 +178,8 @@ _Details of all scripts and classes can be found in
 
 ## Contact
 
-If you have any questions with regards to our research or the usage of this project, please don't hesitate to contact us via an email. We will update more information regarding the usage and training of the network in the next few days.
-
-Patrick Berggold - patrick.berggold@tum.de
-
-Mohab Hassaan - mohab.hassaan@tum.de
+If you have any questions with regards to our research or the usage of this project,
+please open an [issue](https://github.com/patrickberggold/PedSimAutomation/issues).
 
 Project Link: [https://github.com/patrickberggold/PedSimAutomation](https://github.com/patrickberggold/PedSimAutomation)
 
